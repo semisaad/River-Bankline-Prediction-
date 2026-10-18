@@ -275,6 +275,39 @@ if C.REACH == "arial_khan" and s2_js.exists() and ls_js.exists():
     # The Padma latitude is a hard physical constraint (D51) and is now enforced
     # in the scripts as well as in config. If the two ever disagree, the scripts
     # would happily export the wrong river.
+    def _js_without_comments(t):
+        t = re.sub(r"/\*.*?\*/", "", t, flags=re.S)
+        return re.sub(r"//[^\n]*", "", t)
+
+    # ee.Algorithms.If returns a value whose server-side TYPE IS NOT DETERMINED,
+    # so a method cannot be called on its result directly:
+    #     ee.Algorithms.If(...).rename(...)
+    # fails with "rename is not a function. Specify the object type first."
+    # It must be wrapped, e.g. ee.Image(ee.Algorithms.If(...)). This reached the
+    # owner as a runtime error in the Code Editor, so it is checked here rather
+    # than remembered.
+    for _js in (s2_js, ls_js):
+        _code = _js_without_comments(_js.read_text())
+        _offenders = []
+        for _m in re.finditer(r"ee\.Algorithms\.If\(", _code):
+            _i, _depth = _m.end(), 1
+            while _i < len(_code) and _depth:
+                if _code[_i] == "(":
+                    _depth += 1
+                elif _code[_i] == ")":
+                    _depth -= 1
+                _i += 1
+            _tail = _code[_i:].lstrip()
+            if _tail.startswith("."):
+                _offenders.append("." + _tail[1:].split("(")[0].strip())
+        if _offenders:
+            bad(f"{_js.name}: a method is called directly on ee.Algorithms.If "
+                f"({', '.join(sorted(set(_offenders)))}). Its return type is "
+                f"undetermined, so this fails at run time in the Code Editor. "
+                f"Wrap it as ee.Image(ee.Algorithms.If(...)), or better, check "
+                f"the input first and delete the branch.")
+        else:
+            ok(f"{_js.name}: no method called on an untyped ee.Algorithms.If")
     _lims = []
     for _js in (s2_js, ls_js):
         _m = re.search(r"PADMA_LAT_MAX\s*=\s*([\d.]+)", _js.read_text())

@@ -2576,3 +2576,45 @@ export at all.
 **Impact:** No measured number changes on its own, but the next export will
 report real validity, and years that previously passed silently may now SKIP.
 That is the gate beginning to work.
+
+## D70 - The exporters ignore map drawings and use REFERENCE_BOX only
+
+**Date:** 2026-10-18
+
+**Found:** Running the pre-fix exporter produced, in the Earth Engine Code
+Editor:
+
+```
+Error
+Line 168: ee.Algorithms.If(...).rename is not a function. Earth Engine requires
+you to specify the object type before calling 'rename'.
+```
+
+`ee.Algorithms.If` returns a value whose server-side type is undetermined, so no
+method may be called on its result. This was fixed in D69 by deleting the branch
+rather than by wrapping it, because the guard existed only to handle an empty
+collection, and the caller now checks the scene count first.
+
+**Decision:** The exporters no longer read the map at all. `REFERENCE_BOX` is
+authoritative and shapes drawn on the map are ignored, with a printed note.
+Removing the drawing path also removes the `Map.drawingTools().layers().get(0)
+.toGeometry()` call, which was doing real work in the previous version and would
+have been the next failure of the same kind.
+
+**Why not keep drawing:** It carried three separate risks - an editor API whose
+behaviour was never exercised (the previous version threw on any drawn shape
+before it could reach that code), an impossible tolerance, and the silent
+wrong-area failure the tolerance was meant to prevent. Editing four numbers in
+two scripts and one config file is unambiguous and is verified mechanically by
+`09_checks.py` section 7, which is a stronger guarantee than reading a shape back
+off a map.
+
+**Also fixed:** the operator was running the version from commits `46646c8` /
+`990d2a1`, which the Code Editor had cached as a paste. Nothing in the repository
+was wrong at the time of the error report; the browser held the old text. Worth
+remembering that editing the file does not change what is already pasted, and
+that until the repository is pushed, nobody else can obtain the corrected copy.
+
+**Guard added:** `09_checks.py` section 8 fails if any method is called directly
+on `ee.Algorithms.If(...)`, with the wrapping fix stated in the message. Verified
+by reintroducing the exact reported code and confirming the check fires.

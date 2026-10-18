@@ -121,58 +121,39 @@ var MAX_CLOUD  = 80;
 // STUDY AREA
 // =============================================================================
 
-function boundsOf(geom) {
-  var ring = geom.bounds().coordinates().getInfo()[0];
-  var lons = ring.map(function (p) { return p[0]; });
-  var lats = ring.map(function (p) { return p[1]; });
-  return [Math.min.apply(null, lons), Math.min.apply(null, lats),
-          Math.max.apply(null, lons), Math.max.apply(null, lats)];
+// REFERENCE_BOX is authoritative. It is synchronized with ml/config.py and with
+// landsat_export_arial_khan.js, and 09_checks.py section 7 re-verifies that
+// mechanically - which is a stronger guarantee than reading a shape back off
+// the map.
+//
+// SHAPES DRAWN ON THE MAP ARE IGNORED, on purpose. An earlier version required a
+// drawn rectangle to match these bounds to within 1e-6 degrees (about 10 cm),
+// which no hand-drawn shape can achieve, so it failed every time. Reading the
+// drawing layers back also relies on editor APIs that behave inconsistently.
+// Editing four numbers is unambiguous and is checked automatically.
+//
+// TO CHANGE THE STUDY AREA: edit REFERENCE_BOX here, the same four numbers in
+// landsat_export_arial_khan.js, and bbox/bbox_landsat in ml/config.py. Then run
+// `RIVERGUARD_REACH=arial_khan .venv/bin/python ml/09_checks.py` and confirm
+// section 7 passes before exporting anything.
+if (Map.drawingTools().layers().length() > 0) {
+  print('NOTE: there are shapes on the map. They are IGNORED - this script ' +
+        'always exports REFERENCE_BOX. See the comment above to change the ' +
+        'study area.');
 }
 
-var aoi = (function () {
-  var layers = Map.drawingTools().layers();
-  if (layers.length() > 1) {
-    throw new Error('There are ' + layers.length() + ' shapes on the map. ' +
-      'Clear them all: the study area is either REFERENCE_BOX or ONE drawn ' +
-      'rectangle, never several.');
-  }
-  if (layers.length() === 1) {
-    var drawn = layers.get(0).toGeometry().bounds();
-    var b = boundsOf(drawn);
-    print('DRAWN RECTANGLE [west, south, east, north]:', b);
-    var same = b.every(function (v, i) {
-      return Math.abs(v - REFERENCE_BOX[i]) <= 1e-4;   // ~10 m
-    });
-    if (!same) {
-      print('');
-      print('*** WARNING: the drawn rectangle does not match REFERENCE_BOX. ***');
-      print('    REFERENCE_BOX:', REFERENCE_BOX);
-      print('    drawn        :', b);
-      print('    The exported masks WILL NOT match ml/config.py, so every ' +
-            'downstream number would describe a different place with nothing ' +
-            'erroring. Either clear the drawing to use REFERENCE_BOX, or ' +
-            'update bbox/bbox_landsat in ml/config.py AND REFERENCE_BOX in ' +
-            'both export scripts before processing.');
-      print('');
-    }
-    return drawn;
-  }
-  print('No shape drawn; using the synchronized REFERENCE_BOX.');
-  return ee.Geometry.Rectangle(REFERENCE_BOX, 'EPSG:4326', false);
-})();
+var aoi = ee.Geometry.Rectangle(REFERENCE_BOX, 'EPSG:4326', false);
+print('EXPORT RECTANGLE [west, south, east, north]:', REFERENCE_BOX);
 
-var bbox = boundsOf(aoi);
-print('EXPORT RECTANGLE [west, south, east, north]:', bbox);
-
-if (bbox[3] >= PADMA_LAT_MAX) {
-  throw new Error('Northern edge ' + bbox[3].toFixed(5) + 'N reaches or ' +
-    'crosses ' + PADMA_LAT_MAX + 'N, where the Arial Khan leaves the Padma. ' +
+if (REFERENCE_BOX[3] >= PADMA_LAT_MAX) {
+  throw new Error('Northern edge ' + REFERENCE_BOX[3].toFixed(5) + 'N reaches ' +
+    'or crosses ' + PADMA_LAT_MAX + 'N, where the Arial Khan leaves the Padma. ' +
     'North of that line the water body is the PADMA, a different and much ' +
     'larger river, and the whole measurement would describe the wrong ' +
     'watercourse (D51). Move the northern edge south.');
 }
-print('Northern edge ' + bbox[3].toFixed(5) + 'N is south of the Padma ' +
-      'bifurcation at ' + PADMA_LAT_MAX + 'N. Correct river.');
+print('Northern edge ' + REFERENCE_BOX[3].toFixed(5) + 'N is south of the ' +
+      'Padma bifurcation at ' + PADMA_LAT_MAX + 'N. Correct river.');
 
 
 // =============================================================================

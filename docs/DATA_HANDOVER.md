@@ -35,20 +35,21 @@ They are synchronized in both GEE scripts and `ml/config.py`.
 
 > ### Draw NOTHING. Just press Run.
 >
-> The scripts carry these bounds as `REFERENCE_BOX` and use them automatically
-> when the map has no drawings. **Leave the map empty.**
+> The scripts carry these bounds as `REFERENCE_BOX` and **always** use them.
+> Shapes on the map are ignored — the script prints a note if it sees any.
 >
-> If you *do* draw a rectangle, the script compares it to `REFERENCE_BOX` and
-> **throws** unless it matches to within `1e-6` degrees — about 10 cm. No
-> hand-drawn rectangle can hit that. Drawing anything will fail, every time.
+> This is deliberate. An earlier version required a drawn rectangle to match the
+> bounds to within `1e-6` degrees (about 10 cm), which no hand-drawn shape can
+> achieve, so it failed every time.
 >
-> Drawing exists only to change the study area deliberately, and it requires
-> editing `REFERENCE_BOX` and `ml/config.py` to match first.
+> **To change the study area**, edit the four numbers in `REFERENCE_BOX` in
+> *both* export scripts and `bbox` / `bbox_landsat` in `ml/config.py`, then run
+> `ml/09_checks.py` and confirm section 7 passes. Do not do it by drawing.
 
-- Clear any old drawings if you have them: with **two or more** shapes on the
-  map, the script throws.
 - The scripts print `EXPORT RECTANGLE [west, south, east, north]`. Confirm those
-  numbers are the four above; Landsat's must match Sentinel-2 exactly.
+  numbers are the four above.
+- Both scripts now **throw** if the northern edge reaches 23.47N, so the Padma
+  cannot be exported even by a mistake in the bounds.
 
 ### The one hard constraint
 
