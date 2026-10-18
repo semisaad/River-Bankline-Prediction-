@@ -2281,3 +2281,118 @@ banklines. More rows alone do not prove forecast skill.
 prediction time. A transect-grouped split addresses spatial leakage but not
 future-information leakage. We keep the intended system ambitious while making
 its current limits visible.
+
+## D64 - Prepare an expanded Arial Khan study area; bounds pending
+
+**Date:** 2026-10-18
+**Decision:** The owner wants to include a longer portion of the Arial Khan.
+The new rectangle has not been selected yet, so `ml/config.py` remains on the
+previous box until its exact bounds are captured and synchronized.
+
+**Changes made:** Both Arial Khan Earth Engine exporters now require one drawn
+rectangle, prefer a fresh map drawing over imported geometry, print exact bounds,
+and refuse to export when no rectangle is present. The previous coordinates are
+shown only as a reference. The handover instructs the operator to use the same
+rectangle for both sensors and update `REFERENCE_BOX`, `bbox`, and
+`bbox_landsat` before local processing.
+
+**Constraints:** Keep the northern edge south of 23.47N to exclude the Padma.
+Inspect both sensor previews for one continuous Arial Khan channel; a larger box
+that includes another river or floodplain water is not acceptable.
+
+**Impact:** All existing 32-transect geometry, processed products, model scores,
+and 2036 experimental projections describe only the old box. They must not be
+reported as results for the expanded area. Rebuild masks, measurements,
+transects, features, and the time-forward model evaluation after configuration
+is updated. More river coverage is not evidence of better forecast skill.
+
+**Next gate:** Record the selected bounds, synchronize config and both exporters,
+run `09_checks.py`, then export and verify both sensors before training.
+
+## D65 - Expanded Arial Khan bounds selected and synchronized
+
+**Date:** 2026-10-18
+**Supersedes:** D64's statement that the larger rectangle was awaiting
+selection. It does not supersede D63's model evaluation or claim forecast skill.
+
+**Selected bounds:**
+`90.16808799423755, 23.134319063780836, 90.26902488388599, 23.261491731177696`
+(west, south, east, north), EPSG:32646. The northern edge remains south of
+23.47N, outside the Padma.
+
+**Synchronized:** `ml/config.py` (`bbox` and `bbox_landsat`),
+`gee/s2_export_arial_khan.js`, and `gee/landsat_export_arial_khan.js` now use
+these bounds. `09_checks.py` sections 7 and 8 pass, and both scripts parse. The
+map's initial fit bounds use the selected rectangle as well.
+
+**Not yet done:** Earth Engine exports have not been run for this AOI. Existing
+processed masks, 32-transect geometry, model inputs, MAE values, and projected
+lines belong to the previous smaller box and must not be reported as results
+for this expanded area. Rebuild and inspect transects before retraining.
+
+**Next gate:** Run both exporters with this same rectangle, verify both previews
+and the printed bounds, then start Tasks and rebuild the full pipeline.
+
+## D66 - Coarsen connected-area filtering for the expanded AOI
+
+**Date:** 2026-10-18
+**Context:** The first S2 run for D65 exceeded Earth Engine's user memory limit
+while evaluating yearly statistics, even after reducing the batch to one year
+and increasing `tileScale`.
+
+**Decision:** Apply the connected-component screen to a 60 m grid in both GEE
+exporters, with `BLOB_MAX_SIZE=256` and `BLOB_MIN=250`. This keeps the nominal
+minimum connected area at about 90 hectares (`250 × 60 m × 60 m`) while reducing
+the component computation size. Both scripts use identical constants;
+`09_checks.py` section 8 enforces this. S2 statistics are evaluated one year at
+a time with `tileScale=4`.
+
+**Tradeoff:** Equal area does not guarantee identical connectivity. A 60 m grid
+can change small edge details compared with the former 30 m screen. Inspect the
+S2 and Landsat previews, especially narrow meanders and tips, before starting
+Tasks. Existing processed results describe the previous box and old filter; the
+new method has not yet completed an Earth Engine run.
+
+**Reason:** Preserve the intended nominal pond-size rejection while reducing
+memory pressure on the expanded study area. Do not weaken the area threshold to
+force the run through.
+
+## D67 - Guard the dry-season window, and make DRY_SEASON a live value
+
+**Date:** 2026-10-18
+
+**Found:** `ml/config.py` declared `DRY_SEASON = ("01-01", "02-28")` while both
+Earth Engine exporters actually request `Jan 1 - Mar 25`. The config value was
+never read by any script, so the contradiction was invisible: the config claimed
+a window the pipeline never used. Section 8 checked the detection constants but
+not the date window, so the one constant that decides *which part of the year*
+is measured had no guard at all.
+
+**Decision:** Set `DRY_SEASON = ("01-01", "03-25")` to match what the exporters
+do, and extend `09_checks.py` section 8 to parse the `filterDate` window out of
+both scripts and compare it against config. The check was verified by
+deliberately reverting the config value and confirming it fails.
+
+**Not required to match:** the two sensors keep different `START`/`END` years —
+Landsat reaches 1989, Sentinel-2 starts 2019. That asymmetry is the point of the
+long record, so year coverage is compared against config rather than between
+sensors. Only the detection constants and the dry-season window must be identical
+across sensors.
+
+**Also found:** a stale `__pycache__/config.cpython-312.pyc` silently served the
+old `02-28` value after the file on disk had been corrected, because Python
+compares the source mtime to the second and the restore landed in the same second
+as the edit it undid. A guard check reported FAIL for a file that was already
+fixed — and would equally have reported PASS for code that no longer existed.
+Recorded as a standing constraint in `AGENTS.md`: clear `__pycache__/` after
+restoring or rapidly re-editing a module.
+
+**Reason:** The dry-season window is as load-bearing as the index thresholds. It
+decides which months contribute to every mask, so drift in it silently shifts
+water levels, the cross-sensor overlap, and every measured rate, with nothing
+raising an alarm. A value that no code reads cannot be wrong loudly, only
+quietly.
+
+**Impact:** No measured number changes — the exporters never consulted the
+config value. The pipeline's description of itself is now true, and the window is
+guarded rather than documented.

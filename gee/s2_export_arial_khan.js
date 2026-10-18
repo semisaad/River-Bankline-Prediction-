@@ -36,17 +36,10 @@
  *      suppressing water. Note this is a different choice from v1's median and
  *      it shifts the water fraction, so the expected number changes - see below.
  *
- *   4. 30 m CONNECTED-BLOB FILTER.
- *      Only bodies of at least ~90 hectares survive. On this reach the Arial Khan
- *      trunk is the only such body, so ponds, beels and agricultural water are
- *      removed outright. This is the single most useful line in the script for
- *      this floodplain.
- *      CONSEQUENCE TO WATCH: the filter is evaluated at 30 m, where a 300 m
- *      channel is only ~10 pixels wide, so a river segment must run roughly 3 km
- *      to accumulate 1000 connected pixels. Short arms and meander tips can be
- *      severed. That is acceptable - the pipeline measures the largest connected
- *      body, so a trimmed tail is harmless - but if the TRUNK is cut, the year is
- *      ruined. Check the preview.
+ *   4. 60 m CONNECTED-BLOB FILTER.
+ *      At this coarser scale, 250 pixels still represents about 90 hectares.
+ *      The filter rejects small ponds while lowering memory use for the expanded
+ *      AOI. Check the preview for a continuous river trunk and retained meanders.
  *
  *   5. 20 m MORPHOLOGICAL CLOSE.
  *      focal_max (dilate) then focal_min (erode) = a CLOSE, which fills gaps up to
@@ -57,15 +50,15 @@
  *      Harmless as written, but the comment describes two operations and only
  *      one is performed. Worth reconciling.
  *
- *   6. SHAPE MASK.
- *      If a polygon was drawn, water is clipped to that polygon rather than just
- *      its bounding box. That lets the owner exclude a known-problem pond by
- *      drawing around it, without changing the export box.
+ *   6. DRAWN RECTANGLE REQUIRED.
+ *      The selected rectangle defines the export area. The script prints its
+ *      exact bounds so ml/config.py and the Landsat script can be synchronized
+ *      before any exported masks are processed.
  *
  * THE AREA
- *   The box is taken from the SHAPE THE OWNER DRAWS, falling back to
- *   FALLBACK_BOX. The drawn rectangle governs; FALLBACK_BOX only exists so the
- *   script still runs unattended.
+ *   Draw one rectangle around the selected Arial Khan reach. Its exact bounds
+ *   must match REFERENCE_BOX and ml/config.py before processing. Clear drawings
+ *   between runs so an old rectangle cannot be used.
  *
  *   *** The northern edge must stay SOUTH of 23.47N, the bifurcation from the
  *   *** Padma. North of that line the water body IS the Padma. An earlier box
@@ -74,11 +67,13 @@
  * WHAT TO CHECK WHEN YOU RUN IT
  *   - the water layer must show ONE thin meandering ribbon, not a wide braided
  *     belt, and definitely not two rivers
- *   - expect roughly 1-3% water now. v2 is more permissive than v1 but the blob
- *     filter removes much more, so the number will not match v1's 7-9%. A figure
- *     in that range is not automatically wrong - look at the preview.
+ *   - water percentage depends on the selected rectangle. Check that the
+ *     console says EXPORT and that the preview contains the intended reach.
+ *     Do not lower quality gates just to force an export.
  *   - the river must not be cut into disconnected pieces
  *
+ * Confirm the printed bounds match REFERENCE_BOX and ml/config.py before
+ * processing the exported masks.
  * Run, then drop the .tif files into  data/reaches/arial_khan/raw/
  * (v1 masks are backed up at data/unused_data/arial_khan_s2_v1_verified/ so a
  * worse v2 can be reverted without re-exporting).
@@ -89,26 +84,36 @@
 // SETTINGS
 // =============================================================================
 
-var FALLBACK_BOX = [90.1927, 23.1638, 90.2384, 23.245];
+// Selected expanded extent. Keep synchronized with ml/config.py and Landsat.
+var REFERENCE_BOX = [90.16808799423755, 23.134319063780836,
+                     90.26902488388599, 23.261491731177696];
 
-var drawn = null;
-if (typeof geometry !== 'undefined') {
-  drawn = geometry;
-} else if (Map.drawingTools().layers().length() > 0) {
-  drawn = Map.drawingTools().layers().get(0).toGeometry();
-}
-
-var aoi = drawn ? drawn.bounds() : ee.Geometry.Rectangle(FALLBACK_BOX);
-var maskGeom = drawn ? drawn : aoi;
-
-if (drawn) {
-  print('USING YOUR DRAWN SHAPE - not the fallback box.');
-  aoi.coordinates().get(0).evaluate(function (coords) {
-    print('coordinates for config.py:', coords);
-  });
+var aoi;
+var drawingLayers = Map.drawingTools().layers();
+if (drawingLayers.length() > 1) {
+  throw new Error('Clear old drawings and leave exactly one study rectangle.');
+} else if (drawingLayers.length() === 1) {
+  aoi = drawingLayers.get(0).toGeometry().bounds();
 } else {
-  print('No shape drawn yet - using the fallback box:', FALLBACK_BOX);
+  aoi = ee.Geometry.Rectangle(REFERENCE_BOX, 'EPSG:4326', false);
+  print('No rectangle drawn; using synchronized REFERENCE_BOX.');
 }
+
+var maskGeom = aoi;
+var rectangle = aoi.coordinates().getInfo()[0];
+var longitudes = rectangle.map(function (point) { return point[0]; });
+var latitudes = rectangle.map(function (point) { return point[1]; });
+var bbox = [Math.min.apply(null, longitudes), Math.min.apply(null, latitudes),
+            Math.max.apply(null, longitudes), Math.max.apply(null, latitudes)];
+print('EXPORT RECTANGLE [west, south, east, north]:', bbox);
+var bboxMatches = bbox.every(function (value, index) {
+  return Math.abs(value - REFERENCE_BOX[index]) <= 1e-6;
+});
+if (!bboxMatches) {
+  throw new Error('Rectangle differs from REFERENCE_BOX; sync config before exporting.');
+}
+print('Rectangle matches REFERENCE_BOX and ml/config.py BBOX_WGS84.');
+print('Configured rectangle:', REFERENCE_BOX);
 
 var START = 2019, END = 2026;
 var CRS = 'EPSG:32646';
@@ -118,7 +123,9 @@ var INDEX_THRESH    = 0.02;
 var AWEI_THRESH     = 0.0;
 var TURBID_SWIR_MAX = 0.12;
 var GAP_CLOSE_M     = 20;
-var BLOB_MIN        = 1000;   // at 30 m this is ~92 hectares; Landsat must match
+var BLOB_SCALE_M    = 60;
+var BLOB_MAX_SIZE   = 256;
+var BLOB_MIN        = 250;    // 250 pixels at 60 m ~= 90 hectares; Landsat must match
 
 var MIN_IMAGES = 3;
 var MIN_VALID  = 0.90;
@@ -153,11 +160,17 @@ function prep(y) {
 
 function build(y) {
   var col = prep(y);
+  var hasData = col.size().gt(0);
 
-  // 25th percentile per band: dark-target cloud suppression, see header item 3.
-  var comp = col.reduce(ee.Reducer.percentile([25]))
-    .rename(['blue', 'green', 'red', 'nir', 'swir1', 'swir2'])
-    .clip(aoi);
+  // Guard: an empty collection makes reduce() return a band-less image, which
+  // throws downstream on normalizedDifference/.select(). Return a zero image
+  // instead so the survey loop can skip the year cleanly instead of crashing.
+  var comp = ee.Algorithms.If(
+    hasData,
+    col.reduce(ee.Reducer.percentile([25])),
+    ee.Image.constant([0, 0, 0, 0, 0, 0])
+  ).rename(['blue', 'green', 'red', 'nir', 'swir1', 'swir2'])
+    .clip(aoi).unmask(0);
 
   var blue  = comp.select('blue');
   var green = comp.select('green');
@@ -188,11 +201,9 @@ function build(y) {
                  .focal_min({radius: GAP_CLOSE_M, units: 'meters', kernelType: 'circle'})
                  .and(polyMask);
 
-  // LARGE BLOB FILTER AT 30m SCALE.
-  // ~92 hectares of continuous water is required. Only the main Arial Khan
-  // trunk reaches that; side ponds, beels and agricultural patches are removed.
-  var coarseMask = cleaned.reproject({crs: CRS, scale: 30});
-  var bigBlobs = coarseMask.connectedPixelCount(1024, false).gte(BLOB_MIN);
+  // Coarse connected-area filter uses the same physical threshold as before.
+  var coarseMask = cleaned.reproject({crs: CRS, scale: BLOB_SCALE_M});
+  var bigBlobs = coarseMask.connectedPixelCount(BLOB_MAX_SIZE, false).gte(BLOB_MIN);
 
   var water = cleaned.and(bigBlobs).unmask(0).clip(aoi).rename('water');
   var valid = green.mask().unmask(0).clip(aoi).rename('valid');
@@ -207,9 +218,10 @@ print('single getInfo() - these numbers are reliable');
 // JavaScript. Each getInfo completes fully before any task is created, so
 // there is no race - the earlier version fired concurrent .evaluate()
 // callbacks, each creating an Export task, which silently drops tasks.
-// Batched because connectedPixelCount(1024) is memory-hungry: a 1024-pixel
-// window at the filter's working scale is tens of km across.
-var CHUNK = 4;
+// Evaluate one year per synchronous request. The connected-component filter is
+// expensive, and a larger AOI can exceed the user memory limit when several
+// years are evaluated together.
+var CHUNK = 1;
 
 print('year | images | valid | water | status');
 print('batched ' + CHUNK + ' years at a time - these numbers are reliable');
@@ -224,7 +236,7 @@ for (var start = START; start <= END; start += CHUNK) {
     var st = b.water.rename('water').addBands(b.valid.rename('valid'))
                .reduceRegion({
                  reducer: ee.Reducer.mean(), geometry: aoi, scale: 60,
-                 maxPixels: 1e9, bestEffort: true
+                 maxPixels: 1e9, bestEffort: true, tileScale: 4
                });
     return ee.Feature(null, {year: y, scenes: n, valid: st.get('valid'),
                              water: st.get('water')});

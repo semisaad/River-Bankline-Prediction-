@@ -23,22 +23,30 @@ and produce data for the wrong place entirely.
 
 ---
 
-## The study box — do not draw it
+## Selected larger rectangle
 
+The selected bounds are:
+
+```text
+90.16808799423755, 23.134319063780836 → 90.26902488388599, 23.261491731177696
 ```
-90.1927, 23.1638  →  90.2384, 23.2450
-```
 
-This is 4.7 × 9.0 km and it was **measured from the previous export's GeoTIFF**,
-not typed in by hand. Both scripts carry it as `FALLBACK_BOX` and use it
-automatically when nothing is drawn on the map.
+They are synchronized in both GEE scripts and `ml/config.py`. Draw this exact
+rectangle for both sensors; do not approximate or change its extent.
 
-**Just press Run. Do not draw a rectangle or polygon.**
+- Extend along the Arial Khan to capture more of the river, rather than widening
+  across unrelated floodplain water.
+- Keep the northern edge south of **23.47°N** and exclude the Padma. If the
+  preview contains another river or the Padma, stop and redraw.
+- Clear old drawings and leave exactly one rectangle. Both scripts now refuse to
+  export when a drawing is missing or multiple drawings remain.
+- The scripts print `DRAWN RECTANGLE [west, south, east, north]`. Record these
+  exact numbers; Landsat's printed bounds must match Sentinel-2 exactly.
 
-Drawing is *permitted* — both scripts honour a drawn shape — but it must match
-these numbers exactly. The Sentinel-2 and Landsat exports have to cover identical
-ground, or the cross-sensor comparison measures the difference between two
-exports rather than between two instruments.
+The S2 script prints the selected bounds. Verify them against the box above;
+Landsat's printed bounds must match. The wider area changes transect placement
+and counts, so review the geometry settings and validate new transects before
+training. The old 32-transect geometry and old evaluation scores do not apply.
 
 ### The one hard constraint
 
@@ -49,28 +57,41 @@ water body is the Padma — a completely different, much bigger river. An earlie
 box reached 23.60°N and the preview came back mostly Padma
 (`reports/DECISIONS.md` D51).
 
-The current box's northern edge is 23.245°N, comfortably clear.
+The selected box's northern edge is 23.26149°N, south of the Padma limit.
 
 ---
 
 ## How to run
 
-1. Open **https://code.earthengine.google.com**
-2. Open the script file, copy the whole thing, paste into the editor.
-3. Press **Run**. Read the console table before exporting anything.
+1. Open **https://code.earthengine.google.com** and sign in to the project
+  owner's Earth Engine account.
+2. Open `gee/s2_export_arial_khan.js`, clear old drawings, and draw the selected
+  rectangle above.
+3. Press **Run**. Confirm the printed coordinates match the selected bounds and
+  inspect the water preview.
+4. Run `ml/09_checks.py`; section 7 must pass before starting Tasks. Review
+  transect geometry settings for the longer reach before processing.
+5. Open `gee/landsat_export_arial_khan.js`, clear old drawings, draw the same
+  rectangle, and press **Run**. Confirm its printed bounds match S2 exactly and
+  inspect its preview.
+6. Only after both previews and bounds are correct, open **Tasks** and start the
+  exports. Earth Engine writes them to Google Drive; it does not download files
+  directly to this computer.
+7. Download and unzip the Drive folders:
+  `riverguard_arial_khan_s2` for Sentinel-2 and `riverguard_arial_khan` for
+  Landsat. Copy the `MNDWI_Mask_<year>.tif` files to the folders below.
 
 ### Read this in the table
 
-| field | expect |
-|---|---|
-| first line | `No shape drawn - using the fallback box` — correct |
-| `valid` | **~99%** for Sentinel-2, **~70%** for Landsat |
-| `water` | **5–10%** |
-| `status` | `EXPORT` for most years |
+| field | Sentinel-2 | Landsat |
+|---|---|---|
+| drawn geometry | record printed bounds | must match Sentinel-2 exactly |
+| `valid` | at least **90%** | at least **70%** (scan-line gaps are expected) |
+| `water` | must pass the script's quality gate | must pass the script's quality gate |
+| `status` | `EXPORT` for usable years | `EXPORT` for usable years |
 
-Then open the **Tasks** tab, right-click → **Run**, about **5 at a time**.
-Download the folders and drop the `.tif` files into the destinations above.
-**No renaming needed** — filenames already match.
+Start about **5 Tasks at a time**. Some Landsat years may be skipped by the
+quality gates; keep the console output and do not rename files.
 
 ---
 
@@ -87,32 +108,56 @@ exporting. There is no error in that case; the box is simply wrong.
 
 ---
 
-## How to check it worked
+## Copy exports and run the project
 
-From the project root:
-
-```bash
-cd ml
-RIVERGUARD_REACH=arial_khan ../.venv/bin/python 09_checks.py
-```
-
-`09_checks.py` **section 7** verifies that the export scripts and `config.py`
-agree on the box, and **section 8** verifies the two scripts still share
-identical water-detection constants. Both must pass.
-
-Then, to rebuild everything from the new imagery:
+After extracting both Google Drive downloads under `~/Downloads/`, run these
+from the repository root. Confirm the files were exported over the same bounds
+now recorded in `ml/config.py` and both GEE scripts.
 
 ```bash
-RIVERGUARD_REACH=arial_khan ../.venv/bin/python 01_prepare.py s2
-RIVERGUARD_REACH=arial_khan ../.venv/bin/python 02_banklines.py s2
-RIVERGUARD_REACH=arial_khan ../.venv/bin/python 04_erosion.py s2
-RIVERGUARD_REACH=arial_khan ../.venv/bin/python 05_features.py s2
-RIVERGUARD_REACH=arial_khan ../.venv/bin/python 14_model_train.py
-RIVERGUARD_REACH=arial_khan ../.venv/bin/python 06_predict_geojson.py
+mkdir -p data/reaches/arial_khan/raw/landsat
+cp ~/Downloads/riverguard_arial_khan_s2/MNDWI_Mask_*.tif data/reaches/arial_khan/raw/
+cp ~/Downloads/riverguard_arial_khan/MNDWI_Mask_*.tif data/reaches/arial_khan/raw/landsat/
+export RIVERGUARD_REACH=arial_khan
+.venv/bin/python ml/09_checks.py
 ```
 
-Expected: **32 transects, 0 dropped**, median width 335–370 m. If that comes out
-different, the imagery is not equivalent to what the model was trained on.
+Section 7 checks the box and CRS; section 8 checks that the two scripts share
+the same water-detection rules. Both must pass before processing.
+
+### Train and create the current experimental projection
+
+The current trainer uses **Sentinel-2 features only**. Landsat is prepared
+separately for the longer historical record and cross-sensor checks; the current
+model does not combine the two sensors.
+
+```bash
+.venv/bin/python ml/01_prepare.py
+.venv/bin/python ml/02_banklines.py
+.venv/bin/python ml/04_erosion.py s2
+.venv/bin/python ml/05_features.py s2
+.venv/bin/python ml/14_model_train.py --horizon 10
+.venv/bin/python ml/06_predict_geojson.py --horizon 10
+```
+
+This trains and evaluates the candidate, then draws its 10-year extension.
+It does **not** make that extension a validated forecast: the current model
+loses to its historical-median baseline, so inspect `ml/artifacts/model_report.json`.
+
+### Process Landsat for additional history and validation
+
+```bash
+.venv/bin/python ml/01b_prepare_landsat.py
+.venv/bin/python ml/04_erosion.py landsat
+.venv/bin/python ml/05_features.py landsat
+.venv/bin/python ml/08_crosssensor.py
+.venv/bin/python ml/13_risk_and_forecast.py
+```
+
+The expanded reach will have a different transect count and width summary; do
+not expect the old **32 transects**. Inspect the masks and new transects before
+training. All previous model scores and projected lines apply only to the old
+extent; retrain and re-evaluate from the rebuilt features.
 
 ---
 
@@ -120,7 +165,10 @@ different, the imagery is not equivalent to what the model was trained on.
 
 They run the **same water-detection logic on purpose**: same six bands, same
 25th-percentile composite, same five indices at the same thresholds, same 20 m
-morphological close, same ~92-hectare main-channel filter.
+morphological close, and same nominal ~90-hectare filter (connected at 60 m).
+The coarser filter reduces memory for the expanded AOI but can change small edge
+details. Inspect both previews, especially narrow meanders and tips, before
+starting Tasks.
 
 Sentinel-2 and Landsat overlap 2019–2026. If their rules differed, comparing them
 across that overlap would measure the difference between two *scripts* rather
@@ -132,15 +180,15 @@ record at 2019 (D59, D60).
 
 ---
 
-## What is already done, and must not need redoing
+## Existing outputs apply only to the previous extent
 
 - Candidate model output: 62 transect-sides extended to 2036, marked
   experimental. The corrected chronological test gives MAE **3.175 m/yr**,
   worse than its training-median baseline (**2.507**).
 - Outputs: `data/reaches/arial_khan/processed/predictions/`, `ml/artifacts/`
 
-If the re-exported imagery reproduces the box and the scripts are unchanged,
-the measurements can be rebuilt. The model must still pass time-forward tests
-against simple baselines, and prediction skill must not be inferred from the
-earlier 2.843 m/yr score: it used same-interval features and is withdrawn as
-forecast evidence (D63).
+The listed files and the current 3.175 m/yr time-forward score describe the
+previous box only. The earlier 2.843 m/yr score used same-interval features and
+is withdrawn as forecast evidence (D63). The expanded area needs new measurements
+and a new time-forward evaluation against simple baselines; do not infer that
+more river coverage automatically improves forecast skill.

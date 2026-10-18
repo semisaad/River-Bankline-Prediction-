@@ -7,11 +7,18 @@
 One river. The earlier Jamuna reach is archived and out of scope; it is mentioned
 only as the reason for the switch.
 
-Box `90.1927, 23.1638 → 90.2384, 23.2450` (42 km², measured from the export),
-EPSG:32646, Sentinel-2 primary at 10 m.
+Selected larger box `90.16808799423755, 23.134319063780836 →
+90.26902488388599, 23.261491731177696`, EPSG:32646, Sentinel-2 primary at 10 m.
+The northern edge remains south of 23.47N. Bounds are synchronized in
+`ml/config.py` and both GEE scripts; new exports have not run yet.
 
-Chosen 2026-10-18 (D49–D52). The pipeline was already reach-agnostic, so this
-was a config change, not a rebuild.
+All currently processed masks, geometry, features, scores, and projections
+describe the previous smaller box, `90.1927, 23.1638 → 90.2384, 23.2450`.
+Do not present those results as measurements of the selected larger area.
+
+The original box was chosen 2026-10-18 (D49–D52). The expanded box was selected
+and synchronized afterward (D65); unlike the original reach switch, this changes
+the study area and requires rebuilding and revalidating all measurements.
 
 > **The northern edge must stay south of 23.47N** — the bifurcation from the
 > Padma. North of that line the water body *is* the Padma. An earlier box reached
@@ -44,11 +51,13 @@ and has no independently validated 10-year uncertainty interval.
 | item | state |
 |---|---|
 | Active reach | Arial Khan, Madaripur Sadar–Kalkini |
-| Processed Sentinel-2 | 2019–2026 masks, banklines, EPR and features available |
-| Geometry | 32 transects; 0 dropped; median width about 350 m |
-| Candidate model | Runs with prior-year features; fails chronological median baseline |
-| Experimental projection | 62 bank sides to 2036; explicitly not a validated forecast |
-| Raw S2/Landsat exports | Missing; processed S2 outputs survive |
+| Selected study rectangle | `90.16808799423755,23.134319063780836 → 90.26902488388599,23.261491731177696` |
+| New S2/Landsat exports | Not run yet |
+| Existing processed S2 | 2019–2026 masks, banklines, EPR and features for old box only |
+| Existing geometry | 32 transects; 0 dropped; old box only |
+| Existing candidate model | MAE 3.175 vs 2.507 median baseline; old box only |
+| Existing experimental projection | 62 old-box bank sides to 2036; not a validated forecast |
+| Raw S2/Landsat exports | Missing |
 | Arial Khan Landsat | Not yet exported; needed for longer-record and cross-sensor tests |
 | Ground-truth survey | Not available |
 | Website | Serves selected reach; default is Arial Khan |
@@ -56,13 +65,15 @@ and has no independently validated 10-year uncertainty interval.
 
 ## Next work
 
-1. Re-export the raw Sentinel-2 and Landsat imagery using `docs/DATA_HANDOVER.md`.
-2. Rebuild the Landsat record and run cross-sensor validation before using it as
-  training evidence.
-3. Test forecast-time features with walk-forward evaluation and compare against
+1. Run both GEE exporters with the selected rectangle, confirm the printed
+  bounds match, inspect the previews, and export the masks.
+2. Rebuild processed masks, banklines, EPR, features, and transects for the new
+  area. Existing outputs and the 3.175 MAE do not transfer.
+3. Review the new geometry and run Landsat cross-sensor validation.
+4. Retrain and test forecast-time features with walk-forward evaluation; compare against
   training median and previous-year baselines. Keep a later year untouched for
   a final test.
-4. Improve bankline-position evaluation and uncertainty; rate MAE alone does
+5. Improve bankline-position evaluation and uncertainty; rate MAE alone does
   not measure the spatial error of a future shoreline.
 
 Push blocker is resolved: `main` is synchronized with `origin/main`.

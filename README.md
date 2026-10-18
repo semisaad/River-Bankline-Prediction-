@@ -47,26 +47,27 @@ experimental output should be described as a finding.
 ```bash
 cd ~/Projects/riverguard
 
-# 1. guard checks — run these FIRST, before anything else
+# 1. Export masks from Earth Engine and copy them into data/reaches/.
+#    Follow docs/DATA_HANDOVER.md; Earth Engine creates Google Drive Tasks.
+
+# 2. Select the active reach and run guard checks
+export RIVERGUARD_REACH=arial_khan
 .venv/bin/python ml/09_checks.py
 
-# 2. point the pipeline at a reach
-export RIVERGUARD_REACH=arial_khan
-
-# 3. run the measurement chain
+# 3. Build the Sentinel-2 history, train the candidate, and draw its experimental projection
 cd ml
-../.venv/bin/python 01_prepare.py s2        # GEE GeoTIFF -> aligned rasters
-../.venv/bin/python 02_banklines.py s2      # rasters -> traced river edge
+../.venv/bin/python 01_prepare.py            # GEE GeoTIFF -> aligned rasters
+../.venv/bin/python 02_banklines.py          # rasters -> traced river edge
 ../.venv/bin/python 04_erosion.py s2        # -> bank erosion rate per transect
 ../.venv/bin/python 05_features.py s2       # -> modelling table
 ../.venv/bin/python 14_model_train.py      # -> time-forward evaluation + experimental rates
 ../.venv/bin/python 06_predict_geojson.py   # -> experimental bankline projection
-../.venv/bin/python 07_validate.py          # -> reports/VALIDATION.md
-../.venv/bin/python 08_crosssensor.py       # -> two-sensor comparison
 ```
 
-The chronic-risk script (`13_risk_and_forecast.py`) requires Landsat features;
-the Arial Khan Landsat export and cross-sensor validation are still outstanding.
+The current trainer uses Sentinel-2 only. For Landsat history, cross-sensor
+validation, and chronic risk, see the optional Landsat commands in
+`docs/DATA_HANDOVER.md`. The 2036 overlay remains experimental until it beats
+the baseline and its future bankline positions are validated.
 
 ### Run the website
 
@@ -83,18 +84,24 @@ npm run dev          # http://127.0.0.1:5173
 
 ## Active study
 
-The default reach is the **Arial Khan**, a roughly 300 m wide single-thread
-channel with an 8.1 km centreline and 32 transects. The pipeline can still select
+The active study site is the **Arial Khan**. The pipeline can still select
 archived reaches with `RIVERGUARD_REACH=<name>`; they are not the active study.
+
+The selected expanded rectangle is
+`90.16808799423755, 23.134319063780836 → 90.26902488388599, 23.261491731177696`
+and is synchronized in `ml/config.py` and both GEE scripts. Exports and
+processing for it are still pending. The 8.1 km centreline, 32 transects, table,
+and model scores below describe only the previous, smaller box; rebuild and
+re-evaluate before applying them to the expanded area.
 
 | item | current state |
 |---|---|
-| Satellite history | Sentinel-2, 2019–2026 |
-| Model inputs | 432 rows, 31 transects, 7 year-pairs |
-| Evaluation | Expanding time window, prior-year features only, 2022–2026 test years |
-| Candidate model MAE | 3.175 m/yr |
-| Training-median baseline MAE | 2.507 m/yr |
-| Projection output | 62 bank sides extended to 2036, experimental only |
+| Existing processed S2 history (previous box only) | 2019–2026 |
+| Existing model inputs (previous box) | 432 rows, 31 transects, 7 year-pairs |
+| Previous-box evaluation | Expanding time window, prior-year features, 2022–2026 |
+| Previous-box candidate / median MAE | 3.175 / 2.507 m/yr |
+| Previous-box projection | 62 bank sides extended to 2036, experimental only |
+| Expanded-box exports and validation | Bounds selected; exports and rebuild pending |
 | Independent ground truth | Not available |
 
 The model currently loses to the median baseline, so the 2036 overlay is a
@@ -109,7 +116,7 @@ evidence for Arial Khan prediction skill.
 | data | source | how |
 |---|---|---|
 | Landsat, Arial Khan | Planned; not yet exported | `gee/landsat_export_arial_khan.js` |
-| Sentinel-2 2019–2026 | ESA via Earth Engine | `gee/s2_export_arial_khan.js` |
+| Sentinel-2 2019–2026, previous box | ESA via Earth Engine | `gee/s2_export_arial_khan.js` |
 | GloFAS discharge, Arial Khan | Not available for this reach | `ml/12_glofas_discharge.py` |
 
 **Imagery is not in this repository.** All rasters (`*.tif`) and per-reach raw

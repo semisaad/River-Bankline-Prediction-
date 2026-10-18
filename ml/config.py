@@ -84,8 +84,10 @@ REACHES = {
     # 11 km clear of the Padma. If the preview map shows two rivers, stop.
     "arial_khan": {
         "label": "Arial Khan (Madaripur Sadar - Kalkini, middle reach)",
-        "bbox": (90.1927, 23.1638, 90.2384, 23.245),
-        "bbox_landsat": (90.1927, 23.1638, 90.2384, 23.245),
+        "bbox": (90.16808799423755, 23.134319063780836,
+             90.26902488388599, 23.261491731177696),
+        "bbox_landsat": (90.16808799423755, 23.134319063780836,
+                 90.26902488388599, 23.261491731177696),
         # Entirely east of 90E, so UTM zone 46N (CM 93E). Measured both ways on
         # this box: zone 46 is marginally better here, ~0.20% against ~0.25%,
         # and both are far below the 10 m pixel size.
@@ -162,8 +164,9 @@ RES = 10.0
 YEARS = [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]
 
 # Fixed dry-season window (constant across every year to avoid
-# water-level-driven fake migration). Matches the GEE export script.
-DRY_SEASON = ("01-01", "02-28")
+# water-level-driven fake migration). This is the window the GEE export scripts
+# actually request, and 09_checks.py section 8 verifies that they agree with it.
+DRY_SEASON = ("01-01", "03-25")
 
 # --- Sentinel-2 record (what we originally downloaded) ---
 S2_YEARS = list(range(2019, 2027))

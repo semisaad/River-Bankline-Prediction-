@@ -5,25 +5,36 @@ Last updated 2026-10-18. See `context/CURRENT.md` for current state and
 
 ## DATA RESTORATION — owner / Earth Engine account
 
-- [ ] **Sentinel-2 and Landsat re-export for the Arial Khan**.
-      Script: `gee/landsat_export_arial_khan.js`. Press Run, do **not** draw — the
-      fallback box is the measured S2 extent and must match.
+- [x] **Select and synchronize the expanded rectangle.** Bounds:
+      `90.16808799423755, 23.134319063780836, 90.26902488388599, 23.261491731177696`.
+      Both GEE scripts and `ml/config.py` now use these bounds; the north edge
+      remains south of 23.47N.
+- [ ] **Export Sentinel-2 and Landsat using that exact same rectangle.**
+      Scripts: `gee/s2_export_arial_khan.js` and
+      `gee/landsat_export_arial_khan.js`. Start GEE Tasks only after the bounds
+      are synchronized; previews must show only the Arial Khan.
       Download folder `riverguard_arial_khan` →
       `data/reaches/arial_khan/raw/landsat/`
 
       **Both raw exports were deleted on 2026-10-18** and are being re-fetched by
       a third party. Handover instructions: `docs/DATA_HANDOVER.md`.
 
-      Processed S2 masks, features and EPR survive. The current candidate model
-      is not supported by chronological validation; more data is needed but is
-      not by itself a guarantee of forecast skill.
+      Processed S2 masks, features and EPR survive for the old box only. They
+      cannot be reused for the expanded area. The current candidate model is not
+      supported by chronological validation; more data alone does not guarantee
+      forecast skill.
 
       Priority years: **2019–2023**, for the cross-sensor overlap. One year is not
       a validation.
 
 ## READY THE MOMENT DATA ARRIVES
 
-- [ ] Prepare Landsat: `01_prepare.py landsat`
+- [ ] After `config.py` and both GEE reference boxes match the new rectangle,
+      run `09_checks.py` before processing either sensor.
+- [ ] Prepare Sentinel-2: `01_prepare.py`, then `02_banklines.py`
+- [ ] Train candidate from S2: `04_erosion.py s2`, `05_features.py s2`,
+      `14_model_train.py`, then `06_predict_geojson.py`
+- [ ] Prepare Landsat: `01b_prepare_landsat.py` (not `01_prepare.py landsat`)
 - [ ] Build the long record: `04_erosion.py landsat`, `05_features.py landsat`
 - [ ] **Cross-sensor check** — do S2 and Landsat measure the same reach the
       same way over 2019–2026? This is the strongest validation available without

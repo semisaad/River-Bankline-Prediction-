@@ -1,0 +1,3063 @@
+[
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "get_asgi_application",
+        "importPath": "django.core.asgi",
+        "description": "django.core.asgi",
+        "isExtraImport": true,
+        "detail": "django.core.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "importPath": "django.contrib",
+        "description": "django.contrib",
+        "isExtraImport": true,
+        "detail": "django.contrib",
+        "documentation": {}
+    },
+    {
+        "label": "include",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "path",
+        "importPath": "django.urls",
+        "description": "django.urls",
+        "isExtraImport": true,
+        "detail": "django.urls",
+        "documentation": {}
+    },
+    {
+        "label": "get_wsgi_application",
+        "importPath": "django.core.wsgi",
+        "description": "django.core.wsgi",
+        "isExtraImport": true,
+        "detail": "django.core.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "AppConfig",
+        "importPath": "django.apps",
+        "description": "django.apps",
+        "isExtraImport": true,
+        "detail": "django.apps",
+        "documentation": {}
+    },
+    {
+        "label": "models",
+        "importPath": "django.db",
+        "description": "django.db",
+        "isExtraImport": true,
+        "detail": "django.db",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "django.test",
+        "description": "django.test",
+        "isExtraImport": true,
+        "detail": "django.test",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "re",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "re",
+        "description": "re",
+        "detail": "re",
+        "documentation": {}
+    },
+    {
+        "label": "api_view",
+        "importPath": "rest_framework.decorators",
+        "description": "rest_framework.decorators",
+        "isExtraImport": true,
+        "detail": "rest_framework.decorators",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "shutil",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "shutil",
+        "description": "shutil",
+        "detail": "shutil",
+        "documentation": {}
+    },
+    {
+        "label": "numpy",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "numpy",
+        "description": "numpy",
+        "detail": "numpy",
+        "documentation": {}
+    },
+    {
+        "label": "rasterio",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "rasterio",
+        "description": "rasterio",
+        "detail": "rasterio",
+        "documentation": {}
+    },
+    {
+        "label": "config",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "config",
+        "description": "config",
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "math",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "math",
+        "description": "math",
+        "detail": "math",
+        "documentation": {}
+    },
+    {
+        "label": "Resampling",
+        "importPath": "rasterio.enums",
+        "description": "rasterio.enums",
+        "isExtraImport": true,
+        "detail": "rasterio.enums",
+        "documentation": {}
+    },
+    {
+        "label": "Resampling",
+        "importPath": "rasterio.enums",
+        "description": "rasterio.enums",
+        "isExtraImport": true,
+        "detail": "rasterio.enums",
+        "documentation": {}
+    },
+    {
+        "label": "Resampling",
+        "importPath": "rasterio.enums",
+        "description": "rasterio.enums",
+        "isExtraImport": true,
+        "detail": "rasterio.enums",
+        "documentation": {}
+    },
+    {
+        "label": "from_origin",
+        "importPath": "rasterio.transform",
+        "description": "rasterio.transform",
+        "isExtraImport": true,
+        "detail": "rasterio.transform",
+        "documentation": {}
+    },
+    {
+        "label": "from_origin",
+        "importPath": "rasterio.transform",
+        "description": "rasterio.transform",
+        "isExtraImport": true,
+        "detail": "rasterio.transform",
+        "documentation": {}
+    },
+    {
+        "label": "reproject",
+        "importPath": "rasterio.warp",
+        "description": "rasterio.warp",
+        "isExtraImport": true,
+        "detail": "rasterio.warp",
+        "documentation": {}
+    },
+    {
+        "label": "transform_bounds",
+        "importPath": "rasterio.warp",
+        "description": "rasterio.warp",
+        "isExtraImport": true,
+        "detail": "rasterio.warp",
+        "documentation": {}
+    },
+    {
+        "label": "reproject",
+        "importPath": "rasterio.warp",
+        "description": "rasterio.warp",
+        "isExtraImport": true,
+        "detail": "rasterio.warp",
+        "documentation": {}
+    },
+    {
+        "label": "transform_bounds",
+        "importPath": "rasterio.warp",
+        "description": "rasterio.warp",
+        "isExtraImport": true,
+        "detail": "rasterio.warp",
+        "documentation": {}
+    },
+    {
+        "label": "reproject",
+        "importPath": "rasterio.warp",
+        "description": "rasterio.warp",
+        "isExtraImport": true,
+        "detail": "rasterio.warp",
+        "documentation": {}
+    },
+    {
+        "label": "geopandas",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "geopandas",
+        "description": "geopandas",
+        "detail": "geopandas",
+        "documentation": {}
+    },
+    {
+        "label": "shapes",
+        "importPath": "rasterio.features",
+        "description": "rasterio.features",
+        "isExtraImport": true,
+        "detail": "rasterio.features",
+        "documentation": {}
+    },
+    {
+        "label": "shapes",
+        "importPath": "rasterio.features",
+        "description": "rasterio.features",
+        "isExtraImport": true,
+        "detail": "rasterio.features",
+        "documentation": {}
+    },
+    {
+        "label": "geometry_mask",
+        "importPath": "rasterio.features",
+        "description": "rasterio.features",
+        "isExtraImport": true,
+        "detail": "rasterio.features",
+        "documentation": {}
+    },
+    {
+        "label": "shapes",
+        "importPath": "rasterio.features",
+        "description": "rasterio.features",
+        "isExtraImport": true,
+        "detail": "rasterio.features",
+        "documentation": {}
+    },
+    {
+        "label": "binary_fill_holes",
+        "importPath": "scipy.ndimage",
+        "description": "scipy.ndimage",
+        "isExtraImport": true,
+        "detail": "scipy.ndimage",
+        "documentation": {}
+    },
+    {
+        "label": "binary_fill_holes",
+        "importPath": "scipy.ndimage",
+        "description": "scipy.ndimage",
+        "isExtraImport": true,
+        "detail": "scipy.ndimage",
+        "documentation": {}
+    },
+    {
+        "label": "binary_fill_holes",
+        "importPath": "scipy.ndimage",
+        "description": "scipy.ndimage",
+        "isExtraImport": true,
+        "detail": "scipy.ndimage",
+        "documentation": {}
+    },
+    {
+        "label": "label",
+        "importPath": "scipy.ndimage",
+        "description": "scipy.ndimage",
+        "isExtraImport": true,
+        "detail": "scipy.ndimage",
+        "documentation": {}
+    },
+    {
+        "label": "label",
+        "importPath": "skimage.measure",
+        "description": "skimage.measure",
+        "isExtraImport": true,
+        "detail": "skimage.measure",
+        "documentation": {}
+    },
+    {
+        "label": "regionprops",
+        "importPath": "skimage.measure",
+        "description": "skimage.measure",
+        "isExtraImport": true,
+        "detail": "skimage.measure",
+        "documentation": {}
+    },
+    {
+        "label": "label",
+        "importPath": "skimage.measure",
+        "description": "skimage.measure",
+        "isExtraImport": true,
+        "detail": "skimage.measure",
+        "documentation": {}
+    },
+    {
+        "label": "regionprops",
+        "importPath": "skimage.measure",
+        "description": "skimage.measure",
+        "isExtraImport": true,
+        "detail": "skimage.measure",
+        "documentation": {}
+    },
+    {
+        "label": "closing",
+        "importPath": "skimage.morphology",
+        "description": "skimage.morphology",
+        "isExtraImport": true,
+        "detail": "skimage.morphology",
+        "documentation": {}
+    },
+    {
+        "label": "disk",
+        "importPath": "skimage.morphology",
+        "description": "skimage.morphology",
+        "isExtraImport": true,
+        "detail": "skimage.morphology",
+        "documentation": {}
+    },
+    {
+        "label": "closing",
+        "importPath": "skimage.morphology",
+        "description": "skimage.morphology",
+        "isExtraImport": true,
+        "detail": "skimage.morphology",
+        "documentation": {}
+    },
+    {
+        "label": "disk",
+        "importPath": "skimage.morphology",
+        "description": "skimage.morphology",
+        "isExtraImport": true,
+        "detail": "skimage.morphology",
+        "documentation": {}
+    },
+    {
+        "label": "closing",
+        "importPath": "skimage.morphology",
+        "description": "skimage.morphology",
+        "isExtraImport": true,
+        "detail": "skimage.morphology",
+        "documentation": {}
+    },
+    {
+        "label": "disk",
+        "importPath": "skimage.morphology",
+        "description": "skimage.morphology",
+        "isExtraImport": true,
+        "detail": "skimage.morphology",
+        "documentation": {}
+    },
+    {
+        "label": "opening",
+        "importPath": "skimage.morphology",
+        "description": "skimage.morphology",
+        "isExtraImport": true,
+        "detail": "skimage.morphology",
+        "documentation": {}
+    },
+    {
+        "label": "skeletonize",
+        "importPath": "skimage.morphology",
+        "description": "skimage.morphology",
+        "isExtraImport": true,
+        "detail": "skimage.morphology",
+        "documentation": {}
+    },
+    {
+        "label": "Polygon",
+        "importPath": "shapely.geometry",
+        "description": "shapely.geometry",
+        "isExtraImport": true,
+        "detail": "shapely.geometry",
+        "documentation": {}
+    },
+    {
+        "label": "shape",
+        "importPath": "shapely.geometry",
+        "description": "shapely.geometry",
+        "isExtraImport": true,
+        "detail": "shapely.geometry",
+        "documentation": {}
+    },
+    {
+        "label": "LineString",
+        "importPath": "shapely.geometry",
+        "description": "shapely.geometry",
+        "isExtraImport": true,
+        "detail": "shapely.geometry",
+        "documentation": {}
+    },
+    {
+        "label": "LineString",
+        "importPath": "shapely.geometry",
+        "description": "shapely.geometry",
+        "isExtraImport": true,
+        "detail": "shapely.geometry",
+        "documentation": {}
+    },
+    {
+        "label": "mapping",
+        "importPath": "shapely.geometry",
+        "description": "shapely.geometry",
+        "isExtraImport": true,
+        "detail": "shapely.geometry",
+        "documentation": {}
+    },
+    {
+        "label": "LineString",
+        "importPath": "shapely.geometry",
+        "description": "shapely.geometry",
+        "isExtraImport": true,
+        "detail": "shapely.geometry",
+        "documentation": {}
+    },
+    {
+        "label": "Point",
+        "importPath": "shapely.geometry",
+        "description": "shapely.geometry",
+        "isExtraImport": true,
+        "detail": "shapely.geometry",
+        "documentation": {}
+    },
+    {
+        "label": "Point",
+        "importPath": "shapely.geometry",
+        "description": "shapely.geometry",
+        "isExtraImport": true,
+        "detail": "shapely.geometry",
+        "documentation": {}
+    },
+    {
+        "label": "Polygon",
+        "importPath": "shapely.geometry",
+        "description": "shapely.geometry",
+        "isExtraImport": true,
+        "detail": "shapely.geometry",
+        "documentation": {}
+    },
+    {
+        "label": "shape",
+        "importPath": "shapely.geometry",
+        "description": "shapely.geometry",
+        "isExtraImport": true,
+        "detail": "shapely.geometry",
+        "documentation": {}
+    },
+    {
+        "label": "LineString",
+        "importPath": "shapely.geometry",
+        "description": "shapely.geometry",
+        "isExtraImport": true,
+        "detail": "shapely.geometry",
+        "documentation": {}
+    },
+    {
+        "label": "shape",
+        "importPath": "shapely.geometry",
+        "description": "shapely.geometry",
+        "isExtraImport": true,
+        "detail": "shapely.geometry",
+        "documentation": {}
+    },
+    {
+        "label": "LineString",
+        "importPath": "shapely.geometry",
+        "description": "shapely.geometry",
+        "isExtraImport": true,
+        "detail": "shapely.geometry",
+        "documentation": {}
+    },
+    {
+        "label": "Polygon",
+        "importPath": "shapely.geometry",
+        "description": "shapely.geometry",
+        "isExtraImport": true,
+        "detail": "shapely.geometry",
+        "documentation": {}
+    },
+    {
+        "label": "shapely",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "shapely",
+        "description": "shapely",
+        "detail": "shapely",
+        "documentation": {}
+    },
+    {
+        "label": "transects",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "transects",
+        "description": "transects",
+        "detail": "transects",
+        "documentation": {}
+    },
+    {
+        "label": "pandas",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pandas",
+        "description": "pandas",
+        "detail": "pandas",
+        "documentation": {}
+    },
+    {
+        "label": "argparse",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "argparse",
+        "description": "argparse",
+        "detail": "argparse",
+        "documentation": {}
+    },
+    {
+        "label": "csv",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "csv",
+        "description": "csv",
+        "detail": "csv",
+        "documentation": {}
+    },
+    {
+        "label": "Transformer",
+        "importPath": "pyproj",
+        "description": "pyproj",
+        "isExtraImport": true,
+        "detail": "pyproj",
+        "documentation": {}
+    },
+    {
+        "label": "Transformer",
+        "importPath": "pyproj",
+        "description": "pyproj",
+        "isExtraImport": true,
+        "detail": "pyproj",
+        "documentation": {}
+    },
+    {
+        "label": "date",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "date",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "date",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "subprocess",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "subprocess",
+        "description": "subprocess",
+        "detail": "subprocess",
+        "documentation": {}
+    },
+    {
+        "label": "Image",
+        "importPath": "PIL",
+        "description": "PIL",
+        "isExtraImport": true,
+        "detail": "PIL",
+        "documentation": {}
+    },
+    {
+        "label": "ImageDraw",
+        "importPath": "PIL",
+        "description": "PIL",
+        "isExtraImport": true,
+        "detail": "PIL",
+        "documentation": {}
+    },
+    {
+        "label": "hashlib",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "hashlib",
+        "description": "hashlib",
+        "detail": "hashlib",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "DummyRegressor",
+        "importPath": "sklearn.dummy",
+        "description": "sklearn.dummy",
+        "isExtraImport": true,
+        "detail": "sklearn.dummy",
+        "documentation": {}
+    },
+    {
+        "label": "GradientBoostingRegressor",
+        "importPath": "sklearn.ensemble",
+        "description": "sklearn.ensemble",
+        "isExtraImport": true,
+        "detail": "sklearn.ensemble",
+        "documentation": {}
+    },
+    {
+        "label": "RandomForestRegressor",
+        "importPath": "sklearn.ensemble",
+        "description": "sklearn.ensemble",
+        "isExtraImport": true,
+        "detail": "sklearn.ensemble",
+        "documentation": {}
+    },
+    {
+        "label": "RandomForestRegressor",
+        "importPath": "sklearn.ensemble",
+        "description": "sklearn.ensemble",
+        "isExtraImport": true,
+        "detail": "sklearn.ensemble",
+        "documentation": {}
+    },
+    {
+        "label": "mean_absolute_error",
+        "importPath": "sklearn.metrics",
+        "description": "sklearn.metrics",
+        "isExtraImport": true,
+        "detail": "sklearn.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "mean_absolute_error",
+        "importPath": "sklearn.metrics",
+        "description": "sklearn.metrics",
+        "isExtraImport": true,
+        "detail": "sklearn.metrics",
+        "documentation": {}
+    },
+    {
+        "label": "GroupKFold",
+        "importPath": "sklearn.model_selection",
+        "description": "sklearn.model_selection",
+        "isExtraImport": true,
+        "detail": "sklearn.model_selection",
+        "documentation": {}
+    },
+    {
+        "label": "cross_val_predict",
+        "importPath": "sklearn.model_selection",
+        "description": "sklearn.model_selection",
+        "isExtraImport": true,
+        "detail": "sklearn.model_selection",
+        "documentation": {}
+    },
+    {
+        "label": "dataclass",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "field",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "backend.config.asgi",
+        "description": "backend.config.asgi",
+        "peekOfCode": "application = get_asgi_application()",
+        "detail": "backend.config.asgi",
+        "documentation": {}
+    },
+    {
+        "label": "BASE_DIR",
+        "kind": 5,
+        "importPath": "backend.config.settings",
+        "description": "backend.config.settings",
+        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = 'django-insecure-ctq-@&c-kx(#yup6!58s^s3uya$y&&feq#r3ierwv*md(u@5jf'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [",
+        "detail": "backend.config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SECRET_KEY",
+        "kind": 5,
+        "importPath": "backend.config.settings",
+        "description": "backend.config.settings",
+        "peekOfCode": "SECRET_KEY = 'django-insecure-ctq-@&c-kx(#yup6!58s^s3uya$y&&feq#r3ierwv*md(u@5jf'\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\nALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',",
+        "detail": "backend.config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DEBUG",
+        "kind": 5,
+        "importPath": "backend.config.settings",
+        "description": "backend.config.settings",
+        "peekOfCode": "DEBUG = True\nALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',",
+        "detail": "backend.config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ALLOWED_HOSTS",
+        "kind": 5,
+        "importPath": "backend.config.settings",
+        "description": "backend.config.settings",
+        "peekOfCode": "ALLOWED_HOSTS = []\n# Application definition\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    'rest_framework',",
+        "detail": "backend.config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "INSTALLED_APPS",
+        "kind": 5,
+        "importPath": "backend.config.settings",
+        "description": "backend.config.settings",
+        "peekOfCode": "INSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n    'rest_framework',\n    'corsheaders',\n    'core',",
+        "detail": "backend.config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "MIDDLEWARE",
+        "kind": 5,
+        "importPath": "backend.config.settings",
+        "description": "backend.config.settings",
+        "peekOfCode": "MIDDLEWARE = [\n    'django.middleware.security.SecurityMiddleware',\n    'django.contrib.sessions.middleware.SessionMiddleware',\n    'corsheaders.middleware.CorsMiddleware',\n    'django.middleware.common.CommonMiddleware',\n    'django.middleware.csrf.CsrfViewMiddleware',\n    'django.contrib.auth.middleware.AuthenticationMiddleware',\n    'django.contrib.messages.middleware.MessageMiddleware',\n    'django.middleware.clickjacking.XFrameOptionsMiddleware',\n]",
+        "detail": "backend.config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "CORS_ALLOW_ALL_ORIGINS",
+        "kind": 5,
+        "importPath": "backend.config.settings",
+        "description": "backend.config.settings",
+        "peekOfCode": "CORS_ALLOW_ALL_ORIGINS = True\nALLOWED_HOSTS = ['*']\nROOT_URLCONF = 'config.urls'\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [",
+        "detail": "backend.config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ALLOWED_HOSTS",
+        "kind": 5,
+        "importPath": "backend.config.settings",
+        "description": "backend.config.settings",
+        "peekOfCode": "ALLOWED_HOSTS = ['*']\nROOT_URLCONF = 'config.urls'\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.request',",
+        "detail": "backend.config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ROOT_URLCONF",
+        "kind": 5,
+        "importPath": "backend.config.settings",
+        "description": "backend.config.settings",
+        "peekOfCode": "ROOT_URLCONF = 'config.urls'\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.request',\n                'django.contrib.auth.context_processors.auth',",
+        "detail": "backend.config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TEMPLATES",
+        "kind": 5,
+        "importPath": "backend.config.settings",
+        "description": "backend.config.settings",
+        "peekOfCode": "TEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.request',\n                'django.contrib.auth.context_processors.auth',\n                'django.contrib.messages.context_processors.messages',",
+        "detail": "backend.config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "WSGI_APPLICATION",
+        "kind": 5,
+        "importPath": "backend.config.settings",
+        "description": "backend.config.settings",
+        "peekOfCode": "WSGI_APPLICATION = 'config.wsgi.application'\n# Database\n# https://docs.djangoproject.com/en/6.1/ref/settings/#databases\nDATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / 'db.sqlite3',\n    }\n}\n# Password validation",
+        "detail": "backend.config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "DATABASES",
+        "kind": 5,
+        "importPath": "backend.config.settings",
+        "description": "backend.config.settings",
+        "peekOfCode": "DATABASES = {\n    'default': {\n        'ENGINE': 'django.db.backends.sqlite3',\n        'NAME': BASE_DIR / 'db.sqlite3',\n    }\n}\n# Password validation\n# https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators\nAUTH_PASSWORD_VALIDATORS = [\n    {",
+        "detail": "backend.config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "AUTH_PASSWORD_VALIDATORS",
+        "kind": 5,
+        "importPath": "backend.config.settings",
+        "description": "backend.config.settings",
+        "peekOfCode": "AUTH_PASSWORD_VALIDATORS = [\n    {\n        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',\n    },\n    {\n        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',\n    },",
+        "detail": "backend.config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "LANGUAGE_CODE",
+        "kind": 5,
+        "importPath": "backend.config.settings",
+        "description": "backend.config.settings",
+        "peekOfCode": "LANGUAGE_CODE = 'en-us'\nTIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/6.1/howto/static-files/\nSTATIC_URL = 'static/'\n# Email\n# https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration\nMAILERS = {",
+        "detail": "backend.config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "TIME_ZONE",
+        "kind": 5,
+        "importPath": "backend.config.settings",
+        "description": "backend.config.settings",
+        "peekOfCode": "TIME_ZONE = 'UTC'\nUSE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/6.1/howto/static-files/\nSTATIC_URL = 'static/'\n# Email\n# https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration\nMAILERS = {\n    'default': {",
+        "detail": "backend.config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_I18N",
+        "kind": 5,
+        "importPath": "backend.config.settings",
+        "description": "backend.config.settings",
+        "peekOfCode": "USE_I18N = True\nUSE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/6.1/howto/static-files/\nSTATIC_URL = 'static/'\n# Email\n# https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration\nMAILERS = {\n    'default': {\n        'BACKEND': 'django.core.mail.backends.console.EmailBackend',",
+        "detail": "backend.config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "USE_TZ",
+        "kind": 5,
+        "importPath": "backend.config.settings",
+        "description": "backend.config.settings",
+        "peekOfCode": "USE_TZ = True\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/6.1/howto/static-files/\nSTATIC_URL = 'static/'\n# Email\n# https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration\nMAILERS = {\n    'default': {\n        'BACKEND': 'django.core.mail.backends.console.EmailBackend',\n    },",
+        "detail": "backend.config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "STATIC_URL",
+        "kind": 5,
+        "importPath": "backend.config.settings",
+        "description": "backend.config.settings",
+        "peekOfCode": "STATIC_URL = 'static/'\n# Email\n# https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration\nMAILERS = {\n    'default': {\n        'BACKEND': 'django.core.mail.backends.console.EmailBackend',\n    },\n}",
+        "detail": "backend.config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "MAILERS",
+        "kind": 5,
+        "importPath": "backend.config.settings",
+        "description": "backend.config.settings",
+        "peekOfCode": "MAILERS = {\n    'default': {\n        'BACKEND': 'django.core.mail.backends.console.EmailBackend',\n    },\n}",
+        "detail": "backend.config.settings",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "backend.config.urls",
+        "description": "backend.config.urls",
+        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('api/', include('core.urls')),\n]",
+        "detail": "backend.config.urls",
+        "documentation": {}
+    },
+    {
+        "label": "application",
+        "kind": 5,
+        "importPath": "backend.config.wsgi",
+        "description": "backend.config.wsgi",
+        "peekOfCode": "application = get_wsgi_application()",
+        "detail": "backend.config.wsgi",
+        "documentation": {}
+    },
+    {
+        "label": "CoreConfig",
+        "kind": 6,
+        "importPath": "backend.core.apps",
+        "description": "backend.core.apps",
+        "peekOfCode": "class CoreConfig(AppConfig):\n    name = 'core'",
+        "detail": "backend.core.apps",
+        "documentation": {}
+    },
+    {
+        "label": "urlpatterns",
+        "kind": 5,
+        "importPath": "backend.core.urls",
+        "description": "backend.core.urls",
+        "peekOfCode": "urlpatterns = [\n    path(\"health/\", views.health),\n    path(\"years/\", views.years),\n    path(\"banklines/\", views.banklines),\n    path(\"transects/\", views.transects),\n    path(\"erosion/\", views.erosion),\n    path(\"erosion/pairs/\", views.erosion_years),\n    path(\"predictions/\", views.predictions),\n    path(\"risk/\", views.risk),\n    path(\"risk/summary/\", views.risk_summary),",
+        "detail": "backend.core.urls",
+        "documentation": {}
+    },
+    {
+        "label": "available_years",
+        "kind": 2,
+        "importPath": "backend.core.views",
+        "description": "backend.core.views",
+        "peekOfCode": "def available_years():\n    years = []\n    for p in BANKLINES.glob(\"bankline_*.geojson\"):\n        try:\n            years.append(int(p.stem.split(\"_\")[1]))\n        except (IndexError, ValueError):\n            continue\n    return sorted(years)\n@api_view([\"GET\"])\ndef health(request):",
+        "detail": "backend.core.views",
+        "documentation": {}
+    },
+    {
+        "label": "health",
+        "kind": 2,
+        "importPath": "backend.core.views",
+        "description": "backend.core.views",
+        "peekOfCode": "def health(request):\n    return Response({\"status\": \"ok\", \"years\": available_years()})\n@api_view([\"GET\"])\ndef years(request):\n    return Response({\"years\": available_years()})\n@api_view([\"GET\"])\ndef erosion(request):\n    \"\"\"Erosion/Progradation Rate per transect. Optional ?pair=2022_2023.\"\"\"\n    pair = request.query_params.get(\"pair\")\n    if pair:",
+        "detail": "backend.core.views",
+        "documentation": {}
+    },
+    {
+        "label": "years",
+        "kind": 2,
+        "importPath": "backend.core.views",
+        "description": "backend.core.views",
+        "peekOfCode": "def years(request):\n    return Response({\"years\": available_years()})\n@api_view([\"GET\"])\ndef erosion(request):\n    \"\"\"Erosion/Progradation Rate per transect. Optional ?pair=2022_2023.\"\"\"\n    pair = request.query_params.get(\"pair\")\n    if pair:\n        if not PAIR_RE.fullmatch(pair):\n            return Response(\n                {\"error\": \"pair must look like 2022_2023\"}, status=400",
+        "detail": "backend.core.views",
+        "documentation": {}
+    },
+    {
+        "label": "erosion",
+        "kind": 2,
+        "importPath": "backend.core.views",
+        "description": "backend.core.views",
+        "peekOfCode": "def erosion(request):\n    \"\"\"Erosion/Progradation Rate per transect. Optional ?pair=2022_2023.\"\"\"\n    pair = request.query_params.get(\"pair\")\n    if pair:\n        if not PAIR_RE.fullmatch(pair):\n            return Response(\n                {\"error\": \"pair must look like 2022_2023\"}, status=400\n            )\n        path = TRANSECTS / f\"epr_{pair}.geojson\"\n    else:",
+        "detail": "backend.core.views",
+        "documentation": {}
+    },
+    {
+        "label": "erosion_pairs",
+        "kind": 2,
+        "importPath": "backend.core.views",
+        "description": "backend.core.views",
+        "peekOfCode": "def erosion_pairs():\n    pairs = []\n    for p in sorted(TRANSECTS.glob(\"epr_*.geojson\")):\n        stem = p.stem.replace(\"epr_\", \"\")\n        a, _, b = stem.partition(\"_\")\n        if a and b:\n            pairs.append(f\"{a}_{b}\")\n    return pairs\n@api_view([\"GET\"])\ndef erosion_years(request):",
+        "detail": "backend.core.views",
+        "documentation": {}
+    },
+    {
+        "label": "erosion_years",
+        "kind": 2,
+        "importPath": "backend.core.views",
+        "description": "backend.core.views",
+        "peekOfCode": "def erosion_years(request):\n    return Response({\"pairs\": erosion_pairs()})\nPREDICTIONS = PROCESSED / \"predictions\"\nARTIFACTS = ROOT / \"ml\" / \"artifacts\"\nRISK_DIR = PROCESSED / \"risk\"\n@api_view([\"GET\"])\ndef risk(request):\n    \"\"\"Long-run erosion risk per transect and bank side.\n    Produced by ml/13_risk_and_forecast.py. Optional ?min_years=N to hide\n    records with a short history, ?tier=very high to filter.",
+        "detail": "backend.core.views",
+        "documentation": {}
+    },
+    {
+        "label": "risk",
+        "kind": 2,
+        "importPath": "backend.core.views",
+        "description": "backend.core.views",
+        "peekOfCode": "def risk(request):\n    \"\"\"Long-run erosion risk per transect and bank side.\n    Produced by ml/13_risk_and_forecast.py. Optional ?min_years=N to hide\n    records with a short history, ?tier=very high to filter.\n    \"\"\"\n    path = RISK_DIR / \"risk.geojson\"\n    if not path.exists():\n        return Response(\n            {\"error\": \"no risk data yet\",\n             \"detail\": \"run ml/13_risk_and_forecast.py\"},",
+        "detail": "backend.core.views",
+        "documentation": {}
+    },
+    {
+        "label": "risk_summary",
+        "kind": 2,
+        "importPath": "backend.core.views",
+        "description": "backend.core.views",
+        "peekOfCode": "def risk_summary(request):\n    \"\"\"Compact tier counts so the UI can show a legend without the geometry.\"\"\"\n    csv_path = RISK_DIR / \"transect_risk.csv\"\n    if not csv_path.exists():\n        return Response({\"error\": \"no risk data yet\"}, status=404)\n    import csv as _csv\n    from collections import Counter\n    with open(csv_path) as f:\n        rows = list(_csv.DictReader(f))\n    eligible = [r for r in rows if r.get(\"sufficient\") == \"True\"]",
+        "detail": "backend.core.views",
+        "documentation": {}
+    },
+    {
+        "label": "predictions",
+        "kind": 2,
+        "importPath": "backend.core.views",
+        "description": "backend.core.views",
+        "peekOfCode": "def predictions(request):\n    \"\"\"Experimental model projection or historical trend from the ML pipeline.\"\"\"\n    if not (PREDICTIONS / \"predictions.csv\").exists():\n        return _missing_predictions_response()\n    files = sorted(PREDICTIONS.glob(\"longrun_trend_*.geojson\"))\n    if not files:\n        return _missing_predictions_response()\n    horizon = request.query_params.get(\"horizon\")\n    if horizon:\n        try:",
+        "detail": "backend.core.views",
+        "documentation": {}
+    },
+    {
+        "label": "status",
+        "kind": 2,
+        "importPath": "backend.core.views",
+        "description": "backend.core.views",
+        "peekOfCode": "def status(request):\n    \"\"\"One call that tells the frontend what is available.\"\"\"\n    model_file = ARTIFACTS / \"model_report.json\"\n    pred_file = PREDICTIONS / \"predictions.csv\"\n    model_report = {}\n    if model_file.exists():\n        try:\n            model_report = _load(model_file)\n        except (OSError, json.JSONDecodeError):\n            pass",
+        "detail": "backend.core.views",
+        "documentation": {}
+    },
+    {
+        "label": "banklines",
+        "kind": 2,
+        "importPath": "backend.core.views",
+        "description": "backend.core.views",
+        "peekOfCode": "def banklines(request):\n    \"\"\"Bankline for a given year, or all years if none specified.\"\"\"\n    year = request.query_params.get(\"year\")\n    if year is not None:\n        try:\n            year = int(year)\n        except ValueError:\n            return Response({\"error\": \"year must be an integer\"}, status=400)\n        path = BANKLINES / f\"bankline_{year}.geojson\"\n        if not path.exists():",
+        "detail": "backend.core.views",
+        "documentation": {}
+    },
+    {
+        "label": "transects",
+        "kind": 2,
+        "importPath": "backend.core.views",
+        "description": "backend.core.views",
+        "peekOfCode": "def transects(request):\n    \"\"\"Transect migration table. Optional ?pair=2022_2023.\"\"\"\n    pair = request.query_params.get(\"pair\")\n    if pair:\n        if not PAIR_RE.fullmatch(pair):\n            return Response(\n                {\"error\": \"pair must look like 2022_2023\"}, status=400\n            )\n        path = TRANSECTS / f\"transects_{pair}.geojson\"\n    else:",
+        "detail": "backend.core.views",
+        "documentation": {}
+    },
+    {
+        "label": "PAIR_RE",
+        "kind": 5,
+        "importPath": "backend.core.views",
+        "description": "backend.core.views",
+        "peekOfCode": "PAIR_RE = re.compile(r\"^\\d{4}_\\d{4}$\")\n# repo root: backend/core/views.py -> parents[2]\nROOT = Path(__file__).resolve().parents[2]\nREACH = os.environ.get(\"RIVERGUARD_REACH\", \"arial_khan\").strip().lower()\nREACH_DIRS = {\n    \"jamuna\": ROOT / \"data\" / \"unused_data\" / \"jamuna\",\n    \"ganges\": ROOT / \"data\" / \"reaches\" / \"ganges\",\n    \"arial_khan\": ROOT / \"data\" / \"reaches\" / \"arial_khan\",\n}\nif REACH not in REACH_DIRS:",
+        "detail": "backend.core.views",
+        "documentation": {}
+    },
+    {
+        "label": "ROOT",
+        "kind": 5,
+        "importPath": "backend.core.views",
+        "description": "backend.core.views",
+        "peekOfCode": "ROOT = Path(__file__).resolve().parents[2]\nREACH = os.environ.get(\"RIVERGUARD_REACH\", \"arial_khan\").strip().lower()\nREACH_DIRS = {\n    \"jamuna\": ROOT / \"data\" / \"unused_data\" / \"jamuna\",\n    \"ganges\": ROOT / \"data\" / \"reaches\" / \"ganges\",\n    \"arial_khan\": ROOT / \"data\" / \"reaches\" / \"arial_khan\",\n}\nif REACH not in REACH_DIRS:\n    raise RuntimeError(f\"unknown RIVERGUARD_REACH: {REACH}\")\nPROCESSED = REACH_DIRS[REACH] / \"processed\"",
+        "detail": "backend.core.views",
+        "documentation": {}
+    },
+    {
+        "label": "REACH",
+        "kind": 5,
+        "importPath": "backend.core.views",
+        "description": "backend.core.views",
+        "peekOfCode": "REACH = os.environ.get(\"RIVERGUARD_REACH\", \"arial_khan\").strip().lower()\nREACH_DIRS = {\n    \"jamuna\": ROOT / \"data\" / \"unused_data\" / \"jamuna\",\n    \"ganges\": ROOT / \"data\" / \"reaches\" / \"ganges\",\n    \"arial_khan\": ROOT / \"data\" / \"reaches\" / \"arial_khan\",\n}\nif REACH not in REACH_DIRS:\n    raise RuntimeError(f\"unknown RIVERGUARD_REACH: {REACH}\")\nPROCESSED = REACH_DIRS[REACH] / \"processed\"\nBANKLINES = PROCESSED / \"banklines\"",
+        "detail": "backend.core.views",
+        "documentation": {}
+    },
+    {
+        "label": "REACH_DIRS",
+        "kind": 5,
+        "importPath": "backend.core.views",
+        "description": "backend.core.views",
+        "peekOfCode": "REACH_DIRS = {\n    \"jamuna\": ROOT / \"data\" / \"unused_data\" / \"jamuna\",\n    \"ganges\": ROOT / \"data\" / \"reaches\" / \"ganges\",\n    \"arial_khan\": ROOT / \"data\" / \"reaches\" / \"arial_khan\",\n}\nif REACH not in REACH_DIRS:\n    raise RuntimeError(f\"unknown RIVERGUARD_REACH: {REACH}\")\nPROCESSED = REACH_DIRS[REACH] / \"processed\"\nBANKLINES = PROCESSED / \"banklines\"\nTRANSECTS = PROCESSED / \"transects\"",
+        "detail": "backend.core.views",
+        "documentation": {}
+    },
+    {
+        "label": "PROCESSED",
+        "kind": 5,
+        "importPath": "backend.core.views",
+        "description": "backend.core.views",
+        "peekOfCode": "PROCESSED = REACH_DIRS[REACH] / \"processed\"\nBANKLINES = PROCESSED / \"banklines\"\nTRANSECTS = PROCESSED / \"transects\"\ndef _load(path: Path):\n    with open(path) as f:\n        return json.load(f)\ndef available_years():\n    years = []\n    for p in BANKLINES.glob(\"bankline_*.geojson\"):\n        try:",
+        "detail": "backend.core.views",
+        "documentation": {}
+    },
+    {
+        "label": "BANKLINES",
+        "kind": 5,
+        "importPath": "backend.core.views",
+        "description": "backend.core.views",
+        "peekOfCode": "BANKLINES = PROCESSED / \"banklines\"\nTRANSECTS = PROCESSED / \"transects\"\ndef _load(path: Path):\n    with open(path) as f:\n        return json.load(f)\ndef available_years():\n    years = []\n    for p in BANKLINES.glob(\"bankline_*.geojson\"):\n        try:\n            years.append(int(p.stem.split(\"_\")[1]))",
+        "detail": "backend.core.views",
+        "documentation": {}
+    },
+    {
+        "label": "TRANSECTS",
+        "kind": 5,
+        "importPath": "backend.core.views",
+        "description": "backend.core.views",
+        "peekOfCode": "TRANSECTS = PROCESSED / \"transects\"\ndef _load(path: Path):\n    with open(path) as f:\n        return json.load(f)\ndef available_years():\n    years = []\n    for p in BANKLINES.glob(\"bankline_*.geojson\"):\n        try:\n            years.append(int(p.stem.split(\"_\")[1]))\n        except (IndexError, ValueError):",
+        "detail": "backend.core.views",
+        "documentation": {}
+    },
+    {
+        "label": "PREDICTIONS",
+        "kind": 5,
+        "importPath": "backend.core.views",
+        "description": "backend.core.views",
+        "peekOfCode": "PREDICTIONS = PROCESSED / \"predictions\"\nARTIFACTS = ROOT / \"ml\" / \"artifacts\"\nRISK_DIR = PROCESSED / \"risk\"\n@api_view([\"GET\"])\ndef risk(request):\n    \"\"\"Long-run erosion risk per transect and bank side.\n    Produced by ml/13_risk_and_forecast.py. Optional ?min_years=N to hide\n    records with a short history, ?tier=very high to filter.\n    \"\"\"\n    path = RISK_DIR / \"risk.geojson\"",
+        "detail": "backend.core.views",
+        "documentation": {}
+    },
+    {
+        "label": "ARTIFACTS",
+        "kind": 5,
+        "importPath": "backend.core.views",
+        "description": "backend.core.views",
+        "peekOfCode": "ARTIFACTS = ROOT / \"ml\" / \"artifacts\"\nRISK_DIR = PROCESSED / \"risk\"\n@api_view([\"GET\"])\ndef risk(request):\n    \"\"\"Long-run erosion risk per transect and bank side.\n    Produced by ml/13_risk_and_forecast.py. Optional ?min_years=N to hide\n    records with a short history, ?tier=very high to filter.\n    \"\"\"\n    path = RISK_DIR / \"risk.geojson\"\n    if not path.exists():",
+        "detail": "backend.core.views",
+        "documentation": {}
+    },
+    {
+        "label": "RISK_DIR",
+        "kind": 5,
+        "importPath": "backend.core.views",
+        "description": "backend.core.views",
+        "peekOfCode": "RISK_DIR = PROCESSED / \"risk\"\n@api_view([\"GET\"])\ndef risk(request):\n    \"\"\"Long-run erosion risk per transect and bank side.\n    Produced by ml/13_risk_and_forecast.py. Optional ?min_years=N to hide\n    records with a short history, ?tier=very high to filter.\n    \"\"\"\n    path = RISK_DIR / \"risk.geojson\"\n    if not path.exists():\n        return Response(",
+        "detail": "backend.core.views",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "backend.manage",
+        "description": "backend.manage",
+        "peekOfCode": "def main():\n    \"\"\"Run administrative tasks.\"\"\"\n    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')\n    try:\n        from django.core.management import execute_from_command_line\n    except ImportError as exc:\n        raise ImportError(\n            \"Couldn't import Django. Are you sure it's installed and \"\n            \"available on your PYTHONPATH environment variable? Did you \"\n            \"forget to activate a virtual environment?\"",
+        "detail": "backend.manage",
+        "documentation": {}
+    },
+    {
+        "label": "find_candidates",
+        "kind": 2,
+        "importPath": "ml.00_collect_landsat",
+        "description": "ml.00_collect_landsat",
+        "peekOfCode": "def find_candidates():\n    seen = {}\n    for d in SEARCH_DIRS:\n        if not d.exists():\n            continue\n        for p in d.rglob(\"*.tif\"):\n            # Files already in the target folder are still validated, because a\n            # blank mask sitting in the right place is exactly as dangerous as\n            # one in the wrong place.\n            seen.setdefault(p.name, p)",
+        "detail": "ml.00_collect_landsat",
+        "documentation": {}
+    },
+    {
+        "label": "inspect",
+        "kind": 2,
+        "importPath": "ml.00_collect_landsat",
+        "description": "ml.00_collect_landsat",
+        "peekOfCode": "def inspect(path):\n    \"\"\"Return (ok, note, water_fraction).\n    Accepts either a 1-band water mask, or the 2-band form the Earth Engine\n    script writes: band 1 = water, band 2 = valid-data fraction. When band 2 is\n    present we require decent coverage, because a year that is mostly missing\n    data is not a usable record.\n    \"\"\"\n    try:\n        with rasterio.open(path) as s:\n            if s.count not in (1, 2):",
+        "detail": "ml.00_collect_landsat",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "ml.00_collect_landsat",
+        "description": "ml.00_collect_landsat",
+        "peekOfCode": "def main():\n    C.DATA_RAW_LANDSAT.mkdir(parents=True, exist_ok=True)\n    cands = find_candidates()\n    if not cands:\n        print(\"No .tif files found. Looked in:\")\n        for d in SEARCH_DIRS:\n            print(f\"  {d}{'' if d.exists() else '   (does not exist)'}\")\n        print()\n        print(\"Download them from Google Drive first:\")\n        print(\"  https://drive.google.com  ->  RiverGuard_Landsat folder\")",
+        "detail": "ml.00_collect_landsat",
+        "documentation": {}
+    },
+    {
+        "label": "SEARCH_DIRS",
+        "kind": 5,
+        "importPath": "ml.00_collect_landsat",
+        "description": "ml.00_collect_landsat",
+        "peekOfCode": "SEARCH_DIRS = [\n    Path.home() / \"Downloads\",\n    Path.home() / \"Downloads\" / \"RiverGuard_Landsat\",\n    Path(\"/media/saad/HDD/riverguard/data/raw/landsat\"),\n]\nYEAR_RE = re.compile(r\"(19|20)\\d{2}\")\ndef find_candidates():\n    seen = {}\n    for d in SEARCH_DIRS:\n        if not d.exists():",
+        "detail": "ml.00_collect_landsat",
+        "documentation": {}
+    },
+    {
+        "label": "YEAR_RE",
+        "kind": 5,
+        "importPath": "ml.00_collect_landsat",
+        "description": "ml.00_collect_landsat",
+        "peekOfCode": "YEAR_RE = re.compile(r\"(19|20)\\d{2}\")\ndef find_candidates():\n    seen = {}\n    for d in SEARCH_DIRS:\n        if not d.exists():\n            continue\n        for p in d.rglob(\"*.tif\"):\n            # Files already in the target folder are still validated, because a\n            # blank mask sitting in the right place is exactly as dangerous as\n            # one in the wrong place.",
+        "detail": "ml.00_collect_landsat",
+        "documentation": {}
+    },
+    {
+        "label": "build_grid",
+        "kind": 2,
+        "importPath": "ml.01_prepare",
+        "description": "ml.01_prepare",
+        "peekOfCode": "def build_grid():\n    left, bottom, right, top = transform_bounds(\n        \"EPSG:4326\", C.CRS_WORK, *C.BBOX_WGS84, densify_pts=21\n    )\n    width = math.ceil((right - left) / C.RES)\n    height = math.ceil((top - bottom) / C.RES)\n    transform = from_origin(left, top, C.RES, C.RES)\n    return transform, width, height\ndef prepare_year(year, transform, width, height):\n    out_mask = C.proc_mask_path(year)",
+        "detail": "ml.01_prepare",
+        "documentation": {}
+    },
+    {
+        "label": "prepare_year",
+        "kind": 2,
+        "importPath": "ml.01_prepare",
+        "description": "ml.01_prepare",
+        "peekOfCode": "def prepare_year(year, transform, width, height):\n    out_mask = C.proc_mask_path(year)\n    out_rgb = C.proc_rgb_path(year)\n    # --- mask (nearest so 0/255 stays exact) ---\n    with rasterio.open(C.mask_path(year)) as src:\n        dst = np.zeros((height, width), dtype=\"uint8\")\n        reproject(\n            source=rasterio.band(src, 1),\n            destination=dst,\n            src_transform=src.transform,",
+        "detail": "ml.01_prepare",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "ml.01_prepare",
+        "description": "ml.01_prepare",
+        "peekOfCode": "def main():\n    transform, width, height = build_grid()\n    print(f\"grid: {width} x {height} px @ {C.RES} m, crs={C.CRS_WORK}\")\n    for year in C.YEARS:\n        prepare_year(year, transform, width, height)\n        with rasterio.open(C.proc_mask_path(year)) as s:\n            water = np.count_nonzero(s.read(1) > 127)\n        km2 = water * (C.RES ** 2) / 1e6\n        print(f\"  {year}: water {km2:8.1f} km2\")\nif __name__ == \"__main__\":",
+        "detail": "ml.01_prepare",
+        "documentation": {}
+    },
+    {
+        "label": "build_grid",
+        "kind": 2,
+        "importPath": "ml.01b_prepare_landsat",
+        "description": "ml.01b_prepare_landsat",
+        "peekOfCode": "def build_grid():\n    # Use the LANDSAT footprint, not the wider Sentinel-2 box. Building the grid\n    # on the wider box would leave a strip with no data, which reads as 0, which\n    # reads as land - silently truncating the river. See config.BBOX_LANDSAT.\n    left, bottom, right, top = transform_bounds(\n        \"EPSG:4326\", C.CRS_WORK, *C.sensor_bbox(\"landsat\"), densify_pts=21\n    )\n    width = math.ceil((right - left) / C.RES_LANDSAT)\n    height = math.ceil((top - bottom) / C.RES_LANDSAT)\n    transform = from_origin(left, top, C.RES_LANDSAT, C.RES_LANDSAT)",
+        "detail": "ml.01b_prepare_landsat",
+        "documentation": {}
+    },
+    {
+        "label": "prepare_year",
+        "kind": 2,
+        "importPath": "ml.01b_prepare_landsat",
+        "description": "ml.01b_prepare_landsat",
+        "peekOfCode": "def prepare_year(year, transform, width, height):\n    \"\"\"Reproject one Landsat mask onto our grid.\n    Returns (array, coverage). Coverage is the fraction of our grid the source\n    actually covers.\n    WHY COVERAGE MATTERS: anything the source does not cover stays 0 in the\n    output, and 0 means LAND in our convention. So an uncovered strip would be\n    read as dry land sitting next to the river, which would drag the bankline\n    inland with no error anywhere. We measure it and complain loudly instead.\n    \"\"\"\n    src_path = C.land_raw_mask_path(year)",
+        "detail": "ml.01b_prepare_landsat",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "ml.01b_prepare_landsat",
+        "description": "ml.01b_prepare_landsat",
+        "peekOfCode": "def main():\n    years = C.available_landsat_years()\n    if not years:\n        print(\"No Landsat files found in:\", C.DATA_RAW_LANDSAT)\n        print(\"Nothing to do. Run gee/landsat_export.js in Google Earth Engine first,\")\n        print(\"then put the downloaded MNDWI_Mask_<year>.tif files in that folder.\")\n        return\n    transform, width, height = build_grid()\n    print(f\"Landsat grid: {width} x {height} px @ {C.RES_LANDSAT} m, crs={C.CRS_WORK}\")\n    print(f\"years found: {len(years)} ({years[0]}..{years[-1]})\\n\")",
+        "detail": "ml.01b_prepare_landsat",
+        "documentation": {}
+    },
+    {
+        "label": "extract_bankline",
+        "kind": 2,
+        "importPath": "ml.02_banklines",
+        "description": "ml.02_banklines",
+        "peekOfCode": "def extract_bankline(year):\n    with rasterio.open(C.proc_mask_path(year)) as src:\n        water = src.read(1) > 127\n        transform = src.transform\n    px = int(round(CLOSE_M / C.RES))\n    water = closing(water, disk(px))\n    water = binary_fill_holes(water)\n    # keep the largest connected body (the channel belt)\n    lab = label(water)\n    if lab.max() == 0:",
+        "detail": "ml.02_banklines",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "ml.02_banklines",
+        "description": "ml.02_banklines",
+        "peekOfCode": "def main():\n    for year in C.YEARS:\n        gdf = extract_bankline(year)\n        length_km = gdf.geometry.length.sum() / 1000\n        print(f\"  {year}: bankline {length_km:7.1f} km  -> {C.bankline_path(year).name}\")\nif __name__ == \"__main__\":\n    main()",
+        "detail": "ml.02_banklines",
+        "documentation": {}
+    },
+    {
+        "label": "CLOSE_M",
+        "kind": 5,
+        "importPath": "ml.02_banklines",
+        "description": "ml.02_banklines",
+        "peekOfCode": "CLOSE_M = 40          # bridge land gaps narrower than ~40 m\nMIN_POLY_AREA_M2 = 200_000\nSIMPLIFY_M = 10.0\ndef extract_bankline(year):\n    with rasterio.open(C.proc_mask_path(year)) as src:\n        water = src.read(1) > 127\n        transform = src.transform\n    px = int(round(CLOSE_M / C.RES))\n    water = closing(water, disk(px))\n    water = binary_fill_holes(water)",
+        "detail": "ml.02_banklines",
+        "documentation": {}
+    },
+    {
+        "label": "MIN_POLY_AREA_M2",
+        "kind": 5,
+        "importPath": "ml.02_banklines",
+        "description": "ml.02_banklines",
+        "peekOfCode": "MIN_POLY_AREA_M2 = 200_000\nSIMPLIFY_M = 10.0\ndef extract_bankline(year):\n    with rasterio.open(C.proc_mask_path(year)) as src:\n        water = src.read(1) > 127\n        transform = src.transform\n    px = int(round(CLOSE_M / C.RES))\n    water = closing(water, disk(px))\n    water = binary_fill_holes(water)\n    # keep the largest connected body (the channel belt)",
+        "detail": "ml.02_banklines",
+        "documentation": {}
+    },
+    {
+        "label": "SIMPLIFY_M",
+        "kind": 5,
+        "importPath": "ml.02_banklines",
+        "description": "ml.02_banklines",
+        "peekOfCode": "SIMPLIFY_M = 10.0\ndef extract_bankline(year):\n    with rasterio.open(C.proc_mask_path(year)) as src:\n        water = src.read(1) > 127\n        transform = src.transform\n    px = int(round(CLOSE_M / C.RES))\n    water = closing(water, disk(px))\n    water = binary_fill_holes(water)\n    # keep the largest connected body (the channel belt)\n    lab = label(water)",
+        "detail": "ml.02_banklines",
+        "documentation": {}
+    },
+    {
+        "label": "load_belt_points",
+        "kind": 2,
+        "importPath": "ml.03_transects",
+        "description": "ml.03_transects",
+        "peekOfCode": "def load_belt_points(year):\n    with rasterio.open(C.proc_mask_path(year)) as src:\n        water = src.read(1) > 127\n        transform = src.transform\n    water = binary_fill_holes(closing(water, disk(int(round(40 / C.RES)))))\n    lab = label(water)\n    biggest = max(regionprops(lab), key=lambda r: r.area)\n    belt = lab == biggest.label\n    rows, cols = np.where(belt)\n    xs, ys = rasterio.transform.xy(transform, rows, cols)",
+        "detail": "ml.03_transects",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "ml.03_transects",
+        "description": "ml.03_transects",
+        "peekOfCode": "def main():\n    P_ref = load_belt_points(REF_YEAR)\n    mean = P_ref.mean(axis=0)\n    centered = P_ref - mean\n    cov = np.cov(centered.T)\n    eigvals, eigvecs = np.linalg.eigh(cov)\n    u = eigvecs[:, -1]   # along flow\n    v = eigvecs[:, 0]    # across flow\n    t_ref = (P_ref - mean) @ u\n    t_lo, t_hi = np.percentile(t_ref, 1), np.percentile(t_ref, 99)",
+        "detail": "ml.03_transects",
+        "documentation": {}
+    },
+    {
+        "label": "REF_YEAR",
+        "kind": 5,
+        "importPath": "ml.03_transects",
+        "description": "ml.03_transects",
+        "peekOfCode": "REF_YEAR = 2023\nYEAR0, YEAR1 = 2022, 2023\nN_TRANSECTS = 20\ndef load_belt_points(year):\n    with rasterio.open(C.proc_mask_path(year)) as src:\n        water = src.read(1) > 127\n        transform = src.transform\n    water = binary_fill_holes(closing(water, disk(int(round(40 / C.RES)))))\n    lab = label(water)\n    biggest = max(regionprops(lab), key=lambda r: r.area)",
+        "detail": "ml.03_transects",
+        "documentation": {}
+    },
+    {
+        "label": "N_TRANSECTS",
+        "kind": 5,
+        "importPath": "ml.03_transects",
+        "description": "ml.03_transects",
+        "peekOfCode": "N_TRANSECTS = 20\ndef load_belt_points(year):\n    with rasterio.open(C.proc_mask_path(year)) as src:\n        water = src.read(1) > 127\n        transform = src.transform\n    water = binary_fill_holes(closing(water, disk(int(round(40 / C.RES)))))\n    lab = label(water)\n    biggest = max(regionprops(lab), key=lambda r: r.area)\n    belt = lab == biggest.label\n    rows, cols = np.where(belt)",
+        "detail": "ml.03_transects",
+        "documentation": {}
+    },
+    {
+        "label": "pairs_for",
+        "kind": 2,
+        "importPath": "ml.04_erosion",
+        "description": "ml.04_erosion",
+        "peekOfCode": "def pairs_for(sensor):\n    \"\"\"Year pairs at the sensor's configured window (see C.PAIR_STEP).\n    Landsat on a slow river is measured in multi-year blocks because at 30 m the\n    bank moves less than one pixel per year, so an annual pair measures nothing.\n    \"\"\"\n    return C.sensor_pairs(sensor)\ndef build_geometry(verbose=True):\n    \"\"\"Fixed transect geometry, built once and shared by both sensors.\"\"\"\n    ts = T.build_transects()\n    return ts",
+        "detail": "ml.04_erosion",
+        "documentation": {}
+    },
+    {
+        "label": "build_geometry",
+        "kind": 2,
+        "importPath": "ml.04_erosion",
+        "description": "ml.04_erosion",
+        "peekOfCode": "def build_geometry(verbose=True):\n    \"\"\"Fixed transect geometry, built once and shared by both sensors.\"\"\"\n    ts = T.build_transects()\n    return ts\ndef main(sensor=\"s2\", geom=None):\n    pairs = pairs_for(sensor)\n    if not pairs:\n        print(f\"No consecutive processed years for {sensor}.\")\n        return\n    res = C.sensor_res(sensor)",
+        "detail": "ml.04_erosion",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "ml.04_erosion",
+        "description": "ml.04_erosion",
+        "peekOfCode": "def main(sensor=\"s2\", geom=None):\n    pairs = pairs_for(sensor)\n    if not pairs:\n        print(f\"No consecutive processed years for {sensor}.\")\n        return\n    res = C.sensor_res(sensor)\n    out_dir = C.sensor_transects_dir(sensor)\n    ts = geom if geom is not None else build_geometry()\n    print(f\"\\nsensor {sensor} at {res} m | geometry from {ts.sensor_geom} \"\n          f\"{ts.ref_year} | {len(ts.transects)} fixed transects\\n\")",
+        "detail": "ml.04_erosion",
+        "documentation": {}
+    },
+    {
+        "label": "feature_dir",
+        "kind": 2,
+        "importPath": "ml.05_features",
+        "description": "ml.05_features",
+        "peekOfCode": "def feature_dir(sensor):\n    d = FEATURES_DIR / sensor\n    d.mkdir(parents=True, exist_ok=True)\n    return d\ndef load_rates(sensor):\n    \"\"\"rates[(transect_id, side)][target_year] = erosion rate in m/yr.\"\"\"\n    rates = {}\n    # window length comes from C.PAIR_STEP - annual for S2, multi-year for\n    # Landsat on a narrow river (see config.py for why)\n    for y0, y1 in C.sensor_pairs(sensor):",
+        "detail": "ml.05_features",
+        "documentation": {}
+    },
+    {
+        "label": "load_rates",
+        "kind": 2,
+        "importPath": "ml.05_features",
+        "description": "ml.05_features",
+        "peekOfCode": "def load_rates(sensor):\n    \"\"\"rates[(transect_id, side)][target_year] = erosion rate in m/yr.\"\"\"\n    rates = {}\n    # window length comes from C.PAIR_STEP - annual for S2, multi-year for\n    # Landsat on a narrow river (see config.py for why)\n    for y0, y1 in C.sensor_pairs(sensor):\n        p = C.sensor_transects_dir(sensor) / f\"epr_{y0}_{y1}.geojson\"\n        if not p.exists():\n            continue\n        for _, r in gpd.read_file(p).iterrows():",
+        "detail": "ml.05_features",
+        "documentation": {}
+    },
+    {
+        "label": "centreline_shape",
+        "kind": 2,
+        "importPath": "ml.05_features",
+        "description": "ml.05_features",
+        "peekOfCode": "def centreline_shape(ts):\n    \"\"\"Bend geometry per transect, from the centreline itself.\n    curvature_k - how tightly the river bends (1/m); large means a sharp bend,\n                  and a sharp outer bank is what erodes.\n    meander_off - how far the centreline bows away from the straight reach axis.\n    \"\"\"\n    P, arcs = ts.points, ts.arcs\n    # curvature of the planar centreline\n    d1 = np.gradient(P, axis=0)\n    d2 = np.gradient(d1, axis=0)",
+        "detail": "ml.05_features",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "ml.05_features",
+        "description": "ml.05_features",
+        "peekOfCode": "def main(sensor=\"s2\"):\n    fdir = feature_dir(sensor)\n    res = C.sensor_res(sensor)\n    years = C.sensor_years(sensor)\n    if len(years) < 3:\n        print(f\"{sensor}: need at least 3 processed years, found {len(years)}\")\n        return\n    ts = T.build_transects()\n    stage = {y: T.stage_km2(y, sensor) for y in years}\n    shape = centreline_shape(ts)",
+        "detail": "ml.05_features",
+        "documentation": {}
+    },
+    {
+        "label": "FEATURES_DIR",
+        "kind": 5,
+        "importPath": "ml.05_features",
+        "description": "ml.05_features",
+        "peekOfCode": "FEATURES_DIR = C.DATA_PROC / \"features\"\ndef feature_dir(sensor):\n    d = FEATURES_DIR / sensor\n    d.mkdir(parents=True, exist_ok=True)\n    return d\ndef load_rates(sensor):\n    \"\"\"rates[(transect_id, side)][target_year] = erosion rate in m/yr.\"\"\"\n    rates = {}\n    # window length comes from C.PAIR_STEP - annual for S2, multi-year for\n    # Landsat on a narrow river (see config.py for why)",
+        "detail": "ml.05_features",
+        "documentation": {}
+    },
+    {
+        "label": "wgs84_line",
+        "kind": 2,
+        "importPath": "ml.06_predict_geojson",
+        "description": "ml.06_predict_geojson",
+        "peekOfCode": "def wgs84_line(points, transformer):\n    eastings, northings = zip(*points)\n    longitudes, latitudes = transformer.transform(eastings, northings)\n    return mapping(LineString(zip(longitudes, latitudes)))\ndef build(horizon_years):\n    OUT_DIR.mkdir(parents=True, exist_ok=True)\n    import pandas as pd\n    if MODEL_CSV.exists():\n        src = MODEL_CSV\n        print(f\"using MODEL predictions from {MODEL_CSV}\")",
+        "detail": "ml.06_predict_geojson",
+        "documentation": {}
+    },
+    {
+        "label": "build",
+        "kind": 2,
+        "importPath": "ml.06_predict_geojson",
+        "description": "ml.06_predict_geojson",
+        "peekOfCode": "def build(horizon_years):\n    OUT_DIR.mkdir(parents=True, exist_ok=True)\n    import pandas as pd\n    if MODEL_CSV.exists():\n        src = MODEL_CSV\n        print(f\"using MODEL predictions from {MODEL_CSV}\")\n    elif RISK_CSV.exists():\n        src = RISK_CSV\n        print(f\"no model yet - falling back to LONG-RUN RATES from {RISK_CSV}\")\n        print(\"(run 14_model_train.py for a trained projection)\")",
+        "detail": "ml.06_predict_geojson",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "ml.06_predict_geojson",
+        "description": "ml.06_predict_geojson",
+        "peekOfCode": "def main():\n    ap = argparse.ArgumentParser()\n    ap.add_argument(\"--horizon\", type=int, default=DEFAULT_HORIZON,\n                    help=\"years to carry the long-run rate forward\")\n    args = ap.parse_args()\n    build(args.horizon)\nif __name__ == \"__main__\":\n    main()",
+        "detail": "ml.06_predict_geojson",
+        "documentation": {}
+    },
+    {
+        "label": "OUT_DIR",
+        "kind": 5,
+        "importPath": "ml.06_predict_geojson",
+        "description": "ml.06_predict_geojson",
+        "peekOfCode": "OUT_DIR = C.DATA_PROC / \"predictions\"\nRISK_CSV = C.DATA_PROC / \"risk\" / \"transect_risk.csv\"\n# Candidate model output from 14_model_train.py, kept separate from the\n# rendered map CSV so generating the GeoJSON never overwrites its input.\nMODEL_CSV = C.DATA_PROC / \"predictions\" / \"model_predictions.csv\"\n# Historical-rate fallback requires this many years; candidate model rows are\n# retained but always labelled experimental.\nMIN_YEARS = 10\nDEFAULT_HORIZON = 10\ndef wgs84_line(points, transformer):",
+        "detail": "ml.06_predict_geojson",
+        "documentation": {}
+    },
+    {
+        "label": "RISK_CSV",
+        "kind": 5,
+        "importPath": "ml.06_predict_geojson",
+        "description": "ml.06_predict_geojson",
+        "peekOfCode": "RISK_CSV = C.DATA_PROC / \"risk\" / \"transect_risk.csv\"\n# Candidate model output from 14_model_train.py, kept separate from the\n# rendered map CSV so generating the GeoJSON never overwrites its input.\nMODEL_CSV = C.DATA_PROC / \"predictions\" / \"model_predictions.csv\"\n# Historical-rate fallback requires this many years; candidate model rows are\n# retained but always labelled experimental.\nMIN_YEARS = 10\nDEFAULT_HORIZON = 10\ndef wgs84_line(points, transformer):\n    eastings, northings = zip(*points)",
+        "detail": "ml.06_predict_geojson",
+        "documentation": {}
+    },
+    {
+        "label": "MODEL_CSV",
+        "kind": 5,
+        "importPath": "ml.06_predict_geojson",
+        "description": "ml.06_predict_geojson",
+        "peekOfCode": "MODEL_CSV = C.DATA_PROC / \"predictions\" / \"model_predictions.csv\"\n# Historical-rate fallback requires this many years; candidate model rows are\n# retained but always labelled experimental.\nMIN_YEARS = 10\nDEFAULT_HORIZON = 10\ndef wgs84_line(points, transformer):\n    eastings, northings = zip(*points)\n    longitudes, latitudes = transformer.transform(eastings, northings)\n    return mapping(LineString(zip(longitudes, latitudes)))\ndef build(horizon_years):",
+        "detail": "ml.06_predict_geojson",
+        "documentation": {}
+    },
+    {
+        "label": "MIN_YEARS",
+        "kind": 5,
+        "importPath": "ml.06_predict_geojson",
+        "description": "ml.06_predict_geojson",
+        "peekOfCode": "MIN_YEARS = 10\nDEFAULT_HORIZON = 10\ndef wgs84_line(points, transformer):\n    eastings, northings = zip(*points)\n    longitudes, latitudes = transformer.transform(eastings, northings)\n    return mapping(LineString(zip(longitudes, latitudes)))\ndef build(horizon_years):\n    OUT_DIR.mkdir(parents=True, exist_ok=True)\n    import pandas as pd\n    if MODEL_CSV.exists():",
+        "detail": "ml.06_predict_geojson",
+        "documentation": {}
+    },
+    {
+        "label": "DEFAULT_HORIZON",
+        "kind": 5,
+        "importPath": "ml.06_predict_geojson",
+        "description": "ml.06_predict_geojson",
+        "peekOfCode": "DEFAULT_HORIZON = 10\ndef wgs84_line(points, transformer):\n    eastings, northings = zip(*points)\n    longitudes, latitudes = transformer.transform(eastings, northings)\n    return mapping(LineString(zip(longitudes, latitudes)))\ndef build(horizon_years):\n    OUT_DIR.mkdir(parents=True, exist_ok=True)\n    import pandas as pd\n    if MODEL_CSV.exists():\n        src = MODEL_CSV",
+        "detail": "ml.06_predict_geojson",
+        "documentation": {}
+    },
+    {
+        "label": "outline",
+        "kind": 2,
+        "importPath": "ml.07_validate",
+        "description": "ml.07_validate",
+        "peekOfCode": "def outline(year):\n    c = json.load(open(C.bankline_path(year)))[\"features\"][0][\"geometry\"][\"coordinates\"]\n    return LineString([tuple(TR.transform(float(x), float(y))) for x, y in c])\ndef outline_dist(y0, y1):\n    la, lb = outline(y0), outline(y1)\n    ds = []\n    for src, dst in ((np.array(la.coords), lb), (np.array(lb.coords), la)):\n        for p in src[::10]:\n            ds.append(dst.distance(Point(float(p[0]), float(p[1]))))\n    return np.array(ds)",
+        "detail": "ml.07_validate",
+        "documentation": {}
+    },
+    {
+        "label": "outline_dist",
+        "kind": 2,
+        "importPath": "ml.07_validate",
+        "description": "ml.07_validate",
+        "peekOfCode": "def outline_dist(y0, y1):\n    la, lb = outline(y0), outline(y1)\n    ds = []\n    for src, dst in ((np.array(la.coords), lb), (np.array(lb.coords), la)):\n        for p in src[::10]:\n            ds.append(dst.distance(Point(float(p[0]), float(p[1]))))\n    return np.array(ds)\ndef epr_pair_median(y0, y1):\n    gdf = gpd.read_file(C.TRANSECTS / f\"epr_{y0}_{y1}.geojson\")\n    return float(np.median([abs(r[\"mag\"]) for _, r in gdf.iterrows()]))",
+        "detail": "ml.07_validate",
+        "documentation": {}
+    },
+    {
+        "label": "epr_pair_median",
+        "kind": 2,
+        "importPath": "ml.07_validate",
+        "description": "ml.07_validate",
+        "peekOfCode": "def epr_pair_median(y0, y1):\n    gdf = gpd.read_file(C.TRANSECTS / f\"epr_{y0}_{y1}.geojson\")\n    return float(np.median([abs(r[\"mag\"]) for _, r in gdf.iterrows()]))\ndef main():\n    REPORTS.mkdir(parents=True, exist_ok=True)\n    L = []\n    A = L.append\n    A(\"# RiverGuard - validation report\\n\")\n    A(f\"Generated: {date.today().isoformat()}\\n\")\n    A(\"Every number below is produced by a script in `ml/` and can be \"",
+        "detail": "ml.07_validate",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "ml.07_validate",
+        "description": "ml.07_validate",
+        "peekOfCode": "def main():\n    REPORTS.mkdir(parents=True, exist_ok=True)\n    L = []\n    A = L.append\n    A(\"# RiverGuard - validation report\\n\")\n    A(f\"Generated: {date.today().isoformat()}\\n\")\n    A(\"Every number below is produced by a script in `ml/` and can be \"\n      \"re-checked by re-running it.\\n\")\n    # ---------------------------------------------------------------- 1\n    A(\"## 1. Two independent sensors agree\\n\")",
+        "detail": "ml.07_validate",
+        "documentation": {}
+    },
+    {
+        "label": "REPORTS",
+        "kind": 5,
+        "importPath": "ml.07_validate",
+        "description": "ml.07_validate",
+        "peekOfCode": "REPORTS = C.ROOT / \"reports\"\nTR = Transformer.from_crs(\"EPSG:4326\", \"EPSG:32645\", always_xy=True)\nPAIRS = [(y, y + 1) for y in C.YEARS[:-1]]\nLAND_PAIRS = sorted(\n    (int(p.stem.split(\"_\")[1]), int(p.stem.split(\"_\")[2]))\n    for p in C.TRANSECTS_LANDSAT.glob(\"epr_*.geojson\")\n)\ndef outline(year):\n    c = json.load(open(C.bankline_path(year)))[\"features\"][0][\"geometry\"][\"coordinates\"]\n    return LineString([tuple(TR.transform(float(x), float(y))) for x, y in c])",
+        "detail": "ml.07_validate",
+        "documentation": {}
+    },
+    {
+        "label": "TR",
+        "kind": 5,
+        "importPath": "ml.07_validate",
+        "description": "ml.07_validate",
+        "peekOfCode": "TR = Transformer.from_crs(\"EPSG:4326\", \"EPSG:32645\", always_xy=True)\nPAIRS = [(y, y + 1) for y in C.YEARS[:-1]]\nLAND_PAIRS = sorted(\n    (int(p.stem.split(\"_\")[1]), int(p.stem.split(\"_\")[2]))\n    for p in C.TRANSECTS_LANDSAT.glob(\"epr_*.geojson\")\n)\ndef outline(year):\n    c = json.load(open(C.bankline_path(year)))[\"features\"][0][\"geometry\"][\"coordinates\"]\n    return LineString([tuple(TR.transform(float(x), float(y))) for x, y in c])\ndef outline_dist(y0, y1):",
+        "detail": "ml.07_validate",
+        "documentation": {}
+    },
+    {
+        "label": "PAIRS",
+        "kind": 5,
+        "importPath": "ml.07_validate",
+        "description": "ml.07_validate",
+        "peekOfCode": "PAIRS = [(y, y + 1) for y in C.YEARS[:-1]]\nLAND_PAIRS = sorted(\n    (int(p.stem.split(\"_\")[1]), int(p.stem.split(\"_\")[2]))\n    for p in C.TRANSECTS_LANDSAT.glob(\"epr_*.geojson\")\n)\ndef outline(year):\n    c = json.load(open(C.bankline_path(year)))[\"features\"][0][\"geometry\"][\"coordinates\"]\n    return LineString([tuple(TR.transform(float(x), float(y))) for x, y in c])\ndef outline_dist(y0, y1):\n    la, lb = outline(y0), outline(y1)",
+        "detail": "ml.07_validate",
+        "documentation": {}
+    },
+    {
+        "label": "LAND_PAIRS",
+        "kind": 5,
+        "importPath": "ml.07_validate",
+        "description": "ml.07_validate",
+        "peekOfCode": "LAND_PAIRS = sorted(\n    (int(p.stem.split(\"_\")[1]), int(p.stem.split(\"_\")[2]))\n    for p in C.TRANSECTS_LANDSAT.glob(\"epr_*.geojson\")\n)\ndef outline(year):\n    c = json.load(open(C.bankline_path(year)))[\"features\"][0][\"geometry\"][\"coordinates\"]\n    return LineString([tuple(TR.transform(float(x), float(y))) for x, y in c])\ndef outline_dist(y0, y1):\n    la, lb = outline(y0), outline(y1)\n    ds = []",
+        "detail": "ml.07_validate",
+        "documentation": {}
+    },
+    {
+        "label": "clip_to_common",
+        "kind": 2,
+        "importPath": "ml.08_crosssensor",
+        "description": "ml.08_crosssensor",
+        "peekOfCode": "def clip_to_common(mask, transform, width, height):\n    \"\"\"Zero out anything outside the shared Sentinel-2 / Landsat footprint.\"\"\"\n    from rasterio.features import geometry_mask\n    from rasterio.warp import transform_bounds\n    from shapely.geometry import box\n    l, b, r, t = transform_bounds(\"EPSG:4326\", C.CRS_WORK, *COMMON, densify_pts=21)\n    from rasterio.transform import array_bounds\n    x0, y0, x1, y1 = array_bounds(height, width, transform)\n    poly = box(max(l, x0), max(b, y0), min(r, x1), min(t, y1))\n    zone = geometry_mask([poly], out_shape=(height, width), transform=transform,",
+        "detail": "ml.08_crosssensor",
+        "documentation": {}
+    },
+    {
+        "label": "load_s2",
+        "kind": 2,
+        "importPath": "ml.08_crosssensor",
+        "description": "ml.08_crosssensor",
+        "peekOfCode": "def load_s2(year):\n    with rasterio.open(C.sensor_mask_path(\"s2\", year)) as s:\n        m = s.read(1) > 127\n        m = clip_to_common(m, s.transform, s.width, s.height)\n        return m, s.transform, s.crs, (s.height, s.width)\ndef load_landsat(year):\n    \"\"\"Band 1 is water. Band 2, when present, is the valid-data mask.\"\"\"\n    p = C.land_proc_mask_path(year)\n    with rasterio.open(p) as s:\n        water = s.read(1) > 127",
+        "detail": "ml.08_crosssensor",
+        "documentation": {}
+    },
+    {
+        "label": "load_landsat",
+        "kind": 2,
+        "importPath": "ml.08_crosssensor",
+        "description": "ml.08_crosssensor",
+        "peekOfCode": "def load_landsat(year):\n    \"\"\"Band 1 is water. Band 2, when present, is the valid-data mask.\"\"\"\n    p = C.land_proc_mask_path(year)\n    with rasterio.open(p) as s:\n        water = s.read(1) > 127\n        if s.count >= 2:\n            valid = s.read(2) > 127\n            # Uncovered ground is not land. Mask it out rather than trusting 0.\n            water = water & valid\n        water = clip_to_common(water, s.transform, s.width, s.height)",
+        "detail": "ml.08_crosssensor",
+        "documentation": {}
+    },
+    {
+        "label": "downsample_to_30m",
+        "kind": 2,
+        "importPath": "ml.08_crosssensor",
+        "description": "ml.08_crosssensor",
+        "peekOfCode": "def downsample_to_30m(bool_mask, transform, target_transform, shape_hw):\n    \"\"\"Majority-vote a fine mask down to 30 m so both sensors share a grid.\n    The resampling is done in float. Averaging 0/1 pixels yields values between\n    0 and 1, so the threshold must be 0.5 - testing \"> 127\" (which was the\n    earlier bug here) is never true and silently produced an all-zero mask.\n    \"\"\"\n    out = np.zeros(shape_hw, dtype=\"float32\")\n    reproject(\n        source=bool_mask.astype(\"float32\"),\n        destination=out,",
+        "detail": "ml.08_crosssensor",
+        "documentation": {}
+    },
+    {
+        "label": "iou",
+        "kind": 2,
+        "importPath": "ml.08_crosssensor",
+        "description": "ml.08_crosssensor",
+        "peekOfCode": "def iou(a, b):\n    inter = np.logical_and(a, b).sum()\n    union = np.logical_or(a, b).sum()\n    return float(inter / union) if union else float(\"nan\")\ndef bank_offset(mask, transform):\n    \"\"\"Trace the outer belt on this mask and return it as a polygon.\"\"\"\n    from scipy.ndimage import binary_fill_holes, label\n    from skimage.morphology import closing, disk\n    m = binary_fill_holes(closing(mask, disk(1)))\n    lab, _ = label(m)",
+        "detail": "ml.08_crosssensor",
+        "documentation": {}
+    },
+    {
+        "label": "bank_offset",
+        "kind": 2,
+        "importPath": "ml.08_crosssensor",
+        "description": "ml.08_crosssensor",
+        "peekOfCode": "def bank_offset(mask, transform):\n    \"\"\"Trace the outer belt on this mask and return it as a polygon.\"\"\"\n    from scipy.ndimage import binary_fill_holes, label\n    from skimage.morphology import closing, disk\n    m = binary_fill_holes(closing(mask, disk(1)))\n    lab, _ = label(m)\n    counts = np.bincount(lab.ravel())[1:]\n    if len(counts) == 0:\n        return None\n    belt = lab == (int(np.argmax(counts)) + 1)",
+        "detail": "ml.08_crosssensor",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "ml.08_crosssensor",
+        "description": "ml.08_crosssensor",
+        "peekOfCode": "def main():\n    landsat_years = C.available_landsat_years()\n    if not landsat_years:\n        print(\"No Landsat data yet.\")\n        print(\"Run gee/landsat_export.js in Google Earth Engine, put the files in\")\n        print(C.DATA_RAW_LANDSAT, \"then run 01b_prepare_landsat.py\")\n        return\n    overlap = sorted(set(landsat_years) & set(C.YEARS))\n    if not overlap:\n        print(f\"Landsat years {landsat_years[0]}-{landsat_years[-1]} but no overlap\")",
+        "detail": "ml.08_crosssensor",
+        "documentation": {}
+    },
+    {
+        "label": "compare_rates",
+        "kind": 2,
+        "importPath": "ml.08_crosssensor",
+        "description": "ml.08_crosssensor",
+        "peekOfCode": "def compare_rates():\n    \"\"\"Compare the EPR rate each sensor measures on the SAME transects, SAME years.\n    This is the real cross-sensor test. The IoU above asks \"do they see the same\n    water?\"; this asks \"do they measure the same movement?\", which is the number\n    the project actually reports.\n    \"\"\"\n    import json as _json\n    s2_dir = C.sensor_transects_dir(\"s2\")\n    ls_dir = C.sensor_transects_dir(\"landsat\")\n    pairs = []",
+        "detail": "ml.08_crosssensor",
+        "documentation": {}
+    },
+    {
+        "label": "COMMON",
+        "kind": 5,
+        "importPath": "ml.08_crosssensor",
+        "description": "ml.08_crosssensor",
+        "peekOfCode": "COMMON = C.BBOX_COMMON\ndef clip_to_common(mask, transform, width, height):\n    \"\"\"Zero out anything outside the shared Sentinel-2 / Landsat footprint.\"\"\"\n    from rasterio.features import geometry_mask\n    from rasterio.warp import transform_bounds\n    from shapely.geometry import box\n    l, b, r, t = transform_bounds(\"EPSG:4326\", C.CRS_WORK, *COMMON, densify_pts=21)\n    from rasterio.transform import array_bounds\n    x0, y0, x1, y1 = array_bounds(height, width, transform)\n    poly = box(max(l, x0), max(b, y0), min(r, x1), min(t, y1))",
+        "detail": "ml.08_crosssensor",
+        "documentation": {}
+    },
+    {
+        "label": "ok",
+        "kind": 2,
+        "importPath": "ml.09_checks",
+        "description": "ml.09_checks",
+        "peekOfCode": "def ok(msg):\n    print(f\"  PASS  {msg}\")\ndef bad(msg):\n    print(f\"  FAIL  {msg}\")\n    failures.append(msg)\ndef warn(msg):\n    print(f\"  WARN  {msg}\")\n    notes.append(msg)\n# Twice this project shipped a file whose opening comment was never terminated,\n# so the entire script was dead text and failed instantly in the browser.",
+        "detail": "ml.09_checks",
+        "documentation": {}
+    },
+    {
+        "label": "bad",
+        "kind": 2,
+        "importPath": "ml.09_checks",
+        "description": "ml.09_checks",
+        "peekOfCode": "def bad(msg):\n    print(f\"  FAIL  {msg}\")\n    failures.append(msg)\ndef warn(msg):\n    print(f\"  WARN  {msg}\")\n    notes.append(msg)\n# Twice this project shipped a file whose opening comment was never terminated,\n# so the entire script was dead text and failed instantly in the browser.\n# Glob every script rather than naming two: a per-reach export that was never\n# syntax-checked is exactly the file most likely to be broken, because it is the",
+        "detail": "ml.09_checks",
+        "documentation": {}
+    },
+    {
+        "label": "warn",
+        "kind": 2,
+        "importPath": "ml.09_checks",
+        "description": "ml.09_checks",
+        "peekOfCode": "def warn(msg):\n    print(f\"  WARN  {msg}\")\n    notes.append(msg)\n# Twice this project shipped a file whose opening comment was never terminated,\n# so the entire script was dead text and failed instantly in the browser.\n# Glob every script rather than naming two: a per-reach export that was never\n# syntax-checked is exactly the file most likely to be broken, because it is the\n# newest and least exercised.\nGEE_FILES = sorted(GEE.parent.glob(\"*.js\"))\nif not GEE_FILES:",
+        "detail": "ml.09_checks",
+        "documentation": {}
+    },
+    {
+        "label": "GEE",
+        "kind": 5,
+        "importPath": "ml.09_checks",
+        "description": "ml.09_checks",
+        "peekOfCode": "GEE = C.ROOT / \"gee\" / \"landsat_export.js\"\nfailures = []\nnotes = []\ndef ok(msg):\n    print(f\"  PASS  {msg}\")\ndef bad(msg):\n    print(f\"  FAIL  {msg}\")\n    failures.append(msg)\ndef warn(msg):\n    print(f\"  WARN  {msg}\")",
+        "detail": "ml.09_checks",
+        "documentation": {}
+    },
+    {
+        "label": "failures",
+        "kind": 5,
+        "importPath": "ml.09_checks",
+        "description": "ml.09_checks",
+        "peekOfCode": "failures = []\nnotes = []\ndef ok(msg):\n    print(f\"  PASS  {msg}\")\ndef bad(msg):\n    print(f\"  FAIL  {msg}\")\n    failures.append(msg)\ndef warn(msg):\n    print(f\"  WARN  {msg}\")\n    notes.append(msg)",
+        "detail": "ml.09_checks",
+        "documentation": {}
+    },
+    {
+        "label": "notes",
+        "kind": 5,
+        "importPath": "ml.09_checks",
+        "description": "ml.09_checks",
+        "peekOfCode": "notes = []\ndef ok(msg):\n    print(f\"  PASS  {msg}\")\ndef bad(msg):\n    print(f\"  FAIL  {msg}\")\n    failures.append(msg)\ndef warn(msg):\n    print(f\"  WARN  {msg}\")\n    notes.append(msg)\n# Twice this project shipped a file whose opening comment was never terminated,",
+        "detail": "ml.09_checks",
+        "documentation": {}
+    },
+    {
+        "label": "GEE_FILES",
+        "kind": 5,
+        "importPath": "ml.09_checks",
+        "description": "ml.09_checks",
+        "peekOfCode": "GEE_FILES = sorted(GEE.parent.glob(\"*.js\"))\nif not GEE_FILES:\n    bad(f\"no Earth Engine scripts found in {GEE.parent}\")\nprint(\"1. Earth Engine scripts parse and their comments are closed\")\nfor gf in GEE_FILES:\n    if not gf.exists():\n        warn(f\"{gf.name} missing\")\n        continue\n    src = gf.read_text()\n    if src.count(\"/*\") != src.count(\"*/\"):",
+        "detail": "ml.09_checks",
+        "documentation": {}
+    },
+    {
+        "label": "worker",
+        "kind": 5,
+        "importPath": "ml.09_checks",
+        "description": "ml.09_checks",
+        "peekOfCode": "worker = C.ROOT / \"frontend\" / \"public\" / \"maplibre-gl-worker.mjs\"\nif worker.exists():\n    ok(f\"worker present ({worker.stat().st_size // 1024} KB)\")\nelse:\n    bad(\"frontend/public/maplibre-gl-worker.mjs missing - the map will show \"\n        \"tiles but no vector layers, with no error\")\nprint(\"\\n4. Band conventions are consistent everywhere\")\nfor p in sorted((C.ROOT / \"ml\").glob(\"0*.py\")):\n    t = p.read_text()\n    if \"255\" in t and \"water\" in t:",
+        "detail": "ml.09_checks",
+        "documentation": {}
+    },
+    {
+        "label": "tr",
+        "kind": 5,
+        "importPath": "ml.09_checks",
+        "description": "ml.09_checks",
+        "peekOfCode": "tr = C.TRANSECTS\nif tr.exists():\n    files = sorted(tr.glob(\"epr_*.geojson\"))\n    blank = []\n    for f in files:\n        try:\n            fc = json.loads(f.read_text())\n            n = len(fc.get(\"features\", []))\n            if n == 0:\n                blank.append(f.name)",
+        "detail": "ml.09_checks",
+        "documentation": {}
+    },
+    {
+        "label": "s2_js",
+        "kind": 5,
+        "importPath": "ml.09_checks",
+        "description": "ml.09_checks",
+        "peekOfCode": "s2_js = GEE.parent / \"s2_export_arial_khan.js\"\nls_js = GEE.parent / \"landsat_export_arial_khan.js\"\nif C.REACH == \"arial_khan\" and s2_js.exists() and ls_js.exists():\n    a, b = _consts(s2_js), _consts(ls_js)\n    if not a or not b:\n        bad(f\"could not read detection constants from \"\n            f\"{s2_js.name} ({sorted(a)}) / {ls_js.name} ({sorted(b)})\")\n    else:\n        # `years` and `season` are excluded from this diff on purpose: Landsat\n        # reaches back to 1989 while Sentinel-2 starts in 2019, and that",
+        "detail": "ml.09_checks",
+        "documentation": {}
+    },
+    {
+        "label": "ls_js",
+        "kind": 5,
+        "importPath": "ml.09_checks",
+        "description": "ml.09_checks",
+        "peekOfCode": "ls_js = GEE.parent / \"landsat_export_arial_khan.js\"\nif C.REACH == \"arial_khan\" and s2_js.exists() and ls_js.exists():\n    a, b = _consts(s2_js), _consts(ls_js)\n    if not a or not b:\n        bad(f\"could not read detection constants from \"\n            f\"{s2_js.name} ({sorted(a)}) / {ls_js.name} ({sorted(b)})\")\n    else:\n        # `years` and `season` are excluded from this diff on purpose: Landsat\n        # reaches back to 1989 while Sentinel-2 starts in 2019, and that\n        # asymmetry is the whole point of keeping the long record. They are",
+        "detail": "ml.09_checks",
+        "documentation": {}
+    },
+    {
+        "label": "stale",
+        "kind": 5,
+        "importPath": "ml.09_checks",
+        "description": "ml.09_checks",
+        "peekOfCode": "stale = C.DATA_PROC / \"features\" / \"features.csv\"\nif stale.exists():\n    bad(f\"stale {stale.relative_to(C.ROOT)} exists - that is the pre-rewrite \"\n        f\"280-row table. Archive or delete it; 07_validate.py must read \"\n        f\"features/landsat/features.csv\")\nelse:\n    ok(\"no stale features/features.csv\")\nprint(\"\\n10. Risk and trend outputs are labelled honestly\")\nrisk_csv = C.DATA_PROC / \"risk\" / \"transect_risk.csv\"\nrisk_gj = C.DATA_PROC / \"risk\" / \"risk.geojson\"",
+        "detail": "ml.09_checks",
+        "documentation": {}
+    },
+    {
+        "label": "risk_csv",
+        "kind": 5,
+        "importPath": "ml.09_checks",
+        "description": "ml.09_checks",
+        "peekOfCode": "risk_csv = C.DATA_PROC / \"risk\" / \"transect_risk.csv\"\nrisk_gj = C.DATA_PROC / \"risk\" / \"risk.geojson\"\nif risk_csv.exists():\n    import csv as _csv\n    with open(risk_csv) as f:\n        rows = list(_csv.DictReader(f))\n    if not rows:\n        bad(\"transect_risk.csv is empty\")\n    else:\n        short = sum(1 for r in rows if r.get(\"sufficient\") != \"True\")",
+        "detail": "ml.09_checks",
+        "documentation": {}
+    },
+    {
+        "label": "risk_gj",
+        "kind": 5,
+        "importPath": "ml.09_checks",
+        "description": "ml.09_checks",
+        "peekOfCode": "risk_gj = C.DATA_PROC / \"risk\" / \"risk.geojson\"\nif risk_csv.exists():\n    import csv as _csv\n    with open(risk_csv) as f:\n        rows = list(_csv.DictReader(f))\n    if not rows:\n        bad(\"transect_risk.csv is empty\")\n    else:\n        short = sum(1 for r in rows if r.get(\"sufficient\") != \"True\")\n        ok(f\"{len(rows)} risk records, {len(rows) - short} eligible for ranking, \"",
+        "detail": "ml.09_checks",
+        "documentation": {}
+    },
+    {
+        "label": "hydro",
+        "kind": 5,
+        "importPath": "ml.09_checks",
+        "description": "ml.09_checks",
+        "peekOfCode": "hydro = C.DATA_PROC / \"features\" / \"landsat\" / \"features_hydro.csv\"\nif hydro.exists():\n    head = hydro.read_text().splitlines()[0]\n    if \"q_mean\" in head:\n        ok(\"features_hydro.csv carries GloFAS discharge columns\")\n    else:\n        bad(\"features_hydro.csv exists but has no q_* discharge columns\")\nelse:\n    warn(\"no hydro features yet - run 11_hydro_features.py landsat\")\nga = C.DATA_RAW / \"hydro\" / \"glofas_annual.csv\"",
+        "detail": "ml.09_checks",
+        "documentation": {}
+    },
+    {
+        "label": "ga",
+        "kind": 5,
+        "importPath": "ml.09_checks",
+        "description": "ml.09_checks",
+        "peekOfCode": "ga = C.DATA_RAW / \"hydro\" / \"glofas_annual.csv\"\nif ga.exists():\n    with open(ga) as f:\n        ga_rows = list(_csv.DictReader(f))\n    incomplete = [r for r in ga_rows\n                  if r.get(\"complete\", \"True\").lower() != \"true\"]\n    for r in incomplete:\n        ok(f\"year {r['year']} flagged incomplete ({r.get('days')} days) \"\n           f\"- summaries blanked so it cannot read as a dry year\")\n    ok(f\"{len(ga_rows)} GloFAS years, {len(ga_rows) - len(incomplete)} complete\")",
+        "detail": "ml.09_checks",
+        "documentation": {}
+    },
+    {
+        "label": "rgb_profile",
+        "kind": 2,
+        "importPath": "ml.10_verify_geometry",
+        "description": "ml.10_verify_geometry",
+        "peekOfCode": "def rgb_profile(ts, t, year=2023, sensor=\"s2\"):\n    \"\"\"Sample green-excess along a transect, from the true-colour image.\n    NOT brightness. The Jamuna is extremely turbid: silt-laden water is pale\n    tan and can be BRIGHTER than the dark vegetation on the floodplain, so a\n    \"water is darker\" test fails here for the right reason and the wrong\n    reason. Green excess (green minus the mean of red and blue) separates them\n    properly: vegetation is strongly green, silt-laden water is not.\n    \"\"\"\n    # the PROCESSED rgb, which is already in the analysis CRS (metres)\n    path = C.proc_rgb_path(year)",
+        "detail": "ml.10_verify_geometry",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "ml.10_verify_geometry",
+        "description": "ml.10_verify_geometry",
+        "peekOfCode": "def main():\n    OUT.mkdir(parents=True, exist_ok=True)\n    ts = T.build_transects()\n    # --- measure edges on the reference year so the report has real numbers ---\n    dropped = T.measure_edges(ts, ts.ref_year, ts.sensor_geom, quiet=True)\n    ok = [t for t in ts.transects if t.ok]\n    print(f\"\\nreference year {ts.ref_year}: {len(ok)}/{len(ts.transects)} usable\\n\")\n    # --- geojson for the map ---\n    feats = []\n    for t in ok:",
+        "detail": "ml.10_verify_geometry",
+        "documentation": {}
+    },
+    {
+        "label": "OUT",
+        "kind": 5,
+        "importPath": "ml.10_verify_geometry",
+        "description": "ml.10_verify_geometry",
+        "peekOfCode": "OUT = C.ROOT / \"reports\"\ndef rgb_profile(ts, t, year=2023, sensor=\"s2\"):\n    \"\"\"Sample green-excess along a transect, from the true-colour image.\n    NOT brightness. The Jamuna is extremely turbid: silt-laden water is pale\n    tan and can be BRIGHTER than the dark vegetation on the floodplain, so a\n    \"water is darker\" test fails here for the right reason and the wrong\n    reason. Green excess (green minus the mean of red and blue) separates them\n    properly: vegetation is strongly green, silt-laden water is not.\n    \"\"\"\n    # the PROCESSED rgb, which is already in the analysis CRS (metres)",
+        "detail": "ml.10_verify_geometry",
+        "documentation": {}
+    },
+    {
+        "label": "globlas_annual",
+        "kind": 2,
+        "importPath": "ml.11_hydro_features",
+        "description": "ml.11_hydro_features",
+        "peekOfCode": "def globlas_annual():\n    \"\"\"Real GloFAS discharge, if 12_glofas_discharge.py has been run.\n    Returns None when it is not available, so this script still works with the\n    ERA5-Land runoff proxy on its own.\n    \"\"\"\n    p = HYDRO_RAW / \"glofas_annual.csv\"\n    if not p.exists():\n        return None\n    df = pd.read_csv(p)\n    df = df.rename(columns={df.columns[0]: \"year\"})",
+        "detail": "ml.11_hydro_features",
+        "documentation": {}
+    },
+    {
+        "label": "available_hydro_years",
+        "kind": 2,
+        "importPath": "ml.11_hydro_features",
+        "description": "ml.11_hydro_features",
+        "peekOfCode": "def available_hydro_years():\n    if not HYDRO_RAW.exists():\n        return []\n    ys = []\n    for p in HYDRO_RAW.glob(\"Hydro_*.tif\"):\n        try:\n            ys.append(int(p.stem.split(\"_\")[-1]))\n        except ValueError:\n            continue\n    return sorted(ys)",
+        "detail": "ml.11_hydro_features",
+        "documentation": {}
+    },
+    {
+        "label": "catchment_means",
+        "kind": 2,
+        "importPath": "ml.11_hydro_features",
+        "description": "ml.11_hydro_features",
+        "peekOfCode": "def catchment_means(year):\n    \"\"\"Mean of each hydrology band over the study area, for one year.\"\"\"\n    p = HYDRO_RAW / f\"Hydro_{year}.tif\"\n    if not p.exists():\n        return None\n    with rasterio.open(p) as s:\n        a = s.read().astype(\"float32\")\n        names = list(s.descriptions) if s.descriptions else \\\n            [f\"band{i+1}\" for i in range(a.shape[0])]\n        # keep only pixels inside the study box, so the catchment box does not",
+        "detail": "ml.11_hydro_features",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "ml.11_hydro_features",
+        "description": "ml.11_hydro_features",
+        "peekOfCode": "def main(sensor=\"landsat\"):\n    years = available_hydro_years()\n    gl = globlas_annual()\n    if not years and gl is None:\n        print(f\"No hydrology data in {HYDRO_RAW}\")\n        print(\"Either run gee/hydro_export.js in Google Earth Engine, or run \"\n              \"12_glofas_discharge.py for real GloFAS discharge.\")\n        return\n    fcsv = C.DATA_PROC / \"features\" / sensor / \"features.csv\"\n    if not fcsv.exists():",
+        "detail": "ml.11_hydro_features",
+        "documentation": {}
+    },
+    {
+        "label": "HYDRO_RAW",
+        "kind": 5,
+        "importPath": "ml.11_hydro_features",
+        "description": "ml.11_hydro_features",
+        "peekOfCode": "HYDRO_RAW = C.DATA_RAW / \"hydro\"\nHYDRO_PROC = C.DATA_PROC / \"hydro\"\ndef globlas_annual():\n    \"\"\"Real GloFAS discharge, if 12_glofas_discharge.py has been run.\n    Returns None when it is not available, so this script still works with the\n    ERA5-Land runoff proxy on its own.\n    \"\"\"\n    p = HYDRO_RAW / \"glofas_annual.csv\"\n    if not p.exists():\n        return None",
+        "detail": "ml.11_hydro_features",
+        "documentation": {}
+    },
+    {
+        "label": "HYDRO_PROC",
+        "kind": 5,
+        "importPath": "ml.11_hydro_features",
+        "description": "ml.11_hydro_features",
+        "peekOfCode": "HYDRO_PROC = C.DATA_PROC / \"hydro\"\ndef globlas_annual():\n    \"\"\"Real GloFAS discharge, if 12_glofas_discharge.py has been run.\n    Returns None when it is not available, so this script still works with the\n    ERA5-Land runoff proxy on its own.\n    \"\"\"\n    p = HYDRO_RAW / \"glofas_annual.csv\"\n    if not p.exists():\n        return None\n    df = pd.read_csv(p)",
+        "detail": "ml.11_hydro_features",
+        "documentation": {}
+    },
+    {
+        "label": "fail",
+        "kind": 2,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "def fail(msg, extra=\"\"):\n    print(f\"\\n{msg}\\n\")\n    if extra:\n        print(extra)\n    sys.exit(1)\ndef check_setup():\n    try:\n        import cdsapi\n        import xarray as xr\n    except ImportError as exc:",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "check_setup",
+        "kind": 2,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "def check_setup():\n    try:\n        import cdsapi\n        import xarray as xr\n    except ImportError as exc:\n        fail(f\"Missing package: {exc}\",\n             \"Install with:\\n\"\n             '   ../.venv/bin/pip install \"cdsapi>=0.7.7\" xarray')\n    rc = Path.home() / \".cdsapirc\"\n    if not rc.exists():",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "make_client",
+        "kind": 2,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "def make_client(cdsapi):\n    \"\"\"Build the client with short, frequent retries.\n    The default backoff is 500 attempts with 120-second sleeps. On this machine\n    DNS comes and goes, and the connection had already recovered while the client\n    was still asleep, so it kept reporting the original failure. Short retries\n    let it notice that the network is back within a few seconds.\n    \"\"\"\n    for kwargs in ({\"url\": API_URL, \"retry_max\": 30, \"sleep_max\": 20},\n                   {\"url\": API_URL},\n                   {}):",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "build_request",
+        "kind": 2,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "def build_request(years):\n    \"\"\"Build the request exactly as the API's process description specifies.\"\"\"\n    return {\n        \"variable\": [VARIABLE],\n        \"product_type\": [PRODUCT_TYPE],\n        \"system_version\": [SYSTEM_VERSION],\n        \"timespan\": [TIMESPAN],\n        \"hydrological_model\": [MODEL],\n        \"year\": [str(y) for y in years],\n        \"month\": [f\"{m:02d}\" for m in range(1, 13)],",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "request_chunk",
+        "kind": 2,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "def request_chunk(client, years, dest):\n    client.retrieve(DATASET, build_request(years), str(dest))\ndef fetch_year(client, xr, year, tmp_dir):\n    \"\"\"One NetCDF for one year. Returns the path, or None to skip.\"\"\"\n    dest = tmp_dir / f\"glofas_{year}.nc\"\n    if dest.exists() and dest.stat().st_size > 1000:\n        return dest\n    before = {p.name for p in tmp_dir.glob(\"*.nc\")}\n    try:\n        request_chunk(client, [year], dest)",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "fetch_year",
+        "kind": 2,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "def fetch_year(client, xr, year, tmp_dir):\n    \"\"\"One NetCDF for one year. Returns the path, or None to skip.\"\"\"\n    dest = tmp_dir / f\"glofas_{year}.nc\"\n    if dest.exists() and dest.stat().st_size > 1000:\n        return dest\n    before = {p.name for p in tmp_dir.glob(\"*.nc\")}\n    try:\n        request_chunk(client, [year], dest)\n    except Exception as exc:\n        print(f\"    {year}: FAILED - {type(exc).__name__}: {str(exc)[:200]}\")",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "fetch_chunk",
+        "kind": 2,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "def fetch_chunk(client, years, tmp_dir):\n    \"\"\"Several years in one request. Falls back to single years on failure.\"\"\"\n    dest = tmp_dir / (\"glofas_%d_%d.nc\" % (years[0], years[-1]))\n    if all((tmp_dir / f\"glofas_{y}.nc\").exists() for y in years):\n        return True, [y for y in years if (tmp_dir / f\"glofas_{y}.nc\").exists()]\n    label = f\"{years[0]}-{years[-1]}\"\n    try:\n        request_chunk(client, years, dest)\n        print(f\"    {label}: ok (one request for {len(years)} years)\")\n        return True, list(years)",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "find_discharge_var",
+        "kind": 2,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "def find_discharge_var(ds):\n    \"\"\"Locate the river-discharge variable inside a GloFAS NetCDF.\n    The Copernicus form writes the GRIB short name 'avg_dis' (\"Time-mean\n    discharge from rivers or streams\"), not the long catalogue label. Matching on\n    the variable NAME alone therefore misses every real file, so also match on\n    the long_name attribute.\n    \"\"\"\n    for v in ds.data_vars:\n        if \"discharge\" in v.lower():\n            return v",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "fix_year_edges",
+        "kind": 2,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "def fix_year_edges(tidy, path):\n    \"\"\"GloFAS time-mean stamps run 2 Jan -> 1 Jan next year.\n    The trailing 1 January would be counted as the FIRST day of the following\n    year, leaking a day into the wrong annual average for every single file. Each\n    file is supposed to describe one year, so if one date sits alone on the far\n    side of the boundary, drop it and note it.\n    \"\"\"\n    import pandas as pd\n    years = tidy[\"date\"].dt.year\n    days = tidy.assign(_y=years).groupby(\"_y\")[\"date\"].nunique()",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "normalise",
+        "kind": 2,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "def normalise(frame):\n    \"\"\"Turn one CDS NetCDF into a tidy daily table.\n    The Copernicus service changes the exact coordinate names between dataset\n    versions ('lat' vs 'latitude', 'time' vs 'valid_time'), and files downloaded\n    by hand from the website form have yet another naming convention. Rather than\n    hard-code one layout, find the columns by meaning. This is what lets Saad drop\n    in files named anything at all.\n    \"\"\"\n    import pandas as pd\n    cols = {c.lower(): c for c in frame.columns}",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "read_local_nc",
+        "kind": 2,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "def read_local_nc():\n    import xarray as xr\n    \"\"\"Read every NetCDF already sitting in the hydro folder.\n    Used with --from-files, for NetCDFs downloaded by hand from the CDS website\n    form rather than through the API. Filenames are ignored on purpose.\n    \"\"\"\n    import pandas as pd\n    found = sorted(p for p in OUT.glob(\"*.nc\") if not p.name.startswith(\"glofas_\"))\n    # the API route caches downloads in _nc/, so look there too - missing this\n    # once silently reduced a 38-year record to a single year",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "pick_cell",
+        "kind": 2,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "def pick_cell(series):\n    \"\"\"Choose the GloFAS grid cell that represents the Jamuna at the study reach.\n    Ranking the whole request box by discharge is wrong here: the box also\n    contains the Ganges and the Padma, and those are bigger, so \"biggest river\"\n    returns a different river entirely. Instead restrict to a window around the\n    study reach and take the cell nearest its centre that carries real flow.\n    \"\"\"\n    stats = series.groupby([\"lat\", \"lon\"])[\"discharge_m3s\"].agg([\"median\", \"mean\"])\n    stats = stats.reset_index()\n    dist = np.hypot(stats[\"lat\"] - REACH_LAT, stats[\"lon\"] - REACH_LON)",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "def main():\n    ap = argparse.ArgumentParser()\n    ap.add_argument(\"--from-files\", action=\"store_true\",\n                    help=\"skip the download and read NetCDFs already in \"\n                         \"data/raw/hydro/\")\n    args = ap.parse_args()\n    print(\"RiverGuard - GloFAS real river discharge\")\n    print(f\"dataset : {DATASET}  ({PRODUCT_TYPE}, {SYSTEM_VERSION}, \"\n          f\"{TIMESPAN}, {MODEL})\")\n    print(f\"output  : {OUT}\")",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "OUT",
+        "kind": 5,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "OUT = Path(__file__).resolve().parents[1] / \"data\" / \"raw\" / \"hydro\"\nOUT.mkdir(parents=True, exist_ok=True)\nDATASET = \"cems-glofas-historical\"\nAPI_URL = \"https://ewds.climate.copernicus.eu/api\"\nDATA_TYPE = \"consolidated\"\nVERSION = \"4.0\"           # v5.0 also exists (2026-07); 4.0 is the well-tested one\n# Every name and type below was read from the API's own process description at\n#   GET /api/retrieve/v1/processes/cems-glofas-historical\n# rather than guessed. Guessing is what produced four wrong names the first time\n# (the variable is 'average_river_discharge_in_the_last_24_hours' as an ARRAY;",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "DATASET",
+        "kind": 5,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "DATASET = \"cems-glofas-historical\"\nAPI_URL = \"https://ewds.climate.copernicus.eu/api\"\nDATA_TYPE = \"consolidated\"\nVERSION = \"4.0\"           # v5.0 also exists (2026-07); 4.0 is the well-tested one\n# Every name and type below was read from the API's own process description at\n#   GET /api/retrieve/v1/processes/cems-glofas-historical\n# rather than guessed. Guessing is what produced four wrong names the first time\n# (the variable is 'average_river_discharge_in_the_last_24_hours' as an ARRAY;\n# the product flag is 'product_type' not 'data_type'; the version is\n# 'system_version' with value 'version_4_0'; and 'timespan' and",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "API_URL",
+        "kind": 5,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "API_URL = \"https://ewds.climate.copernicus.eu/api\"\nDATA_TYPE = \"consolidated\"\nVERSION = \"4.0\"           # v5.0 also exists (2026-07); 4.0 is the well-tested one\n# Every name and type below was read from the API's own process description at\n#   GET /api/retrieve/v1/processes/cems-glofas-historical\n# rather than guessed. Guessing is what produced four wrong names the first time\n# (the variable is 'average_river_discharge_in_the_last_24_hours' as an ARRAY;\n# the product flag is 'product_type' not 'data_type'; the version is\n# 'system_version' with value 'version_4_0'; and 'timespan' and\n# 'hydrological_model' are both mandatory).",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "DATA_TYPE",
+        "kind": 5,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "DATA_TYPE = \"consolidated\"\nVERSION = \"4.0\"           # v5.0 also exists (2026-07); 4.0 is the well-tested one\n# Every name and type below was read from the API's own process description at\n#   GET /api/retrieve/v1/processes/cems-glofas-historical\n# rather than guessed. Guessing is what produced four wrong names the first time\n# (the variable is 'average_river_discharge_in_the_last_24_hours' as an ARRAY;\n# the product flag is 'product_type' not 'data_type'; the version is\n# 'system_version' with value 'version_4_0'; and 'timespan' and\n# 'hydrological_model' are both mandatory).\n#",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "VERSION",
+        "kind": 5,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "VERSION = \"4.0\"           # v5.0 also exists (2026-07); 4.0 is the well-tested one\n# Every name and type below was read from the API's own process description at\n#   GET /api/retrieve/v1/processes/cems-glofas-historical\n# rather than guessed. Guessing is what produced four wrong names the first time\n# (the variable is 'average_river_discharge_in_the_last_24_hours' as an ARRAY;\n# the product flag is 'product_type' not 'data_type'; the version is\n# 'system_version' with value 'version_4_0'; and 'timespan' and\n# 'hydrological_model' are both mandatory).\n#\n# The file the service writes contains a variable called 'avg_dis' - that is the",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "VARIABLE",
+        "kind": 5,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "VARIABLE = \"average_river_discharge_in_the_last_24_hours\"\nPRODUCT_TYPE = \"consolidated\"      # not \"intermediate\": that is preliminary\nSYSTEM_VERSION = \"version_4_0\"\nTIMESPAN = \"time_mean\"\nMODEL = \"lisflood\"\nDATA_FORMAT = \"netcdf\"             # a plain string, not a list\nDOWNLOAD_FORMAT = \"unarchived\"\n# Box around the reach. N, W, S, E as the CDS API wants them.\nAREA = [25.5, 88.5, 23.5, 91.0]\nYEARS = list(range(1989, 2027))     # matches the Landsat record",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "PRODUCT_TYPE",
+        "kind": 5,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "PRODUCT_TYPE = \"consolidated\"      # not \"intermediate\": that is preliminary\nSYSTEM_VERSION = \"version_4_0\"\nTIMESPAN = \"time_mean\"\nMODEL = \"lisflood\"\nDATA_FORMAT = \"netcdf\"             # a plain string, not a list\nDOWNLOAD_FORMAT = \"unarchived\"\n# Box around the reach. N, W, S, E as the CDS API wants them.\nAREA = [25.5, 88.5, 23.5, 91.0]\nYEARS = list(range(1989, 2027))     # matches the Landsat record\n# How many years to ask for in ONE request.",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "SYSTEM_VERSION",
+        "kind": 5,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "SYSTEM_VERSION = \"version_4_0\"\nTIMESPAN = \"time_mean\"\nMODEL = \"lisflood\"\nDATA_FORMAT = \"netcdf\"             # a plain string, not a list\nDOWNLOAD_FORMAT = \"unarchived\"\n# Box around the reach. N, W, S, E as the CDS API wants them.\nAREA = [25.5, 88.5, 23.5, 91.0]\nYEARS = list(range(1989, 2027))     # matches the Landsat record\n# How many years to ask for in ONE request.\n#",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "TIMESPAN",
+        "kind": 5,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "TIMESPAN = \"time_mean\"\nMODEL = \"lisflood\"\nDATA_FORMAT = \"netcdf\"             # a plain string, not a list\nDOWNLOAD_FORMAT = \"unarchived\"\n# Box around the reach. N, W, S, E as the CDS API wants them.\nAREA = [25.5, 88.5, 23.5, 91.0]\nYEARS = list(range(1989, 2027))     # matches the Landsat record\n# How many years to ask for in ONE request.\n#\n# The API refuses a multi-year request with HTTP 403 - verified 2026-10-17, the",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "MODEL",
+        "kind": 5,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "MODEL = \"lisflood\"\nDATA_FORMAT = \"netcdf\"             # a plain string, not a list\nDOWNLOAD_FORMAT = \"unarchived\"\n# Box around the reach. N, W, S, E as the CDS API wants them.\nAREA = [25.5, 88.5, 23.5, 91.0]\nYEARS = list(range(1989, 2027))     # matches the Landsat record\n# How many years to ask for in ONE request.\n#\n# The API refuses a multi-year request with HTTP 403 - verified 2026-10-17, the\n# same limit the website form enforces by turning red. So one year per request.",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "DATA_FORMAT",
+        "kind": 5,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "DATA_FORMAT = \"netcdf\"             # a plain string, not a list\nDOWNLOAD_FORMAT = \"unarchived\"\n# Box around the reach. N, W, S, E as the CDS API wants them.\nAREA = [25.5, 88.5, 23.5, 91.0]\nYEARS = list(range(1989, 2027))     # matches the Landsat record\n# How many years to ask for in ONE request.\n#\n# The API refuses a multi-year request with HTTP 403 - verified 2026-10-17, the\n# same limit the website form enforces by turning red. So one year per request.\n# The chunking code is kept only as a fallback path.",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "DOWNLOAD_FORMAT",
+        "kind": 5,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "DOWNLOAD_FORMAT = \"unarchived\"\n# Box around the reach. N, W, S, E as the CDS API wants them.\nAREA = [25.5, 88.5, 23.5, 91.0]\nYEARS = list(range(1989, 2027))     # matches the Landsat record\n# How many years to ask for in ONE request.\n#\n# The API refuses a multi-year request with HTTP 403 - verified 2026-10-17, the\n# same limit the website form enforces by turning red. So one year per request.\n# The chunking code is kept only as a fallback path.\nYEARS_PER_REQUEST = 1",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "AREA",
+        "kind": 5,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "AREA = [25.5, 88.5, 23.5, 91.0]\nYEARS = list(range(1989, 2027))     # matches the Landsat record\n# How many years to ask for in ONE request.\n#\n# The API refuses a multi-year request with HTTP 403 - verified 2026-10-17, the\n# same limit the website form enforces by turning red. So one year per request.\n# The chunking code is kept only as a fallback path.\nYEARS_PER_REQUEST = 1\n# A Jamuna cell should look like this; used only to sanity check.\nPLAUSIBLE = (200, 60000)",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "YEARS",
+        "kind": 5,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "YEARS = list(range(1989, 2027))     # matches the Landsat record\n# How many years to ask for in ONE request.\n#\n# The API refuses a multi-year request with HTTP 403 - verified 2026-10-17, the\n# same limit the website form enforces by turning red. So one year per request.\n# The chunking code is kept only as a fallback path.\nYEARS_PER_REQUEST = 1\n# A Jamuna cell should look like this; used only to sanity check.\nPLAUSIBLE = (200, 60000)\n# The box above is deliberately generous because the CDS service needs a clean",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "YEARS_PER_REQUEST",
+        "kind": 5,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "YEARS_PER_REQUEST = 1\n# A Jamuna cell should look like this; used only to sanity check.\nPLAUSIBLE = (200, 60000)\n# The box above is deliberately generous because the CDS service needs a clean\n# rectangular request. It unavoidably contains the Ganges and the Padma below the\n# confluence as well as the Jamuna, and the Jamuna is NOT the biggest river in\n# it. So the cell is chosen inside this tighter window around the actual study\n# reach (the AOI used for the Landsat export) rather than by \"biggest river in\n# the box\", which would silently return the Ganges.\nREACH_LAT = 24.50",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "PLAUSIBLE",
+        "kind": 5,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "PLAUSIBLE = (200, 60000)\n# The box above is deliberately generous because the CDS service needs a clean\n# rectangular request. It unavoidably contains the Ganges and the Padma below the\n# confluence as well as the Jamuna, and the Jamuna is NOT the biggest river in\n# it. So the cell is chosen inside this tighter window around the actual study\n# reach (the AOI used for the Landsat export) rather than by \"biggest river in\n# the box\", which would silently return the Ganges.\nREACH_LAT = 24.50\nREACH_LON = 89.74\nREACH_WINDOW = 0.45          # degrees; keep cells within ~50 km of the reach",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "REACH_LAT",
+        "kind": 5,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "REACH_LAT = 24.50\nREACH_LON = 89.74\nREACH_WINDOW = 0.45          # degrees; keep cells within ~50 km of the reach\ndef fail(msg, extra=\"\"):\n    print(f\"\\n{msg}\\n\")\n    if extra:\n        print(extra)\n    sys.exit(1)\ndef check_setup():\n    try:",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "REACH_LON",
+        "kind": 5,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "REACH_LON = 89.74\nREACH_WINDOW = 0.45          # degrees; keep cells within ~50 km of the reach\ndef fail(msg, extra=\"\"):\n    print(f\"\\n{msg}\\n\")\n    if extra:\n        print(extra)\n    sys.exit(1)\ndef check_setup():\n    try:\n        import cdsapi",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "REACH_WINDOW",
+        "kind": 5,
+        "importPath": "ml.12_glofas_discharge",
+        "description": "ml.12_glofas_discharge",
+        "peekOfCode": "REACH_WINDOW = 0.45          # degrees; keep cells within ~50 km of the reach\ndef fail(msg, extra=\"\"):\n    print(f\"\\n{msg}\\n\")\n    if extra:\n        print(extra)\n    sys.exit(1)\ndef check_setup():\n    try:\n        import cdsapi\n        import xarray as xr",
+        "detail": "ml.12_glofas_discharge",
+        "documentation": {}
+    },
+    {
+        "label": "eff_n",
+        "kind": 2,
+        "importPath": "ml.13_risk_and_forecast",
+        "description": "ml.13_risk_and_forecast",
+        "peekOfCode": "def eff_n(x):\n    \"\"\"Effective sample size after removing lag-1 autocorrelation.\n    Returns the plain n when the series is too short or has no usable\n    autocorrelation, which is the conservative direction in the sense that it\n    never pretends to more information than there is.\n    \"\"\"\n    n = len(x)\n    if n < 6:\n        return float(n)\n    a = x - x.mean()",
+        "detail": "ml.13_risk_and_forecast",
+        "documentation": {}
+    },
+    {
+        "label": "boot_median_ci",
+        "kind": 2,
+        "importPath": "ml.13_risk_and_forecast",
+        "description": "ml.13_risk_and_forecast",
+        "peekOfCode": "def boot_median_ci(x, n_boot=2000, block=3, seed=0):\n    \"\"\"Percentile confidence interval for the MEDIAN, by block bootstrap.\n    Two reasons this is not just a textbook bootstrap on the median:\n    1. The ranking is done on the median because a single extreme transect-year\n       should not be able to reorder the river. The interval therefore has to\n       describe the median too, otherwise the map shows a median with a\n       confidence band that belongs to a different statistic.\n    2. A plain bootstrap resamples single years, which destroys the\n       autocorrelation and pretends the record is 35 independent observations.\n       Resampling in BLOCKS of consecutive years keeps the serial dependence,",
+        "detail": "ml.13_risk_and_forecast",
+        "documentation": {}
+    },
+    {
+        "label": "describe",
+        "kind": 2,
+        "importPath": "ml.13_risk_and_forecast",
+        "description": "ml.13_risk_and_forecast",
+        "peekOfCode": "def describe(group_rate):\n    \"\"\"Long-run statistics for one transect-side series.\"\"\"\n    x = group_rate.dropna().to_numpy(dtype=float)\n    n = len(x)\n    if n == 0:\n        return None\n    mean = float(x.mean())\n    med = float(np.median(x))\n    sd = float(x.std(ddof=1)) if n > 1 else float(\"nan\")\n    ne = eff_n(x)",
+        "detail": "ml.13_risk_and_forecast",
+        "documentation": {}
+    },
+    {
+        "label": "tier_of",
+        "kind": 2,
+        "importPath": "ml.13_risk_and_forecast",
+        "description": "ml.13_risk_and_forecast",
+        "peekOfCode": "def tier_of(med):\n    for cut, name in TIERS:\n        if med >= cut:\n            return name\n    return \"accreting\"\ndef main():\n    OUT_DIR.mkdir(parents=True, exist_ok=True)\n    REPORTS.mkdir(parents=True, exist_ok=True)\n    if not FEATURES.exists():\n        print(f\"Missing {FEATURES}\")",
+        "detail": "ml.13_risk_and_forecast",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "ml.13_risk_and_forecast",
+        "description": "ml.13_risk_and_forecast",
+        "peekOfCode": "def main():\n    OUT_DIR.mkdir(parents=True, exist_ok=True)\n    REPORTS.mkdir(parents=True, exist_ok=True)\n    if not FEATURES.exists():\n        print(f\"Missing {FEATURES}\")\n        print(\"Run 05_features.py landsat first.\")\n        return\n    if not LINES.exists():\n        print(f\"Missing {LINES}\")\n        return",
+        "detail": "ml.13_risk_and_forecast",
+        "documentation": {}
+    },
+    {
+        "label": "FEATURES",
+        "kind": 5,
+        "importPath": "ml.13_risk_and_forecast",
+        "description": "ml.13_risk_and_forecast",
+        "peekOfCode": "FEATURES = C.DATA_PROC / \"features\" / \"landsat\" / \"features.csv\"\nLINES = C.DATA_PROC / \"features\" / \"landsat\" / \"transect_lines.geojson\"\nOUT_DIR = C.DATA_PROC / \"risk\"\nREPORTS = C.ROOT / \"reports\"\n# Rate at which a long-run mean stops being distinguishable from no change.\nCI_LEVEL = 0.95\n# A record needs this many usable year-pairs before it can be called a CHRONIC\n# hotspot. Not a cosmetic threshold. Many transects are measurable only in some\n# years, so without this rule a single lucky year of +165 m/yr outranked\n# 30-year averages - ranking noise as if it were long-term exposure.",
+        "detail": "ml.13_risk_and_forecast",
+        "documentation": {}
+    },
+    {
+        "label": "LINES",
+        "kind": 5,
+        "importPath": "ml.13_risk_and_forecast",
+        "description": "ml.13_risk_and_forecast",
+        "peekOfCode": "LINES = C.DATA_PROC / \"features\" / \"landsat\" / \"transect_lines.geojson\"\nOUT_DIR = C.DATA_PROC / \"risk\"\nREPORTS = C.ROOT / \"reports\"\n# Rate at which a long-run mean stops being distinguishable from no change.\nCI_LEVEL = 0.95\n# A record needs this many usable year-pairs before it can be called a CHRONIC\n# hotspot. Not a cosmetic threshold. Many transects are measurable only in some\n# years, so without this rule a single lucky year of +165 m/yr outranked\n# 30-year averages - ranking noise as if it were long-term exposure.\nMIN_YEARS = 10",
+        "detail": "ml.13_risk_and_forecast",
+        "documentation": {}
+    },
+    {
+        "label": "OUT_DIR",
+        "kind": 5,
+        "importPath": "ml.13_risk_and_forecast",
+        "description": "ml.13_risk_and_forecast",
+        "peekOfCode": "OUT_DIR = C.DATA_PROC / \"risk\"\nREPORTS = C.ROOT / \"reports\"\n# Rate at which a long-run mean stops being distinguishable from no change.\nCI_LEVEL = 0.95\n# A record needs this many usable year-pairs before it can be called a CHRONIC\n# hotspot. Not a cosmetic threshold. Many transects are measurable only in some\n# years, so without this rule a single lucky year of +165 m/yr outranked\n# 30-year averages - ranking noise as if it were long-term exposure.\nMIN_YEARS = 10\n# Tiers are cut on the long-run median rate, in m/yr. These are descriptive",
+        "detail": "ml.13_risk_and_forecast",
+        "documentation": {}
+    },
+    {
+        "label": "REPORTS",
+        "kind": 5,
+        "importPath": "ml.13_risk_and_forecast",
+        "description": "ml.13_risk_and_forecast",
+        "peekOfCode": "REPORTS = C.ROOT / \"reports\"\n# Rate at which a long-run mean stops being distinguishable from no change.\nCI_LEVEL = 0.95\n# A record needs this many usable year-pairs before it can be called a CHRONIC\n# hotspot. Not a cosmetic threshold. Many transects are measurable only in some\n# years, so without this rule a single lucky year of +165 m/yr outranked\n# 30-year averages - ranking noise as if it were long-term exposure.\nMIN_YEARS = 10\n# Tiers are cut on the long-run median rate, in m/yr. These are descriptive\n# bands for ranking chronic exposure, not official hazard classes.",
+        "detail": "ml.13_risk_and_forecast",
+        "documentation": {}
+    },
+    {
+        "label": "CI_LEVEL",
+        "kind": 5,
+        "importPath": "ml.13_risk_and_forecast",
+        "description": "ml.13_risk_and_forecast",
+        "peekOfCode": "CI_LEVEL = 0.95\n# A record needs this many usable year-pairs before it can be called a CHRONIC\n# hotspot. Not a cosmetic threshold. Many transects are measurable only in some\n# years, so without this rule a single lucky year of +165 m/yr outranked\n# 30-year averages - ranking noise as if it were long-term exposure.\nMIN_YEARS = 10\n# Tiers are cut on the long-run median rate, in m/yr. These are descriptive\n# bands for ranking chronic exposure, not official hazard classes.\nTIERS = [\n    (80.0, \"very high\"),",
+        "detail": "ml.13_risk_and_forecast",
+        "documentation": {}
+    },
+    {
+        "label": "MIN_YEARS",
+        "kind": 5,
+        "importPath": "ml.13_risk_and_forecast",
+        "description": "ml.13_risk_and_forecast",
+        "peekOfCode": "MIN_YEARS = 10\n# Tiers are cut on the long-run median rate, in m/yr. These are descriptive\n# bands for ranking chronic exposure, not official hazard classes.\nTIERS = [\n    (80.0, \"very high\"),\n    (40.0, \"high\"),\n    (15.0, \"moderate\"),\n    (0.0, \"low\"),\n    (-1e9, \"accreting\"),\n]",
+        "detail": "ml.13_risk_and_forecast",
+        "documentation": {}
+    },
+    {
+        "label": "TIERS",
+        "kind": 5,
+        "importPath": "ml.13_risk_and_forecast",
+        "description": "ml.13_risk_and_forecast",
+        "peekOfCode": "TIERS = [\n    (80.0, \"very high\"),\n    (40.0, \"high\"),\n    (15.0, \"moderate\"),\n    (0.0, \"low\"),\n    (-1e9, \"accreting\"),\n]\ndef eff_n(x):\n    \"\"\"Effective sample size after removing lag-1 autocorrelation.\n    Returns the plain n when the series is too short or has no usable",
+        "detail": "ml.13_risk_and_forecast",
+        "documentation": {}
+    },
+    {
+        "label": "load",
+        "kind": 2,
+        "importPath": "ml.14_model_test",
+        "description": "ml.14_model_test",
+        "peekOfCode": "def load():\n    d = C.DATA_PROC / \"features\" / \"landsat\"\n    p = d / \"features_hydro.csv\"\n    if not p.exists():\n        p = d / \"features.csv\"  # second-reach trial: no hydro features yet\n    print(f\"table: {p.relative_to(C.ROOT)}\")\n    df = pd.read_csv(p)\n    df = df.dropna(subset=[\"target_rate\"]).copy()\n    # previous-year values derived from the (year1 value, year1-year0 change) pairs\n    for base in [\"q_mean\", \"q_min\", \"q_max\", \"q_std\", \"q_cv\",",
+        "detail": "ml.14_model_test",
+        "documentation": {}
+    },
+    {
+        "label": "evaluate",
+        "kind": 2,
+        "importPath": "ml.14_model_test",
+        "description": "ml.14_model_test",
+        "peekOfCode": "def evaluate(df, features, gkf, models):\n    X = df[features]\n    Xc = X.fillna(X.median(numeric_only=True))\n    y = df[\"target_rate\"]\n    groups = df[\"transect_id\"]\n    dummy = cross_val_predict(DummyRegressor(strategy=\"mean\"),\n                              Xc, y, cv=gkf, groups=groups)\n    fold_mean_mae = mean_absolute_error(y, dummy)\n    print(f\"    honest baseline (per-fold train mean): MAE {fold_mean_mae:7.2f}\")\n    for name, model in models:",
+        "detail": "ml.14_model_test",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "ml.14_model_test",
+        "description": "ml.14_model_test",
+        "peekOfCode": "def main():\n    df = load()\n    y = df[\"target_rate\"]\n    print(f\"rows {len(df)}  transects {df.transect_id.nunique()}  \"\n          f\"years {int(df.year0.min())}-{int(df.year1.max())}\")\n    global_mae = float(np.abs(y - y.mean()).mean())\n    print(f\"global-mean baseline (the 83.9 number): MAE {global_mae:.2f} m/yr\")\n    print(\"\\ncorrelation of same-interval columns with the label \"\n          \"(why they must be excluded):\")\n    for c in [\"other_side_rate\", \"width_m\", \"width_change_pct\", \"width_ratio\"]:",
+        "detail": "ml.14_model_test",
+        "documentation": {}
+    },
+    {
+        "label": "load",
+        "kind": 2,
+        "importPath": "ml.14_model_train",
+        "description": "ml.14_model_train",
+        "peekOfCode": "def load(reach, sensor):\n    p = C.DATA_PROC / \"features\" / sensor / \"features.csv\"\n    if not p.exists():\n        raise SystemExit(f\"no features at {p}\\n\"\n                         f\"run: RIVERGUARD_REACH={reach} ../.venv/bin/python \"\n                         f\"05_features.py {sensor}\")\n    df = pd.read_csv(p).dropna(subset=[\"target_rate\"])\n    return df\ndef features(df):\n    if \"stage_km2\" in df and \"stage_change_km2\" in df:",
+        "detail": "ml.14_model_train",
+        "documentation": {}
+    },
+    {
+        "label": "features",
+        "kind": 2,
+        "importPath": "ml.14_model_train",
+        "description": "ml.14_model_train",
+        "peekOfCode": "def features(df):\n    if \"stage_km2\" in df and \"stage_change_km2\" in df:\n        df[\"stage_km2_prev\"] = df[\"stage_km2\"] - df[\"stage_change_km2\"]\n    return [c for c in FORECAST_FEATURES if c in df.columns]\ndef evaluate(df, cols):\n    \"\"\"Expanding-window evaluation; never train on a year after the test year.\"\"\"\n    yearly = sorted(df[\"year1\"].unique())\n    actual, predicted = [], []\n    median_baseline, mean_baseline, lag_baseline = [], [], []\n    folds = []",
+        "detail": "ml.14_model_train",
+        "documentation": {}
+    },
+    {
+        "label": "evaluate",
+        "kind": 2,
+        "importPath": "ml.14_model_train",
+        "description": "ml.14_model_train",
+        "peekOfCode": "def evaluate(df, cols):\n    \"\"\"Expanding-window evaluation; never train on a year after the test year.\"\"\"\n    yearly = sorted(df[\"year1\"].unique())\n    actual, predicted = [], []\n    median_baseline, mean_baseline, lag_baseline = [], [], []\n    folds = []\n    for year in yearly[2:]:\n        train = df[df[\"year1\"] < year]\n        test = df[df[\"year1\"] == year]\n        if train.empty or test.empty:",
+        "detail": "ml.14_model_train",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "ml.14_model_train",
+        "description": "ml.14_model_train",
+        "peekOfCode": "def main():\n    ap = argparse.ArgumentParser()\n    ap.add_argument(\"--horizon\", type=int, default=10,\n                    help=\"years ahead to project (default 10)\")\n    args = ap.parse_args()\n    reach = C.REACH\n    print(\"=\" * 68)\n    print(f\"RiverGuard model training - {C.REACH_LABEL}\")\n    print(f\"reach {reach} | horizon {args.horizon} yr\")\n    print(\"=\" * 68 + \"\\n\")",
+        "detail": "ml.14_model_train",
+        "documentation": {}
+    },
+    {
+        "label": "ARTIFACTS",
+        "kind": 5,
+        "importPath": "ml.14_model_train",
+        "description": "ml.14_model_train",
+        "peekOfCode": "ARTIFACTS = __import__(\"pathlib\").Path(__file__).resolve().parent / \"artifacts\"\nPRED_DIR = C.DATA_PROC / \"predictions\"\nFORECAST_FEATURES = [\n    \"rate_lag1\", \"rate_lag2\", \"rate_roll3\", \"rate_std3\", \"n_prior\",\n    \"width_lag1\", \"curvature_k\", \"meander_off_m\", \"arc_norm\",\n    \"stage_km2_prev\",\n]\ndef load(reach, sensor):\n    p = C.DATA_PROC / \"features\" / sensor / \"features.csv\"\n    if not p.exists():",
+        "detail": "ml.14_model_train",
+        "documentation": {}
+    },
+    {
+        "label": "PRED_DIR",
+        "kind": 5,
+        "importPath": "ml.14_model_train",
+        "description": "ml.14_model_train",
+        "peekOfCode": "PRED_DIR = C.DATA_PROC / \"predictions\"\nFORECAST_FEATURES = [\n    \"rate_lag1\", \"rate_lag2\", \"rate_roll3\", \"rate_std3\", \"n_prior\",\n    \"width_lag1\", \"curvature_k\", \"meander_off_m\", \"arc_norm\",\n    \"stage_km2_prev\",\n]\ndef load(reach, sensor):\n    p = C.DATA_PROC / \"features\" / sensor / \"features.csv\"\n    if not p.exists():\n        raise SystemExit(f\"no features at {p}\\n\"",
+        "detail": "ml.14_model_train",
+        "documentation": {}
+    },
+    {
+        "label": "FORECAST_FEATURES",
+        "kind": 5,
+        "importPath": "ml.14_model_train",
+        "description": "ml.14_model_train",
+        "peekOfCode": "FORECAST_FEATURES = [\n    \"rate_lag1\", \"rate_lag2\", \"rate_roll3\", \"rate_std3\", \"n_prior\",\n    \"width_lag1\", \"curvature_k\", \"meander_off_m\", \"arc_norm\",\n    \"stage_km2_prev\",\n]\ndef load(reach, sensor):\n    p = C.DATA_PROC / \"features\" / sensor / \"features.csv\"\n    if not p.exists():\n        raise SystemExit(f\"no features at {p}\\n\"\n                         f\"run: RIVERGUARD_REACH={reach} ../.venv/bin/python \"",
+        "detail": "ml.14_model_train",
+        "documentation": {}
+    },
+    {
+        "label": "mask_path",
+        "kind": 2,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "def mask_path(year: int) -> Path:\n    return DATA_RAW / f\"MNDWI_Mask_{year}.tif\"\ndef rgb_path(year: int) -> Path:\n    return DATA_RAW / f\"RGB_{year}.tif\"\ndef proc_mask_path(year: int) -> Path:\n    return DATA_PROC / f\"mask_{year}.tif\"\ndef proc_rgb_path(year: int) -> Path:\n    return DATA_PROC / f\"rgb_{year}.tif\"\ndef bankline_path(year: int) -> Path:\n    return BANKLINES / f\"bankline_{year}.geojson\"",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "rgb_path",
+        "kind": 2,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "def rgb_path(year: int) -> Path:\n    return DATA_RAW / f\"RGB_{year}.tif\"\ndef proc_mask_path(year: int) -> Path:\n    return DATA_PROC / f\"mask_{year}.tif\"\ndef proc_rgb_path(year: int) -> Path:\n    return DATA_PROC / f\"rgb_{year}.tif\"\ndef bankline_path(year: int) -> Path:\n    return BANKLINES / f\"bankline_{year}.geojson\"\ndef land_raw_mask_path(year: int) -> Path:\n    return DATA_RAW_LANDSAT / f\"MNDWI_Mask_{year}.tif\"",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "proc_mask_path",
+        "kind": 2,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "def proc_mask_path(year: int) -> Path:\n    return DATA_PROC / f\"mask_{year}.tif\"\ndef proc_rgb_path(year: int) -> Path:\n    return DATA_PROC / f\"rgb_{year}.tif\"\ndef bankline_path(year: int) -> Path:\n    return BANKLINES / f\"bankline_{year}.geojson\"\ndef land_raw_mask_path(year: int) -> Path:\n    return DATA_RAW_LANDSAT / f\"MNDWI_Mask_{year}.tif\"\ndef land_proc_mask_path(year: int) -> Path:\n    return DATA_PROC_LANDSAT / f\"mask_{year}.tif\"",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "proc_rgb_path",
+        "kind": 2,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "def proc_rgb_path(year: int) -> Path:\n    return DATA_PROC / f\"rgb_{year}.tif\"\ndef bankline_path(year: int) -> Path:\n    return BANKLINES / f\"bankline_{year}.geojson\"\ndef land_raw_mask_path(year: int) -> Path:\n    return DATA_RAW_LANDSAT / f\"MNDWI_Mask_{year}.tif\"\ndef land_proc_mask_path(year: int) -> Path:\n    return DATA_PROC_LANDSAT / f\"mask_{year}.tif\"\ndef available_landsat_years() -> list[int]:\n    \"\"\"Years the owner has actually downloaded and dropped into data/raw/landsat.\"\"\"",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "bankline_path",
+        "kind": 2,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "def bankline_path(year: int) -> Path:\n    return BANKLINES / f\"bankline_{year}.geojson\"\ndef land_raw_mask_path(year: int) -> Path:\n    return DATA_RAW_LANDSAT / f\"MNDWI_Mask_{year}.tif\"\ndef land_proc_mask_path(year: int) -> Path:\n    return DATA_PROC_LANDSAT / f\"mask_{year}.tif\"\ndef available_landsat_years() -> list[int]:\n    \"\"\"Years the owner has actually downloaded and dropped into data/raw/landsat.\"\"\"\n    years = []\n    if DATA_RAW_LANDSAT.exists():",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "land_raw_mask_path",
+        "kind": 2,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "def land_raw_mask_path(year: int) -> Path:\n    return DATA_RAW_LANDSAT / f\"MNDWI_Mask_{year}.tif\"\ndef land_proc_mask_path(year: int) -> Path:\n    return DATA_PROC_LANDSAT / f\"mask_{year}.tif\"\ndef available_landsat_years() -> list[int]:\n    \"\"\"Years the owner has actually downloaded and dropped into data/raw/landsat.\"\"\"\n    years = []\n    if DATA_RAW_LANDSAT.exists():\n        for p in DATA_RAW_LANDSAT.glob(\"MNDWI_Mask_*.tif\"):\n            try:",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "land_proc_mask_path",
+        "kind": 2,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "def land_proc_mask_path(year: int) -> Path:\n    return DATA_PROC_LANDSAT / f\"mask_{year}.tif\"\ndef available_landsat_years() -> list[int]:\n    \"\"\"Years the owner has actually downloaded and dropped into data/raw/landsat.\"\"\"\n    years = []\n    if DATA_RAW_LANDSAT.exists():\n        for p in DATA_RAW_LANDSAT.glob(\"MNDWI_Mask_*.tif\"):\n            try:\n                years.append(int(p.stem.split(\"_\")[-1]))\n            except ValueError:",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "available_landsat_years",
+        "kind": 2,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "def available_landsat_years() -> list[int]:\n    \"\"\"Years the owner has actually downloaded and dropped into data/raw/landsat.\"\"\"\n    years = []\n    if DATA_RAW_LANDSAT.exists():\n        for p in DATA_RAW_LANDSAT.glob(\"MNDWI_Mask_*.tif\"):\n            try:\n                years.append(int(p.stem.split(\"_\")[-1]))\n            except ValueError:\n                continue\n    return sorted(years)",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "sensor_res",
+        "kind": 2,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "def sensor_res(sensor: str) -> float:\n    return SENSORS[sensor][\"res\"]\ndef sensor_bbox(sensor: str) -> tuple:\n    \"\"\"Analysis bounding box for a sensor.\"\"\"\n    return SENSORS[sensor][\"bbox\"]\ndef sensor_mask_path(sensor: str, year: int) -> Path:\n    return SENSORS[sensor][\"mask_dir\"] / f\"mask_{year}.tif\"\ndef sensor_out_dir(sensor: str) -> Path:\n    d = SENSORS[sensor][\"out_dir\"]\n    return d",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "sensor_bbox",
+        "kind": 2,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "def sensor_bbox(sensor: str) -> tuple:\n    \"\"\"Analysis bounding box for a sensor.\"\"\"\n    return SENSORS[sensor][\"bbox\"]\ndef sensor_mask_path(sensor: str, year: int) -> Path:\n    return SENSORS[sensor][\"mask_dir\"] / f\"mask_{year}.tif\"\ndef sensor_out_dir(sensor: str) -> Path:\n    d = SENSORS[sensor][\"out_dir\"]\n    return d\ndef sensor_transects_dir(sensor: str) -> Path:\n    d = SENSORS[sensor][\"out_dir\"] / \"transects\"",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "sensor_mask_path",
+        "kind": 2,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "def sensor_mask_path(sensor: str, year: int) -> Path:\n    return SENSORS[sensor][\"mask_dir\"] / f\"mask_{year}.tif\"\ndef sensor_out_dir(sensor: str) -> Path:\n    d = SENSORS[sensor][\"out_dir\"]\n    return d\ndef sensor_transects_dir(sensor: str) -> Path:\n    d = SENSORS[sensor][\"out_dir\"] / \"transects\"\n    d.mkdir(parents=True, exist_ok=True)\n    return d\n# How many years each measurement window spans, per sensor.",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "sensor_out_dir",
+        "kind": 2,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "def sensor_out_dir(sensor: str) -> Path:\n    d = SENSORS[sensor][\"out_dir\"]\n    return d\ndef sensor_transects_dir(sensor: str) -> Path:\n    d = SENSORS[sensor][\"out_dir\"] / \"transects\"\n    d.mkdir(parents=True, exist_ok=True)\n    return d\n# How many years each measurement window spans, per sensor.\n#\n# This is a RESOLUTION decision, not a preference. The Arial Khan erodes at",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "sensor_transects_dir",
+        "kind": 2,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "def sensor_transects_dir(sensor: str) -> Path:\n    d = SENSORS[sensor][\"out_dir\"] / \"transects\"\n    d.mkdir(parents=True, exist_ok=True)\n    return d\n# How many years each measurement window spans, per sensor.\n#\n# This is a RESOLUTION decision, not a preference. The Arial Khan erodes at\n# roughly 21 m/yr:\n#     Landsat 30 m -> the bank moves ~0.7 PIXELS per year. A single year may not\n#                     cross even one pixel boundary, so annual pairs measure",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "sensor_pairs",
+        "kind": 2,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "def sensor_pairs(sensor: str) -> list:\n    \"\"\"Year pairs for a sensor, at that sensor's configured window length.\"\"\"\n    step = PAIR_STEP.get(sensor, 1)\n    ys = sensor_years(sensor)\n    return [(y, y + step) for y in ys if y + step in ys]\ndef sensor_years(sensor: str) -> list[int]:\n    \"\"\"Years available for a sensor, from the processed masks on disk.\"\"\"\n    d = SENSORS[sensor][\"mask_dir\"]\n    if not d.exists():\n        return []",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "sensor_years",
+        "kind": 2,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "def sensor_years(sensor: str) -> list[int]:\n    \"\"\"Years available for a sensor, from the processed masks on disk.\"\"\"\n    d = SENSORS[sensor][\"mask_dir\"]\n    if not d.exists():\n        return []\n    ys = []\n    for p in d.glob(\"mask_*.tif\"):\n        try:\n            ys.append(int(p.stem.split(\"_\")[1]))\n        except (IndexError, ValueError):",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "ROOT",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "ROOT = Path(__file__).resolve().parents[1]\n# --- reach registry ----------------------------------------------------------\n# ganges is the generalisation trial of DECISIONS.md D48: the single-thread\n# meandering Rajshahi - Hardinge Bridge reach, where bank movement is expected\n# to persist year on year. That expectation is a hypothesis from literature,\n# not a finding. Its transect gates are first guesses scaled down from the\n# Jamuna's for a river 1-4 km wide, to be verified against the first real\n# data (10_verify_geometry.py spot checks).\nREACHES = {\n    # ARCHIVED 2026-10-18, not deleted. The Jamuna data was moved to",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "REACHES",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "REACHES = {\n    # ARCHIVED 2026-10-18, not deleted. The Jamuna data was moved to\n    # data/unused_data/jamuna/ when the Arial Khan became the active reach (D49).\n    # It is kept for three reasons:\n    #   1. it is the EVIDENCE for the project's central negative result (D44) -\n    #      37 years and real river discharge still could not predict erosion, and\n    #      that finding is what motivated the switch;\n    #   2. it is the CONTROL. Comparing a 9 km braided reach against a 300 m\n    #      single-thread one is the actual experiment;\n    #   3. the 37 Landsat files took the owner about an hour of Earth Engine work",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "REACH",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "REACH = os.environ.get(\"RIVERGUARD_REACH\", \"arial_khan\").strip().lower()\nif REACH not in REACHES:\n    raise SystemExit(f\"unknown reach {REACH!r}; choose one of {sorted(REACHES)}\")\n_r = REACHES[REACH]\nREACH_LABEL = _r[\"label\"]\nGEOM = _r[\"geom\"]\nREACH_TRANSECT_GATES = _r[\"gates\"]\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "_r",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "_r = REACHES[REACH]\nREACH_LABEL = _r[\"label\"]\nGEOM = _r[\"geom\"]\nREACH_TRANSECT_GATES = _r[\"gates\"]\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "REACH_LABEL",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "REACH_LABEL = _r[\"label\"]\nGEOM = _r[\"geom\"]\nREACH_TRANSECT_GATES = _r[\"gates\"]\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):\n    _d.mkdir(parents=True, exist_ok=True)",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "GEOM",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "GEOM = _r[\"geom\"]\nREACH_TRANSECT_GATES = _r[\"gates\"]\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):\n    _d.mkdir(parents=True, exist_ok=True)\n# Study region (same bbox the GEE exports were made with).",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "REACH_TRANSECT_GATES",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "REACH_TRANSECT_GATES = _r[\"gates\"]\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):\n    _d.mkdir(parents=True, exist_ok=True)\n# Study region (same bbox the GEE exports were made with).\nBBOX_WGS84 = _r[\"bbox\"]  # min_lon, min_lat, max_lon, max_lat",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "PROFILE_MODE",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "PROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):\n    _d.mkdir(parents=True, exist_ok=True)\n# Study region (same bbox the GEE exports were made with).\nBBOX_WGS84 = _r[\"bbox\"]  # min_lon, min_lat, max_lon, max_lat\n# Projected CRS for the reach. Per-reach, because reaches that straddle a UTM",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "DATA_RAW",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "DATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):\n    _d.mkdir(parents=True, exist_ok=True)\n# Study region (same bbox the GEE exports were made with).\nBBOX_WGS84 = _r[\"bbox\"]  # min_lon, min_lat, max_lon, max_lat\n# Projected CRS for the reach. Per-reach, because reaches that straddle a UTM\n# zone boundary need this chosen deliberately rather than inherited.",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "DATA_PROC",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "DATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):\n    _d.mkdir(parents=True, exist_ok=True)\n# Study region (same bbox the GEE exports were made with).\nBBOX_WGS84 = _r[\"bbox\"]  # min_lon, min_lat, max_lon, max_lat\n# Projected CRS for the reach. Per-reach, because reaches that straddle a UTM\n# zone boundary need this chosen deliberately rather than inherited.\n# Every reach here uses a projected CRS in metres, never lat/lon.",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "BANKLINES",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "BANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):\n    _d.mkdir(parents=True, exist_ok=True)\n# Study region (same bbox the GEE exports were made with).\nBBOX_WGS84 = _r[\"bbox\"]  # min_lon, min_lat, max_lon, max_lat\n# Projected CRS for the reach. Per-reach, because reaches that straddle a UTM\n# zone boundary need this chosen deliberately rather than inherited.\n# Every reach here uses a projected CRS in metres, never lat/lon.\nCRS_WORK = _r.get(\"crs\", \"EPSG:32645\")",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "TRANSECTS",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "TRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):\n    _d.mkdir(parents=True, exist_ok=True)\n# Study region (same bbox the GEE exports were made with).\nBBOX_WGS84 = _r[\"bbox\"]  # min_lon, min_lat, max_lon, max_lat\n# Projected CRS for the reach. Per-reach, because reaches that straddle a UTM\n# zone boundary need this chosen deliberately rather than inherited.\n# Every reach here uses a projected CRS in metres, never lat/lon.\nCRS_WORK = _r.get(\"crs\", \"EPSG:32645\")\n# Working pixel size (metres). Sentinel-2 native = 10 m.",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "BBOX_WGS84",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "BBOX_WGS84 = _r[\"bbox\"]  # min_lon, min_lat, max_lon, max_lat\n# Projected CRS for the reach. Per-reach, because reaches that straddle a UTM\n# zone boundary need this chosen deliberately rather than inherited.\n# Every reach here uses a projected CRS in metres, never lat/lon.\nCRS_WORK = _r.get(\"crs\", \"EPSG:32645\")\n# Working pixel size (metres). Sentinel-2 native = 10 m.\nRES = 10.0\n# Years we currently have downloaded (Sentinel-2, 2019-2026).\nYEARS = [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]\n# Fixed dry-season window (constant across every year to avoid",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "CRS_WORK",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "CRS_WORK = _r.get(\"crs\", \"EPSG:32645\")\n# Working pixel size (metres). Sentinel-2 native = 10 m.\nRES = 10.0\n# Years we currently have downloaded (Sentinel-2, 2019-2026).\nYEARS = [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]\n# Fixed dry-season window (constant across every year to avoid\n# water-level-driven fake migration). This is the window the GEE export scripts\n# actually request, and 09_checks.py section 8 verifies that they agree with it.\nDRY_SEASON = (\"01-01\", \"03-25\")\n# --- Sentinel-2 record (what we originally downloaded) ---",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "RES",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "RES = 10.0\n# Years we currently have downloaded (Sentinel-2, 2019-2026).\nYEARS = [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]\n# Fixed dry-season window (constant across every year to avoid\n# water-level-driven fake migration). This is the window the GEE export scripts\n# actually request, and 09_checks.py section 8 verifies that they agree with it.\nDRY_SEASON = (\"01-01\", \"03-25\")\n# --- Sentinel-2 record (what we originally downloaded) ---\nS2_YEARS = list(range(2019, 2027))\n# --- Landsat record (1984 onwards, downloaded from gee/landsat_export.js) ---",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "YEARS",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "YEARS = [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]\n# Fixed dry-season window (constant across every year to avoid\n# water-level-driven fake migration). This is the window the GEE export scripts\n# actually request, and 09_checks.py section 8 verifies that they agree with it.\nDRY_SEASON = (\"01-01\", \"03-25\")\n# --- Sentinel-2 record (what we originally downloaded) ---\nS2_YEARS = list(range(2019, 2027))\n# --- Landsat record (1984 onwards, downloaded from gee/landsat_export.js) ---\n# Landsat is 30 m, not 10 m. We never resample it to 10 m because that would\n# invent detail the sensor does not have. It gets its own grid instead.",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "DRY_SEASON",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "DRY_SEASON = (\"01-01\", \"03-25\")\n# --- Sentinel-2 record (what we originally downloaded) ---\nS2_YEARS = list(range(2019, 2027))\n# --- Landsat record (1984 onwards, downloaded from gee/landsat_export.js) ---\n# Landsat is 30 m, not 10 m. We never resample it to 10 m because that would\n# invent detail the sensor does not have. It gets its own grid instead.\nRES_LANDSAT = 30.0\nDATA_RAW_LANDSAT = DATA_RAW / \"landsat\"\nDATA_PROC_LANDSAT = DATA_PROC / \"landsat\"\nBANKLINES_LANDSAT = DATA_PROC_LANDSAT / \"banklines\"",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "S2_YEARS",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "S2_YEARS = list(range(2019, 2027))\n# --- Landsat record (1984 onwards, downloaded from gee/landsat_export.js) ---\n# Landsat is 30 m, not 10 m. We never resample it to 10 m because that would\n# invent detail the sensor does not have. It gets its own grid instead.\nRES_LANDSAT = 30.0\nDATA_RAW_LANDSAT = DATA_RAW / \"landsat\"\nDATA_PROC_LANDSAT = DATA_PROC / \"landsat\"\nBANKLINES_LANDSAT = DATA_PROC_LANDSAT / \"banklines\"\nTRANSECTS_LANDSAT = DATA_PROC_LANDSAT / \"transects\"\nfor _d in (DATA_PROC_LANDSAT, BANKLINES_LANDSAT, TRANSECTS_LANDSAT):",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "RES_LANDSAT",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "RES_LANDSAT = 30.0\nDATA_RAW_LANDSAT = DATA_RAW / \"landsat\"\nDATA_PROC_LANDSAT = DATA_PROC / \"landsat\"\nBANKLINES_LANDSAT = DATA_PROC_LANDSAT / \"banklines\"\nTRANSECTS_LANDSAT = DATA_PROC_LANDSAT / \"transects\"\nfor _d in (DATA_PROC_LANDSAT, BANKLINES_LANDSAT, TRANSECTS_LANDSAT):\n    _d.mkdir(parents=True, exist_ok=True)\ndef mask_path(year: int) -> Path:\n    return DATA_RAW / f\"MNDWI_Mask_{year}.tif\"\ndef rgb_path(year: int) -> Path:",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "DATA_RAW_LANDSAT",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "DATA_RAW_LANDSAT = DATA_RAW / \"landsat\"\nDATA_PROC_LANDSAT = DATA_PROC / \"landsat\"\nBANKLINES_LANDSAT = DATA_PROC_LANDSAT / \"banklines\"\nTRANSECTS_LANDSAT = DATA_PROC_LANDSAT / \"transects\"\nfor _d in (DATA_PROC_LANDSAT, BANKLINES_LANDSAT, TRANSECTS_LANDSAT):\n    _d.mkdir(parents=True, exist_ok=True)\ndef mask_path(year: int) -> Path:\n    return DATA_RAW / f\"MNDWI_Mask_{year}.tif\"\ndef rgb_path(year: int) -> Path:\n    return DATA_RAW / f\"RGB_{year}.tif\"",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "DATA_PROC_LANDSAT",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "DATA_PROC_LANDSAT = DATA_PROC / \"landsat\"\nBANKLINES_LANDSAT = DATA_PROC_LANDSAT / \"banklines\"\nTRANSECTS_LANDSAT = DATA_PROC_LANDSAT / \"transects\"\nfor _d in (DATA_PROC_LANDSAT, BANKLINES_LANDSAT, TRANSECTS_LANDSAT):\n    _d.mkdir(parents=True, exist_ok=True)\ndef mask_path(year: int) -> Path:\n    return DATA_RAW / f\"MNDWI_Mask_{year}.tif\"\ndef rgb_path(year: int) -> Path:\n    return DATA_RAW / f\"RGB_{year}.tif\"\ndef proc_mask_path(year: int) -> Path:",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "BANKLINES_LANDSAT",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "BANKLINES_LANDSAT = DATA_PROC_LANDSAT / \"banklines\"\nTRANSECTS_LANDSAT = DATA_PROC_LANDSAT / \"transects\"\nfor _d in (DATA_PROC_LANDSAT, BANKLINES_LANDSAT, TRANSECTS_LANDSAT):\n    _d.mkdir(parents=True, exist_ok=True)\ndef mask_path(year: int) -> Path:\n    return DATA_RAW / f\"MNDWI_Mask_{year}.tif\"\ndef rgb_path(year: int) -> Path:\n    return DATA_RAW / f\"RGB_{year}.tif\"\ndef proc_mask_path(year: int) -> Path:\n    return DATA_PROC / f\"mask_{year}.tif\"",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "TRANSECTS_LANDSAT",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "TRANSECTS_LANDSAT = DATA_PROC_LANDSAT / \"transects\"\nfor _d in (DATA_PROC_LANDSAT, BANKLINES_LANDSAT, TRANSECTS_LANDSAT):\n    _d.mkdir(parents=True, exist_ok=True)\ndef mask_path(year: int) -> Path:\n    return DATA_RAW / f\"MNDWI_Mask_{year}.tif\"\ndef rgb_path(year: int) -> Path:\n    return DATA_RAW / f\"RGB_{year}.tif\"\ndef proc_mask_path(year: int) -> Path:\n    return DATA_PROC / f\"mask_{year}.tif\"\ndef proc_rgb_path(year: int) -> Path:",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "BBOX_LANDSAT",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "BBOX_LANDSAT = _r[\"bbox_landsat\"]\nBBOX_COMMON  = BBOX_LANDSAT\nSENSORS = {\n    \"s2\": {\n        \"res\": 10.0,\n        \"bbox\": BBOX_WGS84,\n        \"mask_dir\": DATA_PROC,\n        \"out_dir\": DATA_PROC,\n        \"years\": list(range(2019, 2027)),\n    },",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "SENSORS",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "SENSORS = {\n    \"s2\": {\n        \"res\": 10.0,\n        \"bbox\": BBOX_WGS84,\n        \"mask_dir\": DATA_PROC,\n        \"out_dir\": DATA_PROC,\n        \"years\": list(range(2019, 2027)),\n    },\n    \"landsat\": {\n        \"res\": 30.0,",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "PAIR_STEP",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "PAIR_STEP = _r.get(\"pair_step\", {\"landsat\": 1, \"s2\": 1})\ndef sensor_pairs(sensor: str) -> list:\n    \"\"\"Year pairs for a sensor, at that sensor's configured window length.\"\"\"\n    step = PAIR_STEP.get(sensor, 1)\n    ys = sensor_years(sensor)\n    return [(y, y + step) for y in ys if y + step in ys]\ndef sensor_years(sensor: str) -> list[int]:\n    \"\"\"Years available for a sensor, from the processed masks on disk.\"\"\"\n    d = SENSORS[sensor][\"mask_dir\"]\n    if not d.exists():",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "Transect",
+        "kind": 6,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "class Transect:\n    i: int\n    center: np.ndarray\n    normal: np.ndarray\n    tangent: np.ndarray\n    arc_m: float\n    half_max: float            # capped cast distance, metres each way\n    width0: float              # belt width at the reference year\n    # filled per year:\n    vmin: float = np.nan",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "TransectSet",
+        "kind": 6,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "class TransectSet:\n    sensor_geom: str\n    ref_year: int\n    res: float\n    transform: object\n    shape_hw: tuple\n    transects: list = field(default_factory=list)\n    points: np.ndarray = None          # resampled centreline points, world coords\n    arcs: np.ndarray = None            # their arc length\n    centreline_km: float = 0.0",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "load_water",
+        "kind": 2,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "def load_water(year, sensor=\"s2\"):\n    \"\"\"Raw water mask, speckle removed, holes NOT filled.\"\"\"\n    with rasterio.open(C.sensor_mask_path(sensor, year)) as src:\n        w = src.read(1) > 127\n        hw = (src.height, src.width)\n        tr = src.transform\n    res = C.sensor_res(sensor)\n    return opening(w, disk(max(1, int(round(OPEN_M / res))))), tr, hw\ndef load_belt(year, sensor=\"s2\"):\n    \"\"\"Gap-bridged, hole-filled belt. Geometry use only.\"\"\"",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "load_belt",
+        "kind": 2,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "def load_belt(year, sensor=\"s2\"):\n    \"\"\"Gap-bridged, hole-filled belt. Geometry use only.\"\"\"\n    with rasterio.open(C.sensor_mask_path(sensor, year)) as src:\n        w = src.read(1) > 127\n    res = C.sensor_res(sensor)\n    w = binary_fill_holes(closing(w, disk(max(1, int(round(CLOSE_M / res))))))\n    lab, _ = label(w)\n    counts = np.bincount(lab.ravel())[1:]\n    if len(counts) == 0:\n        raise RuntimeError(f\"{sensor} {year}: no water found\")",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "build_transects",
+        "kind": 2,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "def build_transects(ref_year=GEOM_REF_YEAR, sensor_geom=GEOM_SENSOR,\n                    spacing_m=SPACING_M, quiet=False):\n    \"\"\"Build the fixed transect geometry. Called once, reused for everything.\"\"\"\n    belt = load_belt(ref_year, sensor_geom)\n    with rasterio.open(C.sensor_mask_path(sensor_geom, ref_year)) as src:\n        tr = src.transform\n        hw = (src.height, src.width)\n    res = C.sensor_res(sensor_geom)\n    path_m, ridge_km = _ridge_centreline(belt, tr, res)\n    pts, arcs, total = _resample(path_m, spacing_m)",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "measure_edges",
+        "kind": 2,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "def measure_edges(ts, year, sensor=\"s2\", quiet=False):\n    \"\"\"Measure both belt edges for every transect in `ts` for `year`.\n    The edge comes from the WATER mask via a purely GEOMETRIC rule: walk outward\n    from the centre and stop where the smoothed water fraction stops looking\n    like river. No hole filling, no connectivity test.\n    That choice is the whole answer to \"which sensor is more accurate\", and it\n    was settled by measurement, not opinion.\n    Defining the belt by filling holes looked more principled, but hole filling\n    is RESOLUTION DEPENDENT. A sandbar is an enclosed hole at 10 m, so the belt\n    includes it; at 30 m the thin water channel through that bar is lost, the",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "transect_line",
+        "kind": 2,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "def transect_line(t, extend=0.0):\n    a = t.center - t.normal * (t.half_max + extend)\n    b = t.center + t.normal * (t.half_max + extend)\n    return LineString([tuple(a), tuple(b)])\ndef zone_polygon(t, v0, v1, pad):\n    \"\"\"Rectangle spanning the transect from v0 to v1, padded along the flow.\"\"\"\n    half = BUFFER_M\n    corners = []\n    for du in (-pad, pad):\n        for dv in (v0, v1):",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "zone_polygon",
+        "kind": 2,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "def zone_polygon(t, v0, v1, pad):\n    \"\"\"Rectangle spanning the transect from v0 to v1, padded along the flow.\"\"\"\n    half = BUFFER_M\n    corners = []\n    for du in (-pad, pad):\n        for dv in (v0, v1):\n            corners.append(t.center + du * t.tangent + dv * t.normal)\n    return Polygon(corners)\ndef bank_zones(t, pad, anchor_vmin, anchor_vmax, zone_m=ZONE_M):\n    \"\"\"The two EPR zones for a transect, anchored to the given edges.\"\"\"",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "bank_zones",
+        "kind": 2,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "def bank_zones(t, pad, anchor_vmin, anchor_vmax, zone_m=ZONE_M):\n    \"\"\"The two EPR zones for a transect, anchored to the given edges.\"\"\"\n    half = zone_m / 2.0\n    return (zone_polygon(t, anchor_vmin - half, anchor_vmin + half, pad),\n            zone_polygon(t, anchor_vmax - half, anchor_vmax + half, pad))\ndef bank_positions(ts, year, sensor=\"s2\", quiet=True):\n    \"\"\"Measure edges for a year and return the list of usable transects.\"\"\"\n    dropped = measure_edges(ts, year, sensor, quiet=quiet)\n    return [t for t in ts.transects if t.ok], dropped\ndef stage_km2(year, sensor=\"s2\"):",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "bank_positions",
+        "kind": 2,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "def bank_positions(ts, year, sensor=\"s2\", quiet=True):\n    \"\"\"Measure edges for a year and return the list of usable transects.\"\"\"\n    dropped = measure_edges(ts, year, sensor, quiet=quiet)\n    return [t for t in ts.transects if t.ok], dropped\ndef stage_km2(year, sensor=\"s2\"):\n    w, _, _ = load_water(year, sensor)\n    return float(w.sum()) * C.sensor_res(sensor) ** 2 / 1e6",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "stage_km2",
+        "kind": 2,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "def stage_km2(year, sensor=\"s2\"):\n    w, _, _ = load_water(year, sensor)\n    return float(w.sum()) * C.sensor_res(sensor) ** 2 / 1e6",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "GEOM_REF_YEAR",
+        "kind": 5,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "GEOM_REF_YEAR = C.GEOM[\"ref_year\"]   # geometry is fixed from this year's belt\nGEOM_SENSOR = C.GEOM[\"sensor\"]       # geometry defined once, on the sharpest record for the reach\nMIN_RIDGE_DEPTH_M = 150.0    # centreline must sit in deep channel, not a floodplain creek\nSPACING_M = 500.0             # transect spacing along the centreline\nSMOOTH_WINDOW = 41            # centreline smoothing window (samples)\nMARGIN_M = 800.0              # extra length beyond the local belt width\nGAP_BRIDGE_M = 250.0          # bridge water gaps up to this long\nMIN_WATER_FRAC = 0.25         # a transect must be at least this much water\nEDGE_MARGIN_PX = 2            # both edges must be this far inside the cast\nMIN_WIDTH_M = 2500.0        # belt width gate, at build time",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "GEOM_SENSOR",
+        "kind": 5,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "GEOM_SENSOR = C.GEOM[\"sensor\"]       # geometry defined once, on the sharpest record for the reach\nMIN_RIDGE_DEPTH_M = 150.0    # centreline must sit in deep channel, not a floodplain creek\nSPACING_M = 500.0             # transect spacing along the centreline\nSMOOTH_WINDOW = 41            # centreline smoothing window (samples)\nMARGIN_M = 800.0              # extra length beyond the local belt width\nGAP_BRIDGE_M = 250.0          # bridge water gaps up to this long\nMIN_WATER_FRAC = 0.25         # a transect must be at least this much water\nEDGE_MARGIN_PX = 2            # both edges must be this far inside the cast\nMIN_WIDTH_M = 2500.0        # belt width gate, at build time\nMIN_WET_WIDTH_M = 1200.0    # wetted width gate, per year          # narrower than this is one channel, not the belt",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "MIN_RIDGE_DEPTH_M",
+        "kind": 5,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "MIN_RIDGE_DEPTH_M = 150.0    # centreline must sit in deep channel, not a floodplain creek\nSPACING_M = 500.0             # transect spacing along the centreline\nSMOOTH_WINDOW = 41            # centreline smoothing window (samples)\nMARGIN_M = 800.0              # extra length beyond the local belt width\nGAP_BRIDGE_M = 250.0          # bridge water gaps up to this long\nMIN_WATER_FRAC = 0.25         # a transect must be at least this much water\nEDGE_MARGIN_PX = 2            # both edges must be this far inside the cast\nMIN_WIDTH_M = 2500.0        # belt width gate, at build time\nMIN_WET_WIDTH_M = 1200.0    # wetted width gate, per year          # narrower than this is one channel, not the belt\nMAX_WIDTH_M = 13000.0         # wider than this means stray water",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "SPACING_M",
+        "kind": 5,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "SPACING_M = 500.0             # transect spacing along the centreline\nSMOOTH_WINDOW = 41            # centreline smoothing window (samples)\nMARGIN_M = 800.0              # extra length beyond the local belt width\nGAP_BRIDGE_M = 250.0          # bridge water gaps up to this long\nMIN_WATER_FRAC = 0.25         # a transect must be at least this much water\nEDGE_MARGIN_PX = 2            # both edges must be this far inside the cast\nMIN_WIDTH_M = 2500.0        # belt width gate, at build time\nMIN_WET_WIDTH_M = 1200.0    # wetted width gate, per year          # narrower than this is one channel, not the belt\nMAX_WIDTH_M = 13000.0         # wider than this means stray water\nMAX_CAST_M = 12000.0          # hard cap on how far we look either side",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "SMOOTH_WINDOW",
+        "kind": 5,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "SMOOTH_WINDOW = 41            # centreline smoothing window (samples)\nMARGIN_M = 800.0              # extra length beyond the local belt width\nGAP_BRIDGE_M = 250.0          # bridge water gaps up to this long\nMIN_WATER_FRAC = 0.25         # a transect must be at least this much water\nEDGE_MARGIN_PX = 2            # both edges must be this far inside the cast\nMIN_WIDTH_M = 2500.0        # belt width gate, at build time\nMIN_WET_WIDTH_M = 1200.0    # wetted width gate, per year          # narrower than this is one channel, not the belt\nMAX_WIDTH_M = 13000.0         # wider than this means stray water\nMAX_CAST_M = 12000.0          # hard cap on how far we look either side\nEDGE_WINDOW_M = 300.0         # smoothing window used to find the belt edge",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "MARGIN_M",
+        "kind": 5,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "MARGIN_M = 800.0              # extra length beyond the local belt width\nGAP_BRIDGE_M = 250.0          # bridge water gaps up to this long\nMIN_WATER_FRAC = 0.25         # a transect must be at least this much water\nEDGE_MARGIN_PX = 2            # both edges must be this far inside the cast\nMIN_WIDTH_M = 2500.0        # belt width gate, at build time\nMIN_WET_WIDTH_M = 1200.0    # wetted width gate, per year          # narrower than this is one channel, not the belt\nMAX_WIDTH_M = 13000.0         # wider than this means stray water\nMAX_CAST_M = 12000.0          # hard cap on how far we look either side\nEDGE_WINDOW_M = 300.0         # smoothing window used to find the belt edge\nMIN_EDGE_FRAC = 0.35          # a smoothed fraction at or above this = river",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "GAP_BRIDGE_M",
+        "kind": 5,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "GAP_BRIDGE_M = 250.0          # bridge water gaps up to this long\nMIN_WATER_FRAC = 0.25         # a transect must be at least this much water\nEDGE_MARGIN_PX = 2            # both edges must be this far inside the cast\nMIN_WIDTH_M = 2500.0        # belt width gate, at build time\nMIN_WET_WIDTH_M = 1200.0    # wetted width gate, per year          # narrower than this is one channel, not the belt\nMAX_WIDTH_M = 13000.0         # wider than this means stray water\nMAX_CAST_M = 12000.0          # hard cap on how far we look either side\nEDGE_WINDOW_M = 300.0         # smoothing window used to find the belt edge\nMIN_EDGE_FRAC = 0.35          # a smoothed fraction at or above this = river\nZONE_M = 1000.0               # depth of each EPR measurement zone",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "MIN_WATER_FRAC",
+        "kind": 5,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "MIN_WATER_FRAC = 0.25         # a transect must be at least this much water\nEDGE_MARGIN_PX = 2            # both edges must be this far inside the cast\nMIN_WIDTH_M = 2500.0        # belt width gate, at build time\nMIN_WET_WIDTH_M = 1200.0    # wetted width gate, per year          # narrower than this is one channel, not the belt\nMAX_WIDTH_M = 13000.0         # wider than this means stray water\nMAX_CAST_M = 12000.0          # hard cap on how far we look either side\nEDGE_WINDOW_M = 300.0         # smoothing window used to find the belt edge\nMIN_EDGE_FRAC = 0.35          # a smoothed fraction at or above this = river\nZONE_M = 1000.0               # depth of each EPR measurement zone\nBUFFER_M = 250.0              # along-flow half-width of a zone",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "EDGE_MARGIN_PX",
+        "kind": 5,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "EDGE_MARGIN_PX = 2            # both edges must be this far inside the cast\nMIN_WIDTH_M = 2500.0        # belt width gate, at build time\nMIN_WET_WIDTH_M = 1200.0    # wetted width gate, per year          # narrower than this is one channel, not the belt\nMAX_WIDTH_M = 13000.0         # wider than this means stray water\nMAX_CAST_M = 12000.0          # hard cap on how far we look either side\nEDGE_WINDOW_M = 300.0         # smoothing window used to find the belt edge\nMIN_EDGE_FRAC = 0.35          # a smoothed fraction at or above this = river\nZONE_M = 1000.0               # depth of each EPR measurement zone\nBUFFER_M = 250.0              # along-flow half-width of a zone\nOPEN_M = 20.0                 # speckle removal",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "MIN_WIDTH_M",
+        "kind": 5,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "MIN_WIDTH_M = 2500.0        # belt width gate, at build time\nMIN_WET_WIDTH_M = 1200.0    # wetted width gate, per year          # narrower than this is one channel, not the belt\nMAX_WIDTH_M = 13000.0         # wider than this means stray water\nMAX_CAST_M = 12000.0          # hard cap on how far we look either side\nEDGE_WINDOW_M = 300.0         # smoothing window used to find the belt edge\nMIN_EDGE_FRAC = 0.35          # a smoothed fraction at or above this = river\nZONE_M = 1000.0               # depth of each EPR measurement zone\nBUFFER_M = 250.0              # along-flow half-width of a zone\nOPEN_M = 20.0                 # speckle removal\nCLOSE_M = 40.0                # belt filling (geometry only)",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "MIN_WET_WIDTH_M",
+        "kind": 5,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "MIN_WET_WIDTH_M = 1200.0    # wetted width gate, per year          # narrower than this is one channel, not the belt\nMAX_WIDTH_M = 13000.0         # wider than this means stray water\nMAX_CAST_M = 12000.0          # hard cap on how far we look either side\nEDGE_WINDOW_M = 300.0         # smoothing window used to find the belt edge\nMIN_EDGE_FRAC = 0.35          # a smoothed fraction at or above this = river\nZONE_M = 1000.0               # depth of each EPR measurement zone\nBUFFER_M = 250.0              # along-flow half-width of a zone\nOPEN_M = 20.0                 # speckle removal\nCLOSE_M = 40.0                # belt filling (geometry only)\n# Reach overrides from config.REACHES, applied BEFORE any function below is",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "MAX_WIDTH_M",
+        "kind": 5,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "MAX_WIDTH_M = 13000.0         # wider than this means stray water\nMAX_CAST_M = 12000.0          # hard cap on how far we look either side\nEDGE_WINDOW_M = 300.0         # smoothing window used to find the belt edge\nMIN_EDGE_FRAC = 0.35          # a smoothed fraction at or above this = river\nZONE_M = 1000.0               # depth of each EPR measurement zone\nBUFFER_M = 250.0              # along-flow half-width of a zone\nOPEN_M = 20.0                 # speckle removal\nCLOSE_M = 40.0                # belt filling (geometry only)\n# Reach overrides from config.REACHES, applied BEFORE any function below is\n# defined because these names are bound into default arguments at def time.",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "MAX_CAST_M",
+        "kind": 5,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "MAX_CAST_M = 12000.0          # hard cap on how far we look either side\nEDGE_WINDOW_M = 300.0         # smoothing window used to find the belt edge\nMIN_EDGE_FRAC = 0.35          # a smoothed fraction at or above this = river\nZONE_M = 1000.0               # depth of each EPR measurement zone\nBUFFER_M = 250.0              # along-flow half-width of a zone\nOPEN_M = 20.0                 # speckle removal\nCLOSE_M = 40.0                # belt filling (geometry only)\n# Reach overrides from config.REACHES, applied BEFORE any function below is\n# defined because these names are bound into default arguments at def time.\n# The Jamuna keeps every default (its gate set is empty). Values for other",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "EDGE_WINDOW_M",
+        "kind": 5,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "EDGE_WINDOW_M = 300.0         # smoothing window used to find the belt edge\nMIN_EDGE_FRAC = 0.35          # a smoothed fraction at or above this = river\nZONE_M = 1000.0               # depth of each EPR measurement zone\nBUFFER_M = 250.0              # along-flow half-width of a zone\nOPEN_M = 20.0                 # speckle removal\nCLOSE_M = 40.0                # belt filling (geometry only)\n# Reach overrides from config.REACHES, applied BEFORE any function below is\n# defined because these names are bound into default arguments at def time.\n# The Jamuna keeps every default (its gate set is empty). Values for other\n# reaches are first guesses recorded in DECISIONS.md (D48 for the ganges).",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "MIN_EDGE_FRAC",
+        "kind": 5,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "MIN_EDGE_FRAC = 0.35          # a smoothed fraction at or above this = river\nZONE_M = 1000.0               # depth of each EPR measurement zone\nBUFFER_M = 250.0              # along-flow half-width of a zone\nOPEN_M = 20.0                 # speckle removal\nCLOSE_M = 40.0                # belt filling (geometry only)\n# Reach overrides from config.REACHES, applied BEFORE any function below is\n# defined because these names are bound into default arguments at def time.\n# The Jamuna keeps every default (its gate set is empty). Values for other\n# reaches are first guesses recorded in DECISIONS.md (D48 for the ganges).\nfor _k, _v in C.REACH_TRANSECT_GATES.items():",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "ZONE_M",
+        "kind": 5,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "ZONE_M = 1000.0               # depth of each EPR measurement zone\nBUFFER_M = 250.0              # along-flow half-width of a zone\nOPEN_M = 20.0                 # speckle removal\nCLOSE_M = 40.0                # belt filling (geometry only)\n# Reach overrides from config.REACHES, applied BEFORE any function below is\n# defined because these names are bound into default arguments at def time.\n# The Jamuna keeps every default (its gate set is empty). Values for other\n# reaches are first guesses recorded in DECISIONS.md (D48 for the ganges).\nfor _k, _v in C.REACH_TRANSECT_GATES.items():\n    globals()[_k] = _v",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "BUFFER_M",
+        "kind": 5,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "BUFFER_M = 250.0              # along-flow half-width of a zone\nOPEN_M = 20.0                 # speckle removal\nCLOSE_M = 40.0                # belt filling (geometry only)\n# Reach overrides from config.REACHES, applied BEFORE any function below is\n# defined because these names are bound into default arguments at def time.\n# The Jamuna keeps every default (its gate set is empty). Values for other\n# reaches are first guesses recorded in DECISIONS.md (D48 for the ganges).\nfor _k, _v in C.REACH_TRANSECT_GATES.items():\n    globals()[_k] = _v\n# How the two bank edges are found is set per reach via C.PROFILE_MODE.",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "OPEN_M",
+        "kind": 5,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "OPEN_M = 20.0                 # speckle removal\nCLOSE_M = 40.0                # belt filling (geometry only)\n# Reach overrides from config.REACHES, applied BEFORE any function below is\n# defined because these names are bound into default arguments at def time.\n# The Jamuna keeps every default (its gate set is empty). Values for other\n# reaches are first guesses recorded in DECISIONS.md (D48 for the ganges).\nfor _k, _v in C.REACH_TRANSECT_GATES.items():\n    globals()[_k] = _v\n# How the two bank edges are found is set per reach via C.PROFILE_MODE.\n#   \"smoothed\" - for wide braided belts (Jamuna, 9 km)",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "CLOSE_M",
+        "kind": 5,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "CLOSE_M = 40.0                # belt filling (geometry only)\n# Reach overrides from config.REACHES, applied BEFORE any function below is\n# defined because these names are bound into default arguments at def time.\n# The Jamuna keeps every default (its gate set is empty). Values for other\n# reaches are first guesses recorded in DECISIONS.md (D48 for the ganges).\nfor _k, _v in C.REACH_TRANSECT_GATES.items():\n    globals()[_k] = _v\n# How the two bank edges are found is set per reach via C.PROFILE_MODE.\n#   \"smoothed\" - for wide braided belts (Jamuna, 9 km)\n#   \"run\"      - for narrow single-thread rivers (Arial Khan, ~300 m), where the",
+        "detail": "ml.transects",
+        "documentation": {}
+    },
+    {
+        "label": "NEIGHBOURS",
+        "kind": 5,
+        "importPath": "ml.transects",
+        "description": "ml.transects",
+        "peekOfCode": "NEIGHBOURS = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]\n@dataclass\nclass Transect:\n    i: int\n    center: np.ndarray\n    normal: np.ndarray\n    tangent: np.ndarray\n    arc_m: float\n    half_max: float            # capped cast distance, metres each way\n    width0: float              # belt width at the reference year",
+        "detail": "ml.transects",
+        "documentation": {}
+    }
+]

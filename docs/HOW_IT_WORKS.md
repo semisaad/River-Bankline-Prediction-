@@ -7,6 +7,11 @@ The measurement method, end to end, in plain language.
 > only prior-year information, it does not beat the training-median baseline.
 > Its 2036 lines are not validated forecasts; see D63 in
 > `reports/DECISIONS.md`.
+>
+> **Area scope:** the larger Arial Khan rectangle is now selected and
+> configured (D65), but its exports have not been processed. Geometry counts,
+> maps, and model scores here describe the previous smaller box; rebuild and
+> revalidate before applying these figures to the expanded area.
 
 ---
 

@@ -12,12 +12,10 @@
  *
  *   Three places the owner's draft diverged, all corrected here:
  *
- *   1. BLOB THRESHOLD. The draft used `connectedPixelCount(...).gte(300)`.
- *      Sentinel-2 uses `.gte(1000)`. At 30 m, 300 px is ~27 hectares and 1000 px
- *      is ~92 hectares, so the draft would have kept ponds that Sentinel-2
- *      removes - making Landsat measure a systematically WIDER river than S2 on
- *      the same reach. That is precisely the bias this alignment exists to
- *      remove, and it would have been invisible in any summary statistic.
+ *   1. CONNECTED-AREA FILTER. Both sensors use a 60 m working grid,
+ *      connectedPixelCount(256), and a 250-pixel cutoff (~90 hectares). This
+ *      preserves the physical minimum area while reducing memory on the expanded
+ *      study area.
  *
  *   2. MORPHOLOGICAL CLOSE. The draft used `focal_max(1, 'circle', 'pixels')`,
  *      i.e. one PIXEL, which at 30 m is 30 m. Sentinel-2 uses a 20 m radius.
@@ -27,11 +25,9 @@
  *      consequence of the coarser grid and is deliberately NOT compensated by
  *      inflating the radius, because matching the physical scale is the point.
  *
- *   3. NO FALLBACK BOX. The draft did
- *      `Map.drawingTools().layers().get(0).toGeometry()` unconditionally, which
- *      THROWS if nothing has been drawn. FALLBACK_BOX below is the actual
- *      extent of the Sentinel-2 export, read back from the GeoTIFF, so both
- *      sensors cover identical ground with no drawing required.
+ *   3. ONE DRAWN RECTANGLE REQUIRED. The selected rectangle is printed to the
+ *      console. It must match Sentinel-2 exactly and be copied into ml/config.py
+ *      before local processing. The previous extent below is reference only.
  *
  * BAND MAPPING, per platform (verified against the Earth Engine catalogue):
  *   Landsat 4/5/7 (TM/ETM+)  B1 blue  B2 green B3 red B4 NIR  B5 SWIR1  B7 SWIR2
@@ -39,8 +35,8 @@
  * Landsat 4/5/7 skip B6 because it is thermal on those platforms, not SWIR2.
  *
  * HOW TO RUN
- *   Press Run. Do NOT draw anything - the fallback box matches Sentinel-2 exactly
- *   and a hand-drawn box that differs even slightly breaks the comparison.
+ *   Draw the same single rectangle used for Sentinel-2, then press Run. The
+ *   script refuses to export if no rectangle is present.
  *   Tasks tab -> Run ~5 at a time -> download folder riverguard_arial_khan ->
  *   drop the .tif files into data/reaches/arial_khan/raw/landsat/
  *
@@ -48,7 +44,8 @@
  *   - one thin meandering ribbon, not a wide braided belt, and only ONE river
  *   - NORTHERN EDGE MUST STAY SOUTH OF 23.47N (the Padma bifurcation). An early
  *     box reached 23.60N and came back mostly Padma (D51).
- *   - water fraction roughly 5-7%
+ *   - water percentage depends on the selected rectangle; inspect the preview
+ *     and do not weaken the quality gates just to force an export
  *   - roughly 30-35 years should pass the scene-count gate
  *******************************************************************************/
 
@@ -57,19 +54,35 @@
 // SETTINGS
 // =============================================================================
 
-var FALLBACK_BOX = [90.1927, 23.1638, 90.2384, 23.245];  // = the S2 export extent
+// Selected expanded extent. Keep synchronized with ml/config.py and Sentinel-2.
+var REFERENCE_BOX = [90.16808799423755, 23.134319063780836,
+                     90.26902488388599, 23.261491731177696];
 
-var drawn = null;
-if (typeof geometry !== 'undefined') {
-  drawn = geometry;
-} else if (Map.drawingTools().layers().length() > 0) {
-  drawn = Map.drawingTools().layers().get(0).toGeometry();
+var aoi;
+var drawingLayers = Map.drawingTools().layers();
+if (drawingLayers.length() > 1) {
+  throw new Error('Clear old drawings and leave exactly one study rectangle.');
+} else if (drawingLayers.length() === 1) {
+  aoi = drawingLayers.get(0).toGeometry().bounds();
+} else {
+  aoi = ee.Geometry.Rectangle(REFERENCE_BOX, 'EPSG:4326', false);
+  print('No rectangle drawn; using synchronized REFERENCE_BOX.');
 }
-var aoi = drawn ? drawn : ee.Geometry.Rectangle(FALLBACK_BOX);
 
-print(drawn ? 'Using your drawn geometry.'
-            : 'No shape drawn - using the fallback box (correct; matches S2 exactly):');
-print(FALLBACK_BOX);
+var rectangle = aoi.coordinates().getInfo()[0];
+var longitudes = rectangle.map(function (point) { return point[0]; });
+var latitudes = rectangle.map(function (point) { return point[1]; });
+var bbox = [Math.min.apply(null, longitudes), Math.min.apply(null, latitudes),
+            Math.max.apply(null, longitudes), Math.max.apply(null, latitudes)];
+print('EXPORT RECTANGLE [west, south, east, north]:', bbox);
+var bboxMatches = bbox.every(function (value, index) {
+  return Math.abs(value - REFERENCE_BOX[index]) <= 1e-6;
+});
+if (!bboxMatches) {
+  throw new Error('Rectangle differs from REFERENCE_BOX; sync config before exporting.');
+}
+print('Rectangle matches Sentinel-2, REFERENCE_BOX, and ml/config.py BBOX_WGS84.');
+print('Configured rectangle:', REFERENCE_BOX);
 
 var START = 1989, END = 2026;
 var CRS = 'EPSG:32646';
@@ -79,7 +92,9 @@ var INDEX_THRESH    = 0.02;
 var AWEI_THRESH     = 0.0;
 var TURBID_SWIR_MAX = 0.12;
 var GAP_CLOSE_M     = 20;     // metres, NOT pixels
-var BLOB_MIN        = 1000;   // 30 m px => ~92 hectares, same as S2
+var BLOB_SCALE_M    = 60;
+var BLOB_MAX_SIZE   = 256;
+var BLOB_MIN        = 250;    // 60 m px => ~90 hectares, same as S2
 
 // Quality gates (data availability, not detection logic).
 var MIN_IMAGES = 2;
@@ -129,9 +144,18 @@ function pool(y) {
 // =============================================================================
 
 function build(y) {
-  var comp = pool(y).reduce(ee.Reducer.percentile([25]))
-    .rename(['blue', 'green', 'red', 'nir', 'swir1', 'swir2'])
-    .clip(aoi);
+  var col = pool(y);
+  var hasData = col.size().gt(0);
+
+  // Guard: an empty collection makes reduce() return a band-less image, which
+  // throws downstream on normalizedDifference/.select(). Return a zero image
+  // instead so the survey loop can skip the year cleanly instead of crashing.
+  var comp = ee.Algorithms.If(
+    hasData,
+    col.reduce(ee.Reducer.percentile([25])),
+    ee.Image.constant([0, 0, 0, 0, 0, 0])
+  ).rename(['blue', 'green', 'red', 'nir', 'swir1', 'swir2'])
+    .clip(aoi).unmask(0);
 
   var blue  = comp.select('blue');
   var green = comp.select('green');
@@ -157,8 +181,8 @@ function build(y) {
   var cleaned = w.focal_max({radius: GAP_CLOSE_M, units: 'meters', kernelType: 'circle'})
                  .focal_min({radius: GAP_CLOSE_M, units: 'meters', kernelType: 'circle'});
 
-  var coarseMask = cleaned.reproject({crs: CRS, scale: 30});
-  var bigBlobs = coarseMask.connectedPixelCount(1024, false).gte(BLOB_MIN);
+  var coarseMask = cleaned.reproject({crs: CRS, scale: BLOB_SCALE_M});
+  var bigBlobs = coarseMask.connectedPixelCount(BLOB_MAX_SIZE, false).gte(BLOB_MIN);
 
   var water = cleaned.and(bigBlobs).unmask(0).clip(aoi).rename('water');
   var valid = green.mask().unmask(0).clip(aoi).rename('valid');
@@ -173,16 +197,15 @@ function build(y) {
 
 // WHY THIS IS CHUNKED
 //   Doing all 38 years in one server round trip exhausts Earth Engine's memory.
-//   The expensive step is connectedPixelCount(1024): a 1024-pixel window at 30 m
-//   is about 31 km across, so every pixel forces a very large computation. Eight
-//   years at a time stays inside the limit.
+//   The connected-area step uses the coarser shared 60 m filter. This keeps the
+//   physical minimum blob size while limiting memory on the larger AOI.
 //
 //   Why it is not simply looped with .evaluate() per year, which would also
 //   chunk: eight concurrent callbacks each creating an Export task is the race
 //   that produced the previous table, which reported 0% valid for years that had
 //   fifteen scenes. Here each chunk is ONE synchronous getInfo() that fully
 //   completes before any task is created, so there is nothing to race.
-var CHUNK = 8;
+var CHUNK = 1;
 
 print('year | scenes | valid | water | status');
 print('batched ' + CHUNK + ' years at a time - these numbers are reliable');
@@ -198,7 +221,7 @@ for (var start = START; start <= END; start += CHUNK) {
     var st = b.water.rename('water').addBands(b.valid.rename('valid'))
                .reduceRegion({
                  reducer: ee.Reducer.mean(), geometry: aoi, scale: 60,
-                 maxPixels: 1e9, bestEffort: true
+                 maxPixels: 1e9, bestEffort: true, tileScale: 4
                });
     return ee.Feature(null, {year: y, scenes: n, valid: st.get('valid'),
                              water: st.get('water')});

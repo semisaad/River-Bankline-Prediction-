@@ -18,8 +18,11 @@ look better. Supersede it with a new entry that says so.
 
 ## The project
 
-**One river: the Arial Khan**, Madaripur Sadar – Kalkini reach, Bangladesh. 300 m
-wide, single-thread, 8.1 km centreline, 32 transects.
+**One river: the Arial Khan**, Madaripur Sadar – Kalkini reach, Bangladesh.
+The expanded rectangle is selected and configured (D65). Existing processed
+data still uses the previous roughly 300 m wide, 8.1 km extent and 32 transects;
+until new exports and geometry are rebuilt, all dimensions and scores below
+apply only to that previous box.
 
 The candidate RandomForest was re-evaluated using only prior-year features and
 an expanding time window: MAE **3.175 m/yr**, versus **2.507** for the
@@ -92,6 +95,7 @@ verified by deliberately breaking a constant and watching it fail.
 | Landmask sampling must use the **measured** sensor's resolution | using the geometry sensor's resolution compressed Landsat casts to a third of their length and produced 3.3× wrong rates (D35) |
 | Never resample Landsat to 10 m | the sensor has no 10 m detail; GEE would interpolate and invent it |
 | Evaluate Earth Engine statistics with one synchronous `getInfo()` per batch | nested `.evaluate()` calls race, and reported 0% valid for years holding 15 scenes (D61) |
+| Delete `__pycache__/` after restoring or rapidly re-editing a module | Python validates cached bytecode by comparing the source mtime **to the second**, so a restore landing in the same second as the edit it undoes leaves the stale `.pyc` looking valid — a guard check then runs the OLD logic and reports PASS for code that no longer exists |
 
 ## Sign conventions
 

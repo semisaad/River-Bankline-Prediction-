@@ -10,7 +10,14 @@ import './App.css'
 
 config.WORKER_URL = '/maplibre-gl-worker.mjs'
 
-const CENTER = [90.21555, 23.2044]
+const STUDY_BOUNDS = [
+  [90.16808799423755, 23.134319063780836],
+  [90.26902488388599, 23.261491731177696],
+]
+const PAN_BOUNDS = [
+  [90.145, 23.105],
+  [90.292, 23.291],
+]
 const YEARS = [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]
 const dominantBankRate = [
   'case',
@@ -96,13 +103,21 @@ export default function App() {
     const map = new MapLibreMap({
       container: mapContainer.current,
       style: BASEMAP,
-      center: CENTER,
       zoom: 12,
+      minZoom: 10,
+      maxZoom: 17,
+      maxBounds: PAN_BOUNDS,
     })
     map.addControl(new NavigationControl(), 'top-right')
     map.addControl(new ScaleControl({ unit: 'metric' }), 'bottom-right')
 
     map.on('load', () => {
+      map.fitBounds(STUDY_BOUNDS, {
+        padding: { top: 112, right: 96, bottom: 168, left: 96 },
+        maxZoom: 14,
+        duration: 0,
+      })
+
       map.addSource('bankline', { type: 'geojson', data: emptyFC() })
       map.addLayer({
         id: 'bankline',

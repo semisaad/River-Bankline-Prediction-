@@ -153,12 +153,10 @@ for _js in sorted(GEE.parent.glob("*.js")):
     if C.REACH not in _js.name and _js.name != "landsat_export.js":
         continue
     txt = _js.read_text()
-    # Two accepted forms: a plain hardcoded Rectangle, or a FALLBACK_BOX constant
-    # used when the owner has not drawn one on the map.
-    _m = (_re.search(r"var aoi\s*=\s*ee\.Geometry\.Rectangle\(\[\s*"
-                     r"([\d.]+),\s*([\d.]+),\s*([\d.]+),\s*([\d.]+)\s*\]\)", txt)
-          or _re.search(r"FALLBACK_BOX\s*=\s*\[\s*"
-                        r"([\d.]+),\s*([\d.]+),\s*([\d.]+),\s*([\d.]+)\s*\]", txt))
+    # Validate the configured reference box even though exports now require a
+    # newly drawn rectangle.
+    _m = _re.search(r"REFERENCE_BOX\s*=\s*\[\s*"
+                    r"([\d.]+),\s*([\d.]+),\s*([\d.]+),\s*([\d.]+)\s*\]", txt)
     _crs = _re.search(r"crs:\s*'(EPSG:\d+)'", txt)
     if _js.name == "landsat_export.js":
         ok(f"{_js.name}: hardcoded box, historical Jamuna export (not reach-driven)")
@@ -186,10 +184,25 @@ print("\n8. Cross-sensor detection logic is identical")
 def _consts(path):
     t = path.read_text()
     out = {}
-    for k in ("INDEX_THRESH", "AWEI_THRESH", "TURBID_SWIR_MAX", "GAP_CLOSE_M", "BLOB_MIN"):
+    for k in ("INDEX_THRESH", "AWEI_THRESH", "TURBID_SWIR_MAX", "GAP_CLOSE_M",
+              "BLOB_SCALE_M", "BLOB_MAX_SIZE", "BLOB_MIN"):
         m = re.search(rf"var\s+{k}\s*=\s*([-\d.]+)\s*;", t)
         if m:
             out[k] = m.group(1)
+    # The dry-season window and the first/last year are as load-bearing as the
+    # index thresholds, and drift in them is just as silent: the masks simply
+    # cover a different slice of the year, the cross-sensor overlap no longer
+    # lines up, and nothing raises. The season was already out of step with
+    # config.py once (02-28 in the config, 03-25 in both scripts), so it is
+    # checked rather than documented.
+    m = re.search(r"filterDate\(\s*ee\.Date\.fromYMD\(y,\s*(\d+),\s*(\d+)\)"
+                  r"\s*,\s*ee\.Date\.fromYMD\(y,\s*(\d+),\s*(\d+)\)", t)
+    if m:
+        out["season"] = (f"{int(m.group(1)):02d}-{int(m.group(2)):02d}"
+                         f"..{int(m.group(3)):02d}-{int(m.group(4)):02d}")
+    m = re.search(r"var\s+START\s*=\s*(\d{4})\s*,\s*END\s*=\s*(\d{4})", t)
+    if m:
+        out["years"] = f"{m.group(1)}..{m.group(2)}"
     return out
 
 s2_js = GEE.parent / "s2_export_arial_khan.js"
@@ -200,7 +213,12 @@ if C.REACH == "arial_khan" and s2_js.exists() and ls_js.exists():
         bad(f"could not read detection constants from "
             f"{s2_js.name} ({sorted(a)}) / {ls_js.name} ({sorted(b)})")
     else:
-        diffs = [k for k in a if k in b and a[k] != b[k]]
+        # `years` and `season` are excluded from this diff on purpose: Landsat
+        # reaches back to 1989 while Sentinel-2 starts in 2019, and that
+        # asymmetry is the whole point of keeping the long record. They are
+        # compared against config.py below, which is the claim that must hold.
+        diffs = [k for k in a
+                 if k in b and k not in ("years", "season") and a[k] != b[k]]
         if diffs:
             bad(f"water-detection constants differ between the two export "
                 f"scripts: {diffs}. S2 and Landsat must use identical logic or "
@@ -208,6 +226,22 @@ if C.REACH == "arial_khan" and s2_js.exists() and ls_js.exists():
         else:
             ok(f"S2 and Landsat share identical detection constants: "
                f"{', '.join(f'{k}={v}' for k, v in sorted(a.items()))}")
+        # Windows and year ranges are deliberately NOT required to match between
+        # the sensors. Landsat is meant to reach back to 1989 while S2 starts in
+        # 2019, and that asymmetry is the point of the long record. What must
+        # hold is that each script agrees with what config.py claims about it.
+        for _name, _prod, _exp in (("Sentinel-2", "s2", C.DRY_SEASON),
+                                   ("Landsat", "landsat", C.DRY_SEASON)):
+            _got = (a if _prod == "s2" else b).get("season")
+            _want = f"{_exp[0]}..{_exp[1]}"
+            if _got is None:
+                warn(f"{_name} exporter: no dry-season filterDate found to verify")
+            elif _got == _want:
+                ok(f"{_name} exporter covers config DRY_SEASON {_got}")
+            else:
+                bad(f"{_name} exporter uses season {_got} but config.py says "
+                    f"{_want}. The masks would cover a different part of the year "
+                    f"with nothing downstream noticing.")
 else:
     warn("cross-sensor constant check applies to the arial_khan reach only")
 
