@@ -240,3 +240,31 @@ with a plain JavaScript `if`. Use `ee.Algorithms.If`, or force evaluation first.
 - [x] Notebook cell verified end-to-end against the real CSV (extracted and run)
 - [x] DECISIONS.md D47 appended; VALIDATION.md section 5 gains the model table;
       CURRENT/TODO/OWNER_ACTIONS updated — nothing is waiting on the owner anymore
+
+---
+
+## Documentation rebuilt for collaborators (Oct 18, 2026)
+
+The repo had no README, and the existing docs predated the reach switch, the
+sign fix and the negative result. Anything a new collaborator read would have
+been wrong.
+
+- [x] **README.md** (new) — the front door. Headline finding stated first, then
+      quickstart, the three reaches, data provenance, and six known issues.
+- [x] **AGENTS.md** (rewritten) — orientation, reach-agnosticism, the standing
+      checks and which bugs they caught, and the hard-won constraints
+      (env-var chaining, bulk find-and-replace, sensor resolution, GEE async).
+- [x] **context/TODO.md** (rewritten) — current blockers, plus a "correctness
+      debt" section that did not previously exist: the Jamuna risk table is
+      inverted and the feature tables need rebuilding after the D58 sign fix.
+- [x] **context/CURRENT.md** (rewritten) — current state, blocking item, key
+      numbers, and a do-not list.
+- [x] **docs/HOW_IT_WORKS.md** (rewritten) — it still promised a forecasting
+      model, cited the withdrawn +0.92 as +0.85, and described a 1 km measuring
+      strip for a river that now uses 300 m.
+- [x] **context/OWNER_ACTIONS.md**, **notebooks/colab_train.md** — updated
+      earlier in the session.
+
+**Decision:** documentation is part of the deliverable, not an afterthought. A
+final-year project is assessed partly on whether its claims are traceable, and a
+document that overstates what was achieved is worse than no document.

@@ -1,67 +1,120 @@
-# RiverGuard - project notes for the AI assistant
+# RiverGuard — notes for coding agents
 
-## READ THIS FIRST (context folder)
-Every new session should read these files before doing anything:
-- `context/CURRENT.md` — snapshot of the current state (servers, data, bugs, numbers)
-- `context/DONE.md` — everything completed so far
-- `context/TODO.md` — what's next and what needs the owner's input
-- `context/OWNER_ACTIONS.md` — what the owner must do by hand
-- `reports/DECISIONS.md` — **the decision dictionary.** Every significant
-  decision, why it was made, and what was rejected instead.
+Read `README.md` first. It has the headline finding, the quickstart, and the
+known issues. This file covers conventions.
 
-Update these files whenever significant progress is made.
+## The one rule that matters most
 
-## RULE: record significant decisions
-Any choice that affects the numbers, the method, or the claims must be added to
-`reports/DECISIONS.md` as a new numbered entry (D26, D27, ...) with:
-- **Date**
-- **Decision** — what we chose
-- **Reason** — why
-- **Rejected** — the alternatives, so they stay visible
-- **Impact** — what it changes about the results
+**Do not present an assumption as a finding.**
 
-Rules for that file:
-- **Append only.** Never edit an old decision to make it look better.
-- If a decision changes, add a new entry that explicitly supersedes the old one.
-- Flag anything that is an *assumption* rather than a measured fact. Those must
-  never be presented as findings.
-- Keep the unresolved list (D25) current. It is the memory of what we know is
-  still inconsistent.
+This project's central result is negative — year-to-year bank erosion could not
+be predicted, and nothing beat "predict the average". That result is only
+credible because every number is traceable to a script and every limitation is
+written down. Adding an unsupported claim destroys the whole thing.
 
-## What this project is
-A final-year solo project that predicts how the Jamuna river
-(Bangladesh) bankline moves over time, using years of satellite images, and
-shows results in a web app. Goal: help people see where riverbank erosion is
-likely, so communities and planners can act early.
+If a change affects the numbers, the method, or a claim, append to
+`reports/DECISIONS.md`. It is **append-only**: never edit an old entry to make it
+look better. Supersede it with a new entry that says so.
 
-## Where it lives (IMPORTANT)
-- The project is physically stored on the external HDD:
-  `/media/saad/HDD/riverguard`
-- `~/Projects/riverguard` is a **symlink** (shortcut) to that folder.
-- The HDD is **not** in `/etc/fstab`, so it must be mounted before working.
-  If commands say "No such file or directory", check the HDD is mounted
-  (`ls /media/saad/HDD`).
+## Orientation — read these before touching anything
 
-## How to run things (from the project root)
-- Python environment lives at `.venv/` (rebuilt after the move to HDD).
-  Always call it as `../.venv/bin/python` from inside `ml/`, or
-  `.venv/bin/python` from the project root.
-- ML pipeline (read-only data processing), in order:
-  - `ml/01_prepare.py`  - raw GEE images -> clean, aligned rasters.
-  - `ml/02_banklines.py` - rasters -> the river's edge (bankline) per year.
-  - `ml/03_transects.py` - measures how far the bank moved between two years.
-- Backend (Django API): `backend/`, run with
-  `../.venv/bin/python manage.py runserver 127.0.0.1:8010`.
-- Frontend (React + MapLibre): `frontend/`, run with `npm run dev`
-  (port 5173, proxies `/api` to the backend).
+| file | why |
+|---|---|
+| `context/CURRENT.md` | current state, the one blocking item, key numbers |
+| `reports/DECISIONS.md` | why anything is the way it is. 60 entries. Read the ones your area touches. |
+| `reports/VALIDATION.md` | what has actually been verified |
+| `reports/RISK.md` | the product and its uncertainty |
+| `docs/HOW_IT_WORKS.md` | the measurement method |
 
-## Owner's preferences (also set globally)
-- Plain language, no jargon; explain what and why; teach the owner.
-- Short answers by default; detail only when asked.
-- Owner manually does: (1) Google Earth Engine exports, (2) Colab training.
-- Do not commit/push to git unless the owner explicitly asks.
-- Avoid code comments unless asked.
+## Where the code is
 
-## Machine limits
-- ~7.5 GB RAM, Intel 8-thread CPU, broken NVIDIA MX130 GPU.
-- Keep heavy computation on Colab.
+- Project root: `/media/saad/HDD/riverguard` (`~/Projects/riverguard` is a symlink)
+- **The HDD is not in `/etc/fstab`.** If paths vanish, check the mount first.
+- Python: `.venv/bin/python` from the root, `../.venv/bin/python` from `ml/`
+- Pipeline runs in numeric order: `01_prepare` → `02_banklines` → `04_erosion` →
+  `05_features` → `13_risk_and_forecast` → `06_predict_geojson` →
+  `07_validate` → `08_crosssensor`
+
+## Reach-agnostic by design
+
+Every path and constant comes from `config.py`, selected by:
+
+```bash
+RIVERGUARD_REACH=arial_khan ../.venv/bin/python 04_erosion.py s2
+```
+
+Reaches: `jamuna` (archived), `ganges` (no data), `arial_khan` (active).
+
+**A change meant for one reach must not alter the others.** Two times now a fix
+targeted at `arial_khan` silently changed `jamuna` (a build clamp that raised
+transects from 58 to 70; a sign fix that needed re-validating both). After any
+change to `transects.py` or `config.py`, re-run both reaches and compare against
+the known values — see the regression commands in `docs/HOW_IT_WORKS.md`.
+
+## Standing checks
+
+```bash
+.venv/bin/python ml/09_checks.py            # run FIRST, always
+```
+
+Sections that have caught real bugs, so do not weaken them:
+
+- **7** — export scripts must agree with `config.py` on bbox and CRS
+- **8** — the two Earth Engine export scripts must share identical
+  water-detection constants, or the cross-sensor comparison measures the scripts
+  instead of the sensors
+- **9** — no stale pre-rewrite artefacts are being served
+
+A check that has never been seen to fail is not known to work. Section 8 was
+verified by deliberately breaking a constant and watching it fail.
+
+## Hard-won constraints — do not rediscover these
+
+| rule | why |
+|---|---|
+| Never chain `RIVERGUARD_REACH=x cmd && cmd2` | the variable is lost for the second command and it silently runs on the wrong reach |
+| No bulk find-and-replace without reading the result | three times it silently no-matched or corrupted its target; every time only a follow-up check caught it |
+| Editers that fail loudly beat scripts that silently do nothing | a `sed`/`.replace()` that does not match reports success |
+| Landmask sampling must use the **measured** sensor's resolution | using the geometry sensor's resolution compressed Landsat casts to a third of their length and produced 3.3× wrong rates (D35) |
+| Never resample Landsat to 10 m | the sensor has no 10 m detail; GEE would interpolate and invent it |
+| Evaluate Earth Engine statistics with one synchronous `getInfo()` per batch | nested `.evaluate()` calls race, and reported 0% valid for years holding 15 scenes (D61) |
+
+## Sign conventions
+
+- `target_rate`, `left_rate`, `right_rate`: **positive = land LOST = erosion**
+- Transect `v` axis: `vmin` bank is negative side, `vmax` bank positive
+- Eroding left bank moves toward **lower** v; right bank toward **higher** v
+
+These were inverted once, project-wide (D58). Check them if you touch
+`04_erosion.py`.
+
+## Earth Engine exports need the owner's account
+
+Two things cannot be automated here:
+
+1. **Earth Engine exports** — imagery comes from scripts in `gee/`. The owner runs
+   them at code.earthengine.google.com and drops `.tif` files into
+   `data/reaches/<reach>/raw/<sensor>/`.
+2. **Copernicus GloFAS** — needs `~/.cdsapirc`, outside the repo.
+
+Do not try to fetch imagery from this machine; there is no reliable outbound
+network.
+
+## Before you commit
+
+- Never commit imagery: `*.tif` is gitignored for a reason. 600 MB of GeoTIFF
+  does not belong in history.
+- Never commit secrets. The token is in `~/.cdsapirc`.
+- Do not commit or push unless the owner explicitly asks.
+- Update `context/CURRENT.md` and append to `reports/DECISIONS.md`.
+
+## Communication
+
+The owner is the sole developer and is learning this system as it is built.
+
+- Plain language, no jargon. Define any unavoidable technical term in the same
+  sentence, in everyday words.
+- Explain **what** you changed and **why**. Never change something silently.
+- Short answers by default; go long only when asked.
+- Never inflate expectations. The project has one headline negative result and
+  several unverified assumptions; say which is which.
