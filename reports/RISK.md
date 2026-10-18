@@ -1,4 +1,8 @@
-# RiverGuard - long-run erosion risk
+# RiverGuard - archived Jamuna long-run erosion risk
+
+> Historical report for the archived Jamuna reach. These risk rankings are not
+> current Arial Khan results and must not be served as such. The active reach's
+> Landsat record and risk analysis are still outstanding.
 
 Generated: 2026-10-18
 

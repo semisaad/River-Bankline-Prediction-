@@ -5,6 +5,7 @@ No database is used for M0 - files on disk are the source of truth.
 """
 
 import json
+import os
 import re
 from pathlib import Path
 
@@ -15,7 +16,15 @@ PAIR_RE = re.compile(r"^\d{4}_\d{4}$")
 
 # repo root: backend/core/views.py -> parents[2]
 ROOT = Path(__file__).resolve().parents[2]
-PROCESSED = ROOT / "data" / "processed"
+REACH = os.environ.get("RIVERGUARD_REACH", "arial_khan").strip().lower()
+REACH_DIRS = {
+    "jamuna": ROOT / "data" / "unused_data" / "jamuna",
+    "ganges": ROOT / "data" / "reaches" / "ganges",
+    "arial_khan": ROOT / "data" / "reaches" / "arial_khan",
+}
+if REACH not in REACH_DIRS:
+    raise RuntimeError(f"unknown RIVERGUARD_REACH: {REACH}")
+PROCESSED = REACH_DIRS[REACH] / "processed"
 BANKLINES = PROCESSED / "banklines"
 TRANSECTS = PROCESSED / "transects"
 
@@ -80,9 +89,9 @@ def erosion_years(request):
     return Response({"pairs": erosion_pairs()})
 
 
-PREDICTIONS = ROOT / "data" / "processed" / "predictions"
+PREDICTIONS = PROCESSED / "predictions"
 ARTIFACTS = ROOT / "ml" / "artifacts"
-RISK_DIR = ROOT / "data" / "processed" / "risk"
+RISK_DIR = PROCESSED / "risk"
 
 
 @api_view(["GET"])
@@ -140,16 +149,15 @@ def risk_summary(request):
         "records_insufficient": len(rows) - len(eligible),
         "records_significant": sig,
         "tiers": dict(tiers),
-        "note": ("Long-run rates measured over the Landsat record. Not a "
-                 "forecast; see reports/RISK.md."),
+        "note": "Historical long-run erosion rates; not future bankline predictions.",
     })
 
 
 def _missing_predictions_response():
     return Response(
         {
-            "error": "no long-run trend available",
-            "detail": "run ml/13_risk_and_forecast.py then ml/06_predict_geojson.py",
+            "error": "no bankline projection available",
+            "detail": "run ml/14_model_train.py then ml/06_predict_geojson.py",
         },
         status=404,
     )
@@ -157,12 +165,7 @@ def _missing_predictions_response():
 
 @api_view(["GET"])
 def predictions(request):
-    """Long-run trend geometry, produced by ml/06_predict_geojson.py.
-
-    NOTE: this is a long-run trend carrying error bars, NOT a machine-learning
-    forecast. Year-to-year erosion was tested and found unpredictable; see
-    reports/RISK.md and DECISIONS.md D44.
-    """
+    """Experimental model projection or historical trend from the ML pipeline."""
     if not (PREDICTIONS / "predictions.csv").exists():
         return _missing_predictions_response()
 
@@ -189,12 +192,18 @@ def predictions(request):
 @api_view(["GET"])
 def status(request):
     """One call that tells the frontend what is available."""
-    model_file = ARTIFACTS / "xgboost_model.json"
+    model_file = ARTIFACTS / "model_report.json"
     pred_file = PREDICTIONS / "predictions.csv"
+    model_report = {}
+    if model_file.exists():
+        try:
+            model_report = _load(model_file)
+        except (OSError, json.JSONDecodeError):
+            pass
     # Count Landsat years directly from the folder. We deliberately do NOT
     # import ml/config.py here: Django's own settings package is also called
     # "config", so importing it here would import the wrong module.
-    landsat_dir = ROOT / "data" / "raw" / "landsat"
+    landsat_dir = REACH_DIRS[REACH] / "raw" / "landsat"
     landsat_years = sorted(
         p.stem.split("_")[-1] for p in landsat_dir.glob("MNDWI_Mask_*.tif")
     ) if landsat_dir.exists() else []
@@ -204,13 +213,15 @@ def status(request):
         "erosion_pairs": erosion_pairs(),
         "landsat_years": landsat_years,
         "features_ready": (
-            ROOT / "data" / "processed" / "features" / "landsat" / "features.csv"
+            PROCESSED / "features" / "landsat" / "features.csv"
         ).exists(),
-        "hydro_ready": (ROOT / "data" / "raw" / "hydro" / "glofas_annual.csv").exists(),
+        "hydro_ready": (
+            REACH_DIRS[REACH] / "raw" / "hydro" / "glofas_annual.csv"
+        ).exists(),
         "risk_ready": (RISK_DIR / "risk.geojson").exists(),
         "trend_ready": bool(sorted(PREDICTIONS.glob("longrun_trend_*.geojson"))),
         # kept for the UI's benefit-of-doubt panel
-        "model_trained": model_file.exists(),
+        "model_trained": model_report.get("reach") == REACH,
         "predictions_ready": pred_file.exists(),
     })
 

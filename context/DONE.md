@@ -275,11 +275,12 @@ document that overstates what was achieved is worse than no document.
       trained model and its projections are all intact. Only the raw `.tif`
       downloads are gone.
 - [x] Re-ran `14_model_train.py` on the surviving processed data: still
-      MAE 2.843, still beats the 2.919 baseline. Nothing was lost that the
-      model depends on.
+      MAE 2.843, then reported as beating the 2.919 baseline. D63 later
+      withdrew that score as forecast evidence because same-interval features
+      were present; see the corrected time-forward test in CURRENT.md.
 - [x] `docs/DATA_HANDOVER.md` (new) — written for a third party with no access to
       this conversation. Which script to use and which four to ignore, the exact
       box, why it must not be drawn, what the console table should say, how to
       verify, and the full rebuild sequence.
-- [x] Flagged that **the export scripts are not on GitHub yet**, which now blocks
-      the re-download rather than merely being untidy.
+- [x] Flagged that the export scripts were not yet on GitHub; the later push to
+      `origin/main` resolved that blocker.

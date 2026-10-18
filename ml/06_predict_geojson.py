@@ -1,30 +1,9 @@
 """
-06 - Draw the long-run erosion trend on the map.
+06 - Draw experimental model projections or historical-rate trends.
 
-WHAT CHANGED AND WHY
-    This script used to turn a machine-learning forecast into a predicted
-    bankline. It was rewritten because the forecast was not defensible.
-
-    After 37 years of Landsat imagery and a full record of real river discharge,
-    every predictor was tested against the trivial baseline of "predict the
-    average" (83.9 m/yr MAE):
-
-        this transect's own past average      87.1 m/yr   (worse)
-        same transect, previous pair         133.7 m/yr   (much worse)
-        river discharge, best case            r = +0.05   (nothing)
-
-    There is no learnable year-to-year signal. Drawing a confident predicted
-    bankline would have been drawing noise and labelling it skill.
-
-    So this script now draws what the evidence does support: a LONG-RUN TREND.
-    For each bank, its measured erosion rate over three decades of imagery is
-    carried forward over a stated horizon, with the uncertainty band attached.
-    This is standard practice for chronic-exposure mapping and it is honest,
-    because it is labelled a trend and it carries its own error bars.
-
-    It is still NOT a forecast. A trend says "this bank has been losing about
-    40 m/yr and has been for 30 years". It does not say "next year it will lose
-    40 m".
+Model output is always experimental until its chronological rate test passes
+and the requested spatial horizon is independently validated. Multi-year
+offsets are currently a linear extension of a one-year rate.
 
 HOW THE GEOMETRY WORKS
     The transect cast is rebuilt with the current river-following geometry
@@ -39,8 +18,9 @@ HOW THE GEOMETRY WORKS
     stated here once and used consistently.
 
 OUTPUTS
-    data/processed/predictions/longrun_trend_<horizon>yr.geojson
-    data/processed/predictions/predictions.csv     (kept for compatibility)
+    data/reaches/<reach>/processed/predictions/longrun_trend_<horizon>yr.geojson
+    data/reaches/<reach>/processed/predictions/predictions.csv
+    data/reaches/<reach>/processed/predictions/model_predictions.csv
 
 Run:
     cd ~/Projects/riverguard/ml
@@ -54,6 +34,7 @@ import json
 from pathlib import Path
 
 import numpy as np
+from pyproj import Transformer
 from shapely.geometry import LineString, mapping
 
 import config as C
@@ -61,14 +42,20 @@ import transects as T
 
 OUT_DIR = C.DATA_PROC / "predictions"
 RISK_CSV = C.DATA_PROC / "risk" / "transect_risk.csv"
-# Model output from 14_model_train.py. Preferred over the risk table when
-# present, because it is an actual trained projection rather than a long-run
-# average.
-MODEL_CSV = C.DATA_PROC / "predictions" / "predictions.csv"
+# Candidate model output from 14_model_train.py, kept separate from the
+# rendered map CSV so generating the GeoJSON never overwrites its input.
+MODEL_CSV = C.DATA_PROC / "predictions" / "model_predictions.csv"
 
-# Records shorter than this are excluded: one lucky year is not a trend.
+# Historical-rate fallback requires this many years; candidate model rows are
+# retained but always labelled experimental.
 MIN_YEARS = 10
 DEFAULT_HORIZON = 10
+
+
+def wgs84_line(points, transformer):
+    eastings, northings = zip(*points)
+    longitudes, latitudes = transformer.transform(eastings, northings)
+    return mapping(LineString(zip(longitudes, latitudes)))
 
 
 def build(horizon_years):
@@ -88,24 +75,31 @@ def build(horizon_years):
         print("Run 14_model_train.py (model) or 13_risk_and_forecast.py (rates).")
         return
 
+    using_model = src == MODEL_CSV
     risk = pd.read_csv(src)
+    forecast_supported = (bool(risk["forecast_supported"].iloc[0])
+                          if using_model else False)
+    model_mae = (float(risk["model_mae_m_per_yr"].iloc[0])
+                 if using_model else None)
+    median_mae = (float(risk["median_baseline_mae_m_per_yr"].iloc[0])
+                  if using_model else None)
     # Every record with a long enough history is drawn, not only the statistically
     # significant ones. Significance is carried as a property so the map can show
     # it - hiding the other 60 would imply they were measured and found normal,
     # which is a different claim. Only 3 of 64 clear the bar, and saying so
     # openly is part of the result.
     if "significant" not in risk.columns:
-        risk["significant"] = True
+        risk["significant"] = False
         risk["tier"] = "model"
     if "n_years" not in risk.columns:
         # model output: rename onto the long-run-rate schema this script expects
         risk = risk.rename(columns={"n_years_history": "n_years"})
         print(f"  {len(risk)} model projections")
 
-    usable = risk[risk["n_years"] >= MIN_YEARS]
+    usable = (risk if using_model else risk[risk["n_years"] >= MIN_YEARS])
     if usable.empty:
         print(f"No record has at least {MIN_YEARS} years of history.")
-        print("See reports/RISK.md.")
+        print(f"See reports/RISK_{C.REACH}.md.")
         return
 
     # latest year we actually measured, on the geometry sensor
@@ -116,11 +110,19 @@ def build(horizon_years):
     latest = max(years)
     print(f"geometry sensor {T.GEOM_SENSOR}, latest year {latest}")
     print(f"horizon: {horizon_years} yr")
-    n_sig = int(usable["significant"].sum())
-    print(f"records with >= {MIN_YEARS} yr history: {len(usable)} "
-          f"({n_sig} statistically distinguishable from zero)\n")
+    n_sig = int(usable["significant"].sum()) if not using_model else None
+    if using_model:
+        print(f"model rows: {len(usable)}, bank-side history: "
+              f"{int(usable['n_years'].min())}-{int(usable['n_years'].max())} years")
+        print(f"experimental model MAE {model_mae} vs median baseline {median_mae}; "
+              f"forecast supported: {forecast_supported}\n")
+    else:
+        print(f"records with >= {MIN_YEARS} yr history: {len(usable)}")
+        print(f"{n_sig} statistically distinguishable from zero\n")
 
     ts = T.build_transects(sensor_geom=T.GEOM_SENSOR, quiet=True)
+    to_wgs84 = Transformer.from_crs(
+        C.CRS_WORK, "EPSG:4326", always_xy=True)
     pos, _ = T.bank_positions(ts, latest, sensor=T.GEOM_SENSOR, quiet=True)
     by_id = {t.i: t for t in pos}
     print(f"bank edges measured for {len(by_id)} transects in {latest}\n")
@@ -169,7 +171,7 @@ def build(horizon_years):
 
         feats.append({
             "type": "Feature",
-            "geometry": mapping(LineString([tuple(a), tuple(c)])),
+            "geometry": wgs84_line([tuple(a), tuple(c)], to_wgs84),
             "properties": {
                 "kind": "current_bank",
                 "transect_id": tid,
@@ -179,9 +181,10 @@ def build(horizon_years):
         })
         feats.append({
             "type": "Feature",
-            "geometry": mapping(LineString([tuple(e), tuple(g)])),
+            "geometry": wgs84_line([tuple(e), tuple(g)], to_wgs84),
             "properties": {
-                "kind": "long_run_trend",
+                "kind": ("experimental_projection" if using_model
+                         else "long_run_trend"),
                 "transect_id": tid,
                 "side": side,
                 "horizon_years": horizon_years,
@@ -191,13 +194,17 @@ def build(horizon_years):
                 "offset_high_m": round(max(lo, hi), 1),
                 "n_years": int(r["n_years"]),
                 "tier": r.get("tier", "model"),
-                "significant": bool(r.get("significant", True)),
-                "method": ("RandomForest, GroupKFold-validated"
-                       if src is MODEL_CSV else "long-run rate"),
-            # now genuinely a forecast, because a trained model produced it (D62)
-            "is_forecast": src is MODEL_CSV,
-            "mae_model_m_per_yr": None,
-                "basis": ("RandomForest projection (GroupKFold-validated)"
+                "significant": bool(r.get("significant", False)),
+                "method": ("RandomForest, expanding-window backtest"
+                           if using_model else "long-run rate"),
+                "projection_status": "experimental" if using_model
+                                     else "historical_trend",
+                "horizon_validated": False,
+                "forecast_supported": forecast_supported,
+                "is_forecast": False,
+                "mae_model_m_per_yr": model_mae,
+                "median_baseline_mae_m_per_yr": median_mae,
+                "basis": ("Experimental RandomForest projection"
                           if "predicted_rate" in r else
                           "long-run median rate over the full Landsat record"),
             },
@@ -213,14 +220,18 @@ def build(horizon_years):
             "offset_low_m": round(min(lo, hi), 1),
             "offset_high_m": round(max(lo, hi), 1),
             "n_years": int(r["n_years"]),
-            "significant": bool(r.get("significant", True)),
+            "significant": bool(r.get("significant", False)),
             "predicted_year": latest + horizon_years,
             "predicted_rate": round(rate, 1),
-            "method": ("RandomForest, GroupKFold-validated"
-                       if src is MODEL_CSV else "long-run rate"),
-            # now genuinely a forecast, because a trained model produced it (D62)
-            "is_forecast": src is MODEL_CSV,
-            "mae_model_m_per_yr": None,
+            "method": ("RandomForest, expanding-window backtest"
+                       if using_model else "long-run rate"),
+            "projection_status": "experimental" if using_model
+                                 else "historical_trend",
+            "horizon_validated": False,
+            "forecast_supported": forecast_supported,
+            "is_forecast": False,
+            "mae_model_m_per_yr": model_mae,
+            "median_baseline_mae_m_per_yr": median_mae,
         })
 
     if not feats:
@@ -229,23 +240,29 @@ def build(horizon_years):
 
     fc = {
         "type": "FeatureCollection",
-        "name": "longrun_trend",
+        "name": "bankline_projection",
         "crs": {"type": "name",
-                "properties": {"name": C.CRS_WORK}},
+            "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}},
         "metadata": {
             "n_records": len(rows),
             "n_significant": n_sig,
             "horizon_years": horizon_years,
             "base_year": latest,
-            "min_years_history": MIN_YEARS,
-            "method": ("RandomForest, GroupKFold-validated"
-                       if src is MODEL_CSV else "long-run rate"),
-            # now genuinely a forecast, because a trained model produced it (D62)
-            "is_forecast": src is MODEL_CSV,
-            "mae_model_m_per_yr": None,
-            "warning": ("Long-run trend, not a forecast. Projected year-to-year "
-                        "erosion was tested and found unpredictable; see "
-                        "reports/RISK.md."),
+            "min_years_history": None if using_model else MIN_YEARS,
+            "method": ("RandomForest, expanding-window backtest"
+                       if using_model else "long-run rate"),
+            "projection_status": "experimental" if using_model
+                                 else "historical_trend",
+            "horizon_validated": False,
+            "forecast_supported": forecast_supported,
+            "is_forecast": False,
+            "mae_model_m_per_yr": model_mae,
+            "median_baseline_mae_m_per_yr": median_mae,
+            "warning": ("Experimental model projection; the one-year model "
+                        "does not beat both baselines and its multi-year linear "
+                        "extension is not independently validated."
+                        if using_model else
+                        "Historical long-run rate extended linearly; not a forecast."),
         },
         "features": feats,
     }
@@ -256,11 +273,11 @@ def build(horizon_years):
 
     csv_path = OUT_DIR / "predictions.csv"
     with open(csv_path, "w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
+        w = csv.DictWriter(f, fieldnames=list(rows[0].keys()), lineterminator="\n")
         w.writeheader()
         w.writerows(rows)
 
-    print(f"drawn {len(rows)} transect-side trends")
+    print(f"drawn {len(rows)} transect-side projections")
     for row in sorted(rows, key=lambda z: -abs(z["projected_offset_m"]))[:10]:
         print(f"   transect {row['transect_id']:>3} {row['side']:<5} "
               f"{row['rate_m_per_yr']:+7.1f} m/yr  ->  "
@@ -269,8 +286,8 @@ def build(horizon_years):
 
     print(f"\n-> {gj}")
     print(f"-> {csv_path}")
-    print("\nNOTE: drawn from a trained RandomForest where available "
-          "(see ml/artifacts/model_report.json); long-run trends otherwise.")
+    print("\nNOTE: model projections are experimental unless the chronological "
+          "backtest beats both baselines; see ml/artifacts/model_report.json.")
 
 
 def main():

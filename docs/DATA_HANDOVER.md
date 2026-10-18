@@ -134,11 +134,13 @@ record at 2019 (D59, D60).
 
 ## What is already done, and must not need redoing
 
-- Model trained and cross-validated: MAE **2.843 m/yr**, beating
-  predict-the-average (**2.919**) by 2.6%, correlation **+0.517**
-- 62 transect-sides projected to 2036
+- Candidate model output: 62 transect-sides extended to 2036, marked
+  experimental. The corrected chronological test gives MAE **3.175 m/yr**,
+  worse than its training-median baseline (**2.507**).
 - Outputs: `data/reaches/arial_khan/processed/predictions/`, `ml/artifacts/`
 
 If the re-exported imagery reproduces the box and the scripts are unchanged,
-those results stand. If either changes, the model must be retrained and its
-skill number will change.
+the measurements can be rebuilt. The model must still pass time-forward tests
+against simple baselines, and prediction skill must not be inferred from the
+earlier 2.843 m/yr score: it used same-interval features and is withdrawn as
+forecast evidence (D63).

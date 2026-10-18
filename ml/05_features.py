@@ -3,11 +3,11 @@
 One row per (transect, bank side, year pair). The label is the erosion rate from
 04_erosion.py; everything else is a feature the model may look at.
 
-NO DATA LEAKAGE - the most important rule in this project.
-Every feature for a row ending in year Y is computed using ONLY years up to and
-including Y. If the model can peek at Y+1 we would be handing it the answer and
-the test score would be a lie. The lag columns exist precisely so this holds.
-Do not add a feature that breaks it.
+This table includes measurements from the target interval as well as prior
+history. It is not safe to pass every numeric column to a forecasting model.
+`14_model_train.py` uses an explicit allowlist of prior-year features and
+evaluates them on later years. Keep same-interval measurements out of that
+allowlist: they are not known when a future prediction is made.
 
 Features fall into three groups:
   history   - how fast this bank moved last year, and the recent trend
@@ -116,6 +116,7 @@ def main(sensor="s2"):
     rows = []
     for y0, y1 in C.sensor_pairs(sensor):
         hist_years = [y for y in years if y <= y1]
+        prior_years = [y for y in years if y <= y0]
         stage_med = float(np.median([stage[y] for y in hist_years]))
         stage_med_prev = float(np.median([stage[y] for y in hist_years if y <= y0]))
 
@@ -137,7 +138,8 @@ def main(sensor="s2"):
 
                 last3 = [prior.get(y) for y in (y1 - 1, y1 - 2, y1 - 3)]
                 last3 = [v for v in last3 if v is not None]
-                n_prior = len([v for y in hist_years if (v := prior.get(y)) is not None])
+                n_prior = len([v for y in prior_years
+                               if (v := prior.get(y)) is not None])
 
                 rows.append({
                     "sensor": sensor,

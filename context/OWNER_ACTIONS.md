@@ -1,20 +1,6 @@
-# WHAT SAAD NEEDS TO DO (2 things)
+# OWNER ACTIONS
 
-## ACTION 0 — Push the repository *(do this first, ~1 minute)*
-
-The imagery re-download is being done by someone else, and they need the export
-scripts from GitHub. **Four commits are still only on this machine** — including
-the reopened forecast model, which is the project's headline result.
-
-```
-! gh auth login --hostname github.com --git-protocol https --web
-```
-
-Then tell me **"logged in"** and I will push immediately.
-
----
-
-## ACTION 1 — Coordinate the re-download
+## Coordinate the re-download
 
 The raw Sentinel-2 and Landsat exports were deleted on 2026-10-18 and are being
 re-fetched by a third party.
@@ -25,7 +11,7 @@ this conversation and covers:
 - which script to use, and which four to ignore
 - the exact box, and why it must not be drawn by hand
 - what the Earth Engine console table should say
-- how to verify the download is equivalent to what the model was trained on
+- how to verify the download reproduces the processed measurement inputs
 
 **The two things most likely to go wrong, both of which fail silently:**
 
@@ -38,33 +24,33 @@ this conversation and covers:
 
 ---
 
-## What is safe — nothing needs redoing
+## What is available
 
 The raw `.tif` downloads are gone, but **everything derived from them survived**:
 
 | | |
 |---|---|
-| Trained model | RandomForest, MAE **2.843** vs 2.919 baseline, r **+0.517** |
-| Predictions | 62 transect-sides projected to 2036 |
+| Candidate output | 62 transect-sides extended to 2036, labelled experimental |
 | Processed masks, features, EPR | intact |
 | Geometry | 32 transects, 0 dropped, median width 350 m |
 
-`14_model_train.py` still runs and still returns MAE 2.843 from the processed
-data. So there is **no rush** — but the model rests on 432 rows over 7 year-pairs,
-and the Landsat 5-year-block record is what would make it defensible.
+`14_model_train.py` now evaluates only prior-year features using an expanding
+time window. Its candidate MAE is **3.175 m/yr**, worse than the training-median
+baseline (**2.507**). The 10-year overlay is a development output, not a
+validated future bankline. D63 records why the old 2.843 score is withdrawn as
+forecast evidence.
 
 ---
 
-## The Jamuna result stands
+## Archived Jamuna result
 
 Do not lose this. It is in `reports/RISK.md`, `reports/VALIDATION.md` and
 `reports/DECISIONS.md`: 37 years of imagery plus real river discharge, and on the
 **Jamuna** year-to-year erosion still could not be predicted (correlation +0.049,
 nothing beat the average).
 
-On the **Arial Khan** it does work — correlation +0.517, and a trained model
-beats the baseline. That contrast is the project's scientific contribution, and
-it is why the study moved rivers (D62).
+The Jamuna result is historical context only. It does not establish prediction
+skill on the active Arial Khan reach.
 
 ---
 

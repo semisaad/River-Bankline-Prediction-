@@ -1,55 +1,10 @@
-"""
-14 - Train the erosion model and predict future banklines.
+"""Train and evaluate an experimental future bank-movement model.
 
-WHAT THIS DOES
-    Takes the measured history and learns how a bank behaves, then projects that
-    bank forward. This is the project's original aim and it is now supported by
-    evidence (see reports/DECISIONS.md D62).
-
-THE RESULT THAT LICENSED THIS
-    Arial Khan, Sentinel-2, 432 rows, 31 transects, GroupKFold grouped BY
-    TRANSECT so no part of a bank is ever in both training and test:
-
-        predict the average        MAE 2.919 m/yr
-        repeat the previous pair   MAE 4.060
-        RandomForest               MAE 2.835   r +0.520   <- beats baseline
-
-    On the Jamuna the equivalent correlation was +0.049 and nothing beat the
-    baseline. That contrast is the whole reason the study moved rivers.
-
-WHY GroupKFold AND NOT A RANDOM SPLIT
-    A random split puts part of a bank in training and another part of the SAME
-    bank in the test set. The model then scores highly by memorising where that
-    particular bank tends to erode, which tells you nothing about a bank it has
-    never seen. That leak is what makes erosion models look excellent and
-    generalise to nothing. Grouping by transect removes it, which is why the
-    honest number (2.835) is only marginally better than the baseline rather than
-    dramatically better.
-
-HONEST LIMITS, IN PLAIN TEXT
-    - The margin over "predict the average" is 2.9%. Real, not large.
-    - 432 rows over 7 year-pairs is thin. The Landsat record at 5-year blocks is
-      what would make this defensible rather than merely promising.
-    - The strongest predictors are how the channel is ALREADY changing
-      (width_change_pct, other_side_rate, rate_roll3). That is plausible for a
-      single-thread meander, but it means the model partly reads the bank's
-      current state. Applying it forward assumes that state persists, which is
-      the hypothesis under test.
-    - Every number below is cross-validated. The exported model is refit on all
-      data, so its in-sample fit will look better than 2.835. The 2.835 is the
-      number to quote.
-
-WHAT IT WRITES
-    data/processed/predictions/predictions.csv
-        one row per (transect, bank side): predicted rate, projected position,
-        and the interval, for the horizon given on the command line.
-    ml/artifacts/model_report.json
-        the full skill table, so the claim is reproducible.
-
-Run:
-    cd ~/Projects/riverguard/ml
-    ../.venv/bin/python 14_model_train.py
-    ../.venv/bin/python 14_model_train.py --reach arial_khan --horizon 10
+Only features available before the target year are allowed. Evaluation moves
+forward in time: each held-out year is predicted using earlier years only. The
+model is not considered supported unless it beats both the training-median and
+previous-year baselines. A multi-year bankline extension remains experimental
+even if its one-year rate passes these checks.
 """
 
 import argparse
@@ -59,7 +14,6 @@ from datetime import date
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import GroupKFold, cross_val_predict
 from sklearn.metrics import mean_absolute_error
 
 import config as C
@@ -67,15 +21,11 @@ import config as C
 ARTIFACTS = __import__("pathlib").Path(__file__).resolve().parent / "artifacts"
 PRED_DIR = C.DATA_PROC / "predictions"
 
-# Things that must never be features.
-#   transect_id / side  - identifiers; the model would memorise the bank
-#   year0 / year1       - the measurement window itself
-#   target_rate         - the answer
-#   stage_km2           - total water area of the year; a proxy for the label's
-#                         own year, and the stage confound is handled explicitly
-#                         in reports/VALIDATION.md rather than learned here
-LEAKY = {"transect_id", "side", "year0", "year1", "sensor", "res_m",
-         "target_rate", "stage_km2"}
+FORECAST_FEATURES = [
+    "rate_lag1", "rate_lag2", "rate_roll3", "rate_std3", "n_prior",
+    "width_lag1", "curvature_k", "meander_off_m", "arc_norm",
+    "stage_km2_prev",
+]
 
 
 def load(reach, sensor):
@@ -89,73 +39,96 @@ def load(reach, sensor):
 
 
 def features(df):
-    cols = [c for c in df.columns
-            if c not in LEAKY and np.issubdtype(df[c].dtype, np.number)]
-    return cols
+    if "stage_km2" in df and "stage_change_km2" in df:
+        df["stage_km2_prev"] = df["stage_km2"] - df["stage_change_km2"]
+    return [c for c in FORECAST_FEATURES if c in df.columns]
 
 
-def evaluate(df, cols, folds=5, seed=0):
-    """Cross-validated skill, grouped by transect."""
-    X = df[cols].fillna(df[cols].median())
-    y = df["target_rate"]
-    groups = df["transect_id"]
-    gkf = GroupKFold(n_splits=folds)
+def evaluate(df, cols):
+    """Expanding-window evaluation; never train on a year after the test year."""
+    yearly = sorted(df["year1"].unique())
+    actual, predicted = [], []
+    median_baseline, mean_baseline, lag_baseline = [], [], []
+    folds = []
 
-    model = RandomForestRegressor(n_estimators=500, min_samples_leaf=3,
-                                  random_state=seed, n_jobs=-1)
-    pred = cross_val_predict(model, X, y, cv=gkf, groups=groups, n_jobs=1)
+    for year in yearly[2:]:
+        train = df[df["year1"] < year]
+        test = df[df["year1"] == year]
+        if train.empty or test.empty:
+            continue
 
-    base = float(np.mean(np.abs(y - y.mean())))
-    lag = df.dropna(subset=["rate_lag1"])
-    lag_mae = (float(np.mean(np.abs(lag.target_rate - lag.rate_lag1)))
-               if len(lag) else float("nan"))
+        train_medians = train[cols].median().fillna(0)
+        X_train = train[cols].fillna(train_medians)
+        X_test = test[cols].fillna(train_medians)
+        model = RandomForestRegressor(
+            n_estimators=500, min_samples_leaf=5, random_state=0, n_jobs=-1)
+        model.fit(X_train, train["target_rate"])
+        fold_pred = model.predict(X_test)
+        train_median = float(train["target_rate"].median())
+        train_mean = float(train["target_rate"].mean())
+        fold_lag = test["rate_lag1"].fillna(train_median).to_numpy()
 
-    out = {
-        "rows": int(len(df)),
-        "transects": int(groups.nunique()),
-        "features": len(cols),
-        "cv": f"GroupKFold({folds}) grouped by transect_id",
-        "mae_predict_average": round(base, 3),
+        actual.extend(test["target_rate"].to_numpy())
+        predicted.extend(fold_pred)
+        median_baseline.extend([train_median] * len(test))
+        mean_baseline.extend([train_mean] * len(test))
+        lag_baseline.extend(fold_lag)
+        folds.append({
+            "test_year": int(year),
+            "training_years": int(train["year1"].nunique()),
+            "rows": int(len(test)),
+            "mae_model": round(mean_absolute_error(test["target_rate"], fold_pred), 3),
+            "mae_train_median": round(mean_absolute_error(
+                test["target_rate"], [train_median] * len(test)), 3),
+        })
+
+    model_mae = float(mean_absolute_error(actual, predicted))
+    median_mae = float(mean_absolute_error(actual, median_baseline))
+    mean_mae = float(mean_absolute_error(actual, mean_baseline))
+    lag_mae = float(mean_absolute_error(actual, lag_baseline))
+    return {
+        "method": "expanding-window by target year; prior-year features only",
+        "test_years": [fold["test_year"] for fold in folds],
+        "rows": len(actual),
+        "folds": folds,
+        "mae_model": round(model_mae, 3),
+        "mae_train_median": round(median_mae, 3),
+        "mae_train_mean": round(mean_mae, 3),
         "mae_repeat_previous_pair": round(lag_mae, 3),
-        "mae_model": round(float(mean_absolute_error(y, pred)), 3),
-        "model_beats_baseline": bool(mean_absolute_error(y, pred) < base),
-        "correlation_model": round(float(np.corrcoef(y, pred)[0, 1]), 3),
-        "correlation_lag1": (round(float(lag.target_rate.corr(lag.rate_lag1)), 3)
-                             if len(lag) else None),
+        "forecast_supported": model_mae < median_mae and model_mae < lag_mae,
     }
-    out["improvement_pct"] = round(
-        100 * (1 - out["mae_model"] / out["mae_predict_average"]), 1)
-    return out, pred
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--horizon", type=int, default=10,
                     help="years ahead to project (default 10)")
-    ap.add_argument("--reach", default=C.REACH)
     args = ap.parse_args()
+    reach = C.REACH
 
     print("=" * 68)
     print(f"RiverGuard model training - {C.REACH_LABEL}")
-    print(f"reach {args.reach} | horizon {args.horizon} yr")
+    print(f"reach {reach} | horizon {args.horizon} yr")
     print("=" * 68 + "\n")
 
-    df = load(args.reach, "s2")
+    df = load(reach, "s2")
     cols = features(df)
+    if not cols:
+        raise SystemExit("no prior-year forecast features found")
     print(f"rows {len(df)} | transects {df.transect_id.nunique()} | "
           f"pairs {sorted(df.year0.unique())}")
 
-    skill, pred = evaluate(df, cols)
-    print("\nSKILL (cross-validated, grouped by transect)")
-    print(f"  predict the average        MAE {skill['mae_predict_average']:7.3f} m/yr")
-    print(f"  repeat the previous pair   MAE {skill['mae_repeat_previous_pair']:7.3f} m/yr")
-    print(f"  RandomForest               MAE {skill['mae_model']:7.3f} m/yr   "
-          f"r {skill['correlation_model']:+.3f}")
-    verdict = "BEATS" if skill["model_beats_baseline"] else "LOSES TO"
-    print(f"\n  {verdict} the baseline by {skill['improvement_pct']}%")
+    skill = evaluate(df, cols)
+    print("\nSKILL (expanding-window, prior-year features only)")
+    print(f"  RandomForest               MAE {skill['mae_model']:7.3f} m/yr")
+    print(f"  training median baseline   MAE {skill['mae_train_median']:7.3f} m/yr")
+    print(f"  training mean baseline     MAE {skill['mae_train_mean']:7.3f} m/yr")
+    print(f"  repeat previous pair       MAE {skill['mae_repeat_previous_pair']:7.3f} m/yr")
+    print(f"  forecast supported: {skill['forecast_supported']}")
 
-    # refit on everything, for deployment
-    X = df[cols].fillna(df[cols].median())
+    # Refit on the full record to produce a clearly experimental projection.
+    train_medians = df[cols].median().fillna(0)
+    X = df[cols].fillna(train_medians)
     model = RandomForestRegressor(n_estimators=500, min_samples_leaf=3,
                                   random_state=0, n_jobs=-1)
     model.fit(X, df["target_rate"])
@@ -169,10 +142,9 @@ def main():
     # ---- project forward, one row per (transect, bank side) ----------------
     last = df[df.year1 == df.year1.max()]
     latest_year = int(df.year1.max())
-    proj = model.predict(last[cols].fillna(X.median()))
+    proj = model.predict(last[cols].fillna(train_medians))
 
-    # spread of predictions gives a rough interval. Not a calibrated confidence
-    # interval - the honest one is the CV MAE, carried forward as +/- that value.
+    # This heuristic is not a calibrated multi-year prediction interval.
     band = skill["mae_model"]
 
     rows = []
@@ -187,30 +159,31 @@ def main():
             "projected_offset_m": round(float(p) * args.horizon, 1),
             "offset_low_m": round(float(p - band) * args.horizon, 1),
             "offset_high_m": round(float(p + band) * args.horizon, 1),
-            "n_years_history": int((df.transect_id == r.transect_id).sum()),
+            "n_years_history": int(
+                ((df.transect_id == r.transect_id) & (df.side == r.side)).sum()),
+            "projection_status": "experimental",
+            "forecast_supported": skill["forecast_supported"],
+            "model_mae_m_per_yr": skill["mae_model"],
+            "median_baseline_mae_m_per_yr": skill["mae_train_median"],
         })
 
     PRED_DIR.mkdir(parents=True, exist_ok=True)
-    out = PRED_DIR / "predictions.csv"
+    out = PRED_DIR / "model_predictions.csv"
     pd.DataFrame(rows).to_csv(out, index=False)
 
     ARTIFACTS.mkdir(parents=True, exist_ok=True)
     (ARTIFACTS / "model_report.json").write_text(json.dumps(
         {"generated": date.today().isoformat(),
-         "reach": args.reach, "sensor": "s2",
-         "model": "RandomForestRegressor(n_estimators=500, min_samples_leaf=3)",
+         "reach": reach, "sensor": "s2",
+         "model": "RandomForestRegressor(n_estimators=500, min_samples_leaf=5)",
          "feature_importance": {k: round(float(v), 4) for k, v in imp.items()},
          "skill": skill,
          "horizon_years": args.horizon,
          "caveats": [
-             "Margin over baseline is small; quote the cross-validated MAE, "
-             "never the in-sample fit.",
-             "432 rows over 7 year-pairs is thin. The Landsat 5-year-block "
-             "record is needed before this is defensible.",
-             "Strongest features describe how the channel is already changing, "
-             "so the model partly reads the bank's current state. Applying it "
-             "forward assumes that state persists - which is the hypothesis.",
-             "No ground truth; skill is measured only against our own baselines.",
+             "The projection is experimental unless forecast_supported is true.",
+             "Validation uses an expanding time window and features known before each target year.",
+             "The one-year rate is linearly extended across the requested horizon; long-horizon uncertainty is not calibrated.",
+             "No surveyed banklines are available as independent ground truth.",
          ]}, indent=2))
 
     print(f"\nprojected {len(rows)} transect-sides to {latest_year + args.horizon}")

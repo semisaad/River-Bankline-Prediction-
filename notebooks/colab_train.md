@@ -1,6 +1,11 @@
-# Colab: prove the no-signal finding with a real model
+# Archived Jamuna model test (Colab)
 
-## Why this notebook exists, and why it is NOT a forecasting notebook
+## Scope: historical Jamuna analysis only
+
+This notebook tests the archived Jamuna reach. It does not evaluate the active
+Arial Khan model or its future-bankline projection.
+
+### Why this is not an active-reach forecast test
 
 An earlier version of this file trained an XGBoost model to predict next year's
 bank erosion and write a predicted bankline. **That has been abandoned**, and this

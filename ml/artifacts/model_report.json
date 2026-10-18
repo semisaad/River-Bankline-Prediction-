@@ -2,43 +2,77 @@
   "generated": "2026-10-18",
   "reach": "arial_khan",
   "sensor": "s2",
-  "model": "RandomForestRegressor(n_estimators=500, min_samples_leaf=3)",
+  "model": "RandomForestRegressor(n_estimators=500, min_samples_leaf=5)",
   "feature_importance": {
-    "width_change_pct": 0.2692,
-    "other_side_rate": 0.165,
-    "rate_lag1": 0.147,
-    "rate_roll3": 0.1353,
-    "rate_std3": 0.0679,
-    "width_ratio": 0.0516,
-    "rate_lag2": 0.0318,
-    "curvature_k": 0.0205,
-    "arc_norm": 0.0186,
-    "width_lag1": 0.0169,
-    "n_prior": 0.0156,
-    "width_m": 0.0154,
-    "meander_off_m": 0.0146,
-    "stage_change_ratio": 0.0118,
-    "stage_change_km2": 0.0105,
-    "stage_ratio": 0.0081
+    "rate_lag1": 0.3036,
+    "rate_roll3": 0.2309,
+    "rate_std3": 0.1192,
+    "stage_km2_prev": 0.0717,
+    "rate_lag2": 0.0609,
+    "n_prior": 0.0606,
+    "width_lag1": 0.0528,
+    "curvature_k": 0.039,
+    "arc_norm": 0.0341,
+    "meander_off_m": 0.0272
   },
   "skill": {
-    "rows": 432,
-    "transects": 31,
-    "features": 16,
-    "cv": "GroupKFold(5) grouped by transect_id",
-    "mae_predict_average": 2.919,
-    "mae_repeat_previous_pair": 4.06,
-    "mae_model": 2.843,
-    "model_beats_baseline": true,
-    "correlation_model": 0.517,
-    "correlation_lag1": -0.073,
-    "improvement_pct": 2.6
+    "method": "expanding-window by target year; prior-year features only",
+    "test_years": [
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "rows": 310,
+    "folds": [
+      {
+        "test_year": 2022,
+        "training_years": 2,
+        "rows": 62,
+        "mae_model": 3.183,
+        "mae_train_median": 2.492
+      },
+      {
+        "test_year": 2023,
+        "training_years": 3,
+        "rows": 62,
+        "mae_model": 3.509,
+        "mae_train_median": 1.75
+      },
+      {
+        "test_year": 2024,
+        "training_years": 4,
+        "rows": 62,
+        "mae_model": 2.509,
+        "mae_train_median": 2.497
+      },
+      {
+        "test_year": 2025,
+        "training_years": 5,
+        "rows": 62,
+        "mae_model": 3.735,
+        "mae_train_median": 3.011
+      },
+      {
+        "test_year": 2026,
+        "training_years": 6,
+        "rows": 62,
+        "mae_model": 2.941,
+        "mae_train_median": 2.784
+      }
+    ],
+    "mae_model": 3.175,
+    "mae_train_median": 2.507,
+    "mae_train_mean": 2.68,
+    "mae_repeat_previous_pair": 3.977,
+    "forecast_supported": false
   },
   "horizon_years": 10,
   "caveats": [
-    "Margin over baseline is small; quote the cross-validated MAE, never the in-sample fit.",
-    "432 rows over 7 year-pairs is thin. The Landsat 5-year-block record is needed before this is defensible.",
-    "Strongest features describe how the channel is already changing, so the model partly reads the bank's current state. Applying it forward assumes that state persists - which is the hypothesis.",
-    "No ground truth; skill is measured only against our own baselines."
+    "The projection is experimental unless forecast_supported is true.",
+    "Validation uses an expanding time window and features known before each target year.",
+    "The one-year rate is linearly extended across the requested horizon; long-horizon uncertainty is not calibrated.",
+    "No surveyed banklines are available as independent ground truth."
   ]
 }

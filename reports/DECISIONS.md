@@ -2232,3 +2232,52 @@ Now corrected:
 closed requires running the method, not inferring the answer from its
 neighbours. A negative result that has not been tested with the actual method is
 an assumption wearing the costume of a finding.
+
+## D63 - Withdraw the 2.843 m/yr score as evidence of future prediction
+
+**Date:** 2026-10-18
+**Supersedes:** D62's conclusion that the Arial Khan RandomForest had shown
+future-prediction skill. The goal of building a future-bankline prediction
+system remains; this correction changes the evidence, not the goal.
+
+**What was wrong.** `14_model_train.py` used `GroupKFold` by transect, which
+kept each transect out of the matching training fold, but it selected nearly
+every numeric feature. This included observations from the same interval as the
+target, including `other_side_rate`, `width_m`, `width_change_pct`, and current
+stage values. Those measurements are not available before predicting that
+interval. Grouping rows by transect does not prevent this time leakage. The
+reported 2.843 m/yr MAE and +0.517 correlation therefore do not validate a
+future prediction.
+
+**Corrected test.** The model now uses only prior-year information and is
+evaluated with an expanding time window: each test year is predicted using
+earlier years only. Missing feature values are filled using training data only.
+Across 310 held-out bank-side/year records for 2022–2026:
+
+| predictor | MAE (m/yr) |
+|---|---:|
+| RandomForest candidate | 3.175 |
+| training-median baseline | **2.507** |
+| training-mean baseline | 2.680 |
+| repeat previous pair | 3.977 |
+
+The candidate loses to the median baseline. `forecast_supported` is therefore
+false. Its 62 bank-side outputs remain available as **experimental** rates and
+10-year linear extensions, not as a validated bankline forecast. The scaled
+MAE band is a rough display aid, not a calibrated 10-year uncertainty interval.
+
+**Changes made.** `14_model_train.py` now limits features to values available
+before the target year and records chronological test metrics. `06_predict_geojson.py`
+includes those metrics and marks unsupported output `is_forecast: false` and
+`projection_status: experimental`. The API, map, project notes and README now
+describe prediction as the goal and the current overlay as experimental.
+
+**Next evidence needed.** Restore/export the Arial Khan Landsat record, compare
+candidate models under the same time-forward test, retain a later period for a
+final untouched test, and measure spatial bankline error against later observed
+banklines. More rows alone do not prove forecast skill.
+
+**Reason.** A model must be tested with information it could actually have at
+prediction time. A transect-grouped split addresses spatial leakage but not
+future-information leakage. We keep the intended system ambitious while making
+its current limits visible.

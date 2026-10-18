@@ -137,8 +137,8 @@ else:
 print("\n6. Landsat footprint is understood")
 ok(f"Landsat bbox {C.sensor_bbox('landsat')}")
 ok(f"shared bbox  {C.BBOX_COMMON}")
-print("     NOTE: Landsat misses the strip below 24.35N, which holds about")
-print("     11.7% of the traced river. Cross-sensor work uses BBOX_COMMON.")
+print("     NOTE: compare the sensor-specific bbox with the active reach before")
+print("     using Landsat as cross-sensor validation.")
 
 print("\n7. Export scripts and config agree on the study box")
 # The Earth Engine scripts carry their own hardcoded rectangle. If config.py is
@@ -243,19 +243,30 @@ if risk_csv.exists():
 else:
     warn("no risk table yet - run 13_risk_and_forecast.py")
 
-# The label must match how the geometry was actually produced. A trained model
-# IS a forecast (D62); a long-run rate is not. What is forbidden either way is a
-# file that claims to be a forecast without carrying the skill that justifies it.
+# A model output is a forecast only when its chronological backtest beats both
+# simple baselines and the requested spatial horizon has been independently
+# validated. Current experimental outputs have no such horizon validation.
 for g in sorted((C.DATA_PROC / "predictions").glob("longrun_trend_*.geojson")):
     fc = json.loads(g.read_text())
     md = fc.get("metadata", {})
     if "is_forecast" not in md:
         bad(f"{g.name}: must state whether it is a forecast")
         continue
-    if md["is_forecast"] and not md.get("mae_model_m_per_yr"):
-        bad(f"{g.name}: claims to be a forecast but carries no cross-validated MAE")
+    if md["is_forecast"] and (
+            not md.get("forecast_supported") or
+            not md.get("horizon_validated") or
+            not md.get("mae_model_m_per_yr") or
+            not md.get("median_baseline_mae_m_per_yr")):
+        bad(f"{g.name}: forecast claim lacks passing chronological skill metrics")
+    elif (md.get("projection_status") == "experimental" and
+          md["is_forecast"]):
+        bad(f"{g.name}: multi-year experimental projection cannot claim forecast status")
+    elif md.get("projection_status") == "experimental" and not md.get(
+            "mae_model_m_per_yr"):
+        bad(f"{g.name}: experimental model projection lacks chronological MAE")
     else:
-        ok(f"{g.name}: is_forecast={md['is_forecast']}, method={md.get('method')}, "
+        ok(f"{g.name}: status={md.get('projection_status')}, "
+           f"is_forecast={md['is_forecast']}, method={md.get('method')}, "
            f"{md.get('n_records')} records, "
            f"MAE {md.get('mae_model_m_per_yr', 'n/a')}")
 

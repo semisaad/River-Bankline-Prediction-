@@ -4,6 +4,10 @@ Generated: 2026-10-18
 
 Every number below is produced by a script in `ml/` and can be re-checked by re-running it.
 
+> Scope note: sections 1–5 preserve the archived Jamuna analysis. They do not
+> describe cross-sensor validation for the active Arial Khan study. Section 7 is
+> the current Arial Khan forecast-time evaluation.
+
 ## 1. Two independent sensors agree
 
 This is the central check. Sentinel-2 (10 m, 2019-2026) and Landsat (30 m, 1989-2026) measure the same river with different instruments. They were not built to agree.
@@ -62,7 +66,10 @@ A low-water year exposes more bank, which can look like erosion even when no lan
 - A weak relationship is reassuring: the measurement is not simply tracking how much water was present.
 - It is not eliminated. Each record carries `stage_km2`, `stage_change_km2` and `stage_ratio` so this can be inspected.
 
-## 5. Is there any learnable signal?
+## 5. Archived Jamuna predictability test
+
+This section reports the historical Jamuna analysis. It does not establish
+prediction skill or lack of skill for the active Arial Khan reach.
 
 This is the finding that shapes the product.
 
@@ -104,11 +111,39 @@ For MAE the optimal constant predictor is the median, and this label is heavy-ta
 
 **Not claimed:**
 
-- a prediction of next year's erosion. This was tested and it does not work; see section 5.
+- a validated prediction of next year's erosion on either reach. The Jamuna
+	test is negative (section 5); the active Arial Khan time-forward test below
+	also does not beat its median baseline.
 
 - absolute accuracy against ground truth, because there is no survey of where the bank was.
 
-## 7. Honest limitations
+## 7. Active Arial Khan forecast-time test
+
+The former Arial Khan score (MAE 2.843 m/yr, correlation +0.517) used
+`GroupKFold` by transect, but also included features measured during the target
+interval. `other_side_rate`, `width_m`, `width_change_pct`, and current-stage
+features are not known before that interval is predicted. The score is withdrawn
+as evidence of future prediction; see DECISIONS.md D63.
+
+The corrected evaluation uses prior-year features only. Each test year is
+predicted from earlier years, with missing-value medians fitted on training
+years only:
+
+| predictor | MAE (m/yr) |
+|---|---:|
+| RandomForest candidate | 3.175 |
+| training-median baseline | **2.507** |
+| training-mean baseline | 2.680 |
+| repeat previous pair | 3.977 |
+
+There are 310 held-out bank-side/year records across 2022–2026. The candidate
+does not beat the median baseline, so the model is not currently supported as a
+forecast. The website's 2036 lines are experimental linear extensions of rates;
+the 10-year output and its displayed band have not been independently
+validated. Reproduce with `RIVERGUARD_REACH=arial_khan .venv/bin/python
+ml/14_model_train.py`.
+
+## 8. Honest limitations
 
 1. **No ground truth.** Confidence comes from two independent sensors agreeing and from literature plausibility, not from absolute accuracy.
 

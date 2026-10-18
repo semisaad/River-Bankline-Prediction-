@@ -2,32 +2,12 @@
 13 - Long-run erosion risk, with honest uncertainty.
 
 WHY THIS EXISTS
-    After 37 years of Landsat imagery and a full record of real river discharge
-    (see reports/DECISIONS.md D44), the honest finding is that *which transect
-    erodes how fast next year* is not predictable. Measured against the trivial
-    "predict the average" baseline of 83.9 m/yr:
+  This script summarizes historical long-run erosion rates and ranks chronic
+  exposure for the selected reach. It does not train or evaluate the future
+  bankline model; that work is in 14_model_train.py.
 
-        same transect, previous pair      133.7 m/yr
-        transect's own past average        87.1 m/yr
-        monsoon discharge (within transect) r = +0.05
-
-    So this script does NOT produce a forecast dressed up as a forecast. It
-    produces the two things the evidence does support:
-
-      1. THE LONG-RUN RATE - how many metres a year this bank has actually been
-         losing over 37 years, with a confidence interval that accounts for the
-         fact that consecutive years are not independent.
-      2. A RISK RANKING - which stretches of the river are the chronic eroders,
-         expressed as a share of the worst one.
-
-    Chronic erosion risk is a real and defensible planning quantity even though
-    the year-to-year figure is not. A road embankment 300 m from a bank that has
-    lost 120 m/yr for three decades is at more risk than one beside a bank that
-    has lost 5 m/yr, whatever any single year happens to do.
-
-WHAT THIS SCRIPT WILL NOT DO
-    It will not emit a "predicted bankline for next year". Nothing in the data
-    supports that, and shipping it would present noise as skill.
+  A historical risk ranking answers "where has erosion tended to be high?"
+  It is not a prediction of where a bank will be in a future year.
 
 HOW THE UNCERTAINTY IS DONE
     Two effects are handled explicitly rather than ignored:
@@ -46,9 +26,9 @@ HOW THE UNCERTAINTY IS DONE
        reported beside it so the difference is visible rather than hidden.
 
 OUTPUTS
-    data/processed/risk/transect_risk.csv     one row per (transect, bank side)
-    data/processed/risk/risk.geojson          same, as map geometry
-    reports/RISK.md                           methods and limitations
+    data/reaches/<reach>/processed/risk/transect_risk.csv
+    data/reaches/<reach>/processed/risk/risk.geojson
+    reports/RISK_<reach>.md                   methods and limitations
 
 Run:
     cd ~/Projects/riverguard/ml
@@ -261,7 +241,7 @@ def main():
 
     L = []
     A = L.append
-    A("# RiverGuard - long-run erosion risk\n")
+    A(f"# RiverGuard - historical erosion risk: {C.REACH_LABEL}\n")
     A(f"Generated: {date.today().isoformat()}\n")
     A("## What this is\n")
     A("For each transect and bank side: how many metres per year that bank has "
@@ -271,18 +251,9 @@ def main():
       "outward (accretion).\n")
 
     A("## What this is not\n")
-    A("This is **not** a forecast for next year. It was tested and it does not "
-      "work. Measured against the trivial baseline of predicting the average:\n")
-    A("| predictor | MAE (m/yr) |")
-    A("|---|---|")
-    A("| predict the average | **83.9** |")
-    A("| this transect's own past average | 87.1 |")
-    A("| same transect, previous pair | 133.7 |")
-    A("| river discharge (best case, within transect) | correlation +0.05 |")
-    A("\n37 years of imagery and the physically correct forcing still produce no "
-      "usable year-to-year signal. On a braided river the erosion hotspots "
-      "migrate instead of persisting. Publishing a yearly forecast would be "
-      "presenting noise as skill.\n")
+    A("This historical ranking does not predict a future bankline. For the "
+      "active Arial Khan candidate model and its time-forward test, see "
+      "`reports/VALIDATION.md` and `ml/artifacts/model_report.json`.\n")
 
     A("## The numbers\n")
     A(f"- {n} transect-side records, of which **{len(ranked)} have at least "
@@ -368,7 +339,7 @@ def main():
       f"change.** They are kept in the CSV and flagged, rather than quietly "
       f"dropped, so the map shows what was actually measured.\n")
 
-    rpath = REPORTS / "RISK.md"
+    rpath = REPORTS / f"RISK_{C.REACH}.md"
     rpath.write_text("\n".join(L) + "\n")
 
     print("\n".join(L))

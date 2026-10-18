@@ -10,8 +10,17 @@ import './App.css'
 
 config.WORKER_URL = '/maplibre-gl-worker.mjs'
 
-const CENTER = [89.75, 24.45]
+const CENTER = [90.21555, 23.2044]
 const YEARS = [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]
+const dominantBankRate = [
+  'case',
+  ['>=',
+    ['abs', ['to-number', ['get', 'left_rate'], 0]],
+    ['abs', ['to-number', ['get', 'right_rate'], 0]],
+  ],
+  ['to-number', ['get', 'left_rate'], 0],
+  ['to-number', ['get', 'right_rate'], 0],
+]
 
 const BASEMAP = {
   version: 8,
@@ -35,7 +44,7 @@ function emptyFC() {
 export default function App() {
   const mapContainer = useRef(null)
   const mapRef = useRef(null)
-  const [year, setYear] = useState(2023)
+  const [year, setYear] = useState(2026)
   const [playing, setPlaying] = useState(false)
   const [summary, setSummary] = useState(null)
   const [future, setFuture] = useState(null)
@@ -48,18 +57,22 @@ export default function App() {
       .then((r) => (r.ok ? r.json() : null))
       .then((fc) => {
         if (!fc || !fc.features || !fc.features.length) return
-        const trends = fc.features.filter(
-          (f) => f.properties?.kind === 'long_run_trend',
+        const projections = fc.features.filter(
+          (f) => ['experimental_projection', 'long_run_trend'].includes(
+            f.properties?.kind,
+          ),
         )
-        if (!trends.length) return
-        const rates = trends.map((f) =>
+        if (!projections.length) return
+        const rates = projections.map((f) =>
           Math.abs(f.properties?.rate_m_per_yr || 0),
         )
         setFuture({
-          horizon: trends[0].properties?.horizon_years,
+          horizon: projections[0].properties?.horizon_years,
           baseYear: fc.metadata?.base_year,
-          n: trends.length,
-          nSignificant: fc.metadata?.n_significant ?? 0,
+          n: projections.length,
+          supported: fc.metadata?.forecast_supported ?? false,
+          modelMae: fc.metadata?.mae_model_m_per_yr,
+          medianMae: fc.metadata?.median_baseline_mae_m_per_yr,
           max: Math.max(0, ...rates),
         })
       })
@@ -67,8 +80,12 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    fetch('/api/risk/summary/')
+    fetch('/api/status/')
       .then((r) => (r.ok ? r.json() : null))
+      .then((status) => status?.risk_ready
+        ? fetch('/api/risk/summary/').then((r) => (r.ok ? r.json() : null))
+        : null,
+      )
       .then((s) => {
         if (s) setRisk(s)
       })
@@ -80,7 +97,7 @@ export default function App() {
       container: mapContainer.current,
       style: BASEMAP,
       center: CENTER,
-      zoom: 9.2,
+      zoom: 12,
     })
     map.addControl(new NavigationControl(), 'top-right')
     map.addControl(new ScaleControl({ unit: 'metric' }), 'bottom-right')
@@ -109,7 +126,7 @@ export default function App() {
           'line-color': [
             'interpolate',
             ['linear'],
-            ['get', 'rate_m_yr'],
+            dominantBankRate,
             -200, '#2f80ed',
             -50, '#56ccf2',
             0, '#cccccc',
@@ -208,19 +225,22 @@ export default function App() {
             return
           }
           map.getSource('erosion')?.setData(fc)
-          const rates = fc.features.map((f) => Math.abs(f.properties.rate_m_yr || 0))
+          const sideRates = fc.features.flatMap((f) => [
+            Number(f.properties.left_rate) || 0,
+            Number(f.properties.right_rate) || 0,
+          ])
+          const rates = sideRates.map(Math.abs)
           rates.sort((a, b) => a - b)
           const med = rates.length ? rates[Math.floor(rates.length / 2)] : 0
           const mx = rates.length ? rates[rates.length - 1] : 0
-          const net = fc.features.reduce(
-            (s, f) => s + Math.max(0, f.properties.rate_m_yr || 0),
-            0,
-          )
           setSummary({
             pair,
             median: med.toFixed(0),
             max: mx.toFixed(0),
-            eroding: fc.features.filter((f) => (f.properties.rate_m_yr || 0) > 5).length,
+            eroding: fc.features.filter((f) =>
+              Math.max(Number(f.properties.left_rate) || 0,
+                Number(f.properties.right_rate) || 0) > 5,
+            ).length,
             total: fc.features.length,
           })
         })
@@ -251,12 +271,14 @@ export default function App() {
           // The file carries both the measured bankline it was built from and
           // the projected one. Drawing the measured line in "forecast" style
           // would misrepresent where the projection actually is.
-          const trends = fc.features.filter(
-            (f) => f.properties?.kind === 'long_run_trend',
+          const projections = fc.features.filter(
+            (f) => ['experimental_projection', 'long_run_trend'].includes(
+              f.properties?.kind,
+            ),
           )
           map
             .getSource('predicted')
-            ?.setData({ ...fc, features: trends })
+            ?.setData({ ...fc, features: projections })
         })
         .catch(() => {})
     }
@@ -304,7 +326,7 @@ export default function App() {
 
       <div className="card title-card">
         <h1>RiverGuard</h1>
-        <p>Jamuna River · bankline migration</p>
+        <p>Arial Khan · experimental bankline prediction</p>
       </div>
 
       <div className="card legend">
@@ -318,15 +340,19 @@ export default function App() {
 
       {(showRisk || showFuture) && (
         <div className="card note-card">
-          <strong>Not a forecast.</strong> Year-to-year erosion was tested and
-          found unpredictable — nothing beat simply predicting the average.
+          <strong>Experimental projection.</strong>{' '}
+          The project is building a system to predict future banklines. This
+          multi-year line is not independently validated. The current rate model
+          {future?.supported ? ' beats' : ' does not beat'} the historical-median
+          benchmark
+          {future?.modelMae != null && future?.medianMae != null && (
+            <> (MAE {future.modelMae} vs {future.medianMae} m/yr)</>
+          )}.
           {showFuture && future && (
             <>
-              {' '}These dashed lines are the{' '}
-              <strong>{future.horizon}-year long-run trend</strong> from{' '}
-              {future.baseYear}, based on {future.n} measured bank positions,
-              only {future.nSignificant} of which are statistically
-              distinguishable from zero.
+              {' '}Dashed lines show a {future.horizon}-year extension of
+              modelled rates from {future.baseYear} for {future.n} bank sides;
+              long-horizon uncertainty is not calibrated.
             </>
           )}
           {showRisk && risk && (
@@ -370,7 +396,7 @@ export default function App() {
             className={`future-btn ${showFuture ? 'on' : ''}`}
             onClick={() => setShowFuture((s) => !s)}
           >
-            {showFuture ? 'Hide' : 'Show'} {future.horizon}-yr trend
+            {showFuture ? 'Hide' : 'Show'} {future.horizon}-yr projection
           </button>
         )}
         <button className="play" onClick={() => setPlaying((p) => !p)}>

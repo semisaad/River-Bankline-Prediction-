@@ -4,7 +4,7 @@ The analysis reach is chosen with one environment variable:
 
     RIVERGUARD_REACH=ganges ../.venv/bin/python 04_erosion.py landsat
 
-Unset, it means jamuna, and every path and value is exactly what it has
+    Unset, it means arial_khan, and every path and value is exactly what it has
 always been - the backend serves from these folders, so the reach switch
 must never move the jamuna data. All spatial analysis is done in a
 projected CRS (metres), not lat/lon.
@@ -130,7 +130,7 @@ REACHES = {
     },
 }
 
-REACH = os.environ.get("RIVERGUARD_REACH", "jamuna").strip().lower()
+REACH = os.environ.get("RIVERGUARD_REACH", "arial_khan").strip().lower()
 if REACH not in REACHES:
     raise SystemExit(f"unknown reach {REACH!r}; choose one of {sorted(REACHES)}")
 _r = REACHES[REACH]

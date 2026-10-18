@@ -7,10 +7,10 @@ known issues. This file covers conventions.
 
 **Do not present an assumption as a finding.**
 
-This project's central result is negative — year-to-year bank erosion could not
-be predicted, and nothing beat "predict the average". That result is only
-credible because every number is traceable to a script and every limitation is
-written down. Adding an unsupported claim destroys the whole thing.
+This project's goal is to predict future bankline positions. The current Arial
+Khan model is experimental and does not beat the chronological training-median
+baseline; do not describe its projected lines as validated forecasts. Every
+number must be traceable to a script and every limitation written down.
 
 If a change affects the numbers, the method, or a claim, append to
 `reports/DECISIONS.md`. It is **append-only**: never edit an old entry to make it
@@ -21,9 +21,11 @@ look better. Supersede it with a new entry that says so.
 **One river: the Arial Khan**, Madaripur Sadar – Kalkini reach, Bangladesh. 300 m
 wide, single-thread, 8.1 km centreline, 32 transects.
 
-A trained RandomForest predicts bank movement, cross-validated at **MAE 2.843
-m/yr** against 2.919 for predicting the average. Quote the cross-validated
-number, never an in-sample fit.
+The candidate RandomForest was re-evaluated using only prior-year features and
+an expanding time window: MAE **3.175 m/yr**, versus **2.507** for the
+training-median baseline (310 held-out records, 2022–2026). It does not yet
+support a useful forecast. The earlier 2.843 score used same-interval features
+and is withdrawn as future-prediction evidence in D63.
 
 The pipeline accepts a reach name because an earlier reach is archived, but the
 analysis, model and reported results are Arial Khan only.
@@ -33,7 +35,7 @@ analysis, model and reported results are Arial Khan only.
 | file | why |
 |---|---|
 | `context/CURRENT.md` | current state, the one blocking item, key numbers |
-| `reports/DECISIONS.md` | why anything is the way it is. 60 entries. Read the ones your area touches. |
+| `reports/DECISIONS.md` | why anything is the way it is. Read the entries your area touches. |
 | `reports/VALIDATION.md` | what has actually been verified |
 | `reports/RISK.md` | the product and its uncertainty |
 | `docs/HOW_IT_WORKS.md` | the measurement method |
@@ -43,9 +45,9 @@ analysis, model and reported results are Arial Khan only.
 - Project root: `/media/saad/HDD/riverguard` (`~/Projects/riverguard` is a symlink)
 - **The HDD is not in `/etc/fstab`.** If paths vanish, check the mount first.
 - Python: `.venv/bin/python` from the root, `../.venv/bin/python` from `ml/`
-- Pipeline runs in numeric order: `01_prepare` → `02_banklines` → `04_erosion` →
-  `05_features` → `13_risk_and_forecast` → `06_predict_geojson` →
-  `07_validate` → `08_crosssensor`
+- Prediction path: `01_prepare` → `02_banklines` → `04_erosion` → `05_features` →
+  `14_model_train` → `06_predict_geojson`. `13_risk_and_forecast` is a separate
+  Landsat-based historical-risk analysis, not the model-prediction step.
 
 ## Reach-agnostic by design
 

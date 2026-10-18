@@ -2,10 +2,11 @@
 
 The measurement method, end to end, in plain language.
 
-> **Status note (2026-10-18).** An earlier version of this document described a
-> system that would forecast next year's erosion. That was tested and it does not
-> work — see `reports/DECISIONS.md` D44. This version describes what the project
-> actually measures and what it actually claims.
+> **Status note (2026-10-18).** The goal is a system that predicts future bankline
+> positions. The current Arial Khan model is experimental: when evaluated using
+> only prior-year information, it does not beat the training-median baseline.
+> Its 2036 lines are not validated forecasts; see D63 in
+> `reports/DECISIONS.md`.
 
 ---
 
@@ -21,8 +22,10 @@ we ask a very specific question about a small number of places along the bank:
 Divide by the length of riverbank involved and you get **metres of bank movement
 per year**, separately for each bank. Do that 35 times and you have a history.
 
-That is the whole measurement. Everything else in this project exists to make
-that one number trustworthy.
+Those measurements are the input to a prediction model. The model's job is to
+estimate future movement using only information available before the prediction
+period, then compare its results with simple baselines and later observed
+banklines.
 
 ---
 
@@ -65,9 +68,9 @@ longitude is a different number of metres depending on where you are, so degrees
 cannot be used to measure distance.
 
 This room picks **one common grid in metres** for the whole study area and
-reprojects every year onto it. Result: the same patch of ground lands on the same
-pixel in 1989 and in 2026. Without this, you would "measure" alignment error as
-movement.
+reprojects every year onto it. For the active Arial Khan study, Sentinel-2
+currently covers 2019–2026. The archived Jamuna Landsat record covers earlier
+years. Without alignment, you would "measure" grid error as movement.
 
 **Output:** `mask_YYYY.tif` (water/not water) and, if available, `rgb_YYYY.tif`
 (colour, display only — nothing in the measurement reads it).
@@ -140,7 +143,7 @@ On the Arial Khan, ponds connected to the river by a breach made the profile rea
 a pond as the far bank — a "3.5 km river". Clamping instead of dropping those
 transects took the reach from **23 to 32 transects**, a 39% gain.
 
-### Room 5 — Assess (`ml/13_risk_and_forecast.py`)
+### Room 5 — Historical risk (`ml/13_risk_and_forecast.py`)
 
 Turns the measurements into a risk ranking **with honest uncertainty**.
 
@@ -152,41 +155,50 @@ Turns the measurements into a risk ranking **with honest uncertainty**.
   years are not independent measurements — a bank eroding this year usually still
   erodes next year.
 
-Result: of 64 eligible records, **only 3** are statistically distinguishable from
-zero. That is reported, not smoothed over.
+This step needs a long Landsat record. The committed `reports/RISK.md` describes
+the archived Jamuna analysis; Arial Khan risk output is not yet validated.
 
-### Room 6 — Serve (`backend/` Django, `frontend/` React + MapLibre)
+### Room 6 — Test and project (`ml/14_model_train.py`, `ml/06_predict_geojson.py`)
 
-The API reads the processed GeoJSON files — no database, the files are the truth.
-The map draws the bankline, transects coloured by movement, and two optional
-layers: **chronic risk** and a **long-run trend**. The word "forecast" was
-removed from the interface entirely, because a button labelled "forecast"
-invites a reader to accept a claim the evidence does not support.
+The model uses only prior-year rates, prior-year width and static river geometry.
+It is tested by predicting later years using earlier years only. Missing values
+are filled using the training years, not the test years. The candidate is
+compared with a training-median rate and the previous year's rate.
+
+On the current Arial Khan data (432 rows over 7 year-pairs), the walk-forward
+test covers 310 bank-side/year records in 2022–2026. RandomForest MAE is
+**3.175 m/yr**, compared with **2.507** for the training-median baseline. The
+candidate does not pass. The pipeline still draws a 10-year linear extension for
+development, but marks it **experimental** and does not call it a validated
+forecast. That extension's uncertainty band is not calibrated for ten years.
+
+### Room 7 — Serve (`backend/` Django, `frontend/` React + MapLibre)
+
+The API reads processed GeoJSON files for the selected reach. The map shows
+observed banklines and can show chronic risk when data exists, plus the current
+**experimental projection**. It displays the model-vs-baseline scores beside
+that projection so users can see why it is not yet called a forecast.
 
 ---
 
 ## 4. What the numbers actually say
 
-**The central result is negative.** Measured against "predict the average"
-(83.9 m/yr on the Jamuna):
+The archived Jamuna test was negative: its 37-year record did not produce a
+model that beat the mean/median baselines (see `reports/VALIDATION.md`). That
+result motivated the move to Arial Khan, but it is not the active-reach result.
+
+On Arial Khan, the former MAE 2.843 m/yr score used same-interval measurements
+and is withdrawn as forecast evidence. Under the corrected time-forward test:
 
 | predictor | MAE (m/yr) |
 |---|---|
-| **predict the average** | **83.9** |
-| this transect's own past average | 87.1 |
-| same transect, previous pair | 133.7 |
-| 37 years of real GloFAS discharge | r = +0.049 |
+| RandomForest candidate | 3.175 |
+| training-median baseline | **2.507** |
+| repeat previous pair | 3.977 |
 
-Nothing beats the baseline. On the Arial Khan, a completely different river, the
-same is true (2.92 vs 4.06 m/yr).
-
-**Why, physically:** on a braided river, erosion hotspots **migrate rather than
-persist**. And a catchment-scale discharge number — one value for a ~5 km cell —
-cannot say *where* along a 9 km reach the water attacks the bank.
-
-**What survives:** the measured record, cross-sensor agreement, and the relative
-ranking of which stretches are chronic eroders. Those are defensible. A
-year-by-year forecast is not.
+The candidate currently loses to the median baseline. The goal remains to build
+and validate the future-bankline system; the map's current 2036 projection is a
+development output, not evidence that the goal has been achieved.
 
 ---
 

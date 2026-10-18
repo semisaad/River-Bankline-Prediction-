@@ -1,6 +1,6 @@
 # CURRENT STATE
 
-**Date:** 2026-10-18 · **Branch:** master, committed locally, **not yet pushed**
+**Date:** 2026-10-18 · **Branch:** main, synchronized with origin/main
 
 ## THE PROJECT: Arial Khan (Madaripur Sadar – Kalkini, middle reach)
 
@@ -18,58 +18,54 @@ was a config change, not a rebuild.
 > 23.60N and the preview came back mostly Padma (D51). Hard constraint, recorded
 > in `config.py` and both export scripts.
 
-## The headline result: the model predicts
+## Goal and current model status
 
-Arial Khan, Sentinel-2, 432 rows, 31 transects, 17 features,
-`GroupKFold(5)` **grouped by transect** so no part of a bank is in both
-training and test:
+The goal is a system that predicts future bankline positions and makes
+uncertainty visible. The current implementation is a research prototype, not a
+validated forecasting system.
 
-| | MAE (m/yr) | correlation |
-|---|---|---|
-| predict the average | 2.919 | — |
-| repeat the previous pair | 4.060 | −0.073 |
-| **RandomForest** | **2.843** | **+0.517** |
-| GradientBoosting | 2.949 | +0.568 |
+The former 2.843 m/yr score (D62) used a transect-grouped split but included
+same-interval measurements, such as end-of-year width and the opposite bank's
+movement. Those values are unavailable before predicting that year. D63 records
+the correction; the old score is not forecasting evidence.
 
-**A trained model beats the trivial baseline by 2.6%.** 62 transect-sides are
-projected to 2036.
+The corrected RandomForest uses prior-year features and expanding time windows:
 
-An earlier conclusion that no forecast was supportable was **wrong** — it was
-drawn from baselines and correlations without training a model. D62 supersedes
-it. The Jamuna result (nothing beat the average, r = +0.049) stands as the reason
-the project moved rivers, but it is not a result of this one.
+| test years | held-out records | model MAE | training-median MAE | previous-year MAE |
+|---|---:|---:|---:|---:|
+| 2022–2026 | 310 | 3.175 m/yr | 2.507 m/yr | 3.977 m/yr |
+
+The model loses to the median baseline. Its 62 current bank-side rates are still
+drawn as **experimental** 10-year extensions to 2036; the extension is linear
+and has no independently validated 10-year uncertainty interval.
 
 ## Status
 
 | item | state |
 |---|---|
-| **Model trained and validated** | ✅ RandomForest, MAE **2.843** vs 2.919 baseline, r **+0.517** (D62) |
-| Predictions to 2036 | ✅ 62 transect-sides, `predictions.csv` + map geometry |
-| S2 masks, Arial Khan | ⚠️ **raw exports DELETED.** Processed masks, features and predictions all survive |
-| S2 geometry | ✅ 32 transects, 0 dropped, median width 350 m — still reproducible |
-| S2 EPR + features | ✅ 7 pairs — still reproducible |
-| Landsat masks, Arial Khan | ❌ not exported with the current script |
-| GEE scripts on GitHub | ❌ **not pushed — 4 commits local only. BLOCKS the re-export.** |
-| GloFAS discharge | ⛔ for this reach — existing download covers a different river |
-| GloFAS, Arial Khan | ❌ existing download does not cover the reach |
-| Cross-sensor check | ❌ needs Landsat 2019–2023 |
+| Active reach | Arial Khan, Madaripur Sadar–Kalkini |
+| Processed Sentinel-2 | 2019–2026 masks, banklines, EPR and features available |
+| Geometry | 32 transects; 0 dropped; median width about 350 m |
+| Candidate model | Runs with prior-year features; fails chronological median baseline |
+| Experimental projection | 62 bank sides to 2036; explicitly not a validated forecast |
+| Raw S2/Landsat exports | Missing; processed S2 outputs survive |
+| Arial Khan Landsat | Not yet exported; needed for longer-record and cross-sensor tests |
+| Ground-truth survey | Not available |
+| Website | Serves selected reach; default is Arial Khan |
+| Guard checks | Blocking checks pass; Landsat/GloFAS checks warn while data is absent |
 
-| Website | ✅ chronic-risk + long-run-trend layers |
-| Guard checks | ✅ all pass, both reaches |
+## Next work
 
-## Blocking item — two things
+1. Re-export the raw Sentinel-2 and Landsat imagery using `docs/DATA_HANDOVER.md`.
+2. Rebuild the Landsat record and run cross-sensor validation before using it as
+  training evidence.
+3. Test forecast-time features with walk-forward evaluation and compare against
+  training median and previous-year baselines. Keep a later year untouched for
+  a final test.
+4. Improve bankline-position evaluation and uncertainty; rate MAE alone does
+  not measure the spatial error of a future shoreline.
 
-1. **Push the repository to GitHub.** A third party now needs the GEE export
-   scripts in order to download anything, and they are only on this machine.
-   This is now the critical path, not a housekeeping task.
-2. **Re-export Sentinel-2 and Landsat** for the Arial Khan. Raw downloads were
-   deleted and are being re-fetched. Instructions for whoever does it:
-   **`docs/DATA_HANDOVER.md`** — written for a third party with no access to this
-   conversation.
-
-Everything downstream is intact: processed masks, features, EPR, the trained
-model and its projections. `14_model_train.py` still runs and still returns MAE
-2.843 from the processed data.
+Push blocker is resolved: `main` is synchronized with `origin/main`.
 
 ## Recently found and fixed
 
@@ -96,15 +92,15 @@ model and its projections. `14_model_train.py` still runs and still returns MAE
 
 - Geometry: 8.1 km centreline, 32 transects, 0 dropped, median width
   335–370 m (published ~300 m)
-- GloFAS: 37 complete years, cell 24.525N 89.725E, 2004 flood at the 97th
-  percentile — independent evidence the hydrology is right
-- Risk: 64 eligible records, **3** statistically significant
+- Archived Jamuna GloFAS: 37 complete years; not Arial Khan evidence
+- Archived Jamuna risk table: 64 eligible records, **3** statistically significant
 
 ## Do not
 
 - Do not cite the withdrawn **+0.92**. Withdrawn in D37.
-- Do not quote an in-sample fit. The number is the cross-validated **2.843**.
-- Do not call anything a forecast. The UI and the GeoJSON both carry
-  `is_forecast: false`.
+- Do not quote **2.843** or **2.835** as forecast skill; they used same-interval
+  features. Current time-forward rate MAE is 3.175 vs 2.507 median baseline.
+- Do not call the current 2036 geometry a validated forecast. The UI and GeoJSON
+  mark it experimental and carry `is_forecast: false`.
 - Do not resample Landsat to 10 m.
 - Do not commit or push unless explicitly asked.
