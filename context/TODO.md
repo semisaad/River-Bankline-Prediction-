@@ -12,7 +12,7 @@ Last updated 2026-10-18. See `context/CURRENT.md` for current state and
 
 ## BLOCKED ON SAAD
 
-- [ ] **Landsat export for the Arial Khan**, 1989–2026.
+- [ ] **Sentinel-2 and Landsat re-export for the Arial Khan**.
       Script: `gee/landsat_export_arial_khan.js`. Press Run, do **not** draw — the
       fallback box is the measured S2 extent and must match.
       Download folder `riverguard_arial_khan` →
@@ -53,27 +53,24 @@ Last updated 2026-10-18. See `context/CURRENT.md` for current state and
 
 ## MUST DO — correctness debt
 
-- [ ] **Regenerate the Jamuna risk table.** `reports/RISK.md` and
-      `data/unused_data/jamuna/processed/risk/` predate the EPR sign fix (D58), so the ranking is
-      **inverted** — it ranks accretion as top erosion risk. Run
-      `RIVERGUARD_REACH=jamuna 13_risk_and_forecast.py` and re-check
-      `reports/RISK.md`.
-- [ ] **Rebuild the Jamuna feature tables** for the same reason (`target_rate`
-      sign). Magnitudes were unaffected, so `VALIDATION.md`'s cross-sensor
-      numbers stand.
+- [ ] **Nothing outstanding on the active reach.** The EPR sign fix (D58) landed
+      before the model was trained, and everything downstream was rebuilt from it.
+- [ ] **Regenerate `reports/VALIDATION.md` for the active reach.** Its
+      cross-sensor section still describes the archived river, so it is not yet
+      evidence for anything this project currently claims.
 - [ ] Check `docs/HOW_IT_WORKS.md` against the current code — it predates the
-      reach switch and the sign fix.
+      sign fix and the model.
+
+**Deliberately not done:** the archived reach's risk table predates the sign fix
+and is therefore inverted. It is unused and stays archived. Regenerating it would
+mean spending time on a river the project has left, so it is recorded here as a
+known state rather than as a task.
 
 ## NEXT (after Landsat)
 
-- [ ] Decide the honest product. Options, in descending order of defensibility:
-      measured record + chronic risk + uncertainty (current), or a long-run trend
-      with error bars. **Not** a year-by-year forecast — that was tested and does
-      not work (D44).
-- [ ] Add rainfall (CHIRPS) as a covariate; discharge alone showed nothing
-- [ ] Consider adding the **Ganges** reach as a third point on a scale gradient —
-      9 km braided vs 1–4 km vs 300 m single-thread. Elegant, but triples the
-      export and processing work.
+- [ ] Add rainfall (CHIRPS) as a covariate and re-test skill
+- [ ] Widen the record. 432 rows over 7 year-pairs is the binding constraint on
+      how much the model can be trusted. Landsat 5-year blocks is the fix.
 - [ ] Sediment load, if a source is found. It is the physically correct missing
       variable: bank erosion is driven by shear stress and sediment supply, not
       discharge alone.
@@ -86,5 +83,6 @@ Last updated 2026-10-18. See `context/CURRENT.md` for current state and
 
 ## HOUSEKEEPING
 
-- [ ] Create the GitHub remote and push (committed locally, not yet pushed)
+- [ ] **Push to GitHub** — commits are local only, and the export scripts are
+      needed by whoever re-downloads the imagery
 - [ ] Decide whether the forecast branch stays closed for good

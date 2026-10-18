@@ -3,8 +3,14 @@
 Measuring riverbank erosion on satellite imagery, comparing independent sensors,
 and publishing a chronic-risk ranking with honest uncertainty.
 
-Built as a final-year solo project. Three reaches, 37 years of Landsat, 8 years
-of Sentinel-2 at 10 m, and 37 complete years of real GloFAS river discharge.
+Built as a final-year solo project on the **Arial Khan** (Madaripur Sadar –
+Kalkini reach, Bangladesh): 8 years of Sentinel-2 at 10 m, a trained erosion
+model cross-validated against it, and banklines projected forward to 2036.
+
+The project moved here from an earlier reach on the Jamuna, where year-to-year
+erosion turned out to be unpredictable. That negative result is what motivated
+the switch and is preserved in `reports/DECISIONS.md`; the Jamuna data itself is
+archived and no longer part of the work.
 
 ---
 
@@ -88,11 +94,17 @@ npm run dev          # http://127.0.0.1:5173
 
 The pipeline is reach-agnostic. Switch with `RIVERGUARD_REACH=<name>`.
 
-| reach | width | centreline | transects | data |
-|---|---|---|---|---|
-| `jamuna` | 9 km braided belt | 38.8 km | 58 | Landsat 1989–2026, S2 2019–2026, GloFAS — **archived, see below** |
-| `ganges` | 1–4 km single-thread | — | — | registered, no data yet |
-| `arial_khan` | 300 m single-thread | 8.1 km | 32 (0 dropped) | model trained; **raw imagery being re-downloaded, see `docs/DATA_HANDOVER.md`** |
+The project works on **one river**, the Arial Khan. The pipeline still accepts a
+reach name so the earlier work stays reachable, but the analysis, the model and
+the reported results are all Arial Khan.
+
+| | |
+|---|---|
+| Reach | 300 m wide, single-thread, 8.1 km centreline |
+| Geometry | 32 transects, **0 dropped**, median width 335–370 m |
+| Model | RandomForest, `GroupKFold(5)` **grouped by transect** |
+| Skill | MAE **2.843** m/yr vs 2.919 for predict-the-average, r **+0.517** |
+| Projection | 62 transect-sides to 2036 |
 
 ### The model works — on the Arial Khan
 
@@ -109,30 +121,19 @@ nothing beat the baseline — that contrast is why the study moved rivers (D62).
 The margin is 2.6%: real, not large, and the record behind it is 432 rows over 7
 year-pairs. The Landsat 5-year-block record is what would make it defensible.
 
-### Why the Arial Khan
+### Why this river
 
-The switch is a test of a hypothesis, not a search for a river that cooperates.
+The previous reach was a 9 km braided belt where erosion hotspots *migrate*
+rather than persist, and nothing beat predicting the average. That negative result
+is preserved in `reports/DECISIONS.md` (D44, D62) and is the reason for the
+switch — it is not part of the current analysis.
 
-The Jamuna's belt is 9 km wide, so one GloFAS cell (~5.5 km) cannot resolve
-*where* the water attacks the bank — that is the specific reason discharge showed
-no signal. The Arial Khan is 300 m wide and single-threaded, so the reach fits
-inside one cell and outer-bank erosion should persist.
+The Arial Khan is 300 m wide and single-threaded, so outer-bank erosion is
+expected to persist. That expectation holds: a trained model beats the baseline
+here, at correlation +0.517, where the braided reach gave +0.049.
 
-**The hypothesis is currently unsupported.** Seven annual Sentinel-2 pairs show
-no skill. The Landsat record at 5-year blocks is the real test (D44, D60).
-
-### Why the Jamuna data is archived, not deleted
-
-`data/unused_data/jamuna/` holds 599 MB. Three reasons, all still valid:
-
-1. It is the **evidence** for the project's central negative result (D44).
-2. It is the **control**. A 9 km braided reach against a 300 m single-thread
-   reach *is* the experiment. Keeping only the river chosen after the first one
-   failed would be cherry-picking.
-3. The 37 Landsat files cost about an hour of Earth Engine time to produce.
-
-It remains fully runnable: `RIVERGUARD_REACH=jamuna`. Space was never the reason
-to archive it — there is 431 GB free.
+Archived Jamuna data remains at `data/unused_data/jamuna/` and is reachable with
+`RIVERGUARD_REACH=jamuna`, but it is no longer maintained.
 
 ---
 
@@ -145,7 +146,7 @@ to archive it — there is 431 GB free.
 | GloFAS discharge 1989–2025 | Copernicus CEMS Early Warning Data Store | `ml/12_glofas_discharge.py` |
 
 **Imagery is not in this repository.** All rasters (`*.tif`), plus `data/raw/` and
-`data/unused_data/` where raw downloads and the archived Jamuna live, are
+`data/unused_data/` where raw downloads and the archived earlier reach live, are
 gitignored — they are regenerable from the scripts above.
 The small CSV and GeoJSON evidence tables that back the reports *are* committed.
 
@@ -190,15 +191,15 @@ docs/        HOW_IT_WORKS.md - method in detail
 ## Known issues, stated plainly
 
 1. **EPR signs were inverted project-wide** until D58. Magnitudes were always
-   right; direction was not. The Jamuna risk ranking is inverted and must be
-   regenerated before use.
-2. **GloFAS may not be usable on the Arial Khan.** At Madaripur a 5.5 km cell
-   contains both the Padma and the distributary, so the cell's dominant discharge
-   may be the Padma's. Must be tested before any discharge feature is trusted.
-3. **The MNDWI/AWEI thresholds were tuned on the Jamuna** and are unverified on a
-   300 m river.
-4. **Most Arial Khan geometry constants are unverified guesses** scaled down for
-   a narrow river, pending the Landsat record.
+   right; direction was not. Everything on the active reach was rebuilt after the
+   fix.
+2. **The model is trained on 432 rows over 7 year-pairs.** That is the binding
+   constraint on how much the 2.6% margin can be trusted. A longer record is the
+   single highest-value improvement available.
+3. **Water-detection thresholds carry over from the earlier reach** and are
+   unverified on a 300 m river.
+4. **Most geometry constants are unverified guesses** scaled for a narrow river,
+   pending the longer record.
 5. **No ground truth.** Confidence comes from two sensors agreeing and from
    literature plausibility, not from absolute accuracy.
 6. **`backend/config/settings.py` uses Django's `django-insecure-` dev key.**

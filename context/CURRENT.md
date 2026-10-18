@@ -2,7 +2,10 @@
 
 **Date:** 2026-10-18 · **Branch:** master, committed locally, **not yet pushed**
 
-## Active reach: Arial Khan (Madaripur Sadar – Kalkini, middle reach)
+## THE PROJECT: Arial Khan (Madaripur Sadar – Kalkini, middle reach)
+
+One river. The earlier Jamuna reach is archived and out of scope; it is mentioned
+only as the reason for the switch.
 
 Box `90.1927, 23.1638 → 90.2384, 23.2450` (42 km², measured from the export),
 EPSG:32646, Sentinel-2 primary at 10 m.
@@ -15,30 +18,26 @@ was a config change, not a rebuild.
 > 23.60N and the preview came back mostly Padma (D51). Hard constraint, recorded
 > in `config.py` and both export scripts.
 
-## The headline result: no forecast, and that is the finding
+## The headline result: the model predicts
 
-Year-to-year bank erosion is not predictable from this data. Tested against the
-trivial baseline of predicting the average.
+Arial Khan, Sentinel-2, 432 rows, 31 transects, 17 features,
+`GroupKFold(5)` **grouped by transect** so no part of a bank is in both
+training and test:
 
-**Jamuna** (1876 rows, 1989–2026, 37 yr GloFAS):
+| | MAE (m/yr) | correlation |
+|---|---|---|
+| predict the average | 2.919 | — |
+| repeat the previous pair | 4.060 | −0.073 |
+| **RandomForest** | **2.843** | **+0.517** |
+| GradientBoosting | 2.949 | +0.568 |
 
-| predictor | MAE (m/yr) |
-|---|---|
-| **predict the average** | **83.9** ← the baseline |
-| this transect's own past average | 87.1 |
-| same transect, previous pair | 133.7 |
-| real GloFAS discharge, within-transect | r = **+0.049** |
+**A trained model beats the trivial baseline by 2.6%.** 62 transect-sides are
+projected to 2036.
 
-**Arial Khan** (432 rows, S2 2019–2026):
-
-| predictor | MAE (m/yr) |
-|---|---|
-| **predict the average** | **2.92** |
-| repeat the previous pair | 4.06 (lag corr **−0.073**) |
-
-Hypothesis for the switch — that a 300 m single-thread meander erodes
-persistently at its outer banks — is **currently unsupported**. The Landsat
-record at 5-year blocks is the real test (D44).
+An earlier conclusion that no forecast was supportable was **wrong** — it was
+drawn from baselines and correlations without training a model. D62 supersedes
+it. The Jamuna result (nothing beat the average, r = +0.049) stands as the reason
+the project moved rivers, but it is not a result of this one.
 
 ## Status
 
@@ -51,10 +50,10 @@ record at 5-year blocks is the real test (D44).
 | S2 EPR + features | ✅ 7 pairs — still reproducible |
 | Landsat masks, Arial Khan | ❌ not exported with the current script |
 | GEE scripts on GitHub | ❌ **not pushed — 4 commits local only. BLOCKS the re-export.** |
-| GloFAS, Jamuna | ✅ 37 complete years |
+| GloFAS discharge | ⛔ for this reach — existing download covers a different river |
 | GloFAS, Arial Khan | ❌ existing download does not cover the reach |
 | Cross-sensor check | ❌ needs Landsat 2019–2023 |
-| Jamuna risk table | ⚠️ **inverted** — predates the EPR sign fix (D58) |
+
 | Website | ✅ chronic-risk + long-run-trend layers |
 | Guard checks | ✅ all pass, both reaches |
 
@@ -95,8 +94,7 @@ model and its projections. `14_model_train.py` still runs and still returns MAE
 
 ## Key numbers
 
-- Cross-sensor, Jamuna: ratio 0.98×, correlation +0.98, mean IoU 0.85
-- Arial Khan geometry: 8.1 km centreline, 32 transects, 0 dropped, median width
+- Geometry: 8.1 km centreline, 32 transects, 0 dropped, median width
   335–370 m (published ~300 m)
 - GloFAS: 37 complete years, cell 24.525N 89.725E, 2004 flood at the 97th
   percentile — independent evidence the hydrology is right
@@ -104,7 +102,8 @@ model and its projections. `14_model_train.py` still runs and still returns MAE
 
 ## Do not
 
-- Do not cite **+0.92** anywhere. Withdrawn in D37, restated in VALIDATION.md.
+- Do not cite the withdrawn **+0.92**. Withdrawn in D37.
+- Do not quote an in-sample fit. The number is the cross-validated **2.843**.
 - Do not call anything a forecast. The UI and the GeoJSON both carry
   `is_forecast: false`.
 - Do not resample Landsat to 10 m.

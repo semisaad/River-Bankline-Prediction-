@@ -16,6 +16,18 @@ If a change affects the numbers, the method, or a claim, append to
 `reports/DECISIONS.md`. It is **append-only**: never edit an old entry to make it
 look better. Supersede it with a new entry that says so.
 
+## The project
+
+**One river: the Arial Khan**, Madaripur Sadar – Kalkini reach, Bangladesh. 300 m
+wide, single-thread, 8.1 km centreline, 32 transects.
+
+A trained RandomForest predicts bank movement, cross-validated at **MAE 2.843
+m/yr** against 2.919 for predicting the average. Quote the cross-validated
+number, never an in-sample fit.
+
+The pipeline accepts a reach name because an earlier reach is archived, but the
+analysis, model and reported results are Arial Khan only.
+
 ## Orientation — read these before touching anything
 
 | file | why |
@@ -43,10 +55,10 @@ Every path and constant comes from `config.py`, selected by:
 RIVERGUARD_REACH=arial_khan ../.venv/bin/python 04_erosion.py s2
 ```
 
-Reaches: `jamuna` (archived), `ganges` (no data), `arial_khan` (active).
+Active reach: `arial_khan`. Others exist for the archived earlier work only.
 
-**A change meant for one reach must not alter the others.** Two times now a fix
-targeted at `arial_khan` silently changed `jamuna` (a build clamp that raised
+**A change meant for one reach must not alter the others.** Twice now a fix
+targeted at `arial_khan` silently changed the archived reach (a build clamp that raised
 transects from 58 to 70; a sign fix that needed re-validating both). After any
 change to `transects.py` or `config.py`, re-run both reaches and compare against
 the known values — see the regression commands in `docs/HOW_IT_WORKS.md`.
