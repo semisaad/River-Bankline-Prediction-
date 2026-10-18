@@ -31,22 +31,24 @@ The selected bounds are:
 90.16808799423755, 23.134319063780836 → 90.26902488388599, 23.261491731177696
 ```
 
-They are synchronized in both GEE scripts and `ml/config.py`. Draw this exact
-rectangle for both sensors; do not approximate or change its extent.
+They are synchronized in both GEE scripts and `ml/config.py`.
 
-- Extend along the Arial Khan to capture more of the river, rather than widening
-  across unrelated floodplain water.
-- Keep the northern edge south of **23.47°N** and exclude the Padma. If the
-  preview contains another river or the Padma, stop and redraw.
-- Clear old drawings and leave exactly one rectangle. Both scripts now refuse to
-  export when a drawing is missing or multiple drawings remain.
-- The scripts print `DRAWN RECTANGLE [west, south, east, north]`. Record these
-  exact numbers; Landsat's printed bounds must match Sentinel-2 exactly.
+> ### Draw NOTHING. Just press Run.
+>
+> The scripts carry these bounds as `REFERENCE_BOX` and use them automatically
+> when the map has no drawings. **Leave the map empty.**
+>
+> If you *do* draw a rectangle, the script compares it to `REFERENCE_BOX` and
+> **throws** unless it matches to within `1e-6` degrees — about 10 cm. No
+> hand-drawn rectangle can hit that. Drawing anything will fail, every time.
+>
+> Drawing exists only to change the study area deliberately, and it requires
+> editing `REFERENCE_BOX` and `ml/config.py` to match first.
 
-The S2 script prints the selected bounds. Verify them against the box above;
-Landsat's printed bounds must match. The wider area changes transect placement
-and counts, so review the geometry settings and validate new transects before
-training. The old 32-transect geometry and old evaluation scores do not apply.
+- Clear any old drawings if you have them: with **two or more** shapes on the
+  map, the script throws.
+- The scripts print `EXPORT RECTANGLE [west, south, east, north]`. Confirm those
+  numbers are the four above; Landsat's must match Sentinel-2 exactly.
 
 ### The one hard constraint
 
@@ -64,28 +66,28 @@ The selected box's northern edge is 23.26149°N, south of the Padma limit.
 ## How to run
 
 1. Open **https://code.earthengine.google.com** and sign in to the project
-  owner's Earth Engine account.
-2. Open `gee/s2_export_arial_khan.js`, clear old drawings, and draw the selected
-  rectangle above.
-3. Press **Run**. Confirm the printed coordinates match the selected bounds and
-  inspect the water preview.
-4. Run `ml/09_checks.py`; section 7 must pass before starting Tasks. Review
-  transect geometry settings for the longer reach before processing.
-5. Open `gee/landsat_export_arial_khan.js`, clear old drawings, draw the same
-  rectangle, and press **Run**. Confirm its printed bounds match S2 exactly and
-  inspect its preview.
+   owner's Earth Engine account.
+2. Open `gee/s2_export_arial_khan.js`, copy the whole file into the editor, and
+   **leave the map empty** — do not draw anything. Clear old drawings if present.
+3. Press **Run**. Confirm the console prints the four bounds above and that the
+   water preview looks like the Arial Khan.
+4. Run `ml/09_checks.py`; section 7 must pass before starting Tasks.
+5. Open `gee/landsat_export_arial_khan.js`, leave the map empty again, and press
+   **Run**. Confirm its printed bounds match Sentinel-2 exactly and inspect its
+   preview.
 6. Only after both previews and bounds are correct, open **Tasks** and start the
-  exports. Earth Engine writes them to Google Drive; it does not download files
-  directly to this computer.
+   exports. Earth Engine writes them to Google Drive; it does not download files
+   directly to this computer.
 7. Download and unzip the Drive folders:
-  `riverguard_arial_khan_s2` for Sentinel-2 and `riverguard_arial_khan` for
-  Landsat. Copy the `MNDWI_Mask_<year>.tif` files to the folders below.
+   `riverguard_arial_khan_s2` for Sentinel-2 and `riverguard_arial_khan` for
+   Landsat. Copy the `MNDWI_Mask_<year>.tif` files to the folders below.
 
 ### Read this in the table
 
 | field | Sentinel-2 | Landsat |
 |---|---|---|
-| drawn geometry | record printed bounds | must match Sentinel-2 exactly |
+| printed bounds | the four numbers above | must match Sentinel-2 exactly |
+| `No rectangle drawn; using synchronized REFERENCE_BOX.` | expected | expected |
 | `valid` | at least **90%** | at least **70%** (scan-line gaps are expected) |
 | `water` | must pass the script's quality gate | must pass the script's quality gate |
 | `status` | `EXPORT` for usable years | `EXPORT` for usable years |
@@ -97,14 +99,16 @@ quality gates; keep the console output and do not rename files.
 
 ## Before you trust it
 
-Open the map preview at the bottom of the script. You should see:
+Open the map preview at the bottom of the script. The box now covers a **longer
+stretch** of the river than before, so expect a longer ribbon, not a wider one.
+You should see:
 
-- **one** thin meandering ribbon, roughly 300 m wide
-- **not** a wide braided belt — that would be the wrong river
-- **not** a second river — that would be the Padma
+- **one** meandering ribbon, roughly 300 m wide, running through the box
+- **not** a wider belt — the river does not get broader downstream
+- **not** a second, larger river — that would be the Padma
 
 If you see either of the wrong things, **stop and report it** rather than
-exporting. There is no error in that case; the box is simply wrong.
+exporting. There is no error in that case; the bounds would simply be wrong.
 
 ---
 

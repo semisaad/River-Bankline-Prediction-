@@ -2396,3 +2396,36 @@ quietly.
 **Impact:** No measured number changes — the exporters never consulted the
 config value. The pipeline's description of itself is now true, and the window is
 guarded rather than documented.
+
+## D68 - The exporters accept only the synchronized box; drawing always fails
+
+**Date:** 2026-10-18
+
+**Found:** `docs/DATA_HANDOVER.md` instructed the operator to draw the study
+rectangle on the map, and D64 described the exporters as requiring a drawn
+rectangle. Neither matches the code. Both scripts:
+
+- use `REFERENCE_BOX` automatically when the map is empty,
+- accept a drawn rectangle only if it matches `REFERENCE_BOX` to within `1e-6`
+  degrees (about 10 cm), and throw otherwise,
+- throw when two or more shapes are present.
+
+**Consequence:** A hand-drawn rectangle can never pass a 10 cm tolerance, so the
+documented procedure fails 100% of the time with
+`Rectangle differs from REFERENCE_BOX`. The instruction was not merely
+imprecise - it was impossible to follow.
+
+**Decision:** Correct the handover to instruct the operator to **draw nothing**
+and simply press Run. The scripts then use the synchronized bounds and verify
+them against config. Drawing remains supported for deliberately relocating the
+study area, but it requires editing `REFERENCE_BOX` and `ml/config.py` together
+first; it is not an export-time action.
+
+**Reason:** With the bounds now selected and synchronized (D65), the safest
+export is the one with no operator input at all. The verification is already in
+the script and in `09_checks.py` section 7. Asking a person to reproduce six
+decimal places by hand added a failure mode without adding a safeguard.
+
+**Impact:** No measured number changes. The export procedure is now executable as
+written, and the tolerance check stays in place as the safeguard it was meant to
+be rather than as an obstacle.
