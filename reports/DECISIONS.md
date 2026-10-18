@@ -2744,3 +2744,46 @@ reason to shrink the study area.
 check moves to after download, where `01_prepare.py` reports water area and
 `valid` coverage per year from the real files. Set `SHOW_PREVIEW = true` to
 inspect a 60 m preview before exporting.
+
+## D74 - The trainer now scores against every trivial baseline, and the Jamuna's derived output is gone
+
+**Date:** 2026-10-18
+
+**Found, in `14_model_train.py`:**
+
+1. `forecast_supported` was `model_mae < median_mae and model_mae < lag_mae`. It
+   never compared against the **training-mean** baseline, even though that
+   baseline was computed and printed one line earlier. If the mean baseline had
+   come out lower than the model, the flag would have read "supported" while a
+   flat "predict the average" beat it. On the current data the mean (2.680) is
+   worse than the median (2.507) so the verdict does not change - the model
+   loses either way - but the check was not testing what it claimed to.
+2. The backtest fitted `min_samples_leaf=5` while the projection was fitted with
+   `min_samples_leaf=3`, and the saved artefact described only the 5. So the
+   reported MAE did not describe the model that drew the map on the website.
+3. `FORECAST_FEATURES` had no protection against a same-interval column being
+   added back. D63's leakage was exactly that mistake.
+
+**Decision:** `forecast_supported` now requires beating the **best** of all three
+trivial predictors (`best_baseline`, recorded alongside a `beaten_by` list). One
+`RF_PARAMS` dict defines the forest for both the backtest and the final fit, and
+the artefact is generated from it. A `LEAKY_COLUMNS` set raises rather than
+proceeding if any same-interval column enters `FORECAST_FEATURES`.
+
+**Also:** the Jamuna's `processed/` tree (248 MB) and its `_duplicates/` were
+deleted. What remains is raw material only - the 37 Landsat masks, 8 S2 masks,
+the downloaded GloFAS discharge table, and the D26 quarantine. That does not
+weaken D44: the finding is measured from the raw masks and the discharge table,
+both of which are still present and still re-derivable. The RGB exports (301 MB,
+display only, nothing measures them) were left in place pending an explicit
+decision.
+
+**Reason:** The first two are the same failure the project keeps meeting - a
+number that describes something other than what it is attached to. The third
+turns a hard-won finding (D63) into a standing check instead of a note.
+
+**Impact:** Re-running the trainer on the current data still gives MAE 3.175
+against a 2.507 baseline, `forecast_supported: false`, now with `beaten_by:
+["training median", "training mean"]`. Both are recorded in
+`ml/artifacts/model_report.json`. The jamuna reach is registered but not
+currently runnable until its derived files are rebuilt from the raw inputs.

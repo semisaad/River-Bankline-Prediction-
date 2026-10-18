@@ -2390,7 +2390,7 @@
         "kind": 2,
         "importPath": "ml.14_model_train",
         "description": "ml.14_model_train",
-        "peekOfCode": "def features(df):\n    if \"stage_km2\" in df and \"stage_change_km2\" in df:\n        df[\"stage_km2_prev\"] = df[\"stage_km2\"] - df[\"stage_change_km2\"]\n    return [c for c in FORECAST_FEATURES if c in df.columns]\ndef evaluate(df, cols):\n    \"\"\"Expanding-window evaluation; never train on a year after the test year.\"\"\"\n    yearly = sorted(df[\"year1\"].unique())\n    actual, predicted = [], []\n    median_baseline, mean_baseline, lag_baseline = [], [], []\n    folds = []",
+        "peekOfCode": "def features(df):\n    if \"stage_km2\" in df and \"stage_change_km2\" in df:\n        df[\"stage_km2_prev\"] = df[\"stage_km2\"] - df[\"stage_change_km2\"]\n    cols = [c for c in FORECAST_FEATURES if c in df.columns]\n    leaked = sorted(set(cols) & LEAKY_COLUMNS)\n    if leaked:\n        raise SystemExit(\n            f\"{leaked} measure the SAME interval as the target, so they are not \"\n            f\"known at prediction time. Using them is the leakage D63 removed. \"\n            f\"Move them out of FORECAST_FEATURES.\")",
         "detail": "ml.14_model_train",
         "documentation": {}
     },
@@ -2417,7 +2417,7 @@
         "kind": 5,
         "importPath": "ml.14_model_train",
         "description": "ml.14_model_train",
-        "peekOfCode": "ARTIFACTS = __import__(\"pathlib\").Path(__file__).resolve().parent / \"artifacts\"\nPRED_DIR = C.DATA_PROC / \"predictions\"\nFORECAST_FEATURES = [\n    \"rate_lag1\", \"rate_lag2\", \"rate_roll3\", \"rate_std3\", \"n_prior\",\n    \"width_lag1\", \"curvature_k\", \"meander_off_m\", \"arc_norm\",\n    \"stage_km2_prev\",\n]\ndef load(reach, sensor):\n    p = C.DATA_PROC / \"features\" / sensor / \"features.csv\"\n    if not p.exists():",
+        "peekOfCode": "ARTIFACTS = __import__(\"pathlib\").Path(__file__).resolve().parent / \"artifacts\"\nPRED_DIR = C.DATA_PROC / \"predictions\"\nFORECAST_FEATURES = [\n    \"rate_lag1\", \"rate_lag2\", \"rate_roll3\", \"rate_std3\", \"n_prior\",\n    \"width_lag1\", \"curvature_k\", \"meander_off_m\", \"arc_norm\",\n    \"stage_km2_prev\",\n]\n# Columns measured over the SAME interval as the target, so they cannot be known\n# when the prediction has to be made. They stay in the feature table because\n# other analyses use them, but using them for forecasting was the leakage that",
         "detail": "ml.14_model_train",
         "documentation": {}
     },
@@ -2426,7 +2426,7 @@
         "kind": 5,
         "importPath": "ml.14_model_train",
         "description": "ml.14_model_train",
-        "peekOfCode": "PRED_DIR = C.DATA_PROC / \"predictions\"\nFORECAST_FEATURES = [\n    \"rate_lag1\", \"rate_lag2\", \"rate_roll3\", \"rate_std3\", \"n_prior\",\n    \"width_lag1\", \"curvature_k\", \"meander_off_m\", \"arc_norm\",\n    \"stage_km2_prev\",\n]\ndef load(reach, sensor):\n    p = C.DATA_PROC / \"features\" / sensor / \"features.csv\"\n    if not p.exists():\n        raise SystemExit(f\"no features at {p}\\n\"",
+        "peekOfCode": "PRED_DIR = C.DATA_PROC / \"predictions\"\nFORECAST_FEATURES = [\n    \"rate_lag1\", \"rate_lag2\", \"rate_roll3\", \"rate_std3\", \"n_prior\",\n    \"width_lag1\", \"curvature_k\", \"meander_off_m\", \"arc_norm\",\n    \"stage_km2_prev\",\n]\n# Columns measured over the SAME interval as the target, so they cannot be known\n# when the prediction has to be made. They stay in the feature table because\n# other analyses use them, but using them for forecasting was the leakage that\n# made the first reported score (MAE 2.843 m/yr) meaningless - see D63, where the",
         "detail": "ml.14_model_train",
         "documentation": {}
     },
@@ -2435,7 +2435,25 @@
         "kind": 5,
         "importPath": "ml.14_model_train",
         "description": "ml.14_model_train",
-        "peekOfCode": "FORECAST_FEATURES = [\n    \"rate_lag1\", \"rate_lag2\", \"rate_roll3\", \"rate_std3\", \"n_prior\",\n    \"width_lag1\", \"curvature_k\", \"meander_off_m\", \"arc_norm\",\n    \"stage_km2_prev\",\n]\ndef load(reach, sensor):\n    p = C.DATA_PROC / \"features\" / sensor / \"features.csv\"\n    if not p.exists():\n        raise SystemExit(f\"no features at {p}\\n\"\n                         f\"run: RIVERGUARD_REACH={reach} ../.venv/bin/python \"",
+        "peekOfCode": "FORECAST_FEATURES = [\n    \"rate_lag1\", \"rate_lag2\", \"rate_roll3\", \"rate_std3\", \"n_prior\",\n    \"width_lag1\", \"curvature_k\", \"meander_off_m\", \"arc_norm\",\n    \"stage_km2_prev\",\n]\n# Columns measured over the SAME interval as the target, so they cannot be known\n# when the prediction has to be made. They stay in the feature table because\n# other analyses use them, but using them for forecasting was the leakage that\n# made the first reported score (MAE 2.843 m/yr) meaningless - see D63, where the\n# corrected prior-year test gave 3.175 against a 2.507 median baseline.",
+        "detail": "ml.14_model_train",
+        "documentation": {}
+    },
+    {
+        "label": "LEAKY_COLUMNS",
+        "kind": 5,
+        "importPath": "ml.14_model_train",
+        "description": "ml.14_model_train",
+        "peekOfCode": "LEAKY_COLUMNS = {\n    \"other_side_rate\", \"width_m\", \"width_change_pct\", \"width_ratio\",\n    \"stage_km2\", \"stage_change_km2\", \"stage_ratio\", \"stage_change_ratio\",\n}\n# ONE definition for the forest, used by both the backtest and the final fit.\n#\n# They previously differed - the backtest used min_samples_leaf=5 and the\n# projection was built with 3 - while the saved artefact described only the\n# first. So the reported MAE did not describe the model that drew the map. Same\n# settings in both places means the number and the output agree by construction.",
+        "detail": "ml.14_model_train",
+        "documentation": {}
+    },
+    {
+        "label": "RF_PARAMS",
+        "kind": 5,
+        "importPath": "ml.14_model_train",
+        "description": "ml.14_model_train",
+        "peekOfCode": "RF_PARAMS = dict(n_estimators=500, min_samples_leaf=5, random_state=0, n_jobs=-1)\ndef load(reach, sensor):\n    p = C.DATA_PROC / \"features\" / sensor / \"features.csv\"\n    if not p.exists():\n        raise SystemExit(f\"no features at {p}\\n\"\n                         f\"run: RIVERGUARD_REACH={reach} ../.venv/bin/python \"\n                         f\"05_features.py {sensor}\")\n    df = pd.read_csv(p).dropna(subset=[\"target_rate\"])\n    return df\ndef features(df):",
         "detail": "ml.14_model_train",
         "documentation": {}
     },
@@ -2579,7 +2597,7 @@
         "kind": 5,
         "importPath": "ml.config",
         "description": "ml.config",
-        "peekOfCode": "ROOT = Path(__file__).resolve().parents[1]\n# --- reach registry ----------------------------------------------------------\n# ganges is the generalisation trial of DECISIONS.md D48: the single-thread\n# meandering Rajshahi - Hardinge Bridge reach, where bank movement is expected\n# to persist year on year. That expectation is a hypothesis from literature,\n# not a finding. Its transect gates are first guesses scaled down from the\n# Jamuna's for a river 1-4 km wide, to be verified against the first real\n# data (10_verify_geometry.py spot checks).\nREACHES = {\n    # ARCHIVED 2026-10-18, not deleted. The Jamuna data was moved to",
+        "peekOfCode": "ROOT = Path(__file__).resolve().parents[1]\n# --- reach registry ----------------------------------------------------------\n# ganges is the generalisation trial of DECISIONS.md D48: the single-thread\n# meandering Rajshahi - Hardinge Bridge reach, where bank movement is expected\n# to persist year on year. That expectation is a hypothesis from literature,\n# not a finding. Its transect gates are first guesses scaled down from the\n# Jamuna's for a river 1-4 km wide, to be verified against the first real\n# data (10_verify_geometry.py spot checks).\nREACHES = {\n    # ARCHIVED 2026-10-18, not deleted. The Jamuna data lives in",
         "detail": "ml.config",
         "documentation": {}
     },
@@ -2588,7 +2606,7 @@
         "kind": 5,
         "importPath": "ml.config",
         "description": "ml.config",
-        "peekOfCode": "REACHES = {\n    # ARCHIVED 2026-10-18, not deleted. The Jamuna data was moved to\n    # data/unused_data/jamuna/ when the Arial Khan became the active reach (D49).\n    # It is kept for three reasons:\n    #   1. it is the EVIDENCE for the project's central negative result (D44) -\n    #      37 years and real river discharge still could not predict erosion, and\n    #      that finding is what motivated the switch;\n    #   2. it is the CONTROL. Comparing a 9 km braided reach against a 300 m\n    #      single-thread one is the actual experiment;\n    #   3. the 37 Landsat files took the owner about an hour of Earth Engine work",
+        "peekOfCode": "REACHES = {\n    # ARCHIVED 2026-10-18, not deleted. The Jamuna data lives in\n    # data/unused_data/jamuna/; the Arial Khan became the active reach (D49).\n    # Kept for three reasons:\n    #   1. it is the EVIDENCE for the project's central negative result (D44) -\n    #      37 years and real river discharge still could not predict erosion, and\n    #      that finding is what motivated the switch;\n    #   2. it is the CONTROL. Comparing a 9 km braided reach against a 300 m\n    #      single-thread one is the actual experiment;\n    #   3. the raw exports cost about an hour of Earth Engine work to download.",
         "detail": "ml.config",
         "documentation": {}
     },

@@ -23,17 +23,24 @@ ROOT = Path(__file__).resolve().parents[1]
 # Jamuna's for a river 1-4 km wide, to be verified against the first real
 # data (10_verify_geometry.py spot checks).
 REACHES = {
-    # ARCHIVED 2026-10-18, not deleted. The Jamuna data was moved to
-    # data/unused_data/jamuna/ when the Arial Khan became the active reach (D49).
-    # It is kept for three reasons:
+    # ARCHIVED 2026-10-18, not deleted. The Jamuna data lives in
+    # data/unused_data/jamuna/; the Arial Khan became the active reach (D49).
+    # Kept for three reasons:
     #   1. it is the EVIDENCE for the project's central negative result (D44) -
     #      37 years and real river discharge still could not predict erosion, and
     #      that finding is what motivated the switch;
     #   2. it is the CONTROL. Comparing a 9 km braided reach against a 300 m
     #      single-thread one is the actual experiment;
-    #   3. the 37 Landsat files took the owner about an hour of Earth Engine work
-    #      to download and would have to be repeated from scratch.
-    # The reach remains fully runnable: RIVERGUARD_REACH=jamuna still works.
+    #   3. the raw exports cost about an hour of Earth Engine work to download.
+    #
+    # What is kept is the RAW material only: the 37 Landsat masks, the 8 S2
+    # masks, the GloFAS discharge table (Downloaded from Copernicus - it cannot
+    # be derived from the masks) and the quarantined bad masks from D26.
+    #
+    # Its processed/ tree was deleted to remove old, superseded output. That
+    # means RIVERGUARD_REACH=jamuna does NOT currently run: the derived files
+    # would have to be rebuilt first, by re-running 01b_prepare_landsat.py and
+    # the scripts after it. Only the raw inputs are guaranteed to be here.
     "jamuna": {
         "label": "Jamuna (Kazipur / Sirajganj)",
         "bbox": (89.65, 24.30, 89.85, 24.60),

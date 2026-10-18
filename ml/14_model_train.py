@@ -27,6 +27,28 @@ FORECAST_FEATURES = [
     "stage_km2_prev",
 ]
 
+# Columns measured over the SAME interval as the target, so they cannot be known
+# when the prediction has to be made. They stay in the feature table because
+# other analyses use them, but using them for forecasting was the leakage that
+# made the first reported score (MAE 2.843 m/yr) meaningless - see D63, where the
+# corrected prior-year test gave 3.175 against a 2.507 median baseline.
+#
+# Listing them here turns that finding into a check instead of a memory: if one
+# is ever added to FORECAST_FEATURES the run stops rather than quietly
+# reproducing the same mistake.
+LEAKY_COLUMNS = {
+    "other_side_rate", "width_m", "width_change_pct", "width_ratio",
+    "stage_km2", "stage_change_km2", "stage_ratio", "stage_change_ratio",
+}
+
+# ONE definition for the forest, used by both the backtest and the final fit.
+#
+# They previously differed - the backtest used min_samples_leaf=5 and the
+# projection was built with 3 - while the saved artefact described only the
+# first. So the reported MAE did not describe the model that drew the map. Same
+# settings in both places means the number and the output agree by construction.
+RF_PARAMS = dict(n_estimators=500, min_samples_leaf=5, random_state=0, n_jobs=-1)
+
 
 def load(reach, sensor):
     p = C.DATA_PROC / "features" / sensor / "features.csv"
@@ -41,7 +63,14 @@ def load(reach, sensor):
 def features(df):
     if "stage_km2" in df and "stage_change_km2" in df:
         df["stage_km2_prev"] = df["stage_km2"] - df["stage_change_km2"]
-    return [c for c in FORECAST_FEATURES if c in df.columns]
+    cols = [c for c in FORECAST_FEATURES if c in df.columns]
+    leaked = sorted(set(cols) & LEAKY_COLUMNS)
+    if leaked:
+        raise SystemExit(
+            f"{leaked} measure the SAME interval as the target, so they are not "
+            f"known at prediction time. Using them is the leakage D63 removed. "
+            f"Move them out of FORECAST_FEATURES.")
+    return cols
 
 
 def evaluate(df, cols):
@@ -60,8 +89,7 @@ def evaluate(df, cols):
         train_medians = train[cols].median().fillna(0)
         X_train = train[cols].fillna(train_medians)
         X_test = test[cols].fillna(train_medians)
-        model = RandomForestRegressor(
-            n_estimators=500, min_samples_leaf=5, random_state=0, n_jobs=-1)
+        model = RandomForestRegressor(**RF_PARAMS)
         model.fit(X_train, train["target_rate"])
         fold_pred = model.predict(X_test)
         train_median = float(train["target_rate"].median())
@@ -86,6 +114,18 @@ def evaluate(df, cols):
     median_mae = float(mean_absolute_error(actual, median_baseline))
     mean_mae = float(mean_absolute_error(actual, mean_baseline))
     lag_mae = float(mean_absolute_error(actual, lag_baseline))
+
+    # The model must beat EVERY trivial predictor, not just the ones listed in
+    # the docstring. Comparing against the median and the previous pair alone
+    # would let the flag say "supported" while a flat "predict the mean" beat it,
+    # which is the one claim this project cannot afford to get wrong. The mean
+    # baseline is computed anyway, so the comparison is free.
+    best_baseline = min(median_mae, mean_mae, lag_mae)
+    beating = [name for name, mae in (("training median", median_mae),
+                                      ("training mean", mean_mae),
+                                      ("repeat previous pair", lag_mae))
+               if model_mae >= mae]
+
     return {
         "method": "expanding-window by target year; prior-year features only",
         "test_years": [fold["test_year"] for fold in folds],
@@ -95,7 +135,9 @@ def evaluate(df, cols):
         "mae_train_median": round(median_mae, 3),
         "mae_train_mean": round(mean_mae, 3),
         "mae_repeat_previous_pair": round(lag_mae, 3),
-        "forecast_supported": model_mae < median_mae and model_mae < lag_mae,
+        "best_baseline": round(best_baseline, 3),
+        "beaten_by": beating,
+        "forecast_supported": model_mae < best_baseline,
     }
 
 
@@ -125,12 +167,14 @@ def main():
     print(f"  training mean baseline     MAE {skill['mae_train_mean']:7.3f} m/yr")
     print(f"  repeat previous pair       MAE {skill['mae_repeat_previous_pair']:7.3f} m/yr")
     print(f"  forecast supported: {skill['forecast_supported']}")
+    if skill["beaten_by"]:
+        print(f"  -> a trivial predictor still beats it: {', '.join(skill['beaten_by'])}")
 
-    # Refit on the full record to produce a clearly experimental projection.
+    # Refit on the full record to produce a clearly experimental projection,
+    # using the SAME settings the backtest just scored (RF_PARAMS).
     train_medians = df[cols].median().fillna(0)
     X = df[cols].fillna(train_medians)
-    model = RandomForestRegressor(n_estimators=500, min_samples_leaf=3,
-                                  random_state=0, n_jobs=-1)
+    model = RandomForestRegressor(**RF_PARAMS)
     model.fit(X, df["target_rate"])
 
     imp = (pd.Series(model.feature_importances_, index=cols)
@@ -175,8 +219,10 @@ def main():
     (ARTIFACTS / "model_report.json").write_text(json.dumps(
         {"generated": date.today().isoformat(),
          "reach": reach, "sensor": "s2",
-         "model": "RandomForestRegressor(n_estimators=500, min_samples_leaf=5)",
+         "model": (f"RandomForestRegressor(n_estimators={RF_PARAMS['n_estimators']}, "
+                   f"min_samples_leaf={RF_PARAMS['min_samples_leaf']})"),
          "feature_importance": {k: round(float(v), 4) for k, v in imp.items()},
+         "features_used": cols,
          "skill": skill,
          "horizon_years": args.horizon,
          "caveats": [

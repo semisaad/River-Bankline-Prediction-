@@ -4,17 +4,29 @@
   "sensor": "s2",
   "model": "RandomForestRegressor(n_estimators=500, min_samples_leaf=5)",
   "feature_importance": {
-    "rate_lag1": 0.3036,
-    "rate_roll3": 0.2309,
-    "rate_std3": 0.1192,
-    "stage_km2_prev": 0.0717,
-    "rate_lag2": 0.0609,
-    "n_prior": 0.0606,
-    "width_lag1": 0.0528,
-    "curvature_k": 0.039,
-    "arc_norm": 0.0341,
-    "meander_off_m": 0.0272
+    "rate_lag1": 0.2689,
+    "rate_roll3": 0.2525,
+    "rate_std3": 0.1182,
+    "n_prior": 0.0841,
+    "rate_lag2": 0.0731,
+    "width_lag1": 0.0543,
+    "curvature_k": 0.0395,
+    "stage_km2_prev": 0.0392,
+    "arc_norm": 0.0388,
+    "meander_off_m": 0.0314
   },
+  "features_used": [
+    "rate_lag1",
+    "rate_lag2",
+    "rate_roll3",
+    "rate_std3",
+    "n_prior",
+    "width_lag1",
+    "curvature_k",
+    "meander_off_m",
+    "arc_norm",
+    "stage_km2_prev"
+  ],
   "skill": {
     "method": "expanding-window by target year; prior-year features only",
     "test_years": [
@@ -66,6 +78,11 @@
     "mae_train_median": 2.507,
     "mae_train_mean": 2.68,
     "mae_repeat_previous_pair": 3.977,
+    "best_baseline": 2.507,
+    "beaten_by": [
+      "training median",
+      "training mean"
+    ],
     "forecast_supported": false
   },
   "horizon_years": 10,
