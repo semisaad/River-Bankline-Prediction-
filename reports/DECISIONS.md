@@ -1454,6 +1454,45 @@ interpretation - that r = +0.28 reflects partial hotspot persistence rather
 than measurement artefact - is interpretation, and should not be presented
 as a finding.
 
+## D48 - Reach-specific transect gates, and the Ganges as a generalisation trial
+
+**Date:** 2026-10-18
+
+> **RECONSTRUCTED.** Written after the fact on 2026-10-18. The number D48 was
+> cited twice - in `ml/config.py` and `ml/transects.py` - but no entry was ever
+> recorded under it. Recovered from those surviving references. Marked as a
+> reconstruction on purpose: this log is the authoritative account of why the
+> pipeline works as it does, and an unmarked reconstruction would quietly
+> degrade it.
+
+**Decision:** Geometry constants that describe *how to take a measurement* - the
+depth of an EPR zone, the along-flow half-width of a transect, the clamps on
+cast length and channel width - are held **per reach**, not globally. Each reach
+declares its own gates in `config.REACHES`, and the Jamuna keeps the original
+defaults (its gate set is empty).
+
+**The Ganges is the generalisation trial.** The single-thread meandering
+Rajshahi - Hardinge Bridge reach, 1-4 km wide, is where bank movement is
+*expected* to persist year on year. **That expectation is a hypothesis from the
+literature, not a finding.** It exists to test whether a method developed on one
+river transfers to another, rather than being tuned to a single site.
+
+**Ganges constants are first guesses**, scaled down from the Jamuna's for a river
+1-4 km rather than 9 km wide. They are to be verified against the first real data
+with `10_verify_geometry.py` spot checks before anything is concluded from them.
+No Ganges imagery has been downloaded.
+
+**Reason:** The same numeric constant is not the same *measurement* on a 300 m
+river and a 9 km river. A zone depth or a width clamp that is sensible on one is
+either uselessly small or physically meaningless on the other. Binding the
+constants per reach makes that explicit and stops a value tuned on one river from
+silently governing another - a failure mode this project has already hit twice
+(the pond leak, D55, and the EPR sign inversion, D58).
+
+**Impact:** Reaches can differ geomorphologically without forking the pipeline.
+The Ganges tier is configured but unverified, and `ganges` remains registered
+with no data.
+
 ## D49 - Reach switched from the Jamuna to the Arial Khan (Madaripur Sadar - Muladi)
 
 **Date:** 2026-10-18
@@ -2169,6 +2208,51 @@ then passes again once restored.
 That is the pattern worth repeating: **a check that has never been seen to fail
 is not known to work.** This one has now been observed failing on the exact
 value that caused the problem.
+
+## D61 - Earth Engine evaluation: one synchronous getInfo() per batch
+
+**Date:** 2026-10-18
+
+> **RECONSTRUCTED.** This entry was written after the fact, on 2026-10-18. The
+> number D61 was cited three times - in `context/CURRENT.md` (twice) and
+> `AGENTS.md` (once) - but no entry was ever recorded under it, so the log
+> pointed at a decision that did not exist. The content below is recovered from
+> those surviving references and from the current state of the two export
+> scripts. It is a reconstruction, not a contemporaneous record, and is marked as
+> such deliberately: this log is the project's authoritative account of why the
+> pipeline works the way it does, and an unmarked reconstruction would quietly
+> undermine that.
+
+**Problem 1 - a race in Earth Engine evaluation.** The exporters used nested
+`evaluate()` calls to gather per-year statistics. Those calls are asynchronous
+and raced each other, so results were attributed to the wrong year. Two tells
+made it visible: years holding 15 scenes reported **0% valid**, and two
+*different* years printed an *identical* 12.55% - a coincidence that stopped
+being plausible once noticed.
+
+**Problem 2 - a memory limit on the long record.** `connectedPixelCount(1024)`
+means 1024 pixels in *each* of eight directions, so on a 30 m Landsat grid it is
+roughly a **31 km window**, far wider than any river feature being screened.
+Evaluating the full 38-year record in one pass exceeded Earth Engine's user memory
+limit.
+
+**Decision:** Evaluate statistics with **one synchronous `getInfo()` per batch**,
+and split the exports into batches - **8 years** per call for Landsat, **4** for
+Sentinel-2. This removes the race and bounds peak memory. `tileScale` was later
+raised as well (D66).
+
+**Reason:** The statistics printed by these scripts are the go/no-go gate on
+every export: a year that reports as invalid is dropped, and a year silently
+attributed the wrong metrics can be exported with the wrong mask. An async race in
+that gate is worse than a crash, because it produces a confident wrong answer.
+
+**Impact:** Export statistics are now trustworthy per year. No downstream
+measurement changed; what changed is whether the numbers deciding *what got
+exported* could be believed.
+
+**Note:** D66 later revisits the memory problem for the expanded study area,
+where the first S2 run still exceeded the limit and the connected-component
+screen was coarsened to a 60 m grid.
 
 ## D62 - SUPERSEDES the forecast branch being called closed. It was closed too early.
 

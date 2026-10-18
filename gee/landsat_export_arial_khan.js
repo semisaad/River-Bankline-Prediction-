@@ -195,67 +195,40 @@ function build(y) {
 // SURVEY AND EXPORT
 // =============================================================================
 
-// WHY THIS IS CHUNKED
-//   Doing all 38 years in one server round trip exhausts Earth Engine's memory.
-//   The connected-area step uses the coarser shared 60 m filter. This keeps the
-//   physical minimum blob size while limiting memory on the larger AOI.
-//
-//   Why it is not simply looped with .evaluate() per year, which would also
-//   chunk: eight concurrent callbacks each creating an Export task is the race
-//   that produced the previous table, which reported 0% valid for years that had
-//   fifteen scenes. Here each chunk is ONE synchronous getInfo() that fully
-//   completes before any task is created, so there is nothing to race.
-var CHUNK = 1;
-
 print('year | scenes | valid | water | status');
-print('batched ' + CHUNK + ' years at a time - these numbers are reliable');
+print('one synchronous getInfo() per year - each completes before any export');
 print('expect ~70% valid (Landsat scan-line gap), 5-10% water, ONE ribbon, no Padma');
 
-for (var start = START; start <= END; start += CHUNK) {
-  var stop = Math.min(start + CHUNK - 1, END);
+for (var y = START; y <= END; y++) {
+  var b = build(y);
+  var n = Number(pool(y).size().getInfo());
+  var st = b.water.rename('water').addBands(b.valid.rename('valid'))
+             .reduceRegion({
+               reducer: ee.Reducer.mean(), geometry: aoi, scale: 60,
+               maxPixels: 1e9, bestEffort: true, tileScale: 4
+             }).getInfo();
+  var valid = st.valid === undefined ? 0 : st.valid;
+  var water = st.water === undefined ? 0 : st.water;
 
-  var rows = ee.FeatureCollection(ee.List.sequence(start, stop).map(function (y) {
-    y = ee.Number(y);
-    var b = build(y);
-    var n = pool(y).size();
-    var st = b.water.rename('water').addBands(b.valid.rename('valid'))
-               .reduceRegion({
-                 reducer: ee.Reducer.mean(), geometry: aoi, scale: 60,
-                 maxPixels: 1e9, bestEffort: true, tileScale: 4
-               });
-    return ee.Feature(null, {year: y, scenes: n, valid: st.get('valid'),
-                             water: st.get('water')});
-  })).getInfo().features;
-
-  rows.forEach(function (f) {
-    var y = f.properties.year;
-    var n = f.properties.scenes;
-    var valid = f.properties.valid === null ? 0 : f.properties.valid;
-    var water = f.properties.water === null ? 0 : f.properties.water;
-
-    if (n < MIN_IMAGES) {
-      print(y + ' | ' + n + ' | - | - | SKIP (too few scenes)');
-      return;
-    }
-    var ok = valid >= MIN_VALID && water >= MIN_WATER;
-    print(y + ' | ' + n + ' | ' + Math.round(valid * 100) + '% | ' +
-          (water * 100).toFixed(2) + '% | ' +
-          (ok ? 'EXPORT' : 'SKIP (check data)'));
-    if (!ok) return;
-
-    var b = build(y);
-    Export.image.toDrive({
-      image: b.water.multiply(255).toByte().rename('water')
-               .addBands(b.valid.multiply(255).toByte().rename('valid')),
-      description: 'MNDWI_Mask_' + y,
-      folder: 'riverguard_arial_khan',
-      fileNamePrefix: 'MNDWI_Mask_' + y,
-      region: aoi,
-      scale: 30,
-      crs: CRS,
-      maxPixels: 1e9,
-      fileFormat: 'GeoTIFF'
-    });
+  if (n < MIN_IMAGES) {
+    print(y + ' | ' + n + ' | - | - | SKIP (too few scenes)');
+    continue;
+  }
+  var ok = valid >= MIN_VALID && water >= MIN_WATER;
+  print(y + ' | ' + n + ' | ' + Math.round(valid * 100) + '% | ' +
+        (water * 100).toFixed(2) + '% | ' + (ok ? 'EXPORT' : 'SKIP (check data)'));
+  if (!ok) continue;
+  Export.image.toDrive({
+    image: b.water.multiply(255).toByte().rename('water')
+             .addBands(b.valid.multiply(255).toByte().rename('valid')),
+    description: 'MNDWI_Mask_' + y,
+    folder: 'riverguard_arial_khan',
+    fileNamePrefix: 'MNDWI_Mask_' + y,
+    region: aoi,
+    scale: 30,
+    crs: CRS,
+    maxPixels: 1e9,
+    fileFormat: 'GeoTIFF'
   });
 }
 
