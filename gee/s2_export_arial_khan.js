@@ -1,82 +1,79 @@
 /******************************************************************************
  * RiverGuard - Arial Khan (Madaripur Sadar - Kalkini, middle reach)
- *             Sentinel-2 export v2 - multi-index water detection
+ *             Sentinel-2 export - multi-index water detection
  *
- * v2 WRITTEN BY THE OWNER, after reviewing v1. The pipeline changes it makes
- * are deliberate and worth recording, so this header states what they do and
- * what to check.
+ * This script and landsat_export_arial_khan.js run THE SAME DETECTION LOGIC.
+ * They must: the two sensors overlap 2019-2026, and if their rules differed the
+ * cross-sensor comparison would measure the difference between two SCRIPTS
+ * rather than two INSTRUMENTS, fabricating a step in the river-width record at
+ * 2019. 09_checks.py section 8 enforces the shared constants.
  *
- * WHY v2 EXISTS
- *   v1 used a single index (MNDWI) at threshold 0.2, which was tuned on the
- *   JAMUNA - a 9 km braided belt. On a 300 m river in a floodplain full of
- *   ponds, wet soil and turbid shallows, one index at one threshold is a blunt
- *   instrument. v2 detects water by agreement between FIVE independent tests and
- *   then removes everything that is not the river trunk.
+ * ---------------------------------------------------------------------------
+ * THIS REVISION FIXES A BROKEN QUALITY GATE
  *
- * WHAT CHANGED, AND WHY EACH IS THERE
+ * The previous version took `green.mask()` from a composite that had already
+ * been `.unmask(0)`-ed. Unmasking erases the mask, so `mask()` returned all
+ * ones and the `valid` band was 100% for EVERY year. The gate below
+ * (`valid >= MIN_VALID`) could therefore never fail, and years with little or
+ * no usable imagery were exported as if they were fine - silently.
  *
- *   1. FIVE INDICES, combined with .or()
- *      MNDWI (green vs SWIR1), NDWI (green vs NIR), RSWI (red vs SWIR1),
- *      AWEI (Feyer's automated water extraction, uses SWIR2), plus a turbidity
- *      heuristic. Any one firing counts as water.
- *      AWEI is the notable addition: it is the only test that uses B12/SWIR2 at
- *      all, so it catches water the others miss, and it is far less
+ * Validity is now read from the composite BEFORE unmasking. The sibling
+ * scripts boards/landsat_export.js and landsat_export_ganges.js always did it
+ * this way; the Arial Khan pair regressed.
+ *
+ * The working grid is also now stated explicitly (RES_M) so that the focal
+ * radius below, which is given in METRES, cannot be silently reinterpreted
+ * against an unknown pixel size.
+ * ---------------------------------------------------------------------------
+ *
+ * WHY THE DETECTION IS SHAPED THIS WAY
+ *
+ *   1. FIVE INDICES combined with .or(): MNDWI (green vs SWIR1), NDWI (green vs
+ *      NIR), RSWI (red vs SWIR1), AWEI (Feyer's, the only test using SWIR2) and
+ *      a turbidity heuristic. Any one firing counts as water. AWEI is far less
  *      confused by built-up land than MNDWI.
  *
- *   2. INDEX_THRESH 0.2 -> 0.02, a TEN-FOLD loosening.
- *      Safe ONLY because of items 1 and 5: the threshold is now permissive and
- *      the job of rejecting false positives has moved to the morphological close
- *      and the blob filter. A loose threshold with no large-object filter would
- *      light up every wet field in the box.
+ *   2. INDEX_THRESH is deliberately LOW (0.02). That is safe ONLY because the
+ *      morphological close and the connected-area filter then remove what a
+ *      loose threshold admits. A loose threshold without a large-object filter
+ *      would light up every wet field in the box.
  *
- *   3. 25th PERCENTILE composite instead of the median.
- *      Applied to the BANDS, before the indices are computed. This is a
- *      dark-target trick: clouds and haze are BRIGHT, water is DARK, so pulling
- *      each band's composite toward its lower quartile suppresses cloud without
- *      suppressing water. Note this is a different choice from v1's median and
- *      it shifts the water fraction, so the expected number changes - see below.
+ *   3. 25th PERCENTILE composite, applied to the BANDS before the indices are
+ *      computed. Clouds and haze are BRIGHT, water is DARK, so pulling each
+ *      band toward its lower quartile suppresses cloud without suppressing
+ *      water.
  *
- *   4. 60 m CONNECTED-BLOB FILTER.
- *      At this coarser scale, 250 pixels still represents about 90 hectares.
- *      The filter rejects small ponds while lowering memory use for the expanded
- *      AOI. Check the preview for a continuous river trunk and retained meanders.
+ *   4. 60 m CONNECTED-AREA FILTER. At this grid scale 250 pixels is still about
+ *      90 hectares, but the component computation is far smaller than at 10 m.
+ *      Inspect the preview for a continuous river trunk and retained meanders.
  *
- *   5. 20 m MORPHOLOGICAL CLOSE.
- *      focal_max (dilate) then focal_min (erode) = a CLOSE, which fills gaps up to
- *      ~20 m. This bridges the 10 m-wide hairline breaches that otherwise leak
- *      the channel into every adjacent pond.
- *      NOTE: the inline comment above it says "erode first to sever ditches,
- *      then close". The erode step is NOT in the code - only the close is.
- *      Harmless as written, but the comment describes two operations and only
- *      one is performed. Worth reconciling.
- *
- *   6. DRAWN RECTANGLE REQUIRED.
- *      The selected rectangle defines the export area. The script prints its
- *      exact bounds so ml/config.py and the Landsat script can be synchronized
- *      before any exported masks are processed.
+ *   5. 20 m MORPHOLOGICAL CLOSE: focal_max then focal_min. Only a CLOSE is
+ *      performed. An erode-then-close was once described in a comment here but
+ *      never implemented; the comment has been corrected to match the code.
  *
  * THE AREA
- *   Draw one rectangle around the selected Arial Khan reach. Its exact bounds
- *   must match REFERENCE_BOX and ml/config.py before processing. Clear drawings
- *   between runs so an old rectangle cannot be used.
+ *   REFERENCE_BOX is authoritative and is already synchronized with
+ *   ml/config.py and the Landsat script. Draw nothing and press Run.
+ *
+ *   If you DO draw one rectangle, it is used instead, its bounds are printed,
+ *   and a warning appears when it differs from REFERENCE_BOX - because the
+ *   exported masks would then not match ml/config.py and every downstream
+ *   number would describe a different place with nothing erroring.
  *
  *   *** The northern edge must stay SOUTH of 23.47N, the bifurcation from the
  *   *** Padma. North of that line the water body IS the Padma. An earlier box
  *   *** reached 23.60N and the preview came back mostly Padma (DECISIONS D51).
+ *   *** This is now checked in code, not left to the eye.
  *
  * WHAT TO CHECK WHEN YOU RUN IT
  *   - the water layer must show ONE thin meandering ribbon, not a wide braided
  *     belt, and definitely not two rivers
- *   - water percentage depends on the selected rectangle. Check that the
- *     console says EXPORT and that the preview contains the intended reach.
- *     Do not lower quality gates just to force an export.
- *   - the river must not be cut into disconnected pieces
+ *   - the console must say EXPORT for the years you expect. A SKIP now means
+ *     something: it previously could not have meant anything.
+ *   - do not lower the gates just to force an export
  *
- * Confirm the printed bounds match REFERENCE_BOX and ml/config.py before
- * processing the exported masks.
- * Run, then drop the .tif files into  data/reaches/arial_khan/raw/
- * (v1 masks are backed up at data/unused_data/arial_khan_s2_v1_verified/ so a
- * worse v2 can be reverted without re-exporting).
+ * Then drop the .tif files into  data/reaches/arial_khan/raw/
+ * (v1 masks are backed up at data/unused_data/arial_khan_s2_v1_verified/).
  *******************************************************************************/
 
 
@@ -84,53 +81,103 @@
 // SETTINGS
 // =============================================================================
 
-// Selected expanded extent. Keep synchronized with ml/config.py and Landsat.
+// Authoritative study area. Keep synchronized with ml/config.py and Landsat.
 var REFERENCE_BOX = [90.16808799423755, 23.134319063780836,
                      90.26902488388599, 23.261491731177696];
 
-var aoi;
-var drawingLayers = Map.drawingTools().layers();
-if (drawingLayers.length() > 1) {
-  throw new Error('Clear old drawings and leave exactly one study rectangle.');
-} else if (drawingLayers.length() === 1) {
-  aoi = drawingLayers.get(0).toGeometry().bounds();
-} else {
-  aoi = ee.Geometry.Rectangle(REFERENCE_BOX, 'EPSG:4326', false);
-  print('No rectangle drawn; using synchronized REFERENCE_BOX.');
-}
-
-var maskGeom = aoi;
-var rectangle = aoi.coordinates().getInfo()[0];
-var longitudes = rectangle.map(function (point) { return point[0]; });
-var latitudes = rectangle.map(function (point) { return point[1]; });
-var bbox = [Math.min.apply(null, longitudes), Math.min.apply(null, latitudes),
-            Math.max.apply(null, longitudes), Math.max.apply(null, latitudes)];
-print('EXPORT RECTANGLE [west, south, east, north]:', bbox);
-var bboxMatches = bbox.every(function (value, index) {
-  return Math.abs(value - REFERENCE_BOX[index]) <= 1e-6;
-});
-if (!bboxMatches) {
-  throw new Error('Rectangle differs from REFERENCE_BOX; sync config before exporting.');
-}
-print('Rectangle matches REFERENCE_BOX and ml/config.py BBOX_WGS84.');
-print('Configured rectangle:', REFERENCE_BOX);
+// The Arial Khan leaves the Padma at this latitude. North of it the water is a
+// different river. Hard constraint (D51).
+var PADMA_LAT_MAX = 23.47;
 
 var START = 2019, END = 2026;
-var CRS = 'EPSG:32646';
 
-// Tightened so wet soil/ponds beside the river don't trigger false water patches
+// Narrow this to export a slice, e.g. 2019..2022, if a single Run exceeds the
+// Code Editor's execution limit. Each Run only creates Tasks for its own range.
+var YEAR_FROM = START, YEAR_TO = END;
+
+var CRS = 'EPSG:32646';
+var RES_M = 10;              // Sentinel-2 native. Landsat uses 30 and is never
+                             // resampled up to this value.
+
+// ---- Detection logic. MUST MATCH landsat_export_arial_khan.js. --------------
 var INDEX_THRESH    = 0.02;
 var AWEI_THRESH     = 0.0;
 var TURBID_SWIR_MAX = 0.12;
-var GAP_CLOSE_M     = 20;
+var GAP_CLOSE_M     = 20;     // metres, NOT pixels
 var BLOB_SCALE_M    = 60;
 var BLOB_MAX_SIZE   = 256;
-var BLOB_MIN        = 250;    // 250 pixels at 60 m ~= 90 hectares; Landsat must match
+var BLOB_MIN        = 250;    // 250 pixels at 60 m ~= 90 hectares
+// -----------------------------------------------------------------------------
 
+// Quality gates: data availability, not detection logic. These may differ
+// between the sensors.
 var MIN_IMAGES = 3;
 var MIN_VALID  = 0.90;
 var MIN_WATER  = 0.002;
 var MAX_CLOUD  = 80;
+
+
+// =============================================================================
+// STUDY AREA
+// =============================================================================
+
+function boundsOf(geom) {
+  var ring = geom.bounds().coordinates().getInfo()[0];
+  var lons = ring.map(function (p) { return p[0]; });
+  var lats = ring.map(function (p) { return p[1]; });
+  return [Math.min.apply(null, lons), Math.min.apply(null, lats),
+          Math.max.apply(null, lons), Math.max.apply(null, lats)];
+}
+
+var aoi = (function () {
+  var layers = Map.drawingTools().layers();
+  if (layers.length() > 1) {
+    throw new Error('There are ' + layers.length() + ' shapes on the map. ' +
+      'Clear them all: the study area is either REFERENCE_BOX or ONE drawn ' +
+      'rectangle, never several.');
+  }
+  if (layers.length() === 1) {
+    var drawn = layers.get(0).toGeometry().bounds();
+    var b = boundsOf(drawn);
+    print('DRAWN RECTANGLE [west, south, east, north]:', b);
+    var same = b.every(function (v, i) {
+      return Math.abs(v - REFERENCE_BOX[i]) <= 1e-4;   // ~10 m
+    });
+    if (!same) {
+      print('');
+      print('*** WARNING: the drawn rectangle does not match REFERENCE_BOX. ***');
+      print('    REFERENCE_BOX:', REFERENCE_BOX);
+      print('    drawn        :', b);
+      print('    The exported masks WILL NOT match ml/config.py, so every ' +
+            'downstream number would describe a different place with nothing ' +
+            'erroring. Either clear the drawing to use REFERENCE_BOX, or ' +
+            'update bbox/bbox_landsat in ml/config.py AND REFERENCE_BOX in ' +
+            'both export scripts before processing.');
+      print('');
+    }
+    return drawn;
+  }
+  print('No shape drawn; using the synchronized REFERENCE_BOX.');
+  return ee.Geometry.Rectangle(REFERENCE_BOX, 'EPSG:4326', false);
+})();
+
+var bbox = boundsOf(aoi);
+print('EXPORT RECTANGLE [west, south, east, north]:', bbox);
+
+if (bbox[3] >= PADMA_LAT_MAX) {
+  throw new Error('Northern edge ' + bbox[3].toFixed(5) + 'N reaches or ' +
+    'crosses ' + PADMA_LAT_MAX + 'N, where the Arial Khan leaves the Padma. ' +
+    'North of that line the water body is the PADMA, a different and much ' +
+    'larger river, and the whole measurement would describe the wrong ' +
+    'watercourse (D51). Move the northern edge south.');
+}
+print('Northern edge ' + bbox[3].toFixed(5) + 'N is south of the Padma ' +
+      'bifurcation at ' + PADMA_LAT_MAX + 'N. Correct river.');
+
+
+// =============================================================================
+// BAND PREPARATION
+// =============================================================================
 
 function prep(y) {
   return ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
@@ -140,9 +187,9 @@ function prep(y) {
     .map(function (img) {
       // SCL classes masked: 0 no-data, 1 saturated/defective, 8 cloud medium,
       // 9 cloud high, 10 thin cirrus. Class 2 (dark area) and 3 (cloud shadow)
-      // are deliberately KEPT here - on this floodplain a dark area is usually
-      // open water or wet soil, and dropping cloud shadows would remove real
-      // water bodies during the dry season.
+      // are deliberately KEPT: on this floodplain a dark area is usually open
+      // water or wet soil, and dropping cloud shadows would remove real water
+      // bodies during the dry season.
       var scl = img.select('SCL');
       var bad = scl.eq(0).or(scl.eq(1)).or(scl.eq(8)).or(scl.eq(9)).or(scl.eq(10));
       var ok = bad.eq(0);
@@ -158,19 +205,27 @@ function prep(y) {
     });
 }
 
-function build(y) {
-  var col = prep(y);
-  var hasData = col.size().gt(0);
 
-  // Guard: an empty collection makes reduce() return a band-less image, which
-  // throws downstream on normalizedDifference/.select(). Return a zero image
-  // instead so the survey loop can skip the year cleanly instead of crashing.
-  var comp = ee.Algorithms.If(
-    hasData,
-    col.reduce(ee.Reducer.percentile([25])),
-    ee.Image.constant([0, 0, 0, 0, 0, 0])
-  ).rename(['blue', 'green', 'red', 'nir', 'swir1', 'swir2'])
-    .clip(aoi).unmask(0);
+// =============================================================================
+// WATER DETECTION
+// =============================================================================
+
+// Requires a NON-EMPTY collection. The caller checks the scene count first, so
+// this never has to cope with an empty reduce - which is what the previous
+// ee.Algorithms.If guard was for. That guard is gone because ee.Algorithms.If
+// can defeat the optimiser and force both branches to be computed.
+function build(col) {
+  var reduced = col.reduce(ee.Reducer.percentile([25]))
+      .rename(['blue', 'green', 'red', 'nir', 'swir1', 'swir2'])
+      .reproject({crs: CRS, scale: RES_M});
+
+  // VALIDITY FIRST, while the mask still exists. Reading .mask() after
+  // .unmask(0) returns all ones and reports 100% valid for every year.
+  var valid = reduced.select('green').mask()
+      .reproject({crs: CRS, scale: RES_M}).gt(0.5)
+      .rename('valid').clip(aoi);
+
+  var comp = reduced.clip(aoi).unmask(0);
 
   var blue  = comp.select('blue');
   var green = comp.select('green');
@@ -192,47 +247,69 @@ function build(y) {
 
   var combinedWater = mndwi.or(ndwi).or(rswi).or(aweiSh).or(isTurbid);
 
-  var polyMask = ee.Image.constant(1).clip(maskGeom).unmask(0);
+  var polyMask = ee.Image.constant(1).clip(aoi).unmask(0);
   var w = combinedWater.and(polyMask);
 
-  // 20 m morphological CLOSE (dilate then erode) to bridge hairline breaches.
-  // See header item 5 about the comment describing two steps.
+  // 20 m morphological CLOSE: dilate then erode, bridging hairline breaches
+  // that would otherwise leak the channel into every adjacent pond. Only the
+  // close is performed - there is no erode-open step.
   var cleaned = w.focal_max({radius: GAP_CLOSE_M, units: 'meters', kernelType: 'circle'})
                  .focal_min({radius: GAP_CLOSE_M, units: 'meters', kernelType: 'circle'})
                  .and(polyMask);
 
-  // Coarse connected-area filter uses the same physical threshold as before.
+  // Connected-area filter on a coarse grid. 250 pixels at 60 m preserves the
+  // ~90 hectare minimum while keeping the component computation small enough
+  // for the expanded study area.
   var coarseMask = cleaned.reproject({crs: CRS, scale: BLOB_SCALE_M});
   var bigBlobs = coarseMask.connectedPixelCount(BLOB_MAX_SIZE, false).gte(BLOB_MIN);
 
   var water = cleaned.and(bigBlobs).unmask(0).clip(aoi).rename('water');
-  var valid = green.mask().unmask(0).clip(aoi).rename('valid');
 
   return {water: water, valid: valid, comp: comp};
 }
 
-print('year | images | valid | water | status');
-print('one synchronous getInfo() per year - each completes before any export');
 
-for (var y = START; y <= END; y++) {
-  var b = build(y);
-  var n = Number(prep(y).size().getInfo());
-  var st = b.water.rename('water').addBands(b.valid.rename('valid'))
+// =============================================================================
+// SURVEY AND EXPORT
+// =============================================================================
+
+print('');
+print('year | scenes | valid | water | status');
+print('one synchronous getInfo() per year, so each completes before any export');
+print('expect ~99% valid, 5-10% water, ONE ribbon, no Padma');
+print('');
+
+for (var y = YEAR_FROM; y <= YEAR_TO; y++) {
+  // Count FIRST. Nothing is built for a year that cannot be exported, which
+  // keeps a 38-year Landsat loop from constructing graphs it will discard.
+  var col = prep(y);
+  var n = Number(col.size().getInfo());
+
+  if (n < MIN_IMAGES) {
+    print(y + ' | ' + n + ' | - | - | SKIP (too few scenes)');
+    continue;
+  }
+
+  var b = build(col);
+
+  // Statistics are taken on the coarse grid the blob filter already uses, so
+  // the reduction does not have to be rescaled from 10 m to 60 m on the fly.
+  var st = b.water.addBands(b.valid)
+             .reproject({crs: CRS, scale: BLOB_SCALE_M})
              .reduceRegion({
-               reducer: ee.Reducer.mean(), geometry: aoi, scale: 60,
-               maxPixels: 1e9, bestEffort: true, tileScale: 4
+               reducer: ee.Reducer.mean(), geometry: aoi, scale: BLOB_SCALE_M,
+               maxPixels: 1e9, bestEffort: true, tileScale: 8
              }).getInfo();
+
   var valid = st.valid === undefined ? 0 : st.valid;
   var water = st.water === undefined ? 0 : st.water;
 
-  if (n < MIN_IMAGES) {
-    print(y + ' | ' + n + ' | - | - | SKIP (too few images)');
-    continue;
-  }
   var ok = valid >= MIN_VALID && water >= MIN_WATER;
   print(y + ' | ' + n + ' | ' + Math.round(valid * 100) + '% | ' +
         (water * 100).toFixed(2) + '% | ' + (ok ? 'EXPORT' : 'SKIP (check data)'));
+
   if (!ok) continue;
+
   Export.image.toDrive({
     image: b.water.multiply(255).toByte().rename('water')
              .addBands(b.valid.multiply(255).toByte().rename('valid')),
@@ -240,14 +317,27 @@ for (var y = START; y <= END; y++) {
     folder: 'riverguard_arial_khan_s2',
     fileNamePrefix: 'MNDWI_Mask_' + y,
     region: aoi,
-    scale: 10,
+    scale: RES_M,
     crs: CRS,
     maxPixels: 1e9,
     fileFormat: 'GeoTIFF'
   });
 }
 
+
+// =============================================================================
+// PREVIEW
+// =============================================================================
+
 Map.centerObject(aoi, 12);
-var p2024 = build(2024);
-Map.addLayer(p2024.comp, {bands: ['swir1', 'nir', 'green'], min: 0.02, max: 0.35}, 'Composite 2024', false);
-Map.addLayer(p2024.water.selfMask(), {palette: ['cyan']}, 'Water 2024 (Main River Only)');
+
+var PREVIEW_YEAR = 2024;
+if (Number(prep(PREVIEW_YEAR).size().getInfo()) >= MIN_IMAGES) {
+  var p = build(prep(PREVIEW_YEAR));
+  Map.addLayer(p.comp, {bands: ['swir1', 'nir', 'green'], min: 0.02, max: 0.35},
+               'Composite ' + PREVIEW_YEAR, false);
+  Map.addLayer(p.water.selfMask(), {palette: ['cyan']},
+               'Water ' + PREVIEW_YEAR + ' (main river only)');
+} else {
+  print('No preview: ' + PREVIEW_YEAR + ' has too few scenes.');
+}

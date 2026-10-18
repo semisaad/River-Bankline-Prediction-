@@ -245,6 +245,55 @@ if C.REACH == "arial_khan" and s2_js.exists() and ls_js.exists():
 else:
     warn("cross-sensor constant check applies to the arial_khan reach only")
 
+if C.REACH == "arial_khan" and s2_js.exists() and ls_js.exists():
+    # The `valid` band must be sampled BEFORE the mask is destroyed.
+    #
+    # Both Arial Khan exporters once computed `valid = green.mask()` from a
+    # composite that had already been `.unmask(0)`-ed. Unmasking erases the
+    # mask, so mask() returned all ones and `valid` reported 100% for every
+    # year - which turned `valid >= MIN_VALID` from a gate into decoration and
+    # let years with almost no usable imagery be exported silently. The older
+    # scripts (landsat_export.js, landsat_export_ganges.js) never had the bug.
+    #
+    # This is a structural invariant that is cheap to check and expensive to
+    # rediscover: in each script the line assigning `valid` must appear before
+    # the composite is unmasked.
+    for _js in (s2_js, ls_js):
+        _t = _js.read_text().splitlines()
+        _v = next((i for i, l in enumerate(_t) if l.strip().startswith("var valid")), None)
+        _u = next((i for i, l in enumerate(_t) if ".unmask(0)" in l
+                   and l.strip().startswith("var comp")), None)
+        if _v is None or _u is None:
+            warn(f"{_js.name}: could not locate the valid/unmask pair to verify")
+        elif _v < _u:
+            ok(f"{_js.name}: valid is sampled before the composite is unmasked")
+        else:
+            bad(f"{_js.name}: `valid` is computed AFTER the composite is "
+                f"unmasked, so it will report 100% valid for every year and the "
+                f"MIN_VALID gate will never fire. Sample validity first.")
+
+    # The Padma latitude is a hard physical constraint (D51) and is now enforced
+    # in the scripts as well as in config. If the two ever disagree, the scripts
+    # would happily export the wrong river.
+    _lims = []
+    for _js in (s2_js, ls_js):
+        _m = re.search(r"PADMA_LAT_MAX\s*=\s*([\d.]+)", _js.read_text())
+        _lims.append((_js.name, float(_m.group(1)) if _m else None))
+    _vals = {v for _, v in _lims if v is not None}
+    if not _vals:
+        warn("no PADMA_LAT_MAX found in the exporters to verify")
+    elif len(_vals) > 1:
+        bad(f"exporters disagree on PADMA_LAT_MAX: {_lims}")
+    else:
+        _lim = _vals.pop()
+        _north = C.BBOX_WGS84[3]
+        if _north >= _lim:
+            bad(f"config north edge {_north} reaches the Padma bifurcation at "
+                f"{_lim}N - the box would measure the Padma, not the Arial Khan (D51)")
+        else:
+            ok(f"north edge {_north}N is south of the Padma limit {_lim}N "
+               f"enforced in both exporters")
+
 print("\n9. No stale pre-rewrite artefacts are still being served")
 # features/features.csv was the 280-row table built before the transect rewrite.
 # It sat next to the real per-sensor tables and 07_validate.py was still reading

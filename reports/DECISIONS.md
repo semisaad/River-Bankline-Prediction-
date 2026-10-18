@@ -2513,3 +2513,66 @@ decimal places by hand added a failure mode without adding a safeguard.
 **Impact:** No measured number changes. The export procedure is now executable as
 written, and the tolerance check stays in place as the safeguard it was meant to
 be rather than as an obstacle.
+
+## D69 - The exporters' `valid` band was always 100%; the quality gate was dead
+
+**Date:** 2026-10-18
+
+**Found:** Both Arial Khan exporters computed
+
+```js
+var comp = ( ... ).clip(aoi).unmask(0);     // mask destroyed here
+var valid = green.mask().unmask(0);         // therefore always 1
+```
+
+`.unmask(0)` fills every masked pixel with 0 and removes the mask entirely, so
+`green.mask()` on the composite afterwards returns an all-ones image. The `valid`
+band was therefore 100% for every year, and `valid >= MIN_VALID` - the gate that
+decides whether a year is exported at all - could never fail.
+
+The regression is confirmed against the sibling scripts: `landsat_export.js` and
+`landsat_export_ganges.js` both do `var comp = pool(y).median().clip(aoi)` with no
+unmask, then `comp.select('green').mask()`, which is correct. The surviving v1
+Sentinel-2 masks carry a real `valid` band (95.1% set, 4.3% clear). The Arial Khan
+pair, written later, regressed.
+
+**Why it mattered:** The gate is the only thing standing between a year with
+almost no usable imagery and that year being exported, measured, and fed into the
+model as if it were sound. The failure was silent by construction - the console
+said 100% valid, so the operator saw nothing wrong. On Landsat, whose scan-line
+gaps make this the single most likely failure mode, a broken gate is precisely
+the wrong one to have.
+
+**Fixed:** Validity is sampled from the composite BEFORE `.unmask(0)`, reprojected
+to the working grid and re-thresholded, because reprojection resamples a binary
+mask into fractional values. Both scripts now carry the identical code.
+
+**Also changed in the same revision:**
+
+- The working grid is stated explicitly as `RES_M` (10 for Sentinel-2, 30 for
+  Landsat) so the `focal_max`/`focal_min` radius, which is given in METRES, cannot
+  be silently reinterpreted against an unknown pixel size.
+- `ee.Algorithms.If` is gone from the export path. The caller now checks the
+  scene count before building, so the composite is never constructed for an empty
+  collection - which was the only reason the guard existed.
+- The study area is resolved once, with `REFERENCE_BOX` authoritative. A drawn
+  rectangle may override it, but differences print a loud warning instead of
+  throwing, because the previous `1e-6` tolerance (~10 cm) was impossible for any
+  hand-drawn shape to satisfy (D68).
+- The Padma limit is now enforced in code rather than by eye: both scripts throw
+  if the northern edge reaches 23.47N.
+- Statistics are taken on the coarse grid the blob filter already uses, and
+  `tileScale` is raised to 8, to reduce the memory pressure D66 recorded.
+
+**Guards added:** `09_checks.py` section 8 now fails if either exporter samples
+`valid` after unmasking, and fails if the north edge reaches the Padma limit.
+Both were verified by reintroducing the fault and confirming the check fires.
+
+**Reason:** A gate that cannot fail is worse than no gate, because it reports
+success. The project's whole claim rests on distinguishing "we measured this"
+from "we did not look here", and this band is how that distinction reaches the
+export at all.
+
+**Impact:** No measured number changes on its own, but the next export will
+report real validity, and years that previously passed silently may now SKIP.
+That is the gate beginning to work.

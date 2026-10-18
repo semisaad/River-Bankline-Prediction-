@@ -89,11 +89,25 @@ The selected box's northern edge is 23.26149°N, south of the Padma limit.
 | printed bounds | the four numbers above | must match Sentinel-2 exactly |
 | `No rectangle drawn; using synchronized REFERENCE_BOX.` | expected | expected |
 | `valid` | at least **90%** | at least **70%** (scan-line gaps are expected) |
+| `No shape drawn; using the synchronized REFERENCE_BOX.` | expected | expected |
 | `water` | must pass the script's quality gate | must pass the script's quality gate |
 | `status` | `EXPORT` for usable years | `EXPORT` for usable years |
 
 Start about **5 Tasks at a time**. Some Landsat years may be skipped by the
 quality gates; keep the console output and do not rename files.
+
+**A SKIP now means something.** Until this revision the `valid` column always
+read 100% - the exporters took the mask of a composite that had already had
+`.unmask(0)` applied, so the gate could never fire and years with almost no
+usable imagery were exported as if they were fine. Validity is now sampled
+before the mask is destroyed, so the numbers in that column are real. Expect
+roughly 99% for Sentinel-2 and 70-99% for Landsat; a genuine SKIP is the gate
+working, not a fault. Do not lower the gates to force an export.
+
+**If a single Run times out**, set `YEAR_FROM` / `YEAR_TO` near the top of
+either script to export a slice, then run it again for the next slice. Each Run
+only creates Tasks for its own range, and the Tasks already created are
+unaffected.
 
 ---
 
