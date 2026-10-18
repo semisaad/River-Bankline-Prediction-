@@ -2787,3 +2787,37 @@ against a 2.507 baseline, `forecast_supported: false`, now with `beaten_by:
 ["training median", "training mean"]`. Both are recorded in
 `ml/artifacts/model_report.json`. The jamuna reach is registered but not
 currently runnable until its derived files are rebuilt from the raw inputs.
+
+## D75 - 09_checks.py crashed instead of reporting when a GloFAS table existed without a risk table
+
+**Date:** 2026-10-18
+
+**Found:** Section 10 imported `csv` as `_csv` **inside** its `if risk_csv.exists():`
+branch. Section 11 also uses `_csv`, to read the GloFAS annual table. So whenever
+a GloFAS table existed but the risk table did not, section 11 raised
+`NameError: name '_csv' is not defined` and the whole check script died with a
+traceback instead of printing results.
+
+Exposed while deleting the Jamuna's derived output: the jamuna reach still had
+its GloFAS table in `hydro/` but no longer had `risk/transect_risk.csv`, which is
+exactly the combination that triggers it.
+
+**Why it had never been seen:** the arial_khan reach currently has *neither* table,
+so section 11 was bailing out at its "no GloFAS annual table yet" warning before
+reaching the bad line. It would have fired on the rebuild, which runs
+`12_glofas_discharge.py` (writes the GloFAS table) before
+`13_risk_and_forecast.py` (writes the risk table) - so the first honest run of the
+checks after the rebuild would have died with a Python traceback rather than
+reporting anything.
+
+**Decision:** Move `import csv as _csv` to the module-level imports, where section
+11 can rely on it.
+
+**Reason:** A guard script that crashes is worse than one that fails a check. It
+returns exit 1 in both cases, but a traceback names an internal variable rather
+than the condition that is wrong, and the checks after the crash never run at all
+- so an unrelated later failure would be hidden by this earlier one.
+
+**Impact:** Both reaches now exit 0: arial_khan 28 PASS, jamuna 18 PASS. The
+J46 GloFAS re-derivation is confirmed intact by section 11 on the raw table that
+survived the cleanup: 38 years, 37 complete, 2026 flagged incomplete.

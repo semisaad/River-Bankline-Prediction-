@@ -9,6 +9,7 @@ to diagnose. If a check fails, stop and fix it before running the pipeline.
 """
 
 import ast
+import csv as _csv
 import re
 import json
 import subprocess
@@ -401,7 +402,6 @@ print("\n10. Risk and trend outputs are labelled honestly")
 risk_csv = C.DATA_PROC / "risk" / "transect_risk.csv"
 risk_gj = C.DATA_PROC / "risk" / "risk.geojson"
 if risk_csv.exists():
-    import csv as _csv
     with open(risk_csv) as f:
         rows = list(_csv.DictReader(f))
     if not rows:

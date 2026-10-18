@@ -1841,7 +1841,7 @@
         "kind": 5,
         "importPath": "ml.09_checks",
         "description": "ml.09_checks",
-        "peekOfCode": "risk_csv = C.DATA_PROC / \"risk\" / \"transect_risk.csv\"\nrisk_gj = C.DATA_PROC / \"risk\" / \"risk.geojson\"\nif risk_csv.exists():\n    import csv as _csv\n    with open(risk_csv) as f:\n        rows = list(_csv.DictReader(f))\n    if not rows:\n        bad(\"transect_risk.csv is empty\")\n    else:\n        short = sum(1 for r in rows if r.get(\"sufficient\") != \"True\")",
+        "peekOfCode": "risk_csv = C.DATA_PROC / \"risk\" / \"transect_risk.csv\"\nrisk_gj = C.DATA_PROC / \"risk\" / \"risk.geojson\"\nif risk_csv.exists():\n    with open(risk_csv) as f:\n        rows = list(_csv.DictReader(f))\n    if not rows:\n        bad(\"transect_risk.csv is empty\")\n    else:\n        short = sum(1 for r in rows if r.get(\"sufficient\") != \"True\")\n        ok(f\"{len(rows)} risk records, {len(rows) - short} eligible for ranking, \"",
         "detail": "ml.09_checks",
         "documentation": {}
     },
@@ -1850,7 +1850,7 @@
         "kind": 5,
         "importPath": "ml.09_checks",
         "description": "ml.09_checks",
-        "peekOfCode": "risk_gj = C.DATA_PROC / \"risk\" / \"risk.geojson\"\nif risk_csv.exists():\n    import csv as _csv\n    with open(risk_csv) as f:\n        rows = list(_csv.DictReader(f))\n    if not rows:\n        bad(\"transect_risk.csv is empty\")\n    else:\n        short = sum(1 for r in rows if r.get(\"sufficient\") != \"True\")\n        ok(f\"{len(rows)} risk records, {len(rows) - short} eligible for ranking, \"",
+        "peekOfCode": "risk_gj = C.DATA_PROC / \"risk\" / \"risk.geojson\"\nif risk_csv.exists():\n    with open(risk_csv) as f:\n        rows = list(_csv.DictReader(f))\n    if not rows:\n        bad(\"transect_risk.csv is empty\")\n    else:\n        short = sum(1 for r in rows if r.get(\"sufficient\") != \"True\")\n        ok(f\"{len(rows)} risk records, {len(rows) - short} eligible for ranking, \"\n           f\"{short} flagged insufficient\")",
         "detail": "ml.09_checks",
         "documentation": {}
     },
