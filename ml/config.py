@@ -135,15 +135,20 @@ REACHES = {
             "BUFFER_M": 120.0,
         },
         # Quality gates on the IMAGERY, not on the geometry: how many scenes a
-        # year needs, how much of it must be usable, and how much water the box
-        # must contain before the year is worth measuring.
+        # year needs, how much of the study rectangle its pixels must cover, and
+        # how much water the box must contain before the year is worth measuring.
+        #
+        # MIN_VALID is NOT a cloud or sharpness score. Measured against the real
+        # files it is a near-constant per reach - 96.1% for every Sentinel-2 year,
+        # 95.9% for every Landsat year - because it measures the overlap between
+        # the lat/lon rectangle and the UTM export grid, which is pure geometry
+        # (D76). It falls only if scenes fail to cover the box at all.
         #
         # These live here as well as in the GEE scripts because the bulk survey
         # was removed from those scripts (D71) to stop the Code Editor freezing
-        # on 38 consecutive detection chains. Quality is judged locally now, so
-        # the thresholds have to exist locally too. 09_checks.py section 8 holds
-        # the two copies together - if they drift, the local check would be
-        # judging downloads against numbers nobody else is using.
+        # on 38 consecutive detection chains. 09_checks.py section 8 holds the two
+        # copies together - if they drift, the local check would be judging
+        # downloads against numbers nobody else is using.
         "download_gates": {
             "s2": {"MIN_IMAGES": 3, "MIN_VALID": 0.90,
                    "MIN_WATER": 0.002, "MAX_CLOUD": 80},

@@ -50,11 +50,14 @@ def prepare_year(year, transform, width, height):
     read as dry land sitting next to the river, which would drag the bankline
     inland with no error anywhere. We measure it and complain loudly instead.
 
-    WHY valid_frac MATTERS: coverage counts pixels that ARRIVED, not pixels that
-    are usable. A year returned entirely as cloud and shadow still covers the
-    grid. Landsat 7 in particular has scan-line gaps. This number used to be
-    gated inside the Earth Engine script; that survey was removed to stop the
-    Code Editor freezing (D71), so the judgement happens here now.
+    WHAT valid_frac ACTUALLY IS (measured, D76): NOT image quality. It is the
+    fraction of the exported raster that lies inside the study rectangle. It
+    reads 95.9% for EVERY Landsat year 1989-2026, pixel-for-pixel identical,
+    because the lat/lon rectangle is rotated ~1.1 degrees against the UTM export
+    grid and the corners fall outside it. A cloudy year still reports 95.9%.
+
+    It is reported because it would fall if a year failed to cover the box, but
+    it detects footprint problems, not cloud. Do not read it as data quality.
     """
     src_path = C.land_raw_mask_path(year)
     out_path = C.land_proc_mask_path(year)
@@ -129,9 +132,9 @@ def main():
             flag = f"   <-- only {cov*100:.0f}% of our grid covered"
             thin.append((y, cov))
         if vfrac is None:
-            vtxt = "valid     -"
+            vtxt = "box cov      -"
         else:
-            vtxt = f"valid {vfrac*100:5.1f}%"
+            vtxt = f"box cov {vfrac*100:5.1f}%"
             if min_valid is not None and vfrac < min_valid:
                 flag += "   <-- mostly cloud/shadow or empty"
                 cloudy.append((y, vfrac))

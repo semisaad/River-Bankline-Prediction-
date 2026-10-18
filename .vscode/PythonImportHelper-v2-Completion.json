@@ -1292,7 +1292,7 @@
         "kind": 2,
         "importPath": "ml.01_prepare",
         "description": "ml.01_prepare",
-        "peekOfCode": "def prepare_year(year, transform, width, height):\n    out_mask = C.proc_mask_path(year)\n    out_rgb = C.proc_rgb_path(year)\n    # --- mask (nearest so 0/255 stays exact) ---\n    valid_frac = None\n    with rasterio.open(C.mask_path(year)) as src:\n        # The exporter writes a `valid` band alongside `water`: the fraction of\n        # the box that had usable, cloud-free imagery that year. It is measured\n        # on the SOURCE raster, before reprojection, because that is what the\n        # satellite actually delivered.",
+        "peekOfCode": "def prepare_year(year, transform, width, height):\n    out_mask = C.proc_mask_path(year)\n    out_rgb = C.proc_rgb_path(year)\n    # --- mask (nearest so 0/255 stays exact) ---\n    box_cov = None\n    with rasterio.open(C.mask_path(year)) as src:\n        # The exporter writes a `valid` band alongside `water`. MEASURED ON THE\n        # REAL FILES (D76), it is NOT a measure of cloud or imagery quality: it\n        # reads 96.1% for every Sentinel-2 year and 95.9% for every Landsat year,\n        # and the pattern is pixel-for-pixel identical across 28 years.",
         "detail": "ml.01_prepare",
         "documentation": {}
     },
@@ -1301,7 +1301,7 @@
         "kind": 2,
         "importPath": "ml.01_prepare",
         "description": "ml.01_prepare",
-        "peekOfCode": "def main():\n    transform, width, height = build_grid()\n    print(f\"grid: {width} x {height} px @ {C.RES} m, crs={C.CRS_WORK}\")\n    gates = C.DOWNLOADS.get(\"s2\", {})\n    min_valid = gates.get(\"MIN_VALID\")\n    # The exporter no longer judges validity before downloading (D71), so this\n    # is where a year gets flagged. Measured on the file that actually arrived,\n    # not on a server-side preview of it.\n    thin = []\n    for year in C.YEARS:",
+        "peekOfCode": "def main():\n    transform, width, height = build_grid()\n    print(f\"grid: {width} x {height} px @ {C.RES} m, crs={C.CRS_WORK}\")\n    gates = C.DOWNLOADS.get(\"s2\", {})\n    min_box = gates.get(\"MIN_VALID\")\n    # `box coverage` is the exporter's `valid` band: how much of the exported\n    # raster is inside the study rectangle (D76). It is NOT image quality - it is\n    # a near-constant for this reach. It is still checked, because it would fall\n    # if a year's scenes failed to cover the box, but a low number here means a\n    # footprint problem, not a cloudy one.",
         "detail": "ml.01_prepare",
         "documentation": {}
     },
@@ -1319,7 +1319,7 @@
         "kind": 2,
         "importPath": "ml.01b_prepare_landsat",
         "description": "ml.01b_prepare_landsat",
-        "peekOfCode": "def prepare_year(year, transform, width, height):\n    \"\"\"Reproject one Landsat mask onto our grid.\n    Returns (array, coverage, valid_frac). Coverage is the fraction of our grid\n    the source actually covers; valid_frac is the fraction of the source that\n    had usable, cloud-free imagery, read from the `valid` band.\n    WHY COVERAGE MATTERS: anything the source does not cover stays 0 in the\n    output, and 0 means LAND in our convention. So an uncovered strip would be\n    read as dry land sitting next to the river, which would drag the bankline\n    inland with no error anywhere. We measure it and complain loudly instead.\n    WHY valid_frac MATTERS: coverage counts pixels that ARRIVED, not pixels that",
+        "peekOfCode": "def prepare_year(year, transform, width, height):\n    \"\"\"Reproject one Landsat mask onto our grid.\n    Returns (array, coverage, valid_frac). Coverage is the fraction of our grid\n    the source actually covers; valid_frac is the fraction of the source that\n    had usable, cloud-free imagery, read from the `valid` band.\n    WHY COVERAGE MATTERS: anything the source does not cover stays 0 in the\n    output, and 0 means LAND in our convention. So an uncovered strip would be\n    read as dry land sitting next to the river, which would drag the bankline\n    inland with no error anywhere. We measure it and complain loudly instead.\n    WHAT valid_frac ACTUALLY IS (measured, D76): NOT image quality. It is the",
         "detail": "ml.01b_prepare_landsat",
         "documentation": {}
     },

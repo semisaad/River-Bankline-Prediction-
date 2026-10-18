@@ -30,21 +30,27 @@ def prepare_year(year, transform, width, height):
     out_rgb = C.proc_rgb_path(year)
 
     # --- mask (nearest so 0/255 stays exact) ---
-    valid_frac = None
+    box_cov = None
     with rasterio.open(C.mask_path(year)) as src:
-        # The exporter writes a `valid` band alongside `water`: the fraction of
-        # the box that had usable, cloud-free imagery that year. It is measured
-        # on the SOURCE raster, before reprojection, because that is what the
-        # satellite actually delivered.
+        # The exporter writes a `valid` band alongside `water`. MEASURED ON THE
+        # REAL FILES (D76), it is NOT a measure of cloud or imagery quality: it
+        # reads 96.1% for every Sentinel-2 year and 95.9% for every Landsat year,
+        # and the pattern is pixel-for-pixel identical across 28 years.
         #
-        # Only band 1 is kept downstream - `water` - so if this is not recorded
-        # here the number is lost. It used to be gated inside the Earth Engine
-        # script, but that survey was removed to stop the Code Editor freezing
-        # (D71), which moved the judgement to this file.
+        # What it actually measures is geometry. The study area is a lat/lon
+        # rectangle; the export grid is UTM 46N, and the two are rotated ~1.1
+        # degrees apart. 14.3 km * tan(1.1 deg) ~ 275 m of the UTM raster falls
+        # outside the rectangle at each corner, and `clip(aoi)` masks it. So the
+        # band is the rectangle-to-grid overlap, which is a constant.
+        #
+        # It is kept and reported because it WOULD drop if a year's scenes failed
+        # to cover the box at all, but it cannot detect a cloudy year. Cloud is
+        # handled by the exporter's MAX_CLOUD filter and by the 25th-percentile
+        # composite. Do not read this number as image quality.
         if src.count >= 2:
             b2 = src.read(2)
             if b2.size:
-                valid_frac = float(np.count_nonzero(b2 > 127)) / b2.size
+                box_cov = float(np.count_nonzero(b2 > 127)) / b2.size
 
         dst = np.zeros((height, width), dtype="uint8")
         reproject(
@@ -71,7 +77,7 @@ def prepare_year(year, transform, width, height):
     # the pipeline.
     rgb_in = C.rgb_path(year)
     if not rgb_in.exists():
-        return valid_frac
+        return box_cov
     with rasterio.open(rgb_in) as src:
         dst = np.zeros((3, height, width), dtype="uint16")
         for b in range(1, 4):
@@ -92,7 +98,7 @@ def prepare_year(year, transform, width, height):
         with rasterio.open(out_rgb, "w", **meta) as d:
             d.write(dst)
 
-    return valid_frac
+    return box_cov
 
 
 def main():
@@ -100,34 +106,51 @@ def main():
     print(f"grid: {width} x {height} px @ {C.RES} m, crs={C.CRS_WORK}")
 
     gates = C.DOWNLOADS.get("s2", {})
-    min_valid = gates.get("MIN_VALID")
+    min_box = gates.get("MIN_VALID")
 
-    # The exporter no longer judges validity before downloading (D71), so this
-    # is where a year gets flagged. Measured on the file that actually arrived,
-    # not on a server-side preview of it.
+    # `box coverage` is the exporter's `valid` band: how much of the exported
+    # raster is inside the study rectangle (D76). It is NOT image quality - it is
+    # a near-constant for this reach. It is still checked, because it would fall
+    # if a year's scenes failed to cover the box, but a low number here means a
+    # footprint problem, not a cloudy one.
     thin = []
+    areas = []
     for year in C.YEARS:
-        valid_frac = prepare_year(year, transform, width, height)
+        box_cov = prepare_year(year, transform, width, height)
         with rasterio.open(C.proc_mask_path(year)) as s:
             water = np.count_nonzero(s.read(1) > 127)
         km2 = water * (C.RES ** 2) / 1e6
-        if valid_frac is None:
-            print(f"  {year}: water {km2:8.1f} km2   no valid band")
+        areas.append((year, km2))
+        if box_cov is None:
+            print(f"  {year}: water {km2:8.1f} km2   box coverage     -")
             continue
         flag = ""
-        if min_valid is not None and valid_frac < min_valid:
-            flag = f"   <-- below the {min_valid * 100:.0f}% gate"
-            thin.append((year, valid_frac))
-        print(f"  {year}: water {km2:8.1f} km2   valid {valid_frac * 100:5.1f}%{flag}")
+        if min_box is not None and box_cov < min_box:
+            flag = f"   <-- below the {min_box * 100:.0f}% gate"
+            thin.append((year, box_cov))
+        print(f"  {year}: water {km2:8.1f} km2   box coverage {box_cov * 100:5.1f}%{flag}")
 
     if thin:
         print("\n" + "=" * 66)
-        print("WARNING: some years are mostly cloud, shadow or empty.")
-        print("The water area for those years is measured from too little")
-        print("imagery to trust, and bankline movement derived from it is noise.")
+        print("WARNING: the exported raster does not cover the study rectangle.")
+        print("That is a footprint problem, not cloud - check the export bounds.")
         print(f"Affected years: {', '.join(str(y) for y, _ in thin)}")
-        print("Inspect them before using them; do not just lower the gate.")
         print("=" * 66 + "\n")
+
+    # Water area is the only quality signal these files carry. A year whose area
+    # sits far from the rest of THIS reach's record is worth looking at before it
+    # reaches the bankline step, because bankline movement derived from a wrong
+    # water mask is noise that looks like a measurement.
+    if len(areas) >= 5:
+        vals = np.array([k for _, k in areas])
+        med = float(np.median(vals))
+        odd = [(y, k) for y, k in areas if med > 0 and (k < 0.5 * med or k > 2.0 * med)]
+        if odd:
+            print("NOTE: water area far from this reach's median "
+                  f"({med:.1f} km2) - inspect before using:")
+            for y, k in odd:
+                print(f"  {y}: {k:.1f} km2  ({k / med:.2f}x median)")
+            print()
 
 
 if __name__ == "__main__":

@@ -2821,3 +2821,51 @@ than the condition that is wrong, and the checks after the crash never run at al
 **Impact:** Both reaches now exit 0: arial_khan 28 PASS, jamuna 18 PASS. The
 J46 GloFAS re-derivation is confirmed intact by section 11 on the raw table that
 survived the cleanup: 38 years, 37 complete, 2026 flagged incomplete.
+
+## D76 - The `valid` band measures the study rectangle, not image quality
+
+**Date:** 2026-10-18
+
+**Found:** Re-exported masks were checked against the real files. `valid` reads
+96.1% for all 8 Sentinel-2 years and 95.9% for all 37 Landsat years, and the
+pattern is **pixel-for-pixel identical across 28 years** - Landsat 1995 and 2026
+agree on 100.00% of pixels, as do S2 2019 and 2026. Cloud, shadow and scan-line
+gaps do not repeat like that, so the band is not measuring imagery.
+
+What it measures is geometry. The study area is a lat/lon rectangle; the export
+grid is UTM 46N, and meridian convergence at 23.2N puts the two about 1.1 degrees
+apart. 14.3 km * tan(1.1) ~ 275 m of the UTM raster falls outside the rectangle
+at each corner, and those pixels are masked by `clip(aoi)`. The invalid region is
+the predicted wedge shape - 95% of the outermost Landsat column, decaying
+linearly to 20% seven columns in - and the same wedge appears in both sensors at
+their own resolutions.
+
+**This supersedes part of D69.** D69 fixed the *scan order* (sample the mask
+before `.unmask(0)` destroys it) and that fix is correct and still needed. But
+the thing being sampled is the composite's footprint after clip and reproject, so
+the gate moved from reporting 100% for every year to reporting 96% for every
+year. It was decorative before and it is decorative now, for a different reason.
+
+**Decision:** Keep the band and keep reporting it, under its true name - **box
+coverage**. It is not deleted, because it would fall if a year's scenes failed to
+cover the box, which is a real failure mode. `MIN_VALID` is documented as a
+footprint threshold rather than an image-quality threshold, in `config.py`,
+`01_prepare.py` and `01b_prepare_landsat.py`. `01_prepare.py` additionally
+reports water area against the reach's own median, since that is the only quality
+signal these files carry.
+
+**Rejected:** Re-exporting with a genuinely per-year quality band (e.g. scene
+count per pixel). It would cost another full Earth Engine run to replace a check
+that nothing downstream reads, and the water-area series already exposes a year
+that goes wrong. Revisit only if a bad year slips through.
+
+**Not a defect in the water data.** The wedge is *outside* the requested
+rectangle, so nothing measured is missing - the export is complete and the
+river ribbon sits in the middle, clear of the masked corners. Water areas are
+consistent between sensors over the 2019-2026 overlap, which is the check that
+matters.
+
+**Impact:** `01_prepare.py` now prints `water ... km2  box coverage 96.1%` for
+the real S2 files, and warns when a year's water area sits below half or above
+twice the reach median. This is recorded so the constant is not mistaken for a
+passing quality gate a third time.
