@@ -2705,3 +2705,42 @@ separately for each, since for Landsat they mean different things (footprint vs
 scan-line gaps). Verified by reintroducing all three faults - a shadowed key, a
 drifted `MIN_VALID`, and a disabled valid-band read - and confirming each is
 caught or reported, then restoring and re-passing.
+
+## D73 - The map preview is off by default; it is not the same budget as an export
+
+**Date:** 2026-10-18
+
+**Found:** Running the Sentinel-2 exporter produced repeated
+
+```
+Tile error: Output of image computation is too large
+(6 bands for 1925093 pixels = 88.1 MiB > 80.0 MiB)
+```
+
+against the layer `Water 2024 (main river only)`. This is the **interactive map**
+path, which has an 80 MiB per-tile ceiling that batch exports do not. Two causes:
+`water` depends on the six-band composite, so the chain carries six bands even
+when one is drawn; and the focal close plus the connected-component filter mean
+each tile must pull in its neighbours.
+
+**Decision:** `SHOW_PREVIEW = false` by default. When enabled it draws
+`water.reproject({scale: 60})` and nothing else - 36x fewer pixels, and the
+six-band composite is not drawn at all. `Map.centerObject` zoom reduced from 12
+to 11 for the larger box.
+
+**Reason:** The preview is a convenience; the export is the deliverable, and the
+error message named the preview layer while looking like an export failure. That
+is exactly the kind of misleading signal this project has been bitten by before.
+Batch exports are not tiled this way and carry `maxPixels: 1e9`, so the Tasks
+were created regardless - but nothing said so, and the natural response is to
+assume the whole run failed.
+
+**Not a fix by lowering the box:** the box is correct (D65) and the pixel counts
+in the error are consistent with it. The tile ceiling applies to the interactive
+render of a 10 m focal-op chain over ~145 km^2; it is a display constraint, not a
+reason to shrink the study area.
+
+**Impact:** no preview by default, so no misleading tile errors. The river-shape
+check moves to after download, where `01_prepare.py` reports water area and
+`valid` coverage per year from the real files. Set `SHOW_PREVIEW = true` to
+inspect a 60 m preview before exporting.

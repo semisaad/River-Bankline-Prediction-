@@ -343,10 +343,33 @@ print('Tasks are now listed in the Tasks tab. Start about 5 at a time.');
 
 // One render of the detection chain for a single year, so you can confirm the
 // river looks right before trusting 38 Tasks to it.
-var SHOW_PREVIEW = true;
+//
+// WHY THIS IS OFF BY DEFAULT
+//
+// Drawing the chain interactively hits an 80 MiB per-tile ceiling that batch
+// exports do not:
+//
+//   Tile error: Output of image computation is too large
+//   (6 bands for 1925093 pixels = 88.1 MiB > 80.0 MiB)
+//
+// Two reasons. `water` depends on the six-band composite, so the chain carries
+// six bands even though only one is displayed. And the focal close plus the
+// connected-component filter mean every tile needs its neighbours, which
+// multiplies the work per tile. Landsat's 30 m grid is a quarter of the pixel
+// count of Sentinel-2, so an unshown six-band composite over this box is still
+// tens of megabytes per tile.
+//
+// THAT ERROR DOES NOT AFFECT THE TASKS. A batch export is not tiled this way and
+// carries maxPixels: 1e9, so if you saw it the Tasks were still created - check
+// the Tasks tab. The real check on the data is local, against the files you
+// download.
+//
+// Turn this on to see a 60 m version, which renders comfortably. The composite
+// is not drawn at all.
+var SHOW_PREVIEW = false;
 var PREVIEW_YEAR = 2021;
 
-Map.centerObject(aoi, 12);
+Map.centerObject(aoi, 11);
 
 if (SHOW_PREVIEW) {
   var nPreview = (PREVIEW_YEAR >= YEAR_FROM && PREVIEW_YEAR <= YEAR_TO)
@@ -355,10 +378,10 @@ if (SHOW_PREVIEW) {
 
   if (nPreview >= MIN_IMAGES) {
     var p = build(prep(PREVIEW_YEAR));
-    Map.addLayer(p.comp, {bands: ['swir1', 'nir', 'green'], min: 0.02, max: 0.35},
-                 'Landsat composite ' + PREVIEW_YEAR, false);
-    Map.addLayer(p.water.selfMask(), {palette: ['cyan']},
-                 'Landsat water ' + PREVIEW_YEAR + ' (main river only)');
+    Map.addLayer(
+      p.water.reproject({crs: CRS, scale: BLOB_SCALE_M}).selfMask(),
+      {palette: ['cyan']},
+      'Landsat water ' + PREVIEW_YEAR + ' (60 m preview)');
   } else {
     print('No preview: ' + PREVIEW_YEAR + ' has too few scenes.');
   }
