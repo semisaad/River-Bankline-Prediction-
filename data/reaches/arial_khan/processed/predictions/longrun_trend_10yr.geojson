@@ -1,0 +1,3372 @@
+{
+ "type": "FeatureCollection",
+ "name": "longrun_trend",
+ "crs": {
+  "type": "name",
+  "properties": {
+   "name": "EPSG:32646"
+  }
+ },
+ "metadata": {
+  "n_records": 62,
+  "n_significant": 62,
+  "horizon_years": 10,
+  "base_year": 2026,
+  "min_years_history": 10,
+  "method": "RandomForest, GroupKFold-validated",
+  "mae_model_m_per_yr": 2.843,
+  "warning": "Projected by a trained RandomForest, cross-validated by grouping on transect. It beats predict-the-average by 2.6%. Quote MAE 2.843 m/yr, never the in-sample fit. Trained on 432 rows over 7 year-pairs; the Landsat record is needed before this is defensible rather than promising.",
+  "mae_baseline_m_per_yr": 2.919,
+  "cv": "GroupKFold(5) grouped by transect_id"
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215686.75890620958,
+      2565950.902206328
+     ],
+     [
+      215547.03141527958,
+      2566146.0335166766
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 0,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215684.15715540492,
+      2565949.039173116
+     ],
+     [
+      215544.4296644749,
+      2566144.1704834644
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 0,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -0.3,
+    "projected_offset_m": -3.2,
+    "offset_low_m": -31.7,
+    "offset_high_m": 25.2,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215467.23618206725,
+      2565793.708779032
+     ],
+     [
+      215327.50869113725,
+      2565988.8400893803
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 0,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215469.83793287192,
+      2565795.5718122446
+     ],
+     [
+      215330.1104419419,
+      2565990.703122593
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 0,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -0.3,
+    "projected_offset_m": -3.2,
+    "offset_low_m": -31.7,
+    "offset_high_m": 25.2,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215874.71048203684,
+      2566266.7011145265
+     ],
+     [
+      215763.30127271448,
+      2566479.2757792403
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 1,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215875.0647731447,
+      2566266.886796542
+     ],
+     [
+      215763.65556382234,
+      2566479.461461256
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 1,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.0,
+    "projected_offset_m": 0.4,
+    "offset_low_m": -28.0,
+    "offset_high_m": 28.8,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215653.27853962666,
+      2566150.6498548156
+     ],
+     [
+      215541.8693303043,
+      2566363.2245195294
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 1,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215652.9242485188,
+      2566150.4641728
+     ],
+     [
+      215541.51503919644,
+      2566363.038837514
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 1,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.0,
+    "projected_offset_m": 0.4,
+    "offset_low_m": -28.0,
+    "offset_high_m": 28.8,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214163.36978089652,
+      2566342.1184790656
+     ],
+     [
+      214222.36772606685,
+      2566109.48305084
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 3,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214168.70100946003,
+      2566343.470515309
+     ],
+     [
+      214227.69895463035,
+      2566110.8350870833
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 3,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -0.6,
+    "projected_offset_m": -5.5,
+    "offset_low_m": -33.9,
+    "offset_high_m": 22.9,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214396.00520912206,
+      2566401.1164242355
+     ],
+     [
+      214455.00315429238,
+      2566168.48099601
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 3,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214410.83571767143,
+      2566404.8775432403
+     ],
+     [
+      214469.83366284176,
+      2566172.2421150147
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 3,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 1.5,
+    "projected_offset_m": 15.3,
+    "offset_low_m": -13.2,
+    "offset_high_m": 43.7,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214523.77837740633,
+      2566450.953676814
+     ],
+     [
+      214474.50963868466,
+      2566685.8421426546
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 4,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214529.65058905233,
+      2566452.185395282
+     ],
+     [
+      214480.38185033065,
+      2566687.0738611226
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 4,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.6,
+    "projected_offset_m": 6.0,
+    "offset_low_m": -22.4,
+    "offset_high_m": 34.4,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214230.16779510604,
+      2566389.367753412
+     ],
+     [
+      214180.89905638437,
+      2566624.2562192525
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 4,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214234.47408364646,
+      2566390.2710136217
+     ],
+     [
+      214185.2053449248,
+      2566625.159479462
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 4,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -0.4,
+    "projected_offset_m": -4.4,
+    "offset_low_m": -32.8,
+    "offset_high_m": 24.0,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214563.26675690978,
+      2566658.2871288396
+     ],
+     [
+      214533.700262526,
+      2566896.4589626277
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 5,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214554.0375983505,
+      2566657.141427182
+     ],
+     [
+      214524.4711039667,
+      2566895.31326097
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 5,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -0.9,
+    "projected_offset_m": -9.3,
+    "offset_low_m": -37.8,
+    "offset_high_m": 19.1,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214255.62813826717,
+      2566620.0970735936
+     ],
+     [
+      214226.06164388338,
+      2566858.2689073817
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 5,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214279.94151296635,
+      2566623.1153198956
+     ],
+     [
+      214250.37501858256,
+      2566861.2871536836
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 5,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -2.5,
+    "projected_offset_m": -24.5,
+    "offset_low_m": -52.9,
+    "offset_high_m": 4.0,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214603.6554453444,
+      2566836.522530997
+     ],
+     [
+      214586.09829434927,
+      2567075.879474596
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 6,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214591.08920580547,
+      2566835.60078057
+     ],
+     [
+      214573.53205481035,
+      2567074.957724169
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 6,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -1.3,
+    "projected_offset_m": -12.6,
+    "offset_low_m": -41.0,
+    "offset_high_m": 15.8,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214284.5128538794,
+      2566813.112996337
+     ],
+     [
+      214266.95570288427,
+      2567052.469939936
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 6,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214307.85015588027,
+      2566814.824818559
+     ],
+     [
+      214290.29300488514,
+      2567054.181762158
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 6,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -2.3,
+    "projected_offset_m": -23.4,
+    "offset_low_m": -51.8,
+    "offset_high_m": 5.0,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214709.95530707555,
+      2567077.290491835
+     ],
+     [
+      214717.45575959803,
+      2567317.1732615624
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 7,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214774.12394797755,
+      2567075.284120785
+     ],
+     [
+      214781.62440050003,
+      2567315.166890512
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 7,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 6.4,
+    "projected_offset_m": 64.2,
+    "offset_low_m": 35.8,
+    "offset_high_m": 92.7,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214290.16046005307,
+      2567090.4162837495
+     ],
+     [
+      214297.66091257555,
+      2567330.2990534767
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 7,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214101.35273004702,
+      2567096.3197649224
+     ],
+     [
+      214108.8531825695,
+      2567336.2025346495
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 7,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 18.9,
+    "projected_offset_m": 188.9,
+    "offset_low_m": 160.5,
+    "offset_high_m": 217.4,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214801.9562013606,
+      2567280.12685918
+     ],
+     [
+      214832.99366903145,
+      2567518.1114712893
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 8,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214882.4743284574,
+      2567269.6258492847
+     ],
+     [
+      214913.51179612827,
+      2567507.610461394
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 8,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 8.1,
+    "projected_offset_m": 81.2,
+    "offset_low_m": 52.8,
+    "offset_high_m": 109.6,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214435.06325769285,
+      2567327.976288506
+     ],
+     [
+      214466.1007253637,
+      2567565.960900615
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 8,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214418.50349510027,
+      2567330.1359789646
+     ],
+     [
+      214449.54096277113,
+      2567568.1205910738
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 8,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 1.7,
+    "projected_offset_m": 16.7,
+    "offset_low_m": -11.8,
+    "offset_high_m": 45.1,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214850.35041540928,
+      2567526.3512678873
+     ],
+     [
+      214899.75920043702,
+      2567761.210314897
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 9,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214837.92245750505,
+      2567528.965816095
+     ],
+     [
+      214887.3312425328,
+      2567763.8248631046
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 9,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -1.3,
+    "projected_offset_m": -12.7,
+    "offset_low_m": -41.1,
+    "offset_high_m": 15.7,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214507.84763852082,
+      2567598.405746053
+     ],
+     [
+      214557.25642354856,
+      2567833.2647930626
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 9,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214312.52319775816,
+      2567639.4973856006
+     ],
+     [
+      214361.9319827859,
+      2567874.35643261
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 9,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 20.0,
+    "projected_offset_m": 199.6,
+    "offset_low_m": 171.1,
+    "offset_high_m": 228.0,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214878.10998656345,
+      2567740.541879259
+     ],
+     [
+      214945.40907781548,
+      2567970.9129545195
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 10,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214858.33646927026,
+      2567746.3183845915
+     ],
+     [
+      214925.6355605223,
+      2567976.689459852
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 10,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -2.1,
+    "projected_offset_m": -20.6,
+    "offset_low_m": -49.1,
+    "offset_high_m": 7.8,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214609.34373209294,
+      2567819.0574857197
+     ],
+     [
+      214676.64282334497,
+      2568049.42856098
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 10,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214636.9882611242,
+      2567810.9815947697
+     ],
+     [
+      214704.28735237624,
+      2568041.35267003
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 10,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -2.9,
+    "projected_offset_m": -28.8,
+    "offset_low_m": -57.2,
+    "offset_high_m": -0.3,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214900.2675668026,
+      2567996.2140765334
+     ],
+     [
+      214982.53920623127,
+      2568221.67222641
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 11,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214899.234216949,
+      2567996.591154881
+     ],
+     [
+      214981.50585637768,
+      2568222.0493047573
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 11,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -0.1,
+    "projected_offset_m": -1.1,
+    "offset_low_m": -29.6,
+    "offset_high_m": 27.3,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214637.2330586134,
+      2568092.1976558673
+     ],
+     [
+      214719.5046980421,
+      2568317.6558057438
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 11,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214644.74833027594,
+      2568089.455267886
+     ],
+     [
+      214727.01996970462,
+      2568314.9134177626
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 11,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -0.8,
+    "projected_offset_m": -8.0,
+    "offset_low_m": -36.5,
+    "offset_high_m": 20.4,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214943.13669439816,
+      2568257.6570420773
+     ],
+     [
+      215035.99329977643,
+      2568478.965990919
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 12,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214938.52609129727,
+      2568259.591554689
+     ],
+     [
+      215031.38269667554,
+      2568480.900503531
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 12,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -0.5,
+    "projected_offset_m": -5.0,
+    "offset_low_m": -33.4,
+    "offset_high_m": 23.5,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214712.60653935422,
+      2568354.3826726796
+     ],
+     [
+      214805.4631447325,
+      2568575.6916215215
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 12,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214708.64142068746,
+      2568356.046353526
+     ],
+     [
+      214801.49802606573,
+      2568577.355302368
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 12,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.4,
+    "projected_offset_m": 4.3,
+    "offset_low_m": -24.1,
+    "offset_high_m": 32.8,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214904.48273390677,
+      2568536.76491317
+     ],
+     [
+      215003.22181014763,
+      2568755.5127013256
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 13,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214895.45938764536,
+      2568540.8379000654
+     ],
+     [
+      214994.19846388622,
+      2568759.585688221
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 13,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -1.0,
+    "projected_offset_m": -9.9,
+    "offset_low_m": -38.4,
+    "offset_high_m": 18.5,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214758.65087513617,
+      2568602.5909639974
+     ],
+     [
+      214857.38995137703,
+      2568821.338752153
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 13,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214781.7105378043,
+      2568592.1822197107
+     ],
+     [
+      214880.44961404515,
+      2568810.930007866
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 13,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -2.5,
+    "projected_offset_m": -25.3,
+    "offset_low_m": -53.7,
+    "offset_high_m": 3.1,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215005.4877044627,
+      2568782.0561308293
+     ],
+     [
+      215106.37823851078,
+      2568999.8199940836
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 14,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215016.82957234053,
+      2568776.801415514
+     ],
+     [
+      215117.72010638862,
+      2568994.5652787685
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 14,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 1.2,
+    "projected_offset_m": 12.5,
+    "offset_low_m": -15.9,
+    "offset_high_m": 40.9,
+    "n_years": 12,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214687.91540388332,
+      2568929.1881596493
+     ],
+     [
+      214788.8059379314,
+      2569146.9520229036
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 14,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214678.2067649799,
+      2568933.686195959
+     ],
+     [
+      214779.09729902798,
+      2569151.450059213
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 14,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 1.1,
+    "projected_offset_m": 10.7,
+    "offset_low_m": -17.7,
+    "offset_high_m": 39.1,
+    "n_years": 12,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215209.64824814035,
+      2568940.019360361
+     ],
+     [
+      215308.06927658018,
+      2569158.910431812
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 15,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215219.2247325163,
+      2568935.7134403666
+     ],
+     [
+      215317.64576095613,
+      2569154.6045118175
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 15,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 1.1,
+    "projected_offset_m": 10.5,
+    "offset_low_m": -18.0,
+    "offset_high_m": 38.9,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214689.78195344488,
+      2569173.7693029055
+     ],
+     [
+      214788.2029818847,
+      2569392.6603743564
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 15,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214688.68749808765,
+      2569174.2614080478
+     ],
+     [
+      214787.10852652747,
+      2569393.1524794986
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 15,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.1,
+    "projected_offset_m": 1.2,
+    "offset_low_m": -27.3,
+    "offset_high_m": 29.6,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215645.80344824234,
+      2569055.967796662
+     ],
+     [
+      215736.8546882208,
+      2569278.025608275
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 16,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215632.6650277219,
+      2569061.354995027
+     ],
+     [
+      215723.71626770037,
+      2569283.4128066404
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 16,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -1.4,
+    "projected_offset_m": -14.2,
+    "offset_low_m": -42.7,
+    "offset_high_m": 14.2,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214970.3776045859,
+      2569332.915318263
+     ],
+     [
+      215061.42884456436,
+      2569554.9731298764
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 16,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214983.51602510634,
+      2569327.528119898
+     ],
+     [
+      215074.5672650848,
+      2569549.585931511
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 16,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -1.4,
+    "projected_offset_m": -14.2,
+    "offset_low_m": -42.7,
+    "offset_high_m": 14.2,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215517.51602037458,
+      2569603.669563186
+     ],
+     [
+      215441.0585220031,
+      2569376.1739567607
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 17,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215571.35664722856,
+      2569585.5746219046
+     ],
+     [
+      215494.89914885708,
+      2569358.0790154794
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 17,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -5.7,
+    "projected_offset_m": -56.8,
+    "offset_low_m": -85.2,
+    "offset_high_m": -28.4,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215972.50723322498,
+      2569450.7545664427
+     ],
+     [
+      215896.0497348535,
+      2569223.2589600175
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 17,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215971.8437043729,
+      2569450.9775674795
+     ],
+     [
+      215895.38620600142,
+      2569223.4819610543
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 17,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -0.1,
+    "projected_offset_m": -0.7,
+    "offset_low_m": -29.1,
+    "offset_high_m": 27.7,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215976.53707011943,
+      2569506.743097947
+     ],
+     [
+      216030.59028117792,
+      2569740.576907252
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 18,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      216018.04257127113,
+      2569497.1486529843
+     ],
+     [
+      216072.09578232962,
+      2569730.9824622893
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 18,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 4.3,
+    "projected_offset_m": 42.6,
+    "offset_low_m": 14.2,
+    "offset_high_m": 71.0,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215762.1894115895,
+      2569556.2918747505
+     ],
+     [
+      215816.242622648,
+      2569790.1256840555
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 18,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215888.65453012215,
+      2569527.0580964363
+     ],
+     [
+      215942.70774118064,
+      2569760.8919057413
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 18,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -13.0,
+    "projected_offset_m": -129.8,
+    "offset_low_m": -158.3,
+    "offset_high_m": -101.4,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      216014.8281595907,
+      2569787.434041959
+     ],
+     [
+      216032.6638754602,
+      2570026.770389469
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 19,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      216038.4626239073,
+      2569785.6727650166
+     ],
+     [
+      216056.2983397768,
+      2570025.0091125267
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 19,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 2.4,
+    "projected_offset_m": 23.7,
+    "offset_low_m": -4.7,
+    "offset_high_m": 52.1,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215845.2982467711,
+      2569800.067674033
+     ],
+     [
+      215863.1339626406,
+      2570039.404021543
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 19,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215853.27612502145,
+      2569799.4731501704
+     ],
+     [
+      215871.11184089095,
+      2570038.8094976805
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 19,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -0.8,
+    "projected_offset_m": -8.0,
+    "offset_low_m": -36.4,
+    "offset_high_m": 20.5,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215987.87603749466,
+      2570087.348187961
+     ],
+     [
+      215960.95237139388,
+      2570325.833231944
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 20,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      216001.09208368207,
+      2570088.840207791
+     ],
+     [
+      215974.1684175813,
+      2570327.325251774
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 20,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 1.3,
+    "projected_offset_m": 13.3,
+    "offset_low_m": -15.2,
+    "offset_high_m": 41.7,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215809.01225450722,
+      2570067.1554383854
+     ],
+     [
+      215782.08858840645,
+      2570305.6404823684
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 20,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215799.96969658954,
+      2570066.1345827123
+     ],
+     [
+      215773.04603048877,
+      2570304.6196266953
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 20,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.9,
+    "projected_offset_m": 9.1,
+    "offset_low_m": -19.4,
+    "offset_high_m": 37.5,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215923.5008101162,
+      2570375.248062666
+     ],
+     [
+      215851.76845929192,
+      2570604.27747092
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 21,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215930.75340804426,
+      2570377.519587109
+     ],
+     [
+      215859.02105721997,
+      2570606.5489953626
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 21,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.8,
+    "projected_offset_m": 7.6,
+    "offset_low_m": -20.8,
+    "offset_high_m": 36.0,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215656.29983381976,
+      2570291.560320038
+     ],
+     [
+      215584.56748299548,
+      2570520.5897282916
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 21,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215651.52838781447,
+      2570290.065896062
+     ],
+     [
+      215579.79603699018,
+      2570519.095304316
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 21,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.5,
+    "projected_offset_m": 5.0,
+    "offset_low_m": -23.5,
+    "offset_high_m": 33.4,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215913.8599355789,
+      2570676.318071213
+     ],
+     [
+      215806.27494978823,
+      2570890.8535480755
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 22,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215915.2901720913,
+      2570677.035304452
+     ],
+     [
+      215807.70518630065,
+      2570891.5707813143
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 22,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.2,
+    "projected_offset_m": 1.6,
+    "offset_low_m": -26.8,
+    "offset_high_m": 30.0,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215413.2771562341,
+      2570425.286437702
+     ],
+     [
+      215305.69217044345,
+      2570639.8219145644
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 22,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215409.61217517106,
+      2570423.448527528
+     ],
+     [
+      215302.0271893804,
+      2570637.9840043904
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 22,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.4,
+    "projected_offset_m": 4.1,
+    "offset_low_m": -24.3,
+    "offset_high_m": 32.6,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215885.10930436495,
+      2571008.317554921
+     ],
+     [
+      215754.77547320985,
+      2571209.844457484
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 23,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215885.10930436495,
+      2571008.317554921
+     ],
+     [
+      215754.77547320985,
+      2571209.844457484
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 23,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.0,
+    "projected_offset_m": 0.0,
+    "offset_low_m": -28.4,
+    "offset_high_m": 28.4,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215104.19255693522,
+      2570503.2739591952
+     ],
+     [
+      214973.85872578013,
+      2570704.800861758
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 23,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215104.19255693522,
+      2570503.2739591952
+     ],
+     [
+      214973.85872578013,
+      2570704.800861758
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 23,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.0,
+    "projected_offset_m": 0.0,
+    "offset_low_m": -28.4,
+    "offset_high_m": 28.4,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215743.5758645161,
+      2571296.30093707
+     ],
+     [
+      215595.9373876271,
+      2571485.517427213
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 24,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215743.5758645161,
+      2571296.30093707
+     ],
+     [
+      215595.9373876271,
+      2571485.517427213
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 24,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.0,
+    "projected_offset_m": 0.0,
+    "offset_low_m": -28.4,
+    "offset_high_m": 28.4,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214797.4934138029,
+      2570558.108552625
+     ],
+     [
+      214649.8549369139,
+      2570747.325042768
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 24,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214797.4934138029,
+      2570558.108552625
+     ],
+     [
+      214649.8549369139,
+      2570747.325042768
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 24,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.0,
+    "projected_offset_m": 0.0,
+    "offset_low_m": -28.4,
+    "offset_high_m": 28.4,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215552.87719778263,
+      2571494.2804996856
+     ],
+     [
+      215392.97387098748,
+      2571673.2523580315
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 25,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215552.87719778263,
+      2571494.2804996856
+     ],
+     [
+      215392.97387098748,
+      2571673.2523580315
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 25,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.0,
+    "projected_offset_m": 0.0,
+    "offset_low_m": -28.4,
+    "offset_high_m": 28.4,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214658.01790605224,
+      2570694.7638657102
+     ],
+     [
+      214498.1145792571,
+      2570873.735724056
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 25,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214658.01790605224,
+      2570694.7638657102
+     ],
+     [
+      214498.1145792571,
+      2570873.735724056
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 25,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.0,
+    "projected_offset_m": 0.0,
+    "offset_low_m": -28.4,
+    "offset_high_m": 28.4,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215364.65278659115,
+      2571672.7432867405
+     ],
+     [
+      215198.59998420958,
+      2571846.024753785
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 26,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215364.65278659115,
+      2571672.7432867405
+     ],
+     [
+      215198.59998420958,
+      2571846.024753785
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 26,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.0,
+    "projected_offset_m": 0.0,
+    "offset_low_m": -28.4,
+    "offset_high_m": 28.4,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214498.2454513667,
+      2570842.479274833
+     ],
+     [
+      214332.19264898513,
+      2571015.760741878
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 26,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214498.2454513667,
+      2570842.479274833
+     ],
+     [
+      214332.19264898513,
+      2571015.760741878
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 26,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.0,
+    "projected_offset_m": 0.0,
+    "offset_low_m": -28.4,
+    "offset_high_m": 28.4,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215138.60216534635,
+      2571880.579791814
+     ],
+     [
+      214967.73058610005,
+      2572049.1114013297
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 27,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      215138.60216534635,
+      2571880.579791814
+     ],
+     [
+      214967.73058610005,
+      2572049.1114013297
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 27,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.0,
+    "projected_offset_m": 0.0,
+    "offset_low_m": -28.4,
+    "offset_high_m": 28.4,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214295.94411776893,
+      2571026.221895583
+     ],
+     [
+      214125.07253852263,
+      2571194.7535050986
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 27,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214295.94411776893,
+      2571026.221895583
+     ],
+     [
+      214125.07253852263,
+      2571194.7535050986
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 27,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.0,
+    "projected_offset_m": 0.0,
+    "offset_low_m": -28.4,
+    "offset_high_m": 28.4,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214955.2900521248,
+      2572050.418204949
+     ],
+     [
+      214781.07686302756,
+      2572215.493232571
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 28,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214955.2900521248,
+      2572050.418204949
+     ],
+     [
+      214781.07686302756,
+      2572215.493232571
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 28,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.0,
+    "projected_offset_m": 0.0,
+    "offset_low_m": -28.4,
+    "offset_high_m": 28.4,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214129.91491401222,
+      2571179.3522594622
+     ],
+     [
+      213955.70172491498,
+      2571344.4272870845
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 28,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214129.91491401222,
+      2571179.3522594622
+     ],
+     [
+      213955.70172491498,
+      2571344.4272870845
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 28,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.0,
+    "projected_offset_m": 0.0,
+    "offset_low_m": -28.4,
+    "offset_high_m": 28.4,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214782.6529782461,
+      2572214.9907174287
+     ],
+     [
+      214606.771411983,
+      2572378.2869961644
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 29,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214782.6529782461,
+      2572214.9907174287
+     ],
+     [
+      214606.771411983,
+      2572378.2869961644
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 29,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.0,
+    "projected_offset_m": 0.0,
+    "offset_low_m": -28.4,
+    "offset_high_m": 28.4,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      213966.17158456903,
+      2571335.582886113
+     ],
+     [
+      213790.29001830594,
+      2571498.8791648485
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 29,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      213966.17158456903,
+      2571335.582886113
+     ],
+     [
+      213790.29001830594,
+      2571498.8791648485
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 29,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.0,
+    "projected_offset_m": 0.0,
+    "offset_low_m": -28.4,
+    "offset_high_m": 28.4,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214581.71723968087,
+      2572410.599807519
+     ],
+     [
+      214406.07676499878,
+      2572574.1553749978
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 30,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214581.71723968087,
+      2572410.599807519
+     ],
+     [
+      214406.07676499878,
+      2572574.1553749978
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 30,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.0,
+    "projected_offset_m": 0.0,
+    "offset_low_m": -28.4,
+    "offset_high_m": 28.5,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      213763.93940228486,
+      2571532.3974341084
+     ],
+     [
+      213588.29892760277,
+      2571695.953001587
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 30,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      213763.93940228486,
+      2571532.3974341084
+     ],
+     [
+      213588.29892760277,
+      2571695.953001587
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 30,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.0,
+    "projected_offset_m": 0.0,
+    "offset_low_m": -28.4,
+    "offset_high_m": 28.5,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214430.26304647894,
+      2572563.9819037644
+     ],
+     [
+      214256.32293238016,
+      2572729.3446465675
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 31,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      214430.26304647894,
+      2572563.9819037644
+     ],
+     [
+      214256.32293238016,
+      2572729.3446465675
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 31,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.0,
+    "projected_offset_m": 0.0,
+    "offset_low_m": -28.4,
+    "offset_high_m": 28.5,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      213713.6911609997,
+      2571810.241409336
+     ],
+     [
+      213539.75104690093,
+      2571975.6041521393
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 31,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      213713.6911609997,
+      2571810.241409336
+     ],
+     [
+      213539.75104690093,
+      2571975.6041521393
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "long_run_trend",
+    "transect_id": 31,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.0,
+    "projected_offset_m": 0.0,
+    "offset_low_m": -28.4,
+    "offset_high_m": 28.5,
+    "n_years": 14,
+    "tier": "model",
+    "significant": true,
+    "method": "RandomForest, GroupKFold-validated",
+    "mae_model_m_per_yr": null,
+    "basis": "RandomForest projection (GroupKFold-validated)"
+   }
+  }
+ ]
+}

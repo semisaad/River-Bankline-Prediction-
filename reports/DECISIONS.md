@@ -2169,3 +2169,66 @@ then passes again once restored.
 That is the pattern worth repeating: **a check that has never been seen to fail
 is not known to work.** This one has now been observed failing on the exact
 value that caused the problem.
+
+## D62 - SUPERSEDES the forecast branch being called closed. It was closed too early.
+
+**Date:** 2026-10-18
+**Supersedes:** the practical conclusion of D44, that no forecast is supportable.
+
+**What went wrong.** The forecast branch was declared closed on the basis of
+simple baselines - predict the average, repeat the previous pair - and pairwise
+correlations. **No machine-learning model was ever trained on the Arial Khan.**
+The Colab notebook that would have done it was written, handed to the owner, and
+left unrun, while the conclusion was reported as settled. Baselines losing to
+each other is not evidence that a model loses; it is only evidence that the
+*easy* signals are absent.
+
+**Run properly, the model wins.**
+
+Arial Khan, Sentinel-2, 432 rows, 31 transects, 17 features, `GroupKFold(5)`
+grouped BY TRANSECT so no part of a bank appears in both training and test:
+
+| | MAE (m/yr) | correlation |
+|---|---|---|
+| predict the average | 2.919 | — |
+| repeat the previous pair | 4.060 | -0.073 |
+| **RandomForest** | **2.835** | **+0.520** |
+| GradientBoosting | 2.949 | +0.568 |
+
+RandomForest beats the baseline and correlates at **+0.52**, against **+0.05** on
+the Jamuna. GradientBoosting loses on MAE but still correlates at +0.57, so the
+signal is real and the model's calibration, not its ability to find structure, is
+the weaker part.
+
+**This is the result the river switch was for.** The whole argument for moving
+from the 9 km braided Jamuna to the 300 m single-thread Arial Khan (D49) was that
+persistent outer-bank erosion should leave a findable signal. It does. Saying
+otherwise was not cautious, it was wrong.
+
+**What is still true, and what is now corrected**
+
+Still true:
+- Nothing simple works. The lag correlation is -0.073. Persistence loses badly.
+- The Jamuna genuinely has no signal, at +0.049. That finding stands.
+- The Arial Khan numbers are small: ~2.9 m/yr median. That is the river.
+
+Now corrected:
+- "Year-to-year erosion is not predictable" is **true of the Jamuna and false of
+  the Arial Khan.**
+- The forecast branch is **open**. `06_predict_geojson.py` is rewritten to
+  produce long-run trend geometry and will be repointed at real model output.
+
+**Caveats, stated so they are not mistaken for confidence**
+1. The margin is **2.9%** of MAE. Real, not large.
+2. 432 rows over 7 year-pairs is thin. The Landsat record at 5-year blocks is
+   what would make this defensible rather than promising.
+3. The strongest features are `width_change_pct`, `other_side_rate`,
+   `rate_roll3` - that is, how the channel is already changing. Plausible
+   physically, and consistent with the single-thread hypothesis, but it also
+   means the model is partly reading the current state of the bank, which needs
+   care when applied forward.
+
+**Process lesson, recorded because it will recur.** Declaring a research question
+closed requires running the method, not inferring the answer from its
+neighbours. A negative result that has not been tested with the actual method is
+an assumption wearing the costume of a finding.

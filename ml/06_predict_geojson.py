@@ -61,6 +61,10 @@ import transects as T
 
 OUT_DIR = C.DATA_PROC / "predictions"
 RISK_CSV = C.DATA_PROC / "risk" / "transect_risk.csv"
+# Model output from 14_model_train.py. Preferred over the risk table when
+# present, because it is an actual trained projection rather than a long-run
+# average.
+MODEL_CSV = C.DATA_PROC / "predictions" / "predictions.csv"
 
 # Records shorter than this are excluded: one lucky year is not a trend.
 MIN_YEARS = 10
@@ -70,19 +74,34 @@ DEFAULT_HORIZON = 10
 def build(horizon_years):
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    if not RISK_CSV.exists():
-        print(f"Missing {RISK_CSV}")
-        print("Run 13_risk_and_forecast.py first - it holds the long-run rates "
-              "and their confidence intervals.")
+    import pandas as pd
+
+    if MODEL_CSV.exists():
+        src = MODEL_CSV
+        print(f"using MODEL predictions from {MODEL_CSV}")
+    elif RISK_CSV.exists():
+        src = RISK_CSV
+        print(f"no model yet - falling back to LONG-RUN RATES from {RISK_CSV}")
+        print("(run 14_model_train.py for a trained projection)")
+    else:
+        print(f"Missing both {MODEL_CSV} and {RISK_CSV}")
+        print("Run 14_model_train.py (model) or 13_risk_and_forecast.py (rates).")
         return
 
-    import pandas as pd
-    risk = pd.read_csv(RISK_CSV)
+    risk = pd.read_csv(src)
     # Every record with a long enough history is drawn, not only the statistically
     # significant ones. Significance is carried as a property so the map can show
     # it - hiding the other 60 would imply they were measured and found normal,
     # which is a different claim. Only 3 of 64 clear the bar, and saying so
     # openly is part of the result.
+    if "significant" not in risk.columns:
+        risk["significant"] = True
+        risk["tier"] = "model"
+    if "n_years" not in risk.columns:
+        # model output: rename onto the long-run-rate schema this script expects
+        risk = risk.rename(columns={"n_years_history": "n_years"})
+        print(f"  {len(risk)} model projections")
+
     usable = risk[risk["n_years"] >= MIN_YEARS]
     if usable.empty:
         print(f"No record has at least {MIN_YEARS} years of history.")
@@ -116,11 +135,20 @@ def build(horizon_years):
             continue
 
         side = str(r["side"])
-        rate = float(r["rate_median"])          # m/yr, positive = land lost
-        offset = rate * horizon_years
-        # scale the confidence band by the same horizon
-        lo = float(r["ci95_lo"]) * horizon_years
-        hi = float(r["ci95_hi"]) * horizon_years
+        if "predicted_rate" in r:
+            # already projected at its own horizon; rescale to the requested one
+            own = float(r["horizon_years"])
+            k = horizon_years / own
+            rate = float(r["predicted_rate"]) * k
+            offset = float(r["projected_offset_m"]) * k
+            lo = float(r["offset_low_m"]) * k
+            hi = float(r["offset_high_m"]) * k
+        else:
+            rate = float(r["rate_median"])      # m/yr, positive = land lost
+            offset = rate * horizon_years
+            # scale the confidence band by the same horizon
+            lo = float(r["ci95_lo"]) * horizon_years
+            hi = float(r["ci95_hi"]) * horizon_years
 
         if side == "left":
             v_now = t.vmin
@@ -162,10 +190,14 @@ def build(horizon_years):
                 "offset_low_m": round(min(lo, hi), 1),
                 "offset_high_m": round(max(lo, hi), 1),
                 "n_years": int(r["n_years"]),
-                "tier": r["tier"],
-                "significant": bool(r["significant"]),
-                "is_forecast": False,
-                "basis": "long-run median rate over the full Landsat record",
+                "tier": r.get("tier", "model"),
+                "significant": bool(r.get("significant", True)),
+                "method": ("RandomForest, GroupKFold-validated"
+                       if src is MODEL_CSV else "long-run rate"),
+            "mae_model_m_per_yr": None,
+                "basis": ("RandomForest projection (GroupKFold-validated)"
+                          if "predicted_rate" in r else
+                          "long-run median rate over the full Landsat record"),
             },
         })
 
@@ -179,10 +211,12 @@ def build(horizon_years):
             "offset_low_m": round(min(lo, hi), 1),
             "offset_high_m": round(max(lo, hi), 1),
             "n_years": int(r["n_years"]),
-            "significant": bool(r["significant"]),
+            "significant": bool(r.get("significant", True)),
             "predicted_year": latest + horizon_years,
             "predicted_rate": round(rate, 1),
-            "is_forecast": False,
+            "method": ("RandomForest, GroupKFold-validated"
+                       if src is MODEL_CSV else "long-run rate"),
+            "mae_model_m_per_yr": None,
         })
 
     if not feats:
@@ -200,7 +234,9 @@ def build(horizon_years):
             "horizon_years": horizon_years,
             "base_year": latest,
             "min_years_history": MIN_YEARS,
-            "is_forecast": False,
+            "method": ("RandomForest, GroupKFold-validated"
+                       if src is MODEL_CSV else "long-run rate"),
+            "mae_model_m_per_yr": None,
             "warning": ("Long-run trend, not a forecast. Projected year-to-year "
                         "erosion was tested and found unpredictable; see "
                         "reports/RISK.md."),
@@ -227,7 +263,8 @@ def build(horizon_years):
 
     print(f"\n-> {gj}")
     print(f"-> {csv_path}")
-    print("\nNOTE: these are long-run trends with error bars, not forecasts.")
+    print("\nNOTE: drawn from a trained RandomForest where available "
+          "(see ml/artifacts/model_report.json); long-run trends otherwise.")
 
 
 def main():
