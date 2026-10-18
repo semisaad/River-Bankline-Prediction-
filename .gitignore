@@ -1,0 +1,43 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Node / frontend
+node_modules/
+frontend/dist/
+
+# Django
+*.sqlite3
+
+# Satellite imagery and derived rasters.
+# All of it is regenerable: imagery comes from the Earth Engine scripts in gee/,
+# and everything downstream is rebuilt by the scripts in ml/. Hundreds of MB of
+# GeoTIFF does not belong in git history, where it cannot be deleted without
+# rewriting every commit.
+#
+# Rasters are ignored by EXTENSION rather than by ignoring data/ wholesale,
+# because git will not descend into an excluded directory, so a negation like
+# "!data/processed/risk/" inside "data/" silently does nothing. Ignoring *.tif
+# keeps the small CSV and GeoJSON evidence tables that back reports/RISK.md and
+# reports/VALIDATION.md.
+*.tif
+*.tiff
+
+data/raw/
+data/unused_data/
+data/archive/
+**/__pycache__/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+
+# Secrets. The Copernicus token lives in ~/.cdsapirc outside the repo, but these
+# names are ignored anyway so nobody ever adds one here by accident.
+*.key
+*.pem
+.env
+.env.*
+cdsapirc
+.cdsapirc
