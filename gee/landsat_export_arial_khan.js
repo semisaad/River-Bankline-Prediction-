@@ -251,43 +251,73 @@ function build(col) {
 // =============================================================================
 // SURVEY AND EXPORT
 // =============================================================================
+//
+// WHY THE SURVEY IS OFF BY DEFAULT
+//
+// The scene count for every year is fetched in ONE synchronous call. That is
+// cheap and always happens.
+//
+// Evaluating the water/valid statistics per year is NOT cheap: each year has to
+// run the whole detection chain - the percentile composite, five indices, the
+// focal close, and the connected-component filter. Doing that for all 38 years
+// inside a single Run blocks the Code Editor on every call, which looks exactly
+// like the page freezing, and can also exceed Earth Engine's memory limit. This
+// is very likely what caused the freeze that was reported.
+//
+// Registering an export is cheap by comparison: Export.image.toDrive records a
+// task whose computation happens later on Earth Engine's servers, not in this
+// browser tab.
+//
+// So by default every year with enough scenes is queued, and quality is checked
+// LOCALLY against the downloaded GeoTIFFs. That is not a weaker check - it
+// measures the actual exported pixels rather than a server-side preview of
+// them, and it costs nothing. ml/01_prepare.py reports water area per year.
+//
+// Set SURVEY = true, and narrow YEAR_FROM / YEAR_TO to a few years, to inspect
+// the statistics server-side before exporting.
+var SURVEY = false;
+
+// ONE synchronous call for every year's scene count.
+var sceneCounts = ee.List.sequence(YEAR_FROM, YEAR_TO).map(function (y) {
+  return prep(ee.Number(y).toInt()).size();
+}).getInfo();
 
 print('');
 print('year | scenes | valid | water | status');
-print('one synchronous getInfo() per year, so each completes before any export');
-print('expect ~70-99% valid (Landsat scan-line gaps), 5-10% water, ONE ribbon, no Padma');
+print(SURVEY ? 'survey ON - the detection chain is evaluated year by year'
+             : 'survey OFF - queueing every year with enough scenes');
+print('quality is verified locally against the downloaded GeoTIFFs');
 print('');
 
-for (var y = YEAR_FROM; y <= YEAR_TO; y++) {
-  // Count FIRST. Nothing is built for a year that cannot be exported, which
-  // keeps a 38-year loop from constructing graphs it will discard.
-  var col = prep(y);
-  var n = Number(col.size().getInfo());
+for (var i = 0; i < sceneCounts.length; i++) {
+  var y = YEAR_FROM + i;
+  var n = sceneCounts[i];
 
   if (n < MIN_IMAGES) {
     print(y + ' | ' + n + ' | - | - | SKIP (too few scenes)');
     continue;
   }
 
-  var b = build(col);
+  // Constructing this is lazy. Nothing is computed until the export task runs
+  // or SURVEY asks for statistics.
+  var b = build(prep(y));
 
-  // Statistics are taken on the coarse grid the blob filter already uses, so
-  // the reduction does not have to be rescaled from 30 m to 60 m on the fly.
-  var st = b.water.addBands(b.valid)
-             .reproject({crs: CRS, scale: BLOB_SCALE_M})
-             .reduceRegion({
-               reducer: ee.Reducer.mean(), geometry: aoi, scale: BLOB_SCALE_M,
-               maxPixels: 1e9, bestEffort: true, tileScale: 8
-             }).getInfo();
-
-  var valid = st.valid === undefined ? 0 : st.valid;
-  var water = st.water === undefined ? 0 : st.water;
-
-  var ok = valid >= MIN_VALID && water >= MIN_WATER;
-  print(y + ' | ' + n + ' | ' + Math.round(valid * 100) + '% | ' +
-        (water * 100).toFixed(2) + '% | ' + (ok ? 'EXPORT' : 'SKIP (check data)'));
-
-  if (!ok) continue;
+  if (SURVEY) {
+    var st = b.water.addBands(b.valid)
+               .reproject({crs: CRS, scale: BLOB_SCALE_M})
+               .reduceRegion({
+                 reducer: ee.Reducer.mean(), geometry: aoi, scale: BLOB_SCALE_M,
+                 maxPixels: 1e9, bestEffort: true, tileScale: 8
+               }).getInfo();
+    var valid = st.valid === undefined ? 0 : st.valid;
+    var water = st.water === undefined ? 0 : st.water;
+    var ok = valid >= MIN_VALID && water >= MIN_WATER;
+    print(y + ' | ' + n + ' | ' + Math.round(valid * 100) + '% | ' +
+          (water * 100).toFixed(2) + '% | ' + (ok ? 'EXPORT' : 'SKIP (check data)'));
+    if (!ok) continue;
+  } else {
+    print(y + ' | ' + n + ' | - | - | QUEUED');
+  }
 
   Export.image.toDrive({
     image: b.water.multiply(255).toByte().rename('water')
@@ -303,20 +333,33 @@ for (var y = YEAR_FROM; y <= YEAR_TO; y++) {
   });
 }
 
+print('');
+print('Tasks are now listed in the Tasks tab. Start about 5 at a time.');
+
 
 // =============================================================================
 // PREVIEW
 // =============================================================================
 
+// One render of the detection chain for a single year, so you can confirm the
+// river looks right before trusting 38 Tasks to it.
+var SHOW_PREVIEW = true;
+var PREVIEW_YEAR = 2021;
+
 Map.centerObject(aoi, 12);
 
-var PREVIEW_YEAR = 2021;
-if (Number(prep(PREVIEW_YEAR).size().getInfo()) >= MIN_IMAGES) {
-  var p = build(prep(PREVIEW_YEAR));
-  Map.addLayer(p.comp, {bands: ['swir1', 'nir', 'green'], min: 0.02, max: 0.35},
-               'Landsat composite ' + PREVIEW_YEAR, false);
-  Map.addLayer(p.water.selfMask(), {palette: ['cyan']},
-               'Landsat water ' + PREVIEW_YEAR + ' (main river only)');
-} else {
-  print('No preview: ' + PREVIEW_YEAR + ' has too few scenes.');
+if (SHOW_PREVIEW) {
+  var nPreview = (PREVIEW_YEAR >= YEAR_FROM && PREVIEW_YEAR <= YEAR_TO)
+    ? sceneCounts[PREVIEW_YEAR - YEAR_FROM]
+    : Number(prep(PREVIEW_YEAR).size().getInfo());
+
+  if (nPreview >= MIN_IMAGES) {
+    var p = build(prep(PREVIEW_YEAR));
+    Map.addLayer(p.comp, {bands: ['swir1', 'nir', 'green'], min: 0.02, max: 0.35},
+                 'Landsat composite ' + PREVIEW_YEAR, false);
+    Map.addLayer(p.water.selfMask(), {palette: ['cyan']},
+                 'Landsat water ' + PREVIEW_YEAR + ' (main river only)');
+  } else {
+    print('No preview: ' + PREVIEW_YEAR + ' has too few scenes.');
+  }
 }

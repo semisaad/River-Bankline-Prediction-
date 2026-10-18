@@ -2618,3 +2618,37 @@ that until the repository is pushed, nobody else can obtain the corrected copy.
 **Guard added:** `09_checks.py` section 8 fails if any method is called directly
 on `ee.Algorithms.If(...)`, with the wrapping fix stated in the message. Verified
 by reintroducing the exact reported code and confirming the check fires.
+
+## D71 - The exporters queue Tasks instead of surveying every year
+
+**Date:** 2026-10-18
+
+**Found:** The export scripts froze the Earth Engine Code Editor. Each year's
+scene count was fetched with its own synchronous `getInfo()`, and each year's
+water/valid statistics with another - 76 blocking round-trips for the 38-year
+Landsat range. Worse, each statistics call re-ran the entire detection chain,
+including the focal close and the connected-component filter, so the browser
+blocked on 38 consecutive heavy computations. This is also the likely cause of
+the memory-limit error recorded in D66.
+
+**Decision:** Fetch every year's scene count in **one** batched `getInfo()`
+(`ee.List.sequence(...).map(...)`), and do not evaluate the statistics server
+side by default. Every year with enough scenes is queued immediately, because
+`Export.image.toDrive` only records a task - the computation happens later on
+Earth Engine's servers, not in the browser. The statistics remain available
+behind `SURVEY = true`, intended for use with a narrowed `YEAR_FROM`/`YEAR_TO`.
+
+**Why this is not a weakening of the gate:** Quality is now checked locally
+against the downloaded GeoTIFFs, which is a *stronger* check than a server-side
+reduction - it measures the pixels actually exported rather than a preview of
+them, and `ml/01_prepare.py` reports water area per year. The scene-count gate,
+the Padma assertion and the `valid`-before-unmask invariant all still run.
+
+**Reason:** A script that appears to hang is worse than one that reports an
+error, because the natural response is to retry or to lower the gates rather
+than to read them. The synchronous survey also duplicated work that the local
+pipeline already does, and did it somewhere the result could not be inspected.
+
+**Impact:** Running either exporter is now one cheap round-trip plus the Task
+registrations. The code now matches its own documentation, which previously
+promised "one synchronous getInfo() per batch" while doing one per year.
