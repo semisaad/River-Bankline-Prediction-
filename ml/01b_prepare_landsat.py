@@ -41,18 +41,31 @@ def build_grid():
 def prepare_year(year, transform, width, height):
     """Reproject one Landsat mask onto our grid.
 
-    Returns (array, coverage). Coverage is the fraction of our grid the source
-    actually covers.
+    Returns (array, coverage, valid_frac). Coverage is the fraction of our grid
+    the source actually covers; valid_frac is the fraction of the source that
+    had usable, cloud-free imagery, read from the `valid` band.
 
     WHY COVERAGE MATTERS: anything the source does not cover stays 0 in the
     output, and 0 means LAND in our convention. So an uncovered strip would be
     read as dry land sitting next to the river, which would drag the bankline
     inland with no error anywhere. We measure it and complain loudly instead.
+
+    WHY valid_frac MATTERS: coverage counts pixels that ARRIVED, not pixels that
+    are usable. A year returned entirely as cloud and shadow still covers the
+    grid. Landsat 7 in particular has scan-line gaps. This number used to be
+    gated inside the Earth Engine script; that survey was removed to stop the
+    Code Editor freezing (D71), so the judgement happens here now.
     """
     src_path = C.land_raw_mask_path(year)
     out_path = C.land_proc_mask_path(year)
 
+    valid_frac = None
     with rasterio.open(src_path) as src:
+        if src.count >= 2:
+            b2 = src.read(2)
+            if b2.size:
+                valid_frac = float(np.count_nonzero(b2 > 127)) / b2.size
+
         dst = np.zeros((height, width), dtype="uint8")
         reproject(
             source=rasterio.band(src, 1),
@@ -87,7 +100,7 @@ def prepare_year(year, transform, width, height):
     with rasterio.open(out_path, "w", **meta) as d:
         d.write(dst, 1)
 
-    return dst, coverage
+    return dst, coverage, valid_frac
 
 
 def main():
@@ -102,26 +115,46 @@ def main():
     print(f"Landsat grid: {width} x {height} px @ {C.RES_LANDSAT} m, crs={C.CRS_WORK}")
     print(f"years found: {len(years)} ({years[0]}..{years[-1]})\n")
 
+    min_valid = C.DOWNLOADS.get("landsat", {}).get("MIN_VALID")
+
     areas = []
     thin = []
+    cloudy = []
     for y in years:
-        arr, cov = prepare_year(y, transform, width, height)
+        arr, cov, vfrac = prepare_year(y, transform, width, height)
         km2 = int((arr > 127).sum()) * (C.RES_LANDSAT ** 2) / 1e6
         areas.append((y, km2))
         flag = ""
         if cov < 0.99:
             flag = f"   <-- only {cov*100:.0f}% of our grid covered"
             thin.append((y, cov))
-        print(f"  {y}: water {km2:8.1f} km2  coverage {cov*100:5.1f}%{flag}")
+        if vfrac is None:
+            vtxt = "valid     -"
+        else:
+            vtxt = f"valid {vfrac*100:5.1f}%"
+            if min_valid is not None and vfrac < min_valid:
+                flag += "   <-- mostly cloud/shadow or empty"
+                cloudy.append((y, vfrac))
+        print(f"  {y}: water {km2:8.1f} km2  coverage {cov*100:5.1f}%  {vtxt}{flag}")
 
     if thin:
         print("\n" + "=" * 66)
         print("WARNING: some years do not cover the full study area.")
         print("Uncovered ground arrives as 0, which we read as LAND.")
         print("Using these years would pull the bankline inland.")
-        print("Fix: export Landsat over the SAME box as Sentinel-2:")
-        print(f"   {list(C.BBOX_WGS84)}   (89.65, 24.30, 89.85, 24.60)")
+        print("Fix: re-export Landsat over the box the S2 script prints, and")
+        print("check the printed EXPORT RECTANGLE against config.sensor_bbox():")
+        print(f"   {tuple(C.sensor_bbox('landsat'))}")
         print(f"Affected years: {', '.join(str(y) for y, _ in thin)}")
+        print("=" * 66 + "\n")
+
+    if cloudy:
+        print("\n" + "=" * 66)
+        print("WARNING: some years are mostly cloud, shadow, or empty.")
+        print("Landsat 7 scan-line gaps make this normal for 2003-2012, but a")
+        print("year below the gate has too little imagery to measure a bankline.")
+        print(f"Affected years: {', '.join(str(y) for y, _ in cloudy)}")
+        print("Inspect them before using them; do not just lower the gate.")
         print("=" * 66 + "\n")
 
     good = [k for _, k in areas if k > 5]

@@ -2652,3 +2652,56 @@ pipeline already does, and did it somewhere the result could not be inspected.
 **Impact:** Running either exporter is now one cheap round-trip plus the Task
 registrations. The code now matches its own documentation, which previously
 promised "one synchronous getInfo() per batch" while doing one per year.
+
+## D72 - The download gate now really is local, and config.py is checked for shadowed keys
+
+**Date:** 2026-10-18
+
+**Found:** D71 moved the quality judgement out of the exporters and into the
+local preparation step, and stated that this was a stronger check. It was not
+yet true: `01_prepare.py` read only band 1 of the mask - the `water` band - and
+printed water area alone. The `valid` band was never opened, so the `MIN_VALID`
+gate had simply stopped existing anywhere. Landsat's script did report footprint
+coverage, but that counts pixels that ARRIVED, not pixels that are usable, so an
+all-cloud year would have passed.
+
+Also found while placing the thresholds:
+
+- `config.py`'s `arial_khan` geometry gates contained `"MARGIN_M"` and
+  `"MAX_WIDTH_M"` **twice each**. A duplicated dict key is legal Python and
+  silent - the last value wins - so the first of each pair never applied and
+  nothing ever said so. The effective values were correct by accident.
+- `01b_prepare_landsat.py` printed a hardcoded fallback box `(89.65, 24.30,
+  89.85, 24.60)` next to its "fix" advice. That is the **Jamuna** box. The
+  message would have sent a reader to the wrong reach.
+
+**Decision:** Put the thresholds in `config.py` as
+`REACHES["arial_khan"]["download_gates"]`, exposed as `C.DOWNLOADS`, and have
+`01_prepare.py` and `01b_prepare_landsat.py` report the `valid` fraction and
+flag years below `MIN_VALID`. Extend `09_checks.py` with:
+
+- section 8: the script constants `MIN_IMAGES / MIN_VALID / MIN_WATER /
+  MAX_CLOUD` must equal `C.DOWNLOADS`, so the local gate and the script's
+  optional survey cannot drift;
+- section 8b: parse `config.py` with `ast` and fail on any duplicated dict key.
+
+Remove the two shadowed gate entries and the hardcoded Jamuna box.
+
+**Reason:** A gate that has been relocated is a gate that has to be re-verified.
+Moving the check without moving the threshold would have replaced a dead gate in
+JavaScript with a dead gate in Python - the same failure wearing different
+clothes, and harder to see because the local script *looks* like it is checking
+something. The duplicate keys are the same class of silent-wrong-number failure
+this project keeps meeting, and `ast` detects them exactly.
+
+**Rejected:** Keeping the thresholds only in the scripts and having the local
+step read them with a regex. The scripts are not imported by the pipeline, the
+regex would be a second hand-rolled parser, and the numbers belong with the rest
+of the reach's parameters.
+
+**Impact:** `01_prepare.py` prints `valid NN.N%` per year and warns below the
+gate; `01b_prepare_landsat.py` prints both coverage and valid and warns
+separately for each, since for Landsat they mean different things (footprint vs
+scan-line gaps). Verified by reintroducing all three faults - a shadowed key, a
+drifted `MIN_VALID`, and a disabled valid-band read - and confirming each is
+caught or reported, then restoring and re-passing.

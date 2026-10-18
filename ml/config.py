@@ -112,11 +112,9 @@ REACHES = {
         "gates": {
             "SPACING_M": 250.0,
             "MIN_RIDGE_DEPTH_M": 40.0,
-            "MARGIN_M": 250.0,
             "GAP_BRIDGE_M": 100.0,
             "MIN_WIDTH_M": 150.0,
             "MIN_WET_WIDTH_M": 100.0,
-            "MAX_WIDTH_M": 3000.0,
             # a 300 m channel needs no more than ~800 m of cast each way; casting
             # 3 km reaches connected ponds and reports them as a 3 km river
             "MAX_CAST_M": 900.0,
@@ -129,6 +127,23 @@ REACHES = {
             "ZONE_M": 300.0,
             "BUFFER_M": 120.0,
         },
+        # Quality gates on the IMAGERY, not on the geometry: how many scenes a
+        # year needs, how much of it must be usable, and how much water the box
+        # must contain before the year is worth measuring.
+        #
+        # These live here as well as in the GEE scripts because the bulk survey
+        # was removed from those scripts (D71) to stop the Code Editor freezing
+        # on 38 consecutive detection chains. Quality is judged locally now, so
+        # the thresholds have to exist locally too. 09_checks.py section 8 holds
+        # the two copies together - if they drift, the local check would be
+        # judging downloads against numbers nobody else is using.
+        "download_gates": {
+            "s2": {"MIN_IMAGES": 3, "MIN_VALID": 0.90,
+                   "MIN_WATER": 0.002, "MAX_CLOUD": 80},
+            # Landsat scan-line gaps are expected, so its floor is lower.
+            "landsat": {"MIN_IMAGES": 2, "MIN_VALID": 0.70,
+                        "MIN_WATER": 0.002, "MAX_CLOUD": 50},
+        },
     },
 }
 
@@ -139,6 +154,7 @@ _r = REACHES[REACH]
 REACH_LABEL = _r["label"]
 GEOM = _r["geom"]
 REACH_TRANSECT_GATES = _r["gates"]
+DOWNLOADS = _r.get("download_gates", {})
 PROFILE_MODE = _r.get("profile_mode", "smoothed")
 
 DATA_RAW = _r["raw_dir"]

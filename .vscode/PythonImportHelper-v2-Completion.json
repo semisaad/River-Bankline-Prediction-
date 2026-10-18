@@ -679,6 +679,15 @@
         "documentation": {}
     },
     {
+        "label": "ast",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "ast",
+        "description": "ast",
+        "detail": "ast",
+        "documentation": {}
+    },
+    {
         "label": "subprocess",
         "kind": 6,
         "isExtraImport": true,
@@ -1283,7 +1292,7 @@
         "kind": 2,
         "importPath": "ml.01_prepare",
         "description": "ml.01_prepare",
-        "peekOfCode": "def prepare_year(year, transform, width, height):\n    out_mask = C.proc_mask_path(year)\n    out_rgb = C.proc_rgb_path(year)\n    # --- mask (nearest so 0/255 stays exact) ---\n    with rasterio.open(C.mask_path(year)) as src:\n        dst = np.zeros((height, width), dtype=\"uint8\")\n        reproject(\n            source=rasterio.band(src, 1),\n            destination=dst,\n            src_transform=src.transform,",
+        "peekOfCode": "def prepare_year(year, transform, width, height):\n    out_mask = C.proc_mask_path(year)\n    out_rgb = C.proc_rgb_path(year)\n    # --- mask (nearest so 0/255 stays exact) ---\n    valid_frac = None\n    with rasterio.open(C.mask_path(year)) as src:\n        # The exporter writes a `valid` band alongside `water`: the fraction of\n        # the box that had usable, cloud-free imagery that year. It is measured\n        # on the SOURCE raster, before reprojection, because that is what the\n        # satellite actually delivered.",
         "detail": "ml.01_prepare",
         "documentation": {}
     },
@@ -1292,7 +1301,7 @@
         "kind": 2,
         "importPath": "ml.01_prepare",
         "description": "ml.01_prepare",
-        "peekOfCode": "def main():\n    transform, width, height = build_grid()\n    print(f\"grid: {width} x {height} px @ {C.RES} m, crs={C.CRS_WORK}\")\n    for year in C.YEARS:\n        prepare_year(year, transform, width, height)\n        with rasterio.open(C.proc_mask_path(year)) as s:\n            water = np.count_nonzero(s.read(1) > 127)\n        km2 = water * (C.RES ** 2) / 1e6\n        print(f\"  {year}: water {km2:8.1f} km2\")\nif __name__ == \"__main__\":",
+        "peekOfCode": "def main():\n    transform, width, height = build_grid()\n    print(f\"grid: {width} x {height} px @ {C.RES} m, crs={C.CRS_WORK}\")\n    gates = C.DOWNLOADS.get(\"s2\", {})\n    min_valid = gates.get(\"MIN_VALID\")\n    # The exporter no longer judges validity before downloading (D71), so this\n    # is where a year gets flagged. Measured on the file that actually arrived,\n    # not on a server-side preview of it.\n    thin = []\n    for year in C.YEARS:",
         "detail": "ml.01_prepare",
         "documentation": {}
     },
@@ -1310,7 +1319,7 @@
         "kind": 2,
         "importPath": "ml.01b_prepare_landsat",
         "description": "ml.01b_prepare_landsat",
-        "peekOfCode": "def prepare_year(year, transform, width, height):\n    \"\"\"Reproject one Landsat mask onto our grid.\n    Returns (array, coverage). Coverage is the fraction of our grid the source\n    actually covers.\n    WHY COVERAGE MATTERS: anything the source does not cover stays 0 in the\n    output, and 0 means LAND in our convention. So an uncovered strip would be\n    read as dry land sitting next to the river, which would drag the bankline\n    inland with no error anywhere. We measure it and complain loudly instead.\n    \"\"\"\n    src_path = C.land_raw_mask_path(year)",
+        "peekOfCode": "def prepare_year(year, transform, width, height):\n    \"\"\"Reproject one Landsat mask onto our grid.\n    Returns (array, coverage, valid_frac). Coverage is the fraction of our grid\n    the source actually covers; valid_frac is the fraction of the source that\n    had usable, cloud-free imagery, read from the `valid` band.\n    WHY COVERAGE MATTERS: anything the source does not cover stays 0 in the\n    output, and 0 means LAND in our convention. So an uncovered strip would be\n    read as dry land sitting next to the river, which would drag the bankline\n    inland with no error anywhere. We measure it and complain loudly instead.\n    WHY valid_frac MATTERS: coverage counts pixels that ARRIVED, not pixels that",
         "detail": "ml.01b_prepare_landsat",
         "documentation": {}
     },
@@ -1797,6 +1806,24 @@
         "importPath": "ml.09_checks",
         "description": "ml.09_checks",
         "peekOfCode": "ls_js = GEE.parent / \"landsat_export_arial_khan.js\"\nif C.REACH == \"arial_khan\" and s2_js.exists() and ls_js.exists():\n    a, b = _consts(s2_js), _consts(ls_js)\n    if not a or not b:\n        bad(f\"could not read detection constants from \"\n            f\"{s2_js.name} ({sorted(a)}) / {ls_js.name} ({sorted(b)})\")\n    else:\n        # `years` and `season` are excluded from this diff on purpose: Landsat\n        # reaches back to 1989 while Sentinel-2 starts in 2019, and that\n        # asymmetry is the whole point of keeping the long record. They are",
+        "detail": "ml.09_checks",
+        "documentation": {}
+    },
+    {
+        "label": "_dupes",
+        "kind": 5,
+        "importPath": "ml.09_checks",
+        "description": "ml.09_checks",
+        "peekOfCode": "_dupes = []\n_tree = ast.parse(Path(C.__file__).read_text())\nfor _node in ast.walk(_tree):\n    if not isinstance(_node, ast.Dict):\n        continue\n    _counts = {}\n    for _k in _node.keys:\n        if isinstance(_k, ast.Constant) and isinstance(_k.value, str):\n            _counts[_k.value] = _counts.get(_k.value, 0) + 1\n    _dup = sorted(k for k, n in _counts.items() if n > 1)",
+        "detail": "ml.09_checks",
+        "documentation": {}
+    },
+    {
+        "label": "_tree",
+        "kind": 5,
+        "importPath": "ml.09_checks",
+        "description": "ml.09_checks",
+        "peekOfCode": "_tree = ast.parse(Path(C.__file__).read_text())\nfor _node in ast.walk(_tree):\n    if not isinstance(_node, ast.Dict):\n        continue\n    _counts = {}\n    for _k in _node.keys:\n        if isinstance(_k, ast.Constant) and isinstance(_k.value, str):\n            _counts[_k.value] = _counts.get(_k.value, 0) + 1\n    _dup = sorted(k for k, n in _counts.items() if n > 1)\n    if _dup:",
         "detail": "ml.09_checks",
         "documentation": {}
     },
@@ -2570,7 +2597,7 @@
         "kind": 5,
         "importPath": "ml.config",
         "description": "ml.config",
-        "peekOfCode": "REACH = os.environ.get(\"RIVERGUARD_REACH\", \"arial_khan\").strip().lower()\nif REACH not in REACHES:\n    raise SystemExit(f\"unknown reach {REACH!r}; choose one of {sorted(REACHES)}\")\n_r = REACHES[REACH]\nREACH_LABEL = _r[\"label\"]\nGEOM = _r[\"geom\"]\nREACH_TRANSECT_GATES = _r[\"gates\"]\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]",
+        "peekOfCode": "REACH = os.environ.get(\"RIVERGUARD_REACH\", \"arial_khan\").strip().lower()\nif REACH not in REACHES:\n    raise SystemExit(f\"unknown reach {REACH!r}; choose one of {sorted(REACHES)}\")\n_r = REACHES[REACH]\nREACH_LABEL = _r[\"label\"]\nGEOM = _r[\"geom\"]\nREACH_TRANSECT_GATES = _r[\"gates\"]\nDOWNLOADS = _r.get(\"download_gates\", {})\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]",
         "detail": "ml.config",
         "documentation": {}
     },
@@ -2579,7 +2606,7 @@
         "kind": 5,
         "importPath": "ml.config",
         "description": "ml.config",
-        "peekOfCode": "_r = REACHES[REACH]\nREACH_LABEL = _r[\"label\"]\nGEOM = _r[\"geom\"]\nREACH_TRANSECT_GATES = _r[\"gates\"]\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):",
+        "peekOfCode": "_r = REACHES[REACH]\nREACH_LABEL = _r[\"label\"]\nGEOM = _r[\"geom\"]\nREACH_TRANSECT_GATES = _r[\"gates\"]\nDOWNLOADS = _r.get(\"download_gates\", {})\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"",
         "detail": "ml.config",
         "documentation": {}
     },
@@ -2588,7 +2615,7 @@
         "kind": 5,
         "importPath": "ml.config",
         "description": "ml.config",
-        "peekOfCode": "REACH_LABEL = _r[\"label\"]\nGEOM = _r[\"geom\"]\nREACH_TRANSECT_GATES = _r[\"gates\"]\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):\n    _d.mkdir(parents=True, exist_ok=True)",
+        "peekOfCode": "REACH_LABEL = _r[\"label\"]\nGEOM = _r[\"geom\"]\nREACH_TRANSECT_GATES = _r[\"gates\"]\nDOWNLOADS = _r.get(\"download_gates\", {})\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):",
         "detail": "ml.config",
         "documentation": {}
     },
@@ -2597,7 +2624,7 @@
         "kind": 5,
         "importPath": "ml.config",
         "description": "ml.config",
-        "peekOfCode": "GEOM = _r[\"geom\"]\nREACH_TRANSECT_GATES = _r[\"gates\"]\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):\n    _d.mkdir(parents=True, exist_ok=True)\n# Study region (same bbox the GEE exports were made with).",
+        "peekOfCode": "GEOM = _r[\"geom\"]\nREACH_TRANSECT_GATES = _r[\"gates\"]\nDOWNLOADS = _r.get(\"download_gates\", {})\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):\n    _d.mkdir(parents=True, exist_ok=True)",
         "detail": "ml.config",
         "documentation": {}
     },
@@ -2606,7 +2633,16 @@
         "kind": 5,
         "importPath": "ml.config",
         "description": "ml.config",
-        "peekOfCode": "REACH_TRANSECT_GATES = _r[\"gates\"]\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):\n    _d.mkdir(parents=True, exist_ok=True)\n# Study region (same bbox the GEE exports were made with).\nBBOX_WGS84 = _r[\"bbox\"]  # min_lon, min_lat, max_lon, max_lat",
+        "peekOfCode": "REACH_TRANSECT_GATES = _r[\"gates\"]\nDOWNLOADS = _r.get(\"download_gates\", {})\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):\n    _d.mkdir(parents=True, exist_ok=True)\n# Study region (same bbox the GEE exports were made with).",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "DOWNLOADS",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "DOWNLOADS = _r.get(\"download_gates\", {})\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):\n    _d.mkdir(parents=True, exist_ok=True)\n# Study region (same bbox the GEE exports were made with).\nBBOX_WGS84 = _r[\"bbox\"]  # min_lon, min_lat, max_lon, max_lat",
         "detail": "ml.config",
         "documentation": {}
     },

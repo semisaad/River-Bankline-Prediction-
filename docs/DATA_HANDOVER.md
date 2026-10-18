@@ -88,27 +88,33 @@ The selected box's northern edge is 23.26149°N, south of the Padma limit.
 | field | Sentinel-2 | Landsat |
 |---|---|---|
 | printed bounds | the four numbers above | must match Sentinel-2 exactly |
-| `No rectangle drawn; using synchronized REFERENCE_BOX.` | expected | expected |
-| `valid` | at least **90%** | at least **70%** (scan-line gaps are expected) |
 | `No shape drawn; using the synchronized REFERENCE_BOX.` | expected | expected |
-| `water` | must pass the script's quality gate | must pass the script's quality gate |
-| `status` | `EXPORT` for usable years | `EXPORT` for usable years |
+| `scenes` | usable scenes that year | same |
+| `status` | `QUEUED`, or `SKIP (too few scenes)` | same |
 
-Start about **5 Tasks at a time**. Some Landsat years may be skipped by the
-quality gates; keep the console output and do not rename files.
+Start about **5 Tasks at a time** and do not rename files.
 
-**A SKIP now means something.** Until this revision the `valid` column always
-read 100% - the exporters took the mask of a composite that had already had
-`.unmask(0)` applied, so the gate could never fire and years with almost no
-usable imagery were exported as if they were fine. Validity is now sampled
-before the mask is destroyed, so the numbers in that column are real. Expect
-roughly 99% for Sentinel-2 and 70-99% for Landsat; a genuine SKIP is the gate
-working, not a fault. Do not lower the gates to force an export.
+**The Run is quick by design.** The scene count for every year is fetched in a
+single call, so the script returns in seconds. It no longer evaluates the
+water/valid statistics year by year — that ran the whole detection chain once
+per year, which froze the Code Editor and could exceed Earth Engine's memory
+limit. Do not add it back.
 
-**If a single Run times out**, set `YEAR_FROM` / `YEAR_TO` near the top of
-either script to export a slice, then run it again for the next slice. Each Run
-only creates Tasks for its own range, and the Tasks already created are
-unaffected.
+> **Quality is verified after download, not before.** `ml/01_prepare.py` reports
+> water area and `valid` coverage per year once the files are copied, measured on
+> the actual GeoTIFFs rather than a server-side preview of them. That is the
+> stronger check. If a year looks wrong there — no water, a wildly different
+> area, or a `valid` below the gate — report it instead of feeding it to the
+> pipeline.
+
+**To spot-check a few years before exporting**, set `SURVEY = true` and narrow
+`YEAR_FROM` / `YEAR_TO` to about four years near the top of either script. That
+restores the `valid` and `water` columns for just those years. Keep the range
+small; the freeze came from evaluating too many years at once.
+
+**If Tasks come back empty**, set `YEAR_FROM` / `YEAR_TO` to export a slice and
+run again. Each Run only creates Tasks for its own range, and Tasks already
+created are unaffected.
 
 ---
 

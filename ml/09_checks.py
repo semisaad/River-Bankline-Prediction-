@@ -8,6 +8,7 @@ Each check corresponds to a mistake that actually happened, and cost real time
 to diagnose. If a check fails, stop and fix it before running the pipeline.
 """
 
+import ast
 import re
 import json
 import subprocess
@@ -327,7 +328,64 @@ if C.REACH == "arial_khan" and s2_js.exists() and ls_js.exists():
             ok(f"north edge {_north}N is south of the Padma limit {_lim}N "
                f"enforced in both exporters")
 
-print("\n9. No stale pre-rewrite artefacts are still being served")
+    # The download quality gates exist in two places: as MIN_VALID etc. in the
+    # GEE scripts, and as C.DOWNLOADS in config.py. They have to agree.
+    #
+    # WHY THE DUPLICATION IS WORTH CHECKING: the bulk survey was removed from
+    # the exporters (D71) because evaluating the detection chain once per year
+    # froze the Code Editor, so the gate is now applied locally - in 01_prepare
+    # and 01b_prepare_landsat - against the config.py copy. If the scripts were
+    # tightened and config.py was not, the local check would be waving through
+    # downloads that the exporter would have refused, with nothing to say so.
+    for _name, _js, _prod in (("Sentinel-2", s2_js, "s2"),
+                              ("Landsat", ls_js, "landsat")):
+        _want = C.DOWNLOADS.get(_prod, {})
+        if not _want:
+            warn(f"config.py has no download_gates for {_prod}")
+            continue
+        _txt = _js.read_text()
+        _mismatch = []
+        for _k, _v in sorted(_want.items()):
+            _m = re.search(rf"var\s+{_k}\s*=\s*([\d.]+)", _txt)
+            if _m is None:
+                _mismatch.append(f"{_k}: absent from the script")
+            elif abs(float(_m.group(1)) - float(_v)) > 1e-9:
+                _mismatch.append(f"{_k}: script {_m.group(1)} vs config {_v}")
+        if _mismatch:
+            bad(f"{_name} download gates disagree with config.py: "
+                f"{'; '.join(_mismatch)}. 01_prepare/01b_prepare_landsat judge "
+                f"downloads against the config value, so a mismatch means one of "
+                f"the two is not the gate anyone thinks it is.")
+        else:
+            ok(f"{_name} download gates match config.py: "
+               f"{', '.join(f'{k}={v}' for k, v in sorted(_want.items()))}")
+
+print("\n8b. config.py has no silently-shadowed dict keys")
+# A duplicated key in a Python dict literal is LEGAL and SILENT - the last one
+# wins and nothing warns. The arial_khan geometry gates carried "MARGIN_M" and
+# "MAX_WIDTH_M" twice each, so the first of each pair never applied and no error
+# was ever raised. ast sees both keys, which is exactly what is needed to notice.
+_dupes = []
+_tree = ast.parse(Path(C.__file__).read_text())
+for _node in ast.walk(_tree):
+    if not isinstance(_node, ast.Dict):
+        continue
+    _counts = {}
+    for _k in _node.keys:
+        if isinstance(_k, ast.Constant) and isinstance(_k.value, str):
+            _counts[_k.value] = _counts.get(_k.value, 0) + 1
+    _dup = sorted(k for k, n in _counts.items() if n > 1)
+    if _dup:
+        _dupes.append((_node.lineno, _dup))
+if _dupes:
+    for _line, _keys in _dupes:
+        bad(f"config.py line {_line}: duplicated dict key(s) {_keys}. Only the "
+            f"last value is used; the earlier ones are dead. Delete the shadowed "
+            f"entries so the intended value is the visible one.")
+else:
+    ok("config.py has no duplicated dict keys")
+
+
 # features/features.csv was the 280-row table built before the transect rewrite.
 # It sat next to the real per-sensor tables and 07_validate.py was still reading
 # it, which silently reported 8-year results as if they were current.
