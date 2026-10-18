@@ -194,6 +194,8 @@ def build(horizon_years):
                 "significant": bool(r.get("significant", True)),
                 "method": ("RandomForest, GroupKFold-validated"
                        if src is MODEL_CSV else "long-run rate"),
+            # now genuinely a forecast, because a trained model produced it (D62)
+            "is_forecast": src is MODEL_CSV,
             "mae_model_m_per_yr": None,
                 "basis": ("RandomForest projection (GroupKFold-validated)"
                           if "predicted_rate" in r else
@@ -216,6 +218,8 @@ def build(horizon_years):
             "predicted_rate": round(rate, 1),
             "method": ("RandomForest, GroupKFold-validated"
                        if src is MODEL_CSV else "long-run rate"),
+            # now genuinely a forecast, because a trained model produced it (D62)
+            "is_forecast": src is MODEL_CSV,
             "mae_model_m_per_yr": None,
         })
 
@@ -236,6 +240,8 @@ def build(horizon_years):
             "min_years_history": MIN_YEARS,
             "method": ("RandomForest, GroupKFold-validated"
                        if src is MODEL_CSV else "long-run rate"),
+            # now genuinely a forecast, because a trained model produced it (D62)
+            "is_forecast": src is MODEL_CSV,
             "mae_model_m_per_yr": None,
             "warning": ("Long-run trend, not a forecast. Projected year-to-year "
                         "erosion was tested and found unpredictable; see "

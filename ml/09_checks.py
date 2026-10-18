@@ -243,14 +243,21 @@ if risk_csv.exists():
 else:
     warn("no risk table yet - run 13_risk_and_forecast.py")
 
+# The label must match how the geometry was actually produced. A trained model
+# IS a forecast (D62); a long-run rate is not. What is forbidden either way is a
+# file that claims to be a forecast without carrying the skill that justifies it.
 for g in sorted((C.DATA_PROC / "predictions").glob("longrun_trend_*.geojson")):
     fc = json.loads(g.read_text())
     md = fc.get("metadata", {})
-    if md.get("is_forecast") is False:
-        ok(f"{g.name}: labelled is_forecast=false, "
-           f"{md.get('n_records')} trends, {md.get('n_significant')} significant")
+    if "is_forecast" not in md:
+        bad(f"{g.name}: must state whether it is a forecast")
+        continue
+    if md["is_forecast"] and not md.get("mae_model_m_per_yr"):
+        bad(f"{g.name}: claims to be a forecast but carries no cross-validated MAE")
     else:
-        bad(f"{g.name}: must carry metadata.is_forecast = false")
+        ok(f"{g.name}: is_forecast={md['is_forecast']}, method={md.get('method')}, "
+           f"{md.get('n_records')} records, "
+           f"MAE {md.get('mae_model_m_per_yr', 'n/a')}")
 
 print("\n11. GloFAS discharge is joined and the incomplete year is excluded")
 hydro = C.DATA_PROC / "features" / "landsat" / "features_hydro.csv"

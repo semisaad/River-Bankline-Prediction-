@@ -92,7 +92,22 @@ The pipeline is reach-agnostic. Switch with `RIVERGUARD_REACH=<name>`.
 |---|---|---|---|---|
 | `jamuna` | 9 km braided belt | 38.8 km | 58 | Landsat 1989–2026, S2 2019–2026, GloFAS — **archived, see below** |
 | `ganges` | 1–4 km single-thread | — | — | registered, no data yet |
-| `arial_khan` | 300 m single-thread | 8.1 km | 32 (0 dropped) | S2 v2 2019–2026 ready; **Landsat in progress** |
+| `arial_khan` | 300 m single-thread | 8.1 km | 32 (0 dropped) | model trained; **raw imagery being re-downloaded, see `docs/DATA_HANDOVER.md`** |
+
+### The model works — on the Arial Khan
+
+| | MAE (m/yr) | correlation |
+|---|---|---|
+| predict the average | 2.919 | — |
+| repeat the previous pair | 4.060 | −0.073 |
+| **RandomForest** | **2.843** | **+0.517** |
+
+Cross-validated with `GroupKFold` grouped **by transect**, so no part of a bank is
+ever in both training and test. The equivalent test on the Jamuna gave +0.049 and
+nothing beat the baseline — that contrast is why the study moved rivers (D62).
+
+The margin is 2.6%: real, not large, and the record behind it is 432 rows over 7
+year-pairs. The Landsat 5-year-block record is what would make it defensible.
 
 ### Why the Arial Khan
 

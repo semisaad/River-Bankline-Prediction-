@@ -44,10 +44,13 @@ record at 5-year blocks is the real test (D44).
 
 | item | state |
 |---|---|
-| S2 masks, Arial Khan | ✅ v2, 8 years, verified |
-| S2 geometry | ✅ 32 transects, 0 dropped, median width 350 m |
-| S2 EPR + features | ✅ 7 pairs |
-| Landsat masks, Arial Khan | ⛔ 19 files present but built with **superseded detection constants** — must be re-exported |
+| **Model trained and validated** | ✅ RandomForest, MAE **2.843** vs 2.919 baseline, r **+0.517** (D62) |
+| Predictions to 2036 | ✅ 62 transect-sides, `predictions.csv` + map geometry |
+| S2 masks, Arial Khan | ⚠️ **raw exports DELETED.** Processed masks, features and predictions all survive |
+| S2 geometry | ✅ 32 transects, 0 dropped, median width 350 m — still reproducible |
+| S2 EPR + features | ✅ 7 pairs — still reproducible |
+| Landsat masks, Arial Khan | ❌ not exported with the current script |
+| GEE scripts on GitHub | ❌ **not pushed — 4 commits local only. BLOCKS the re-export.** |
 | GloFAS, Jamuna | ✅ 37 complete years |
 | GloFAS, Arial Khan | ❌ existing download does not cover the reach |
 | Cross-sensor check | ❌ needs Landsat 2019–2023 |
@@ -55,10 +58,19 @@ record at 5-year blocks is the real test (D44).
 | Website | ✅ chronic-risk + long-run-trend layers |
 | Guard checks | ✅ all pass, both reaches |
 
-## Blocking item
+## Blocking item — two things
 
-**Re-export Landsat for the Arial Khan** with the current script. See
-`context/OWNER_ACTIONS.md`.
+1. **Push the repository to GitHub.** A third party now needs the GEE export
+   scripts in order to download anything, and they are only on this machine.
+   This is now the critical path, not a housekeeping task.
+2. **Re-export Sentinel-2 and Landsat** for the Arial Khan. Raw downloads were
+   deleted and are being re-fetched. Instructions for whoever does it:
+   **`docs/DATA_HANDOVER.md`** — written for a third party with no access to this
+   conversation.
+
+Everything downstream is intact: processed masks, features, EPR, the trained
+model and its projections. `14_model_train.py` still runs and still returns MAE
+2.843 from the processed data.
 
 ## Recently found and fixed
 

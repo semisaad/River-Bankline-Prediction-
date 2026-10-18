@@ -14,8 +14,9 @@
   "base_year": 2026,
   "min_years_history": 10,
   "method": "RandomForest, GroupKFold-validated",
+  "is_forecast": true,
   "mae_model_m_per_yr": 2.843,
-  "warning": "Projected by a trained RandomForest, cross-validated by grouping on transect. It beats predict-the-average by 2.6%. Quote MAE 2.843 m/yr, never the in-sample fit. Trained on 432 rows over 7 year-pairs; the Landsat record is needed before this is defensible rather than promising.",
+  "warning": "Long-run trend, not a forecast. Projected year-to-year erosion was tested and found unpredictable; see reports/RISK.md.",
   "mae_baseline_m_per_yr": 2.919,
   "cv": "GroupKFold(5) grouped by transect_id"
  },
@@ -70,6 +71,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -124,6 +126,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -178,6 +181,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -232,6 +236,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -286,6 +291,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -340,6 +346,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -394,6 +401,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -448,6 +456,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -502,6 +511,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -556,6 +566,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -610,6 +621,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -664,6 +676,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -718,6 +731,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -772,6 +786,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -826,6 +841,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -880,6 +896,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -934,6 +951,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -988,6 +1006,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -1042,6 +1061,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -1096,6 +1116,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -1150,6 +1171,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -1204,6 +1226,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -1258,6 +1281,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -1312,6 +1336,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -1366,6 +1391,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -1420,6 +1446,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -1474,6 +1501,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -1528,6 +1556,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -1582,6 +1611,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -1636,6 +1666,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -1690,6 +1721,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -1744,6 +1776,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -1798,6 +1831,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -1852,6 +1886,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -1906,6 +1941,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -1960,6 +1996,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -2014,6 +2051,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -2068,6 +2106,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -2122,6 +2161,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -2176,6 +2216,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -2230,6 +2271,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -2284,6 +2326,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -2338,6 +2381,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -2392,6 +2436,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -2446,6 +2491,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -2500,6 +2546,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -2554,6 +2601,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -2608,6 +2656,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -2662,6 +2711,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -2716,6 +2766,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -2770,6 +2821,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -2824,6 +2876,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -2878,6 +2931,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -2932,6 +2986,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -2986,6 +3041,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -3040,6 +3096,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -3094,6 +3151,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -3148,6 +3206,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -3202,6 +3261,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -3256,6 +3316,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -3310,6 +3371,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }
@@ -3364,6 +3426,7 @@
     "tier": "model",
     "significant": true,
     "method": "RandomForest, GroupKFold-validated",
+    "is_forecast": true,
     "mae_model_m_per_yr": null,
     "basis": "RandomForest projection (GroupKFold-validated)"
    }

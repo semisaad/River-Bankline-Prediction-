@@ -268,3 +268,18 @@ been wrong.
 **Decision:** documentation is part of the deliverable, not an afterthought. A
 final-year project is assessed partly on whether its claims are traceable, and a
 document that overstates what was achieved is worse than no document.
+
+## Raw imagery deleted; handover written (Oct 18, 2026)
+
+- [x] Verified what survived: processed masks, features, EPR, geometry, the
+      trained model and its projections are all intact. Only the raw `.tif`
+      downloads are gone.
+- [x] Re-ran `14_model_train.py` on the surviving processed data: still
+      MAE 2.843, still beats the 2.919 baseline. Nothing was lost that the
+      model depends on.
+- [x] `docs/DATA_HANDOVER.md` (new) — written for a third party with no access to
+      this conversation. Which script to use and which four to ignore, the exact
+      box, why it must not be drawn, what the console table should say, how to
+      verify, and the full rebuild sequence.
+- [x] Flagged that **the export scripts are not on GitHub yet**, which now blocks
+      the re-download rather than merely being untidy.
