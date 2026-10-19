@@ -213,9 +213,19 @@ def status(request):
         "features_ready": (
             PROCESSED / "features" / "landsat" / "features.csv"
         ).exists(),
-        "hydro_ready": (
-            REACH_DIRS[REACH] / "raw" / "hydro" / "glofas_annual.csv"
-        ).exists(),
+        # This flag used to test for raw/hydro/glofas_annual.csv. That file was
+        # deleted with the rest of the GloFAS route (D93), so the flag could
+        # never be true again - it reported "no hydrology" while the ERA5-Land
+        # export sat right there and passed check 11. A readiness flag that is
+        # permanently false is worse than no flag: the UI would hide a dataset
+        # that exists. Now it tests for the files that are actually produced.
+        #
+        # Note for the UI: hydro_ready means the DATA exists, not that the model
+        # uses it. It does not - the hydrology features made the model slightly
+        # worse and were rejected (D90). Do not show it as a model input.
+        "hydro_ready": any(
+            (REACH_DIRS[REACH] / "raw" / "hydro").glob("Hydro_*.tif")
+        ),
         "risk_ready": (RISK_DIR / "risk.geojson").exists(),
         "trend_ready": bool(sorted(PREDICTIONS.glob("longrun_trend_*.geojson"))),
         # kept for the UI's benefit-of-doubt panel

@@ -26,7 +26,8 @@ treated as final until they are settled.
 ## APP WORK (next, unblocked)
 
 - [ ] Build out the remaining UI. All 9 endpoints return 200 and the data layer
-      is current; nothing is waiting on data.
+      is current; nothing is waiting on data. **Read `docs/API.md` first** — it
+      documents the real response shapes and the three UI rules.
 - [ ] **Do not let the UI state a forecast claim until D92 is settled.**
 - [ ] Replace Django's `django-insecure-` dev key before any deployment.
 
@@ -84,6 +85,8 @@ features. **This is an assumption. It has not been measured.**
       against 2026) — `reports/validation_bankline_2026*.png`
 - [x] Learning curve: more data helps, and the gain is recency not quantity
 - [x] Literature and evidence base written up — `reports/LITERATURE.md`
+- [x] `docs/API.md` written from captured live responses; found and fixed a
+      permanently-false `hydro_ready` flag (D96)
 - [x] `reports/VALIDATION.md` regenerated from a generator that cannot go stale
 - [x] Repository cleaned of dead scripts and dead reaches
 - [x] Push the repository to GitHub. `main` tracks `origin/main`.

@@ -45,6 +45,7 @@ features (D63), and **3.175 / 2.507** describe the previous, smaller box.
 | `reports/MODEL_CHOICE.md` | why this model, by how much, and what the margin does not support |
 | `reports/RISK.md` | the product and its uncertainty |
 | `docs/HOW_IT_WORKS.md` | the measurement method |
+| `docs/API.md` | every endpoint's real response shape, and the rules for the UI |
 
 ## Where the code is
 

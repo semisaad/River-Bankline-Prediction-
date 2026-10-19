@@ -6,6 +6,13 @@ listed below.
 
 ---
 
+**Before you start the frontend:** read `docs/API.md`. It has every endpoint's
+real response shape plus the three rules for the UI (don't hardcode forecast
+wording; `forecast_supported: true` is not a licence to say "forecast"; don't
+blend the two sensors silently).
+
+---
+
 ## Decisions only you can make
 
 ### 1. How to state the recent-fold decay (D92) — most important

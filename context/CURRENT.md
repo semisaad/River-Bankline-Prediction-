@@ -31,7 +31,8 @@ export.
 | Projection | 76 bank-sides to 2036, `status: experimental`, `is_forecast: false` |
 | Risk | 96 records, 92 eligible for ranking, 4 flagged insufficient |
 | Hydrology | 43 ERA5-Land years (1983–2025) present; **tested and it did not help** (D90) |
-| Website | Django `:8010` + Vite `:5173`; 9 endpoints; headless test 0 errors |
+| Website | Django `:8010` + Vite `:5173`; 9 endpoints; headless test 0 errors; frontend build ✓ |
+| API reference | `docs/API.md` — every endpoint's real response shape, captured from the running server |
 | Guard checks | all blocking checks pass |
 
 ## The single most important thing to understand about the model

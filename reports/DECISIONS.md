@@ -3985,3 +3985,48 @@ reach-scale centreline average rests on the paper's own methods description
 recomputation — the underlying data was not reanalysed here. If the paper's
 figure turns out to be a bank displacement rather than a centreline shift, this
 entry is wrong and the gap returns to being unexplained.
+
+---
+
+## D96 - the API's hydro_ready flag was testing for a file D93 deleted
+
+**Date:** 2026-10-19
+
+**Decision.** `backend/core/views.py` `status()` now reports `hydro_ready` from
+the ERA5-Land export that actually exists (`raw/hydro/Hydro_*.tif`), not from
+`raw/hydro/glofas_annual.csv`.
+
+**Reason.** The flag tested for `glofas_annual.csv`, which was deleted along with
+the entire GloFAS route in D93. It could therefore **never be true again**: the
+API reported `hydro_ready: false` while 43 ERA5-Land year files sat in the same
+directory and passed `09_checks.py` section 11.
+
+A readiness flag that is permanently false is worse than no flag at all. The
+frontend is being built now, and it would have used this flag to decide whether
+to show a hydrology layer — so the bug would have surfaced as a missing panel
+rather than an error, and the natural next step would have been to go looking
+for missing data that was never missing.
+
+**Found by** capturing the real API responses while writing `docs/API.md`.
+Nothing was wrong in the code's logic; the file it pointed at had been removed
+from underneath it two commits earlier, and no check covered the flag.
+
+**Rejected.** Deleting the flag instead of fixing it. The data exists and the UI
+may legitimately want to say so.
+
+**Impact.** `hydro_ready` is now `true`. The view carries a comment stating
+explicitly that the flag means *the data exists*, **not** that the model consumes
+it — hydrology features made the model slightly worse and were rejected (D90),
+and the UI must not present them as a model input.
+
+**What this is an instance of.** Two bugs in two days of the same shape: a
+reference to something that was removed or changed elsewhere, which fails
+*silently* because the code around it is still valid. D93's vacuous band check
+was the same pattern, and so was D88. The standing lesson in `AGENTS.md` now
+reads: when you remove or rename an input, search for the code that decides
+**whether to run**, not only the code that runs.
+
+**Assumption flagged.** No automated check covers `status()`'s flags, because
+`09_checks.py` is file-based and this is a live HTTP response. The flags are
+verified by hand against the filesystem. Adding a check that calls the endpoint
+would need Django running inside the check, which is why it has not been done.
