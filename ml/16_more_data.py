@@ -99,7 +99,7 @@ def main():
         if len(train) < 100:
             continue
         med = train[cols].median().fillna(0)
-        m = mt.make_model("rf")
+        m = mt.make_model(mt.DEFAULT_MODEL)
         m.fit(train[cols].fillna(med), train.target_rate)
         p = m.predict(test[cols].fillna(med))
         preds[cut] = p
@@ -132,7 +132,7 @@ def main():
 
     def score_on(train):
         med = train[cols].median().fillna(0)
-        m = mt.make_model("rf")
+        m = mt.make_model(mt.DEFAULT_MODEL)
         m.fit(train[cols].fillna(med), train.target_rate)
         return float(np.abs(m.predict(test[cols].fillna(med)) - obs).mean())
 
@@ -227,8 +227,9 @@ def main():
     ax.set_ylabel("bank offset across the river (m)", fontsize=11)
     ax.set_title(
         f"RiverGuard - does more training data help? Arial Khan {TARGET_Y1}\n"
-        f"both models predict the SAME {TARGET_Y0}-{TARGET_Y1} interval; "
-        f"they differ only in how much history they saw",
+        f"{mt.MODEL_NAMES[mt.DEFAULT_MODEL]}: both models predict the SAME "
+        f"{TARGET_Y0}-{TARGET_Y1} interval; they differ only in how much "
+        f"history they saw",
         fontsize=12)
     ax.grid(alpha=0.25)
     ax.legend(loc="upper right", fontsize=9.5, framealpha=0.95)
@@ -236,6 +237,7 @@ def main():
     txt = [
         "SAME TARGET, MORE",
         "TRAINING DATA",
+        f"model   {mt.MODEL_NAMES[mt.DEFAULT_MODEL]}",
         f"target  {TARGET_Y0}->{TARGET_Y1} ({years:.0f} yr)",
         f"scored  {len(b)} transects",
         "",

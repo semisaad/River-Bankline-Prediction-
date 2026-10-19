@@ -104,6 +104,24 @@ def build(horizon_years):
                  if using_model else None)
     median_mae = (float(risk["median_baseline_mae_m_per_yr"].iloc[0])
                   if using_model else None)
+    # forecast_supported is decided against the STRONGEST of the three trivial
+    # baselines, not the median one. That is the number any claim about beating
+    # the baselines rests on, so it is the one reported. Older prediction files
+    # predate the column; falling back to the median keeps them drawable.
+    if not using_model:
+        best_mae = None
+    elif "best_baseline_mae_m_per_yr" in risk.columns:
+        best_mae = float(risk["best_baseline_mae_m_per_yr"].iloc[0])
+    else:
+        best_mae = median_mae
+    # The estimator's name travels with the rows (14_model_train.py writes it) so
+    # this file cannot name the wrong model. It used to hardcode "RandomForest",
+    # which became a lie the moment the default changed.
+    if not using_model:
+        model_name = None
+    else:
+        model_name = str(risk["model_name"].iloc[0]) \
+            if "model_name" in risk.columns else "model"
     # Every record with a long enough history is drawn, not only the statistically
     # significant ones. Significance is carried as a property so the map can show
     # it - hiding the other 60 would imply they were measured and found normal,
@@ -135,8 +153,8 @@ def build(horizon_years):
     if using_model:
         print(f"model rows: {len(usable)}, bank-side history: "
               f"{int(usable['n_years'].min())}-{int(usable['n_years'].max())} years")
-        print(f"experimental model MAE {model_mae} vs median baseline {median_mae}; "
-              f"forecast supported: {forecast_supported}\n")
+        print(f"experimental {model_name} MAE {model_mae} vs median baseline "
+              f"{median_mae}; forecast supported: {forecast_supported}\n")
     else:
         print(f"records with >= {MIN_YEARS} yr history: {len(usable)}")
         print(f"{n_sig} statistically distinguishable from zero\n")
@@ -216,7 +234,7 @@ def build(horizon_years):
                 "n_years": int(r["n_years"]),
                 "tier": r.get("tier", "model"),
                 "significant": bool(r.get("significant", False)),
-                "method": ("RandomForest, expanding-window backtest"
+                "method": (f"{model_name}, expanding-window backtest"
                            if using_model else "long-run rate"),
                 "projection_status": "experimental" if using_model
                                      else "historical_trend",
@@ -225,7 +243,8 @@ def build(horizon_years):
                 "is_forecast": False,
                 "mae_model_m_per_yr": model_mae,
                 "median_baseline_mae_m_per_yr": median_mae,
-                "basis": ("Experimental RandomForest projection"
+                "best_baseline_mae_m_per_yr": best_mae,
+                "basis": (f"Experimental {model_name} projection"
                           if "predicted_rate" in r else
                           "long-run median rate over the full Landsat record"),
             },
@@ -244,7 +263,7 @@ def build(horizon_years):
             "significant": bool(r.get("significant", False)),
             "predicted_year": latest + horizon_years,
             "predicted_rate": round(rate, 1),
-            "method": ("RandomForest, expanding-window backtest"
+            "method": (f"{model_name}, expanding-window backtest"
                        if using_model else "long-run rate"),
             "projection_status": "experimental" if using_model
                                  else "historical_trend",
@@ -253,11 +272,35 @@ def build(horizon_years):
             "is_forecast": False,
             "mae_model_m_per_yr": model_mae,
             "median_baseline_mae_m_per_yr": median_mae,
+            "best_baseline_mae_m_per_yr": best_mae,
+            "model_name": model_name,
         })
 
     if not feats:
         print("No usable rows matched the measured transects.")
         return
+
+    # COMPOSED FROM THE NUMBERS IN THIS SAME PAYLOAD, not written out by hand.
+    #
+    # This text used to be hardcoded to "the one-year model does not beat both
+    # baselines" and stayed there after the model started beating all three of
+    # them, so the map shipped a sentence contradicting the MAE figures sitting
+    # in the same file (15.886 against a best baseline of 20.413). A warning that
+    # is typed once and never re-read is a warning that will be wrong later.
+    if not using_model:
+        warning = ("Historical long-run rate extended linearly; not a forecast.")
+    elif forecast_supported:
+        warning = (f"Experimental model projection. The one-year model beats the "
+                   f"baselines it was tested against: {model_mae:.1f} m/yr against "
+                   f"{best_mae:.1f} m/yr for the strongest trivial predictor. The "
+                   f"multi-year extension drawn here is a linear extrapolation of "
+                   f"that one-year rate and is NOT independently validated.")
+    else:
+        warning = (f"Experimental model projection. The one-year model does NOT "
+                   f"beat the baselines it was tested against: {model_mae:.1f} "
+                   f"m/yr against {best_mae:.1f} m/yr for the strongest trivial "
+                   f"predictor. Its multi-year linear extension is not "
+                   f"independently validated either.")
 
     fc = {
         "type": "FeatureCollection",
@@ -270,7 +313,7 @@ def build(horizon_years):
             "horizon_years": horizon_years,
             "base_year": latest,
             "min_years_history": None if using_model else MIN_YEARS,
-            "method": ("RandomForest, expanding-window backtest"
+            "method": (f"{model_name}, expanding-window backtest"
                        if using_model else "long-run rate"),
             "projection_status": "experimental" if using_model
                                  else "historical_trend",
@@ -279,11 +322,9 @@ def build(horizon_years):
             "is_forecast": False,
             "mae_model_m_per_yr": model_mae,
             "median_baseline_mae_m_per_yr": median_mae,
-            "warning": ("Experimental model projection; the one-year model "
-                        "does not beat both baselines and its multi-year linear "
-                        "extension is not independently validated."
-                        if using_model else
-                        "Historical long-run rate extended linearly; not a forecast."),
+            "best_baseline_mae_m_per_yr": best_mae,
+            "model_name": model_name,
+            "warning": warning,
         },
         "features": feats,
     }
@@ -307,8 +348,21 @@ def build(horizon_years):
 
     print(f"\n-> {gj}")
     print(f"-> {csv_path}")
-    print("\nNOTE: model projections are experimental unless the chronological "
-          "backtest beats both baselines; see ml/artifacts/model_report.json.")
+    # Same reasoning as the map warning above: state the measured result instead
+    # of a fixed sentence about what the result would have to be.
+    if not using_model:
+        print("\nNOTE: no model was used - these are historical long-run rates "
+              "extended linearly, not a forecast.")
+    elif forecast_supported:
+        print(f"\nNOTE: the chronological backtest beats every trivial predictor "
+              f"it was scored against ({model_mae:.1f} vs {best_mae:.1f} m/yr for "
+              f"the best of them). The multi-year extension is still "
+              f"experimental - see ml/artifacts/model_report.json.")
+    else:
+        print(f"\nNOTE: model projections are EXPERIMENTAL - the chronological "
+              f"backtest does NOT beat every baseline ({model_mae:.1f} vs "
+              f"{best_mae:.1f} m/yr for the best of them). See "
+              f"ml/artifacts/model_report.json.")
 
 
 def main():

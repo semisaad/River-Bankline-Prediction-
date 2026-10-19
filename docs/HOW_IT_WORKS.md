@@ -146,7 +146,9 @@ worth 9 transects:
 
 On the Arial Khan, ponds connected to the river by a breach made the profile read
 a pond as the far bank — a "3.5 km river". Clamping instead of dropping those
-transects took the reach from **23 to 32 transects**, a 39% gain.
+transects took the reach from 23 to 32 transects when it was first measured; the
+current expanded box yields **60 transects kept of 63 built**, over 15.8 km of
+centreline.
 
 ### Room 5 — Historical risk (`ml/13_risk_and_forecast.py`)
 
@@ -160,8 +162,10 @@ Turns the measurements into a risk ranking **with honest uncertainty**.
   years are not independent measurements — a bank eroding this year usually still
   erodes next year.
 
-This step needs a long Landsat record. The committed `reports/RISK.md` describes
-the archived Jamuna analysis; Arial Khan risk output is not yet validated.
+This step needs a long Landsat record. The active Arial Khan output is **96
+records, 92 eligible for ranking, 4 flagged insufficient**. `reports/RISK.md`
+describes the archived Jamuna analysis; `reports/RISK_arial_khan.md` is the
+active reach.
 
 ### Room 6 — Test and project (`ml/14_model_train.py`, `ml/06_predict_geojson.py`)
 
@@ -170,12 +174,14 @@ It is tested by predicting later years using earlier years only. Missing values
 are filled using the training years, not the test years. The candidate is
 compared with a training-median rate and the previous year's rate.
 
-On the current Arial Khan data (432 rows over 7 year-pairs), the walk-forward
-test covers 310 bank-side/year records in 2022–2026. RandomForest MAE is
-**3.175 m/yr**, compared with **2.507** for the training-median baseline. The
-candidate does not pass. The pipeline still draws a 10-year linear extension for
-development, but marks it **experimental** and does not call it a validated
-forecast. That extension's uncertainty band is not calibrated for ten years.
+The walk-forward test covers **2414 bank-side/year records across 29 folds**.
+Gradient-boosted trees score **15.675 m/yr**, against **20.413** for the strongest trivial
+baseline. That pooled margin is real but **is not spread over time**: the model
+beats its own baseline in 18/18 folds for 1996–2015 and only 2/11 for 2016–2026.
+The pipeline draws a 10-year linear extension, but marks it **experimental** and
+does not call it a validated forecast — and the recent folds are exactly the
+regime that extension is drawn from. See D92 and `reports/MODEL_CHOICE.md`.
+That extension's uncertainty band is not calibrated for ten years.
 
 ### Room 7 — Serve (`backend/` Django, `frontend/` React + MapLibre)
 
@@ -197,13 +203,16 @@ and is withdrawn as forecast evidence. Under the corrected time-forward test:
 
 | predictor | MAE (m/yr) |
 |---|---|
-| RandomForest candidate | 3.175 |
-| training-median baseline | **2.507** |
-| repeat previous pair | 3.977 |
+| gradient-boosted trees (served) | **15.675** |
+| RandomForest (retained) | 15.886 |
+| training-median baseline | 20.413 |
+| training-mean baseline | 20.723 |
+| repeat previous pair | 23.284 |
 
-The candidate currently loses to the median baseline. The goal remains to build
-and validate the future-bankline system; the map's current 2036 projection is a
-development output, not evidence that the goal has been achieved.
+The model beats the baselines pooled, but **loses to them in the recent regime**
+(2/11 folds from 2016 on) — which is the regime the 2036 projection extends. The
+goal remains to build and validate the future-bankline system; the map's current
+projection is a development output, not evidence that the goal has been achieved.
 
 ---
 
@@ -212,21 +221,29 @@ development output, not evidence that the goal has been achieved.
 1. **No ground truth.** No survey says where the bank was. Confidence comes from
    two independent sensors agreeing and from published rates, not from absolute
    accuracy.
-2. **The measuring strip sets the magnitude.** 1000 m on the Jamuna, 300 m on the
-   Arial Khan. A wider strip dilutes the same land loss over more frontage. It is
-   a stated assumption, not a fitted parameter.
-3. **Dry season only.** January–February at low water. Monsoon attacks on the
-   outer bends are not captured — and on a 21 m/yr river, that is likely a large
-   part of the annual story.
+2. **The measuring strip sets the magnitude.** 1000 m on the Jamuna, **250 m** on
+   the Arial Khan. A wider strip dilutes the same land loss over more frontage. It
+   is a stated assumption, not a fitted parameter.
+3. **One clear-season composite per year.** Monsoon attack on the outer bends, at
+   the highest water, is not captured — and on a 21 m/yr river, that is likely a
+   large part of the annual story.
 4. **Annual pairs are not independent**, and several consecutive pairs can be
    dominated by one flood. The bootstrap intervals only partly handle this.
 5. **Most individual transect rates are not distinguishable from zero.** Shown and
    flagged rather than quietly dropped.
 6. **Thresholds were tuned on the Jamuna** and are unverified on a 300 m river.
-7. **The measured 1.7 m/yr on the Arial Khan sits far below the published
-   ~21 m/yr.** Part is definitional — published figures are channel *shift*, we
-   measure net land change in a bank strip — and part may be real. It must not be
-   "corrected" by rescaling to match the literature.
+7. **Landsat's measured median of 11.2 m/yr sits about half the published ~21
+   m/yr** for this river. Part is definitional — published figures are channel
+   *shift*, we measure net land change in a bank strip — and part may be real. It
+   must not be "corrected" by rescaling to match the literature.
+8. **Sentinel-2 cannot resolve annual movement here.** Its median of 1.2 m/yr is
+   an eighth of one 10 m pixel, so its annual target is mostly quantisation. This
+   is why the long record is built from Landsat's 5-year pairs, where a pixel is
+   worth 6 m/yr.
+9. **The rate-level cross-sensor test cannot run on this reach.** Sentinel-2 uses
+   1-year pairs and Landsat 5-year, so no shared pair exists. On the Jamuna this
+   was the strongest validation available; here it is absent, and only the water
+   maps can be compared (IoU 0.79).
 
 ---
 

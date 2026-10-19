@@ -21,6 +21,8 @@ HOW IT WORKS
 Run 01b_prepare_landsat.py first.
 """
 
+import json
+
 import numpy as np
 import rasterio
 from rasterio.enums import Resampling
@@ -32,11 +34,15 @@ import config as C
 import transects as T
 
 
-# Both sensors must be compared on the SAME ground. Landsat's export starts at
-# 24.35N while Sentinel-2's starts at 24.30N, so the southern strip has no
-# Landsat data and would read as land. We clip both to the shared footprint
-# (config.BBOX_COMMON) before comparing anything.
+# Both sensors must be compared on the SAME ground. Any strip one sensor did
+# not export would read as land and look like disagreement, so both are clipped
+# to the shared footprint (config.BBOX_COMMON) before anything is compared.
 COMMON = C.BBOX_COMMON
+
+# Everything measured here is collected and written to
+# reports/crosssensor_check.json, so 07_validate.py can quote these numbers
+# instead of restating them by hand and drifting out of date.
+RESULT = {}
 
 
 def clip_to_common(mask, transform, width, height):
@@ -121,7 +127,7 @@ def main():
     landsat_years = C.available_landsat_years()
     if not landsat_years:
         print("No Landsat data yet.")
-        print("Run gee/landsat_export.js in Google Earth Engine, put the files in")
+        print("Run gee/landsat_export_arial_khan.js in Google Earth Engine, put the files in")
         print(C.DATA_RAW_LANDSAT, "then run 01b_prepare_landsat.py")
         return
 
@@ -132,7 +138,7 @@ def main():
         return
 
     print(f"shared footprint: lon {COMMON[0]}-{COMMON[2]}  lat {COMMON[1]}-{COMMON[3]}")
-    print("(the strip below 24.35N has no Landsat data and is excluded)")
+    print("(both sensors are clipped to this footprint before comparing)")
     print(f"Landsat record: {len(landsat_years)} years "
           f"({landsat_years[0]}-{landsat_years[-1]})")
     print(f"Overlapping with Sentinel-2: {overlap}\n")
@@ -141,6 +147,7 @@ def main():
     print("-" * 58)
 
     ious, diffs = [], []
+    rows = []
     for y in overlap:
         s2, tr_s2, _, hw_s2 = load_s2(y)
         ls, tr_ls, _, _ = load_landsat(y)
@@ -168,12 +175,26 @@ def main():
             off = float("nan")
 
         ious.append(j); diffs.append(diff)
+        rows.append({"year": int(y), "s2_km2": round(float(a2), 2),
+                     "landsat_km2": round(float(a1), 2),
+                     "area_diff_pct": round(float(diff), 1),
+                     "iou": round(float(j), 3),
+                     "bank_offset_m": (None if not np.isfinite(off) else float(off))})
         print(f"{y:<6} {a2:8.1f} {a1:8.1f} {diff:9.1f}% {j:7.2f} {off:11.0f} m")
 
     ious = np.array(ious); diffs = np.array(diffs)
     print(f"\nmean IoU      : {np.nanmean(ious):.2f}  (1.0 = identical)")
     print(f"median IoU    : {np.nanmedian(ious):.2f}")
     print(f"mean area diff: {np.nanmean(diffs):+.1f}%")
+
+    RESULT["mask"] = {
+        "years": [r["year"] for r in rows],
+        "rows": rows,
+        "iou_mean": round(float(np.nanmean(ious)), 3),
+        "iou_median": round(float(np.nanmedian(ious)), 3),
+        "area_diff_pct_mean": round(float(np.nanmean(diffs)), 1),
+        "footprint": list(COMMON),
+    }
 
     print("\nHow to read this:")
     print("  IoU is computed only where either sensor saw water, so agreement")
@@ -208,6 +229,15 @@ def compare_rates():
             pairs.append((y0, y1))
     if not pairs:
         print("\nno overlapping year-pairs between the two sensors")
+        RESULT["rates"] = {
+            "available": False,
+            "why": "the two sensors use different pair steps "
+                   f"(s2 every {C.PAIR_STEP['s2']} yr, landsat every "
+                   f"{C.PAIR_STEP['landsat']} yr), so no (y0, y1) pair exists "
+                   "in both and the rate comparison cannot be made",
+            "s2_pair_step": C.PAIR_STEP["s2"],
+            "landsat_pair_step": C.PAIR_STEP["landsat"],
+        }
         return
 
     print("\nEPR rate comparison on identical transects and years")
@@ -228,8 +258,11 @@ def compare_rates():
         a.append(ma_); b.append(mb_)
         print(f"{y0}->{y1} {len(shared):9d} {ma_:10.1f} {mb_:10.1f} "
               f"{mb_/ma_ if ma_ else float('nan'):6.2f}x")
+    RESULT["rates"] = {"available": len(a) > 1, "pairs_compared": len(a)}
     if len(a) > 1:
         a, b = np.array(a), np.array(b)
+        RESULT["rates"]["mean_ratio"] = round(float(np.mean(b / a)), 2)
+        RESULT["rates"]["correlation"] = round(float(np.corrcoef(a, b)[0, 1]), 2)
         print(f"\nmean ratio LS/S2 = {np.mean(b/a):.2f}x")
         print(f"correlation      = {np.corrcoef(a,b)[0,1]:+.2f}")
         print("\nA ratio near 1 with a high correlation means both instruments are")
@@ -240,3 +273,7 @@ def compare_rates():
 if __name__ == "__main__":
     main()
     compare_rates()
+    out = C.ROOT / "reports" / "crosssensor_check.json"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(RESULT, indent=2) + "\n")
+    print(f"\n-> {out}")

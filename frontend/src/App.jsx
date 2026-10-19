@@ -80,6 +80,14 @@ export default function App() {
           supported: fc.metadata?.forecast_supported ?? false,
           modelMae: fc.metadata?.mae_model_m_per_yr,
           medianMae: fc.metadata?.median_baseline_mae_m_per_yr,
+          // `supported` above is decided against the STRONGEST trivial baseline,
+          // not the median one. Quoting the median next to that flag would let
+          // the panel say "does not beat the historical-median benchmark" in a
+          // year where the model did beat the median but not the mean. Report
+          // the number the flag is actually gated on, falling back to the median
+          // for payloads written before this field existed.
+          bestMae: fc.metadata?.best_baseline_mae_m_per_yr ??
+                   fc.metadata?.median_baseline_mae_m_per_yr,
           max: Math.max(0, ...rates),
         })
       })
@@ -358,10 +366,11 @@ export default function App() {
           <strong>Experimental projection.</strong>{' '}
           The project is building a system to predict future banklines. This
           multi-year line is not independently validated. The current rate model
-          {future?.supported ? ' beats' : ' does not beat'} the historical-median
-          benchmark
-          {future?.modelMae != null && future?.medianMae != null && (
-            <> (MAE {future.modelMae} vs {future.medianMae} m/yr)</>
+          {future?.supported ? ' beats' : ' does not beat'} the trivial
+          benchmarks it was tested against
+          {future?.modelMae != null && future?.bestMae != null && (
+            <> (MAE {future.modelMae} vs {future.bestMae} m/yr for the strongest
+            of them)</>
           )}.
           {showFuture && future && (
             <>

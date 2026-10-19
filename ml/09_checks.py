@@ -10,15 +10,16 @@ to diagnose. If a check fails, stop and fix it before running the pipeline.
 
 import ast
 import csv as _csv
-import re
 import json
+import re
+import re as _re
 import subprocess
 import sys
 from pathlib import Path
 
 import config as C
 
-GEE = C.ROOT / "gee" / "landsat_export.js"
+GEE_DIR = C.ROOT / "gee"
 failures = []
 notes = []
 
@@ -42,9 +43,9 @@ def warn(msg):
 # Glob every script rather than naming two: a per-reach export that was never
 # syntax-checked is exactly the file most likely to be broken, because it is the
 # newest and least exercised.
-GEE_FILES = sorted(GEE.parent.glob("*.js"))
+GEE_FILES = sorted(GEE_DIR.glob("*.js"))
 if not GEE_FILES:
-    bad(f"no Earth Engine scripts found in {GEE.parent}")
+    bad(f"no Earth Engine scripts found in {GEE_DIR}")
 print("1. Earth Engine scripts parse and their comments are closed")
 for gf in GEE_FILES:
     if not gf.exists():
@@ -67,8 +68,9 @@ for gf in GEE_FILES:
             f"{(e.stderr or b'').decode()[:140]}")
 
 print("\n2. No dead Earth Engine dataset or pattern references")
-if GEE.exists():
-    src = GEE.read_text()
+_ls_js = GEE_DIR / f"landsat_export_{C.REACH}.js"
+if _ls_js.exists():
+    src = _ls_js.read_text()
     if "LANDSAT/C02/T1_L2" in src:
         bad("references a merged LANDSAT/C02/T1_L2, which does not exist")
     else:
@@ -93,13 +95,36 @@ if GEE.exists():
         warn("uses ee.Algorithms.If on images - this produced empty composites before")
     else:
         ok("no ee.Algorithms.If in the executable code")
-    # Landsat 7 green is SR_B2, not SR_B3 (ETM+ has no coastal-aerosol band)
-    if "LE07" in src:
-        l7 = [l for l in src.splitlines() if "LE07" in l]
-        if l7 and "SR_B2" in l7[0]:
-            ok("Landsat 7 green = SR_B2 (correct for ETM+)")
+    # Landsat 7 green is SR_B2, not SR_B3 (ETM+ has no coastal-aerosol band),
+    # while Landsat 8/9 green is SR_B3 (OLI does have one, as SR_B1). Getting
+    # this wrong swaps green with blue or red and silently computes the wrong
+    # water index: the mask still looks like water, in the wrong places.
+    #
+    # This used to test only the first line mentioning LE07, which happened to
+    # be the band line in the retired Jamuna script. The live exporter mentions
+    # LE07 once, in a collection id, so the check passed vacuously.
+    for _fn, _want, _sensor in (("prepTM", "SR_B2", "Landsat 4/5/7 TM/ETM+"),
+                                ("prepOLI", "SR_B3", "Landsat 8/9 OLI")):
+        _body = _re.search(rf"function {_fn}\(.*?\n\}}", src, _re.S)
+        if not _body:
+            bad(f"{_fn} not found in {_ls_js.name}")
+            continue
+        _text = _body.group(0)
+        _b = _re.search(r"select\(\[([^\]]+)\]\)", _text)
+        _r = _re.search(r"rename\(\[([^\]]+)\]\)", _text)
+        _bands = [x.strip().strip("'\"") for x in _b.group(1).split(",")] if _b else []
+        _names = [x.strip().strip("'\"") for x in _r.group(1).split(",")] if _r else []
+        if len(_bands) != 6 or len(_names) != 6:
+            bad(f"{_fn}: could not read 6 source bands and 6 names")
+        elif _bands[1] != _want:
+            bad(f"{_fn}: green is {_bands[1]}, expected {_want} for {_sensor}")
+        elif _names != ["blue", "green", "red", "nir", "swir1", "swir2"]:
+            bad(f"{_fn}: renamed to {_names}, expected blue/green/red/nir/swir1/swir2")
         else:
-            bad("Landsat 7 band line looks wrong; green should be SR_B2")
+            ok(f"{_fn}: green = {_want}, renamed blue/green/red/nir/swir1/swir2 "
+               f"({_sensor})")
+else:
+    bad(f"{_ls_js.name} not found - this is the live Landsat exporter")
 
 print("\n3. MapLibre worker file is present")
 worker = C.ROOT / "frontend" / "public" / "maplibre-gl-worker.mjs"
@@ -147,12 +172,11 @@ print("\n7. Export scripts and config agree on the study box")
 # edited and the scripts are not, every downstream number is measured on imagery
 # of a different place, and nothing crashes - it just quietly answers the wrong
 # question. This has to be a standing check, not a manual habit.
-import re as _re
-for _js in sorted(GEE.parent.glob("*.js")):
+for _js in sorted(GEE_DIR.glob("*.js")):
     # Only the active reach's scripts are meaningful here. Each reach has its
     # own export script, and checking them all against the active bbox would
     # report every other reach as a failure.
-    if C.REACH not in _js.name and _js.name != "landsat_export.js":
+    if C.REACH not in _js.name:
         continue
     txt = _js.read_text()
     # Validate the configured reference box even though exports now require a
@@ -160,9 +184,6 @@ for _js in sorted(GEE.parent.glob("*.js")):
     _m = _re.search(r"REFERENCE_BOX\s*=\s*\[\s*"
                     r"([\d.]+),\s*([\d.]+),\s*([\d.]+),\s*([\d.]+)\s*\]", txt)
     _crs = _re.search(r"crs:\s*'(EPSG:\d+)'", txt)
-    if _js.name == "landsat_export.js":
-        ok(f"{_js.name}: hardcoded box, historical Jamuna export (not reach-driven)")
-        continue
     if not _m:
         bad(f"{_js.name}: no study box found in this script, so it cannot be "
             f"verified against config {C.BBOX_WGS84}")
@@ -176,6 +197,39 @@ for _js in sorted(GEE.parent.glob("*.js")):
             f"for reach '{C.REACH}'")
     if _crs and _crs.group(1) != C.CRS_WORK:
         bad(f"{_js.name}: exports in {_crs.group(1)} but config says {C.CRS_WORK}")
+
+print("\n7b. The hydrology export box covers the reach")
+# D88: gee/hydro_export.js went out carrying the retired JAMUNA box, latitude
+# 23.5-25.5, while this reach sits at latitude 23.134-23.261. The two did not
+# overlap AT ALL. 11_hydro_features.py clips the rasters to the study box, so
+# running it would have produced a table of NaNs and raised no error anywhere -
+# the same silent-wrong-answer shape as check 7, and worth the same standing
+# guard rather than a manual habit.
+#
+# A SUPERSET is correct here, unlike the imagery exporters, which must match
+# exactly: the margin around the reach costs nothing and 11_ clips it away
+# anyway. What must never happen is a region that misses the reach.
+_hydro_js = GEE_DIR / "hydro_export.js"
+if not _hydro_js.exists():
+    warn("gee/hydro_export.js not found - cannot verify the hydrology export box")
+else:
+    _m = _re.search(r"REGION\s*=\s*ee\.Geometry\.Rectangle\(\s*\[\s*"
+                    r"(-?[\d.]+),\s*(-?[\d.]+),\s*(-?[\d.]+),\s*(-?[\d.]+)\s*\]",
+                    _hydro_js.read_text())
+    if not _m:
+        warn(f"{_hydro_js.name}: no REGION rectangle found, so it cannot be "
+             f"verified against config {C.BBOX_WGS84}")
+    else:
+        _hw, _hs, _he, _hn = (float(x) for x in _m.groups())
+        _w, _s, _e, _n = C.BBOX_WGS84
+        if _hw <= _w and _he >= _e and _hs <= _s and _hn >= _n:
+            ok(f"{_hydro_js.name}: region covers the study box "
+               f"(lon {_hw}..{_he}, lat {_hs}..{_hn})")
+        else:
+            bad(f"{_hydro_js.name}: region lon {_hw}..{_he} lat {_hs}..{_hn} "
+                f"does NOT cover the study box lon {_w}..{_e} lat {_s}..{_n}. "
+                f"11_hydro_features.py would clip to nothing and write NaN "
+                f"columns without erroring.")
 
 print("\n8. Cross-sensor detection logic is identical")
 # The two sensors overlap 2019-2026. If their water-detection rules differ, the
@@ -207,8 +261,8 @@ def _consts(path):
         out["years"] = f"{m.group(1)}..{m.group(2)}"
     return out
 
-s2_js = GEE.parent / "s2_export_arial_khan.js"
-ls_js = GEE.parent / "landsat_export_arial_khan.js"
+s2_js = GEE_DIR / "s2_export_arial_khan.js"
+ls_js = GEE_DIR / "landsat_export_arial_khan.js"
 if C.REACH == "arial_khan" and s2_js.exists() and ls_js.exists():
     a, b = _consts(s2_js), _consts(ls_js)
     if not a or not b:
@@ -254,8 +308,7 @@ if C.REACH == "arial_khan" and s2_js.exists() and ls_js.exists():
     # composite that had already been `.unmask(0)`-ed. Unmasking erases the
     # mask, so mask() returned all ones and `valid` reported 100% for every
     # year - which turned `valid >= MIN_VALID` from a gate into decoration and
-    # let years with almost no usable imagery be exported silently. The older
-    # scripts (landsat_export.js, landsat_export_ganges.js) never had the bug.
+    # let years with almost no usable imagery be exported silently.
     #
     # This is a structural invariant that is cheap to check and expensive to
     # rediscover: in each script the line assigning `valid` must appear before
@@ -444,29 +497,88 @@ for g in sorted((C.DATA_PROC / "predictions").glob("longrun_trend_*.geojson")):
            f"{md.get('n_records')} records, "
            f"MAE {md.get('mae_model_m_per_yr', 'n/a')}")
 
-print("\n11. GloFAS discharge is joined and the incomplete year is excluded")
+    # The written warning must agree with the fields beside it. This is not
+    # hypothetical: the old text was hardcoded to "the one-year model does not
+    # beat both baselines" and survived the model improving to beat all three,
+    # so the map shipped a sentence contradicting its own MAE figures. Anything
+    # a human typed once will drift; this is what catches it drifting.
+    #
+    # Compared in lower case on purpose. The first version of this check looked
+    # for the literal "NOT beat", and the real stale text reads "does not beat",
+    # so it passed the very bug it was written for. A guard has to be tested
+    # against the failure it exists to catch, not just against the fixed state.
+    _low = str(md.get("warning", "")).lower()
+    _sup = md.get("forecast_supported")
+    _says_no = ("not beat" in _low) or ("n't beat" in _low)
+    _mentions = "beat" in _low
+    if not _mentions:
+        warn(f"{g.name}: warning does not mention the baseline comparison at all")
+    elif _sup and _says_no:
+        bad(f"{g.name}: warning says the model does NOT beat the baselines while "
+            f"forecast_supported=True - the text contradicts the data")
+    elif (_sup is False) and not _says_no:
+        bad(f"{g.name}: warning claims the model beats the baselines while "
+            f"forecast_supported=False - the text contradicts the data")
+    else:
+        ok(f"{g.name}: warning agrees with forecast_supported={_sup}")
+
+    # The estimator named in the map payload must be the one the report
+    # describes. This is the D94 bug written as a check: the report hardcoded
+    # "RandomForestRegressor" regardless of --model, and the GeoJSON typed its
+    # own "RandomForest" string. Neither was tied to the model that actually
+    # ran, so both could name the wrong estimator while carrying the right
+    # score - a page that says "RandomForest, MAE 15.675" when 15.675 belongs to
+    # a boosted model. Text that contradicts its own numbers is the exact
+    # failure check 10 below was written for.
+    _rp = C.ROOT / "ml" / "artifacts" / "model_report.json"
+    _wanted = ""
+    if _rp.exists():
+        try:
+            _wanted = str(json.loads(_rp.read_text()).get("model_name", "")).strip()
+        except (ValueError, OSError):
+            _wanted = ""
+    _named = str(md.get("model_name", "")).strip()
+    if md.get("projection_status") == "experimental" and _wanted:
+        if not _named:
+            bad(f"{g.name}: experimental projection does not name the model that "
+                f"produced it (model_report.json says {_wanted})")
+        elif _named != _wanted:
+            bad(f"{g.name}: projection is attributed to {_named} but "
+                f"model_report.json describes {_wanted} - the map and its score "
+                f"disagree")
+        else:
+            ok(f"{g.name}: model '{_named}' agrees with model_report.json")
+
+print("\n11. Hydrology forcing is present and usable")
+# D88: the hydrology path is the ERA5-Land WEATHER PROXY exported by
+# gee/hydro_export.js. GloFAS remains working code but was rejected on physics -
+# at this reach its nearest cell reads a maximum of 13 m3/s for an entire year,
+# so it models a small local catchment, not this river.
+_hraw = C.DATA_RAW / "hydro"
+_era = sorted(_hraw.glob("Hydro_*.tif")) if _hraw.exists() else []
+if _era:
+    _yrs = sorted(int(p.stem.split("_")[-1]) for p in _era)
+    ok(f"{len(_yrs)} ERA5-Land year files, {_yrs[0]}-{_yrs[-1]}")
+    if _yrs[0] > 1984:
+        warn(f"earliest ERA5-Land year is {_yrs[0]}, but the oldest pair's "
+             f"change column is measured from y0 - step = 1984")
+    if _yrs[-1] > 2025:
+        warn(f"an ERA5-Land file exists for {_yrs[-1]}, which is part-complete "
+             f"and its mean is biased high - the missing months are the "
+             f"low-flow ones. Export finished years only")
+else:
+    warn("no ERA5-Land proxy yet - run gee/hydro_export.js in Earth Engine, "
+         "then put the Hydro_<year>.tif downloads in data/reaches/<reach>/raw/hydro/")
+
 hydro = C.DATA_PROC / "features" / "landsat" / "features_hydro.csv"
 if hydro.exists():
     head = hydro.read_text().splitlines()[0]
-    if "q_mean" in head:
-        ok("features_hydro.csv carries GloFAS discharge columns")
+    if "clim_" in head:
+        ok("features_hydro.csv carries clim_* weather columns")
     else:
-        bad("features_hydro.csv exists but has no q_* discharge columns")
+        bad("features_hydro.csv exists but carries no clim_* columns")
 else:
     warn("no hydro features yet - run 11_hydro_features.py landsat")
-
-ga = C.DATA_RAW / "hydro" / "glofas_annual.csv"
-if ga.exists():
-    with open(ga) as f:
-        ga_rows = list(_csv.DictReader(f))
-    incomplete = [r for r in ga_rows
-                  if r.get("complete", "True").lower() != "true"]
-    for r in incomplete:
-        ok(f"year {r['year']} flagged incomplete ({r.get('days')} days) "
-           f"- summaries blanked so it cannot read as a dry year")
-    ok(f"{len(ga_rows)} GloFAS years, {len(ga_rows) - len(incomplete)} complete")
-else:
-    warn("no GloFAS annual table yet - run 12_glofas_discharge.py")
 
 print("\n" + "=" * 62)
 if failures:

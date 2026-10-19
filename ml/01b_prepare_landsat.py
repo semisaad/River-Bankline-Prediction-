@@ -1,7 +1,7 @@
 """01b - Prepare Landsat masks onto their own 30 m grid.
 
 Runs this only after you have downloaded the Landsat masks from Google Earth
-Engine into  data/raw/landsat/  (see gee/landsat_export.js).
+Engine into  data/reaches/<reach>/raw/landsat/  (see gee/landsat_export_arial_khan.js).
 
 Why Landsat gets its own folder instead of replacing Sentinel-2:
   - Landsat is 30 m per pixel, Sentinel-2 is 10 m. Blowing Landsat up to 10 m
@@ -118,7 +118,7 @@ def main():
     years = C.available_landsat_years()
     if not years:
         print("No Landsat files found in:", C.DATA_RAW_LANDSAT)
-        print("Nothing to do. Run gee/landsat_export.js in Google Earth Engine first,")
+        print("Nothing to do. Run gee/landsat_export_arial_khan.js in Earth Engine first,")
         print("then put the downloaded MNDWI_Mask_<year>.tif files in that folder.")
         return
 

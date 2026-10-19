@@ -1,0 +1,341 @@
+{
+  "generated": "2026-10-19",
+  "reach": "arial_khan",
+  "sensor": "landsat",
+  "hydro": true,
+  "model": "RandomForestRegressor(n_estimators=500, min_samples_leaf=5)",
+  "feature_importance": {
+    "rate_lag1": 0.1896,
+    "arc_norm": 0.1289,
+    "meander_off_m": 0.1111,
+    "rate_mean_all": 0.0783,
+    "curv_outer": 0.0778,
+    "rate_std_all": 0.065,
+    "n_prior": 0.0563,
+    "width_lag1": 0.0501,
+    "stage_km2_prev": 0.0478,
+    "curvature_k": 0.0465,
+    "rate_roll3": 0.0137,
+    "rate_lag2": 0.0124,
+    "clim_u_component_of_wind_10m_chg": 0.0118,
+    "rate_std3": 0.0096,
+    "clim_v_component_of_wind_10m_chg": 0.0086,
+    "clim_v_component_of_wind_10m": 0.0078,
+    "clim_v_component_of_wind_10m_anom": 0.0078,
+    "clim_potential_evaporation_sum_chg": 0.0068,
+    "rate_lag3": 0.0065,
+    "clim_potential_evaporation_sum": 0.0059,
+    "clim_u_component_of_wind_10m_anom": 0.0052,
+    "clim_sub_surface_runoff_sum_chg": 0.0051,
+    "clim_total_precipitation_sum_chg": 0.0051,
+    "clim_surface_runoff_sum_chg": 0.0047,
+    "clim_u_component_of_wind_10m": 0.0045,
+    "clim_surface_solar_radiation_downwards_sum_chg": 0.0041,
+    "clim_surface_solar_radiation_downwards_sum_anom": 0.0036,
+    "clim_potential_evaporation_sum_anom": 0.0034,
+    "clim_surface_runoff_sum": 0.0033,
+    "clim_surface_solar_radiation_downwards_sum": 0.0031,
+    "clim_surface_runoff_sum_anom": 0.0029,
+    "clim_runoff_sum_chg": 0.0025,
+    "clim_total_precipitation_sum": 0.002,
+    "clim_sub_surface_runoff_sum": 0.0017,
+    "clim_runoff_sum": 0.0017,
+    "clim_sub_surface_runoff_sum_anom": 0.0017,
+    "clim_total_precipitation_sum_anom": 0.0016,
+    "clim_runoff_sum_anom": 0.0014
+  },
+  "features_used": [
+    "rate_lag1",
+    "rate_lag2",
+    "rate_lag3",
+    "rate_roll3",
+    "rate_std3",
+    "rate_mean_all",
+    "rate_std_all",
+    "n_prior",
+    "width_lag1",
+    "curvature_k",
+    "curv_outer",
+    "meander_off_m",
+    "arc_norm",
+    "stage_km2_prev",
+    "clim_potential_evaporation_sum",
+    "clim_potential_evaporation_sum_anom",
+    "clim_potential_evaporation_sum_chg",
+    "clim_runoff_sum",
+    "clim_runoff_sum_anom",
+    "clim_runoff_sum_chg",
+    "clim_sub_surface_runoff_sum",
+    "clim_sub_surface_runoff_sum_anom",
+    "clim_sub_surface_runoff_sum_chg",
+    "clim_surface_runoff_sum",
+    "clim_surface_runoff_sum_anom",
+    "clim_surface_runoff_sum_chg",
+    "clim_surface_solar_radiation_downwards_sum",
+    "clim_surface_solar_radiation_downwards_sum_anom",
+    "clim_surface_solar_radiation_downwards_sum_chg",
+    "clim_total_precipitation_sum",
+    "clim_total_precipitation_sum_anom",
+    "clim_total_precipitation_sum_chg",
+    "clim_u_component_of_wind_10m",
+    "clim_u_component_of_wind_10m_anom",
+    "clim_u_component_of_wind_10m_chg",
+    "clim_v_component_of_wind_10m",
+    "clim_v_component_of_wind_10m_anom",
+    "clim_v_component_of_wind_10m_chg"
+  ],
+  "skill": {
+    "method": "expanding-window by target year; prior-year features only",
+    "test_years": [
+      1996,
+      1998,
+      1999,
+      2000,
+      2001,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "rows": 2284,
+    "folds": [
+      {
+        "test_year": 1996,
+        "training_years": 2,
+        "rows": 68,
+        "mae_model": 20.872,
+        "mae_train_median": 30.329
+      },
+      {
+        "test_year": 1998,
+        "training_years": 3,
+        "rows": 72,
+        "mae_model": 18.794,
+        "mae_train_median": 25.721
+      },
+      {
+        "test_year": 1999,
+        "training_years": 4,
+        "rows": 72,
+        "mae_model": 22.172,
+        "mae_train_median": 24.732
+      },
+      {
+        "test_year": 2000,
+        "training_years": 5,
+        "rows": 72,
+        "mae_model": 21.744,
+        "mae_train_median": 28.435
+      },
+      {
+        "test_year": 2001,
+        "training_years": 6,
+        "rows": 70,
+        "mae_model": 20.704,
+        "mae_train_median": 27.907
+      },
+      {
+        "test_year": 2003,
+        "training_years": 7,
+        "rows": 86,
+        "mae_model": 22.871,
+        "mae_train_median": 28.672
+      },
+      {
+        "test_year": 2004,
+        "training_years": 8,
+        "rows": 94,
+        "mae_model": 20.886,
+        "mae_train_median": 26.526
+      },
+      {
+        "test_year": 2005,
+        "training_years": 9,
+        "rows": 94,
+        "mae_model": 20.002,
+        "mae_train_median": 29.8
+      },
+      {
+        "test_year": 2006,
+        "training_years": 10,
+        "rows": 90,
+        "mae_model": 18.595,
+        "mae_train_median": 26.496
+      },
+      {
+        "test_year": 2007,
+        "training_years": 11,
+        "rows": 86,
+        "mae_model": 17.228,
+        "mae_train_median": 25.48
+      },
+      {
+        "test_year": 2008,
+        "training_years": 12,
+        "rows": 84,
+        "mae_model": 18.73,
+        "mae_train_median": 29.604
+      },
+      {
+        "test_year": 2009,
+        "training_years": 13,
+        "rows": 82,
+        "mae_model": 21.224,
+        "mae_train_median": 27.954
+      },
+      {
+        "test_year": 2010,
+        "training_years": 14,
+        "rows": 80,
+        "mae_model": 22.552,
+        "mae_train_median": 23.96
+      },
+      {
+        "test_year": 2011,
+        "training_years": 15,
+        "rows": 82,
+        "mae_model": 17.934,
+        "mae_train_median": 25.162
+      },
+      {
+        "test_year": 2012,
+        "training_years": 16,
+        "rows": 80,
+        "mae_model": 20.069,
+        "mae_train_median": 28.123
+      },
+      {
+        "test_year": 2013,
+        "training_years": 17,
+        "rows": 78,
+        "mae_model": 20.041,
+        "mae_train_median": 25.445
+      },
+      {
+        "test_year": 2014,
+        "training_years": 18,
+        "rows": 80,
+        "mae_model": 13.074,
+        "mae_train_median": 20.111
+      },
+      {
+        "test_year": 2015,
+        "training_years": 19,
+        "rows": 76,
+        "mae_model": 13.832,
+        "mae_train_median": 18.554
+      },
+      {
+        "test_year": 2016,
+        "training_years": 20,
+        "rows": 80,
+        "mae_model": 16.059,
+        "mae_train_median": 13.828
+      },
+      {
+        "test_year": 2017,
+        "training_years": 21,
+        "rows": 76,
+        "mae_model": 15.821,
+        "mae_train_median": 15.946
+      },
+      {
+        "test_year": 2018,
+        "training_years": 22,
+        "rows": 74,
+        "mae_model": 12.21,
+        "mae_train_median": 9.426
+      },
+      {
+        "test_year": 2019,
+        "training_years": 23,
+        "rows": 76,
+        "mae_model": 12.979,
+        "mae_train_median": 11.993
+      },
+      {
+        "test_year": 2020,
+        "training_years": 24,
+        "rows": 76,
+        "mae_model": 11.372,
+        "mae_train_median": 10.416
+      },
+      {
+        "test_year": 2021,
+        "training_years": 25,
+        "rows": 76,
+        "mae_model": 12.882,
+        "mae_train_median": 12.637
+      },
+      {
+        "test_year": 2022,
+        "training_years": 26,
+        "rows": 74,
+        "mae_model": 10.496,
+        "mae_train_median": 8.727
+      },
+      {
+        "test_year": 2023,
+        "training_years": 27,
+        "rows": 74,
+        "mae_model": 10.24,
+        "mae_train_median": 10.146
+      },
+      {
+        "test_year": 2024,
+        "training_years": 28,
+        "rows": 76,
+        "mae_model": 7.739,
+        "mae_train_median": 6.079
+      },
+      {
+        "test_year": 2025,
+        "training_years": 29,
+        "rows": 80,
+        "mae_model": 7.867,
+        "mae_train_median": 6.944
+      },
+      {
+        "test_year": 2026,
+        "training_years": 30,
+        "rows": 76,
+        "mae_model": 8.565,
+        "mae_train_median": 6.374
+      }
+    ],
+    "mae_model": 16.562,
+    "mae_train_median": 20.413,
+    "mae_train_mean": 20.723,
+    "mae_repeat_previous_pair": 23.284,
+    "best_baseline": 20.413,
+    "beaten_by": [],
+    "forecast_supported": true
+  },
+  "horizon_years": 10,
+  "caveats": [
+    "The projection is experimental unless forecast_supported is true.",
+    "Validation uses an expanding time window and features known before each target year.",
+    "The one-year rate is linearly extended across the requested horizon; long-horizon uncertainty is not calibrated.",
+    "No surveyed banklines are available as independent ground truth."
+  ]
+}

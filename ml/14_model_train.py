@@ -31,8 +31,13 @@ FORECAST_FEATURES = [
 # Columns measured over the SAME interval as the target, so they cannot be known
 # when the prediction has to be made. They stay in the feature table because
 # other analyses use them, but using them for forecasting was the leakage that
-# made the first reported score (MAE 2.843 m/yr) meaningless - see D63, where the
-# corrected prior-year test gave 3.175 against a 2.507 median baseline.
+# made the first reported score (MAE 2.843 m/yr) meaningless - see D63.
+#
+# THOSE NUMBERS ARE HISTORICAL. D63's corrected test gave 3.175 against a 2.507
+# baseline, but that was before the bankline correction (D77-D84) rescaled the
+# target. The current figures are 15.886 against 20.413. What survives is the
+# lesson, not the arithmetic - and D92 shows the "beats the baseline" verdict
+# only holds for 1996-2015.
 #
 # Listing them here turns that finding into a check instead of a memory: if one
 # is ever added to FORECAST_FEATURES the run stops rather than quietly
@@ -62,6 +67,41 @@ RF_PARAMS = dict(n_estimators=500, min_samples_leaf=5, random_state=0, n_jobs=-1
 GBM_PARAMS = dict(max_iter=400, learning_rate=0.05, max_leaf_nodes=31,
                   min_samples_leaf=20, l2_regularization=1.0,
                   early_stopping=False, random_state=0)
+
+# The configuration the map, the API and reports/VALIDATION.md actually serve.
+# Exactly one model and one sensor hold these defaults, because the artefact
+# names are keyed off them: the default writes model_report.json and
+# model_predictions_landsat.csv, and anything else writes a suffixed variant.
+#
+# Gradient boosting took the default in D94. It won by 0.211 m/yr - 1.3% - which
+# is small, and the project's stated position is that a small, reproducible,
+# out-of-sample margin is still a margin. See reports/MODEL_CHOICE.md.
+#
+# D94 also moved DEFAULT_SENSOR to landsat. The trainer previously defaulted to
+# s2 while model_report.json is written with no sensor in its name and
+# backend/core/views.py reads it as the served model - so a bare re-run, which
+# is what README.md tells you to type, would have described the map with the
+# wrong sensor's numbers. Same failure shape as D81.
+DEFAULT_MODEL = "gbm"
+DEFAULT_SENSOR = "landsat"
+
+MODEL_NAMES = {"rf": "RandomForestRegressor",
+               "gbm": "HistGradientBoostingRegressor"}
+
+
+def model_label(kind):
+    """Human-readable description of the model that actually ran.
+
+    The report used to hardcode a RandomForest string regardless of --model, so
+    a --model gbm run produced an artefact that named the wrong estimator while
+    carrying that estimator's score.
+    """
+    if kind == "gbm":
+        return (f"HistGradientBoostingRegressor(max_iter={GBM_PARAMS['max_iter']}, "
+                f"learning_rate={GBM_PARAMS['learning_rate']}, "
+                f"max_leaf_nodes={GBM_PARAMS['max_leaf_nodes']})")
+    return (f"RandomForestRegressor(n_estimators={RF_PARAMS['n_estimators']}, "
+            f"min_samples_leaf={RF_PARAMS['min_samples_leaf']})")
 
 
 def make_model(kind):
@@ -137,7 +177,7 @@ def features(df, hydro=False):
     return cols
 
 
-def evaluate(df, cols, model_kind="rf"):
+def evaluate(df, cols, model_kind=DEFAULT_MODEL):
     """Expanding-window evaluation; never train on a year after the test year."""
     yearly = sorted(df["year1"].unique())
     actual, predicted = [], []
@@ -209,10 +249,12 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--horizon", type=int, default=10,
                     help="years ahead to project (default 10)")
-    ap.add_argument("--sensor", default="s2", choices=sorted(C.SENSORS),
-                    help="which feature table to train on (default s2)")
-    ap.add_argument("--model", default="rf", choices=["rf", "gbm"],
-                    help="rf = RandomForest (default), gbm = gradient boosting")
+    ap.add_argument("--sensor", default=DEFAULT_SENSOR, choices=sorted(C.SENSORS),
+                    help=f"which feature table to train on "
+                         f"(default {DEFAULT_SENSOR}, the served one)")
+    ap.add_argument("--model", default=DEFAULT_MODEL, choices=["rf", "gbm"],
+                    help=f"gbm = gradient boosting (default {DEFAULT_MODEL}), "
+                         f"rf = RandomForest")
     ap.add_argument("--hydro", action="store_true",
                     help="add GloFAS discharge and ERA5-Land climate forcing "
                          "(from features_hydro.csv, built by "
@@ -242,7 +284,7 @@ def main():
 
     skill = evaluate(df, cols, args.model)
     print("\nSKILL (expanding-window, prior-year features only)")
-    label = "RandomForest" if args.model == "rf" else "GradientBoosting"
+    label = {"rf": "RandomForest", "gbm": "GradientBoosting"}[args.model]
     print(f"  {label:<26} MAE {skill['mae_model']:7.3f} m/yr")
     print(f"  training median baseline   MAE {skill['mae_train_median']:7.3f} m/yr")
     print(f"  training mean baseline     MAE {skill['mae_train_mean']:7.3f} m/yr")
@@ -299,6 +341,15 @@ def main():
             "forecast_supported": skill["forecast_supported"],
             "model_mae_m_per_yr": skill["mae_model"],
             "median_baseline_mae_m_per_yr": skill["mae_train_median"],
+            # forecast_supported is decided against best_baseline - the STRONGEST
+            # of the three trivial predictors, not the median one. The map quotes
+            # the number this gate actually used, so it has to travel with the
+            # rows; quoting the median instead would overstate the margin in any
+            # year where the median is not the strongest.
+            "best_baseline_mae_m_per_yr": skill["best_baseline"],
+            # Travels with the rows so the map can name the estimator that
+            # actually produced them, instead of a string typed here once.
+            "model_name": MODEL_NAMES[args.model],
         })
 
     PRED_DIR.mkdir(parents=True, exist_ok=True)
@@ -310,7 +361,9 @@ def main():
     # for comparison and must not replace the file the map is built from. The
     # default configuration keeps its plain name so 06_predict_geojson.py and the
     # API keep working untouched.
-    variant = "" if (args.model == "rf" and not args.hydro) else \
+    # Keyed off the SERVED defaults, not off "rf": now that gbm is the default,
+    # testing rf must not overwrite the file the map is built from.
+    variant = "" if (args.model == DEFAULT_MODEL and not args.hydro) else \
         "_" + args.model + ("_hydro" if args.hydro else "")
     out = PRED_DIR / f"model_predictions_{args.sensor}{variant}.csv"
     pd.DataFrame(rows).to_csv(out, index=False)
@@ -321,8 +374,8 @@ def main():
     report.write_text(json.dumps(
         {"generated": date.today().isoformat(),
          "reach": reach, "sensor": args.sensor, "hydro": args.hydro,
-         "model": (f"RandomForestRegressor(n_estimators={RF_PARAMS['n_estimators']}, "
-                   f"min_samples_leaf={RF_PARAMS['min_samples_leaf']})"),
+         "model": model_label(args.model),
+         "model_name": MODEL_NAMES[args.model],
          "feature_importance": {k: round(float(v), 4) for k, v in imp.items()},
          "features_used": cols,
          "skill": skill,

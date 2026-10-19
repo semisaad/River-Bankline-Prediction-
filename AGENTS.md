@@ -18,20 +18,22 @@ look better. Supersede it with a new entry that says so.
 
 ## The project
 
-**One river: the Arial Khan**, Madaripur Sadar – Kalkini reach, Bangladesh.
-The expanded rectangle is selected and configured (D65). Existing processed
-data still uses the previous roughly 300 m wide, 8.1 km extent and 32 transects;
-until new exports and geometry are rebuilt, all dimensions and scores below
-apply only to that previous box.
+**One river: the Arial Khan**, Madaripur Sadar – Kalkini reach, Bangladesh. The
+expanded rectangle is fully processed for both sensors; nothing is waiting on an
+export. The Jamuna is archived and the Ganges trial was never run — both have
+been **removed from the reach registry** (D93), so `RIVERGUARD_REACH=jamuna`
+fails fast instead of half-working.
 
-The candidate RandomForest was re-evaluated using only prior-year features and
-an expanding time window: MAE **3.175 m/yr**, versus **2.507** for the
-training-median baseline (310 held-out records, 2022–2026). It does not yet
-support a useful forecast. The earlier 2.843 score used same-interval features
-and is withdrawn as future-prediction evidence in D63.
+The served model is **HistGradientBoostingRegressor** (D94), scored with only
+prior-year features and an expanding time window: MAE **15.675 m/yr** versus
+**20.413** for the strongest trivial baseline (2414 held-out records, 29 folds).
+The RandomForest it replaced scores 15.886 on the identical test. **That pooled margin is
+misleading on its own** — it is 18/18 folds in 1996–2015 and 2/11 in 2016–2026,
+so the model does not beat the baseline in the recent regime that the projection
+is drawn from (D92). Quote the split, never the pooled number alone.
 
-The pipeline accepts a reach name because an earlier reach is archived, but the
-analysis, model and reported results are Arial Khan only.
+Older figures are dead and must not be cited: **2.843 / 2.835** used same-interval
+features (D63), and **3.175 / 2.507** describe the previous, smaller box.
 
 ## Orientation — read these before touching anything
 
@@ -39,7 +41,8 @@ analysis, model and reported results are Arial Khan only.
 |---|---|
 | `context/CURRENT.md` | current state, the one blocking item, key numbers |
 | `reports/DECISIONS.md` | why anything is the way it is. Read the entries your area touches. |
-| `reports/VALIDATION.md` | what has actually been verified |
+| `reports/VALIDATION.md` | what has actually been verified. **Generated** — edit `ml/07_validate.py`, not the report |
+| `reports/MODEL_CHOICE.md` | why this model, by how much, and what the margin does not support |
 | `reports/RISK.md` | the product and its uncertainty |
 | `docs/HOW_IT_WORKS.md` | the measurement method |
 
@@ -49,8 +52,12 @@ analysis, model and reported results are Arial Khan only.
 - **The HDD is not in `/etc/fstab`.** If paths vanish, check the mount first.
 - Python: `.venv/bin/python` from the root, `../.venv/bin/python` from `ml/`
 - Prediction path: `01_prepare` → `02_banklines` → `04_erosion` → `05_features` →
-  `14_model_train` → `06_predict_geojson`. `13_risk_and_forecast` is a separate
-  Landsat-based historical-risk analysis, not the model-prediction step.
+  `14_model_train` → `06_predict_geojson`, then `07_validate` for the report.
+  `01b_prepare_landsat` → `04_erosion landsat` → `05_features landsat` builds the
+  long record. `08_crosssensor` and `10_verify_geometry` write JSON that
+  `07_validate` reads, so they must run first. `11_hydro_features` is optional and
+  produced no gain (D90). `13_risk_and_forecast` is a separate Landsat-based
+  historical-risk analysis, not the model-prediction step.
 
 ## Reach-agnostic by design
 
@@ -60,13 +67,14 @@ Every path and constant comes from `config.py`, selected by:
 RIVERGUARD_REACH=arial_khan ../.venv/bin/python 04_erosion.py s2
 ```
 
-Active reach: `arial_khan`. Others exist for the archived earlier work only.
-
-**A change meant for one reach must not alter the others.** Twice now a fix
-targeted at `arial_khan` silently changed the archived reach (a build clamp that raised
-transects from 58 to 70; a sign fix that needed re-validating both). After any
-change to `transects.py` or `config.py`, re-run both reaches and compare against
-the known values — see the regression commands in `docs/HOW_IT_WORKS.md`.
+Active reach: `arial_khan`, and **it is now the only reach in the registry**
+(D93). The multi-reach regression discipline below existed because a fix aimed at
+one reach twice silently changed the archived one (a build clamp that raised
+transects from 58 to 70; a sign fix needing re-validation of both). That specific
+hazard is gone, but the underlying one is not: `config.py` and `transects.py` are
+shared by everything, so after changing either, re-run `04_erosion.py` and compare
+some rates against the values in `context/CURRENT.md` before trusting anything
+downstream.
 
 ## Standing checks
 
@@ -76,14 +84,25 @@ the known values — see the regression commands in `docs/HOW_IT_WORKS.md`.
 
 Sections that have caught real bugs, so do not weaken them:
 
+- **2** — Landsat band mapping. TM/ETM+ green is `SR_B2`; OLI green is `SR_B3`.
+  A swap silently computes the wrong water index, in the wrong places
 - **7** — export scripts must agree with `config.py` on bbox and CRS
+- **7b** — the hydrology export must *cover* the study box. It went out carrying
+  the retired Jamuna box, which did not overlap the reach at all (D88)
 - **8** — the two Earth Engine export scripts must share identical
   water-detection constants, or the cross-sensor comparison measures the scripts
   instead of the sensors
 - **9** — no stale pre-rewrite artefacts are being served
+- **10** — the map's warning text must agree with `forecast_supported` in the
+  payload it ships with. It did not, for months (D89)
+- **11** — hydrology files are present, complete, and actually usable
 
-A check that has never been seen to fail is not known to work. Section 8 was
-verified by deliberately breaking a constant and watching it fail.
+**A check that has never been seen to fail is not known to work.** Section 8 was
+verified by breaking a constant. Section 2 was verified by swapping a band list.
+But note the counter-example: the first version of check 10 searched for
+`"NOT beat"` while the real stale text said `"does not beat"`, so it **passed the
+exact bug it was written to catch**. When you write a guard, test it against the
+broken state, not just the fixed one.
 
 ## Hard-won constraints — do not rediscover these
 
@@ -91,7 +110,7 @@ verified by deliberately breaking a constant and watching it fail.
 |---|---|
 | Never chain `RIVERGUARD_REACH=x cmd && cmd2` | the variable is lost for the second command and it silently runs on the wrong reach |
 | No bulk find-and-replace without reading the result | three times it silently no-matched or corrupted its target; every time only a follow-up check caught it |
-| Editers that fail loudly beat scripts that silently do nothing | a `sed`/`.replace()` that does not match reports success |
+| Editors that fail loudly beat scripts that silently do nothing | a `sed`/`.replace()` that does not match reports success |
 | Landmask sampling must use the **measured** sensor's resolution | using the geometry sensor's resolution compressed Landsat casts to a third of their length and produced 3.3× wrong rates (D35) |
 | Never resample Landsat to 10 m | the sensor has no 10 m detail; GEE would interpolate and invent it |
 | Evaluate Earth Engine statistics with one synchronous `getInfo()` per batch | nested `.evaluate()` calls race, and reported 0% valid for years holding 15 scenes (D61) |
@@ -113,7 +132,8 @@ Two things cannot be automated here:
 1. **Earth Engine exports** — imagery comes from scripts in `gee/`. The owner runs
    them at code.earthengine.google.com and drops `.tif` files into
    `data/reaches/<reach>/raw/<sensor>/`.
-2. **Copernicus GloFAS** — needs `~/.cdsapirc`, outside the repo.
+2. **Heavy model training** — planned for Colab, but the local dataset turned out
+   small enough that `14_model_train.py` runs in about a minute. No Colab needed.
 
 Do not try to fetch imagery from this machine; there is no reliable outbound
 network.
@@ -122,7 +142,8 @@ network.
 
 - Never commit imagery: `*.tif` is gitignored for a reason. 600 MB of GeoTIFF
   does not belong in history.
-- Never commit secrets. The token is in `~/.cdsapirc`.
+- Never commit secrets. `data/` holds no credentials; the old Copernicus token
+  location (`~/.cdsapirc`) is no longer used by anything.
 - Do not commit or push unless the owner explicitly asks.
 - Update `context/CURRENT.md` and append to `reports/DECISIONS.md`.
 

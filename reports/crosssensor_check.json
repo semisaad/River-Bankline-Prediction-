@@ -1,0 +1,95 @@
+{
+  "mask": {
+    "years": [
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "rows": [
+      {
+        "year": 2019,
+        "s2_km2": 5.91,
+        "landsat_km2": 5.57,
+        "area_diff_pct": -5.7,
+        "iou": 0.784,
+        "bank_offset_m": 0.0
+      },
+      {
+        "year": 2020,
+        "s2_km2": 5.67,
+        "landsat_km2": 5.52,
+        "area_diff_pct": -2.6,
+        "iou": 0.802,
+        "bank_offset_m": 0.0
+      },
+      {
+        "year": 2021,
+        "s2_km2": 5.71,
+        "landsat_km2": 5.46,
+        "area_diff_pct": -4.4,
+        "iou": 0.808,
+        "bank_offset_m": 0.0
+      },
+      {
+        "year": 2022,
+        "s2_km2": 6.2,
+        "landsat_km2": 5.64,
+        "area_diff_pct": -9.0,
+        "iou": 0.763,
+        "bank_offset_m": 30.0
+      },
+      {
+        "year": 2023,
+        "s2_km2": 5.83,
+        "landsat_km2": 5.49,
+        "area_diff_pct": -5.8,
+        "iou": 0.794,
+        "bank_offset_m": 0.0
+      },
+      {
+        "year": 2024,
+        "s2_km2": 5.65,
+        "landsat_km2": 5.32,
+        "area_diff_pct": -5.9,
+        "iou": 0.795,
+        "bank_offset_m": 0.0
+      },
+      {
+        "year": 2025,
+        "s2_km2": 5.89,
+        "landsat_km2": 5.45,
+        "area_diff_pct": -7.5,
+        "iou": 0.782,
+        "bank_offset_m": 0.0
+      },
+      {
+        "year": 2026,
+        "s2_km2": 5.85,
+        "landsat_km2": 5.5,
+        "area_diff_pct": -6.0,
+        "iou": 0.792,
+        "bank_offset_m": 0.0
+      }
+    ],
+    "iou_mean": 0.79,
+    "iou_median": 0.793,
+    "area_diff_pct_mean": -5.9,
+    "footprint": [
+      90.16808799423755,
+      23.134319063780836,
+      90.26902488388599,
+      23.261491731177696
+    ]
+  },
+  "rates": {
+    "available": false,
+    "why": "the two sensors use different pair steps (s2 every 1 yr, landsat every 5 yr), so no (y0, y1) pair exists in both and the rate comparison cannot be made",
+    "s2_pair_step": 1,
+    "landsat_pair_step": 5
+  }
+}

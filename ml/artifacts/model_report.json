@@ -3,22 +3,23 @@
   "reach": "arial_khan",
   "sensor": "landsat",
   "hydro": false,
-  "model": "RandomForestRegressor(n_estimators=500, min_samples_leaf=5)",
+  "model": "HistGradientBoostingRegressor(max_iter=400, learning_rate=0.05, max_leaf_nodes=31)",
+  "model_name": "HistGradientBoostingRegressor",
   "feature_importance": {
-    "rate_lag1": 0.1913,
-    "arc_norm": 0.1377,
-    "meander_off_m": 0.1178,
-    "rate_mean_all": 0.0875,
-    "curv_outer": 0.0843,
-    "n_prior": 0.0773,
-    "stage_km2_prev": 0.072,
-    "rate_std_all": 0.0717,
-    "width_lag1": 0.0597,
-    "curvature_k": 0.0507,
-    "rate_roll3": 0.0173,
-    "rate_lag2": 0.0132,
-    "rate_std3": 0.0118,
-    "rate_lag3": 0.0077
+    "curv_outer": 0.4108,
+    "rate_lag1": 0.2752,
+    "n_prior": 0.2736,
+    "arc_norm": 0.2312,
+    "meander_off_m": 0.2095,
+    "rate_mean_all": 0.1469,
+    "rate_std_all": 0.1368,
+    "stage_km2_prev": 0.1196,
+    "width_lag1": 0.1102,
+    "curvature_k": 0.109,
+    "rate_roll3": 0.0348,
+    "rate_std3": 0.0233,
+    "rate_lag2": 0.0123,
+    "rate_lag3": 0.0114
   },
   "features_used": [
     "rate_lag1",
@@ -75,207 +76,207 @@
         "test_year": 1996,
         "training_years": 2,
         "rows": 68,
-        "mae_model": 20.931,
+        "mae_model": 20.518,
         "mae_train_median": 30.329
       },
       {
         "test_year": 1998,
         "training_years": 3,
         "rows": 72,
-        "mae_model": 19.264,
+        "mae_model": 23.907,
         "mae_train_median": 25.721
       },
       {
         "test_year": 1999,
         "training_years": 4,
         "rows": 72,
-        "mae_model": 22.43,
+        "mae_model": 26.253,
         "mae_train_median": 24.732
       },
       {
         "test_year": 2000,
         "training_years": 5,
         "rows": 72,
-        "mae_model": 20.309,
+        "mae_model": 19.498,
         "mae_train_median": 28.435
       },
       {
         "test_year": 2001,
         "training_years": 6,
         "rows": 70,
-        "mae_model": 20.959,
+        "mae_model": 22.174,
         "mae_train_median": 27.907
       },
       {
         "test_year": 2003,
         "training_years": 7,
         "rows": 86,
-        "mae_model": 22.715,
+        "mae_model": 22.608,
         "mae_train_median": 28.672
       },
       {
         "test_year": 2004,
         "training_years": 8,
         "rows": 94,
-        "mae_model": 18.309,
+        "mae_model": 16.977,
         "mae_train_median": 26.526
       },
       {
         "test_year": 2005,
         "training_years": 9,
         "rows": 94,
-        "mae_model": 18.053,
+        "mae_model": 16.373,
         "mae_train_median": 29.8
       },
       {
         "test_year": 2006,
         "training_years": 10,
         "rows": 90,
-        "mae_model": 18.069,
+        "mae_model": 15.391,
         "mae_train_median": 26.496
       },
       {
         "test_year": 2007,
         "training_years": 11,
         "rows": 86,
-        "mae_model": 17.679,
+        "mae_model": 16.158,
         "mae_train_median": 25.48
       },
       {
         "test_year": 2008,
         "training_years": 12,
         "rows": 84,
-        "mae_model": 17.629,
+        "mae_model": 17.889,
         "mae_train_median": 29.604
       },
       {
         "test_year": 2009,
         "training_years": 13,
         "rows": 82,
-        "mae_model": 20.667,
+        "mae_model": 17.959,
         "mae_train_median": 27.954
       },
       {
         "test_year": 2010,
         "training_years": 14,
         "rows": 80,
-        "mae_model": 20.111,
+        "mae_model": 18.312,
         "mae_train_median": 23.96
       },
       {
         "test_year": 2011,
         "training_years": 15,
         "rows": 82,
-        "mae_model": 16.185,
+        "mae_model": 15.968,
         "mae_train_median": 25.162
       },
       {
         "test_year": 2012,
         "training_years": 16,
         "rows": 80,
-        "mae_model": 19.323,
+        "mae_model": 20.88,
         "mae_train_median": 28.123
       },
       {
         "test_year": 2013,
         "training_years": 17,
         "rows": 78,
-        "mae_model": 18.992,
+        "mae_model": 18.86,
         "mae_train_median": 25.445
       },
       {
         "test_year": 2014,
         "training_years": 18,
         "rows": 80,
-        "mae_model": 12.418,
+        "mae_model": 12.629,
         "mae_train_median": 20.111
       },
       {
         "test_year": 2015,
         "training_years": 19,
         "rows": 76,
-        "mae_model": 13.392,
+        "mae_model": 10.646,
         "mae_train_median": 18.554
       },
       {
         "test_year": 2016,
         "training_years": 20,
         "rows": 80,
-        "mae_model": 14.572,
+        "mae_model": 15.447,
         "mae_train_median": 13.828
       },
       {
         "test_year": 2017,
         "training_years": 21,
         "rows": 76,
-        "mae_model": 14.957,
+        "mae_model": 13.844,
         "mae_train_median": 15.946
       },
       {
         "test_year": 2018,
         "training_years": 22,
         "rows": 74,
-        "mae_model": 11.54,
+        "mae_model": 11.858,
         "mae_train_median": 9.426
       },
       {
         "test_year": 2019,
         "training_years": 23,
         "rows": 76,
-        "mae_model": 12.711,
+        "mae_model": 13.166,
         "mae_train_median": 11.993
       },
       {
         "test_year": 2020,
         "training_years": 24,
         "rows": 76,
-        "mae_model": 10.885,
+        "mae_model": 11.518,
         "mae_train_median": 10.416
       },
       {
         "test_year": 2021,
         "training_years": 25,
         "rows": 76,
-        "mae_model": 11.764,
+        "mae_model": 11.789,
         "mae_train_median": 12.637
       },
       {
         "test_year": 2022,
         "training_years": 26,
         "rows": 74,
-        "mae_model": 10.295,
+        "mae_model": 9.72,
         "mae_train_median": 8.727
       },
       {
         "test_year": 2023,
         "training_years": 27,
         "rows": 74,
-        "mae_model": 10.466,
+        "mae_model": 11.078,
         "mae_train_median": 10.146
       },
       {
         "test_year": 2024,
         "training_years": 28,
         "rows": 76,
-        "mae_model": 7.568,
+        "mae_model": 7.635,
         "mae_train_median": 6.079
       },
       {
         "test_year": 2025,
         "training_years": 29,
         "rows": 80,
-        "mae_model": 7.985,
+        "mae_model": 7.338,
         "mae_train_median": 6.944
       },
       {
         "test_year": 2026,
         "training_years": 30,
         "rows": 76,
-        "mae_model": 8.762,
+        "mae_model": 8.303,
         "mae_train_median": 6.374
       }
     ],
-    "mae_model": 15.886,
+    "mae_model": 15.675,
     "mae_train_median": 20.413,
     "mae_train_mean": 20.723,
     "mae_repeat_previous_pair": 23.284,

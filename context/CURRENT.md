@@ -1,117 +1,128 @@
 # CURRENT STATE
 
-**Date:** 2026-10-18 · **Branch:** main, synchronized with origin/main
+**Date:** 2026-10-19 · **Branch:** main, synchronized with origin/main at `4c45af3`.
+Everything after that commit is **uncommitted working-tree changes**.
 
 ## THE PROJECT: Arial Khan (Madaripur Sadar – Kalkini, middle reach)
 
-One river. The earlier Jamuna reach is archived and out of scope; it is mentioned
-only as the reason for the switch.
+One river, one reach. The Jamuna is archived and out of scope; the Ganges trial
+was never run. Both have been **removed from the reach registry** so no command
+can silently run against a reach whose data is gone.
 
-Selected larger box `90.16808799423755, 23.134319063780836 →
-90.26902488388599, 23.261491731177696`, EPSG:32646, Sentinel-2 primary at 10 m.
-The northern edge remains south of 23.47N. Bounds are synchronized in
-`ml/config.py` and both GEE scripts; new exports have not run yet.
+Study box `90.16808799423755, 23.134319063780836 → 90.26902488388599,
+23.261491731177696`, worked in EPSG:32646. Sentinel-2 is 10 m, Landsat 30 m.
 
-All currently processed masks, geometry, features, scores, and projections
-describe the previous smaller box, `90.1927, 23.1638 → 90.2384, 23.2450`.
-Do not present those results as measurements of the selected larger area.
+> **The northern edge must stay south of 23.47N**, the Padma bifurcation. North
+> of that line the water body *is* the Padma. Enforced in both exporters and
+> verified by `09_checks.py` check 8 and check 7b (hydrology).
 
-The original box was chosen 2026-10-18 (D49–D52). The expanded box was selected
-and synchronized afterward (D65); unlike the original reach switch, this changes
-the study area and requires rebuilding and revalidating all measurements.
+## What exists now
 
-> **The northern edge must stay south of 23.47N** — the bifurcation from the
-> Padma. North of that line the water body *is* the Padma. An earlier box reached
-> 23.60N and the preview came back mostly Padma (D51). Hard constraint, recorded
-> in `config.py` and both export scripts.
-
-## Goal and current model status
-
-The goal is a system that predicts future bankline positions and makes
-uncertainty visible. The current implementation is a research prototype, not a
-validated forecasting system.
-
-The former 2.843 m/yr score (D62) used a transect-grouped split but included
-same-interval measurements, such as end-of-year width and the opposite bank's
-movement. Those values are unavailable before predicting that year. D63 records
-the correction; the old score is not forecasting evidence.
-
-The corrected RandomForest uses prior-year features and expanding time windows:
-
-| test years | held-out records | model MAE | training-median MAE | previous-year MAE |
-|---|---:|---:|---:|---:|
-| 2022–2026 | 310 | 3.175 m/yr | 2.507 m/yr | 3.977 m/yr |
-
-The model loses to the median baseline. Its 62 current bank-side rates are still
-drawn as **experimental** 10-year extensions to 2036; the extension is linear
-and has no independently validated 10-year uncertainty interval.
-
-## Status
+Both sensors are fully processed for the selected box. Nothing is waiting on an
+export.
 
 | item | state |
 |---|---|
-| Active reach | Arial Khan, Madaripur Sadar–Kalkini |
-| Selected study rectangle | `90.16808799423755,23.134319063780836 → 90.26902488388599,23.261491731177696` |
-| New S2/Landsat exports | Not run yet |
-| Existing processed S2 | 2019–2026 masks, banklines, EPR and features for old box only |
-| Existing geometry | 32 transects; 0 dropped; old box only |
-| Existing candidate model | MAE 3.175 vs 2.507 median baseline; old box only |
-| Existing experimental projection | 62 old-box bank sides to 2036; not a validated forecast |
-| Raw S2/Landsat exports | Missing |
-| Arial Khan Landsat | Not yet exported; needed for longer-record and cross-sensor tests |
-| Ground-truth survey | Not available |
-| Website | Serves selected reach; default is Arial Khan |
-| Guard checks | Blocking checks pass; Landsat/GloFAS checks warn while data is absent |
+| Sentinel-2 | 2019–2026, annual pairs, 520 feature rows |
+| Landsat | 1989–2026, **37 usable years** (1997 missing), 5-year pairs, 2414 feature rows |
+| Geometry | 63 transects built, **60 kept**, 15.8 km centreline, 250 m belt, **6/7** spot checks |
+| Model | **HistGradientBoostingRegressor** (served), MAE **15.675 m/yr** on 29 expanding-window folds |
+| Weakest baseline | median **20.413 m/yr**; also mean 20.723, repeat-previous 23.284 |
+| Projection | 76 bank-sides to 2036, `status: experimental`, `is_forecast: false` |
+| Risk | 96 records, 92 eligible for ranking, 4 flagged insufficient |
+| Hydrology | 43 ERA5-Land years (1983–2025) present; **tested and it did not help** (D90) |
+| Website | Django `:8010` + Vite `:5173`; 9 endpoints; headless test 0 errors |
+| Guard checks | all blocking checks pass |
 
-## Next work
+## The single most important thing to understand about the model
 
-1. Run both GEE exporters with the selected rectangle, confirm the printed
-  bounds match, inspect the previews, and export the masks.
-2. Rebuild processed masks, banklines, EPR, features, and transects for the new
-  area. Existing outputs and the 3.175 MAE do not transfer.
-3. Review the new geometry and run Landsat cross-sensor validation.
-4. Retrain and test forecast-time features with walk-forward evaluation; compare against
-  training median and previous-year baselines. Keep a later year untouched for
-  a final test.
-5. Improve bankline-position evaluation and uncertainty; rate MAE alone does
-  not measure the spatial error of a future shoreline.
+The pooled MAE of 15.675 against a 20.413 baseline looks like a solid 23% win.
+**It is not evenly earned.**
 
-Push blocker is resolved: `main` is synchronized with `origin/main`.
+| test years | folds | beats its own baseline | mean gain |
+|---|---:|---:|---:|
+| 1996–2015 | 18 | **18/18** | **+7.53 m/yr** |
+| 2016–2026 | 11 | **2/11** | **−0.82 m/yr** |
 
-## Recently found and fixed
+The early folds have only 2–5 training years, so the training median is a poor
+constant and large absolute errors inflate the pooled average. Once enough
+history exists (2016 onward) the baseline is strong and the model stops beating
+it. **The headline number overstates how well the recent regime is understood.**
+See D92, and `reports/MODEL_CHOICE.md`.
 
-| | |
-|---|---|
-| **EPR signs inverted project-wide** | `lost`/`gained` were swapped, so every rate carried the wrong direction. Magnitudes survived (most reporting used `\|rate\|`); the Jamuna risk ranking is inverted (D58) |
-| **Earth Engine script race** | nested `.evaluate()` calls reported 0% valid for years holding 15 scenes, and printed two different years as exactly 12.55% (D61) |
-| **Memory limit on 38-year export** | `connectedPixelCount(1024)` is a ~31 km window; now batched 8 years per synchronous `getInfo()` (D61) |
-| **Cross-sensor detection mismatch** | Landsat used `.gte(300)` where S2 used `.gte(1000)` — Landsat would have kept ponds S2 removes, measuring a systematically wider river (D60) |
-| **Pond leak in transects** | connected ponds read as a 3.5 km river, losing 28% of the reach. Fixed by run-mode edges and clamping: 23 → 32 transects (D55) |
-| **`data/reaches/` deleted** | recovered; v1 S2 masks had been backed up first, so nothing was lost (D57) |
+The 2036 lines are extrapolations from the recent regime — the one where the
+model does not beat a trivial predictor. They are marked experimental for this
+reason.
+
+## What was tested and rejected
+
+| tried | result | decision |
+|---|---|---|
+| Real GloFAS discharge | within-transect correlation +0.049, i.e. noise. And at this reach the nearest cell models a local catchment (max 13 m³/s for a year), not the river | D88 — route abandoned, downloader and reader deleted |
+| ERA5-Land hydrology | 15.886 → **16.562 (+0.676 worse)**. All 24 columns reach the model; strongest importance 1.2%, rain/runoff ≤0.5% | D90 — not in the model |
+| RandomForest | 15.886, losing to GBM by 0.211 (1.3%); folds split 13/16 | D94 — superseded as the served model; kept as `model_report_rf.json` |
+
+D82's claim that RF beat GBM was measured **before** `curv_outer` existed and is
+superseded. D91 recorded the pair as tied and left the choice open; **D94 closed
+it in favour of boosting**, on the grounds that the comparison is controlled and
+a small reproducible out-of-sample margin is still a margin.
+
+**What the switch does not fix.** The recent-fold decay above is unchanged — the
+model is very slightly better on the metric and still not better in the regime
+the projection is drawn from.
+
+## Where the model still loses
+
+Neither validation figure flatters the model, and both should be looked at
+before quoting any MAE:
+
+| held-out interval | horizon | model mean error | do-nothing mean error |
+|---|---:|---:|---:|
+| 2021 → 2026 | 5 yr | 50.6 m | **18.2 m** |
+| 2023 → 2026 | 3 yr | 30.8 m | **13.8 m** |
+
+`reports/validation_bankline_2026.png` and
+`reports/validation_bankline_2026_from2023.png`. The reason is resolution, not
+effort: 30 m pixels put a floor under what any pair can resolve, and many bank
+sides genuinely move less than one pixel in 5 years. See `reports/LITERATURE.md`
+section 4 for the published ~0.35-pixel detection limit.
+
+## Key numbers
+
+- Landsat median `|rate|` **11.2 m/yr** (one pixel over a 5-year pair = 6.0 m/yr)
+- Sentinel-2 median `|rate|` **1.2 m/yr** (one pixel over an annual pair = 10.0 m/yr)
+  — **an eighth of a pixel**, so S2's annual target is mostly quantisation. This
+  is why the long record is built from Landsat 5-year pairs.
+- Published migration for this river: **21 m/yr** (0.66 km over 1993–2024). Ours
+  is roughly half that, and the report says so rather than claiming a match.
+- Cross-sensor water maps: mean IoU **0.79**, area difference **−5.9%**
+- Cross-sensor *rates*: **not available** — S2 uses 1-year pairs, Landsat 5-year,
+  so no shared pair exists. A real gap; the Jamuna had this and it was the
+  project's strongest evidence.
+- 63% of Landsat bank-sides read exactly 0 over 2021→2026; all offsets are
+  multiples of 30 m
 
 ## Hard-won constraints
 
 - Never chain `RIVERGUARD_REACH=x cmd && cmd2` — the variable is lost for the
   second command and it silently runs on the wrong reach
-- No bulk find-and-replace without reading the result — three times it silently
-  no-matched or corrupted its target
+- No bulk find-and-replace without reading the result
 - Landmask sampling must use the **measured** sensor's resolution (D35)
-- Both GEE export scripts must share identical detection constants — enforced by
-  `09_checks.py` section 8
-
-## Key numbers
-
-- Geometry: 8.1 km centreline, 32 transects, 0 dropped, median width
-  335–370 m (published ~300 m)
-- Archived Jamuna GloFAS: 37 complete years; not Arial Khan evidence
-- Archived Jamuna risk table: 64 eligible records, **3** statistically significant
+- Never resample Landsat to 10 m — it invents detail the sensor never captured
+- Keep `pkill` and the matching `setsid` start in **separate** commands; a
+  bracketed pattern still matches if the same command line also contains the
+  unbracketed string
+- Delete `__pycache__/` after restoring a module, or a stale `.pyc` reports PASS
+  using the old logic
 
 ## Do not
 
-- Do not cite the withdrawn **+0.92**. Withdrawn in D37.
-- Do not quote **2.843** or **2.835** as forecast skill; they used same-interval
-  features. Current time-forward rate MAE is 3.175 vs 2.507 median baseline.
-- Do not call the current 2036 geometry a validated forecast. The UI and GeoJSON
-  mark it experimental and carry `is_forecast: false`.
-- Do not resample Landsat to 10 m.
+- Do not cite the withdrawn **+0.92** (D37).
+- Do not quote **2.843** or **2.835** as forecast skill — same-interval features
+  (D63). **3.175 / 2.507 are equally dead** — they describe the previous box.
+- Do not call the 2036 geometry a validated forecast. It carries
+  `is_forecast: false` and `status: experimental`.
+- Do not present the pooled 22% as uniform skill; quote the 1996–2015 vs
+  2016–2026 split (D92).
+- Do not add hydrology back to the model without a new measurement (D90).
 - Do not commit or push unless explicitly asked.

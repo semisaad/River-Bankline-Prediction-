@@ -24,7 +24,7 @@
  * were exported as if they were fine, silently.
  *
  * Validity is now read from the composite BEFORE unmasking. The earlier scripts
- * landsat_export.js and landsat_export_ganges.js always did it this way; the
+ * The scripts that predate this pipeline always did it this way; the
  * Arial Khan pair regressed.
  *
  * The working grid is also now stated explicitly (RES_M, 30 m here) so that the

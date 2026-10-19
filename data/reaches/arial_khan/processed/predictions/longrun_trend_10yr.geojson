@@ -13,14 +13,16 @@
   "horizon_years": 10,
   "base_year": 2026,
   "min_years_history": null,
-  "method": "RandomForest, expanding-window backtest",
+  "method": "HistGradientBoostingRegressor, expanding-window backtest",
   "projection_status": "experimental",
   "horizon_validated": false,
   "forecast_supported": true,
   "is_forecast": false,
-  "mae_model_m_per_yr": 15.886,
+  "mae_model_m_per_yr": 15.675,
   "median_baseline_mae_m_per_yr": 20.413,
-  "warning": "Experimental model projection; the one-year model does not beat both baselines and its multi-year linear extension is not independently validated."
+  "best_baseline_mae_m_per_yr": 20.413,
+  "model_name": "HistGradientBoostingRegressor",
+  "warning": "Experimental model projection. The one-year model beats the baselines it was tested against: 15.7 m/yr against 20.4 m/yr for the strongest trivial predictor. The multi-year extension drawn here is a linear extrapolation of that one-year rate and is NOT independently validated."
  },
  "features": [
   {
@@ -51,12 +53,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.25277629081434,
-      23.140388295040335
+      90.25273585437802,
+      23.140368278997897
      ],
      [
-      90.25167104885954,
-      23.14229782193063
+      90.25163061207742,
+      23.142277805569186
      ]
     ]
    },
@@ -65,21 +67,22 @@
     "transect_id": 0,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": -3.0,
-    "projected_offset_m": -30.2,
-    "offset_low_m": -189.0,
-    "offset_high_m": 128.7,
+    "rate_m_per_yr": -3.5,
+    "projected_offset_m": -34.9,
+    "offset_low_m": -191.7,
+    "offset_high_m": 121.8,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -110,12 +113,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.25111582645442,
-      23.139566352043353
+      90.25093343479993,
+      23.139476065122622
      ],
      [
-      90.25001057030187,
-      23.14147586583404
+      90.24982817708803,
+      23.14138557747436
      ]
     ]
    },
@@ -124,21 +127,22 @@
     "transect_id": 0,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": -5.7,
-    "projected_offset_m": -56.8,
-    "offset_low_m": -215.6,
-    "offset_high_m": 102.1,
+    "rate_m_per_yr": -3.6,
+    "projected_offset_m": -35.6,
+    "offset_low_m": -192.3,
+    "offset_high_m": 121.2,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -169,12 +173,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.25250657748238,
-      23.142747660949276
+      90.25260056862767,
+      23.1427937140616
      ],
      [
-      90.25141005488636,
-      23.144661490544266
+      90.25150404684653,
+      23.144707544393942
      ]
     ]
    },
@@ -183,21 +187,22 @@
     "transect_id": 1,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": 4.0,
-    "projected_offset_m": 40.4,
-    "offset_low_m": -118.4,
-    "offset_high_m": 199.3,
+    "rate_m_per_yr": 5.1,
+    "projected_offset_m": 51.3,
+    "offset_low_m": -105.5,
+    "offset_high_m": 208.0,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -228,12 +233,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.2490944868468,
-      23.141075772215764
+      90.24871594611972,
+      23.14089028439876
      ],
      [
-      90.24799793467439,
-      23.142989575041252
+      90.24761939066678,
+      23.142804084254198
      ]
     ]
    },
@@ -242,21 +247,22 @@
     "transect_id": 1,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": 3.5,
-    "projected_offset_m": 35.3,
-    "offset_low_m": -123.6,
-    "offset_high_m": 194.1,
+    "rate_m_per_yr": 7.9,
+    "projected_offset_m": 79.2,
+    "offset_low_m": -77.6,
+    "offset_high_m": 235.9,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -287,12 +293,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.25254717159764,
-      23.145056410548627
+      90.25250215559828,
+      23.145034749222763
      ],
      [
-      90.25146605124543,
-      23.146977727771954
+      90.25142103484654,
+      23.14695606609647
      ]
     ]
    },
@@ -301,21 +307,22 @@
     "transect_id": 2,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": 10.8,
-    "projected_offset_m": 107.5,
-    "offset_low_m": -51.4,
-    "offset_high_m": 266.4,
+    "rate_m_per_yr": 10.2,
+    "projected_offset_m": 102.3,
+    "offset_low_m": -54.5,
+    "offset_high_m": 259.0,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -346,12 +353,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.24561402522657,
-      23.141720013777444
+      90.24411559993823,
+      23.14099887618633
      ],
      [
-      90.24453284336417,
-      23.14364127714699
+      90.24303440478809,
+      23.142920127914714
      ]
     ]
    },
@@ -360,21 +367,22 @@
     "transect_id": 2,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": 17.3,
-    "projected_offset_m": 173.4,
-    "offset_low_m": 14.6,
-    "offset_high_m": 332.3,
+    "rate_m_per_yr": 34.6,
+    "projected_offset_m": 346.5,
+    "offset_low_m": 189.8,
+    "offset_high_m": 503.3,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -405,12 +413,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.2521321987934,
-      23.147434408941507
+      90.2522766436705,
+      23.14750223196358
      ],
      [
-      90.2510717987307,
-      23.149365583440566
+      90.25121624492876,
+      23.14943340756913
      ]
     ]
    },
@@ -419,21 +427,22 @@
     "transect_id": 3,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": 23.6,
-    "projected_offset_m": 236.5,
-    "offset_low_m": 77.6,
-    "offset_high_m": 395.3,
+    "rate_m_per_yr": 25.3,
+    "projected_offset_m": 253.1,
+    "offset_low_m": 96.4,
+    "offset_high_m": 409.9,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -464,12 +473,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.24520685989211,
-      23.144182441192097
+      90.24452382989884,
+      23.143861683207568
      ],
      [
-      90.24414639651975,
-      23.146113562632888
+      90.2434633602849,
+      23.14579279941447
      ]
     ]
    },
@@ -478,21 +487,22 @@
     "transect_id": 3,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": 6.9,
-    "projected_offset_m": 69.4,
-    "offset_low_m": -89.5,
-    "offset_high_m": 228.2,
+    "rate_m_per_yr": 14.8,
+    "projected_offset_m": 147.9,
+    "offset_low_m": -8.8,
+    "offset_high_m": 304.7,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -523,12 +533,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.24992078856748,
-      23.149244708099875
+      90.25280645692436,
+      23.150544447057065
      ],
      [
-      90.2488951210931,
-      23.15119186002963
+      90.25178081709925,
+      23.152491620573127
      ]
     ]
    },
@@ -537,21 +547,22 @@
     "transect_id": 4,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": 18.1,
-    "projected_offset_m": 181.2,
-    "offset_low_m": 22.3,
-    "offset_high_m": 340.1,
+    "rate_m_per_yr": 51.0,
+    "projected_offset_m": 510.1,
+    "offset_low_m": 353.3,
+    "offset_high_m": 666.8,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -582,12 +593,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.24318721200801,
-      23.14621153458581
+      90.24305035053419,
+      23.146149880413983
      ],
      [
-      90.24216148004564,
-      23.14815863613326
+      90.24202461726155,
+      23.148096980937236
      ]
     ]
    },
@@ -596,21 +607,22 @@
     "transect_id": 4,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": 7.6,
-    "projected_offset_m": 76.3,
-    "offset_low_m": -82.6,
-    "offset_high_m": 235.1,
+    "rate_m_per_yr": 9.2,
+    "projected_offset_m": 91.9,
+    "offset_low_m": -64.9,
+    "offset_high_m": 248.6,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -641,12 +653,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.24920476690482,
-      23.151096932750022
+      90.25256228351869,
+      23.152538275947958
      ],
      [
-      90.24821847183031,
-      23.153061405919203
+      90.25157602220106,
+      23.15450277354083
      ]
     ]
    },
@@ -655,21 +667,22 @@
     "transect_id": 5,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": 11.4,
-    "projected_offset_m": 113.7,
-    "offset_low_m": -45.2,
-    "offset_high_m": 272.5,
+    "rate_m_per_yr": 49.3,
+    "projected_offset_m": 493.0,
+    "offset_low_m": 336.3,
+    "offset_high_m": 649.8,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -700,12 +713,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.24189958396653,
-      23.14796056121705
+      90.24180575996328,
+      23.14792027624224
      ],
      [
-      90.24091321548006,
-      23.149924981230946
+      90.24081939053426,
+      23.1498846955733
      ]
     ]
    },
@@ -714,21 +727,22 @@
     "transect_id": 5,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": 7.2,
-    "projected_offset_m": 71.6,
-    "offset_low_m": -87.3,
-    "offset_high_m": 230.4,
+    "rate_m_per_yr": 8.2,
+    "projected_offset_m": 82.2,
+    "offset_low_m": -74.5,
+    "offset_high_m": 239.0,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -759,12 +773,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.246110127211,
-      23.151970391261667
+      90.24712410758282,
+      23.15238491322378
      ],
      [
-      90.2451630447168,
-      23.15395129236768
+      90.24617703573506,
+      23.154365821496853
      ]
     ]
    },
@@ -773,21 +787,22 @@
     "transect_id": 6,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": 10.0,
-    "projected_offset_m": 99.9,
-    "offset_low_m": -59.0,
-    "offset_high_m": 258.8,
+    "rate_m_per_yr": 21.4,
+    "projected_offset_m": 213.5,
+    "offset_low_m": 56.7,
+    "offset_high_m": 370.2,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -818,12 +833,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.2410028406536,
-      23.149882365261057
+      90.24112690585129,
+      23.149933089808357
      ],
      [
-      90.2400557045483,
-      23.15186323026115
+      90.240179771048,
+      23.15191395568565
      ]
     ]
    },
@@ -832,21 +847,22 @@
     "transect_id": 6,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": 3.2,
-    "projected_offset_m": 32.3,
-    "offset_low_m": -126.5,
-    "offset_high_m": 191.2,
+    "rate_m_per_yr": 1.8,
+    "projected_offset_m": 18.4,
+    "offset_low_m": -138.3,
+    "offset_high_m": 175.2,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -877,12 +893,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.24506019234741,
-      23.154396863017578
+      90.24602898323151,
+      23.154757275818984
      ],
      [
-      90.24418592682046,
-      23.15640618801018
+      90.24515472862913,
+      23.156766607280748
      ]
     ]
    },
@@ -891,21 +907,22 @@
     "transect_id": 7,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": 11.8,
-    "projected_offset_m": 118.2,
-    "offset_low_m": -40.7,
-    "offset_high_m": 277.0,
+    "rate_m_per_yr": 22.5,
+    "projected_offset_m": 225.2,
+    "offset_low_m": 68.5,
+    "offset_high_m": 382.0,
     "n_years": 29,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -936,12 +953,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.24004158552893,
-      23.152529702190783
+      90.23992207521616,
+      23.152485236166687
      ],
      [
-      90.23916726342198,
-      23.15453899366457
+      90.23904775176209,
+      23.154494526842143
      ]
     ]
    },
@@ -950,21 +967,22 @@
     "transect_id": 7,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": 2.6,
-    "projected_offset_m": 26.1,
-    "offset_low_m": -132.8,
-    "offset_high_m": 184.9,
+    "rate_m_per_yr": 3.9,
+    "projected_offset_m": 39.3,
+    "offset_low_m": -117.5,
+    "offset_high_m": 196.0,
     "n_years": 29,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -995,12 +1013,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23837367445338,
-      23.15655383585638
+      90.23839665446211,
+      23.156561417035824
      ],
      [
-      90.23916074367496,
-      23.154513931290982
+      90.2391837234053,
+      23.154521512327886
      ]
     ]
    },
@@ -1009,21 +1027,22 @@
     "transect_id": 8,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": 0.4,
-    "projected_offset_m": 4.3,
-    "offset_low_m": -154.6,
-    "offset_high_m": 163.2,
+    "rate_m_per_yr": 0.2,
+    "projected_offset_m": 1.8,
+    "offset_low_m": -154.9,
+    "offset_high_m": 158.6,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -1054,12 +1073,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.24106695136533,
-      23.157442328873213
+      90.24161480372977,
+      23.15762305463805
      ],
      [
-      90.24185398795915,
-      23.155402407603045
+      90.24240183368596,
+      23.15558312997032
      ]
     ]
    },
@@ -1068,21 +1087,22 @@
     "transect_id": 8,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": 2.9,
-    "projected_offset_m": 28.7,
-    "offset_low_m": -130.2,
-    "offset_high_m": 187.5,
+    "rate_m_per_yr": 8.8,
+    "projected_offset_m": 88.3,
+    "offset_low_m": -68.4,
+    "offset_high_m": 245.1,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -1113,12 +1133,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23704931585826,
-      23.15837429332732
+      90.23707985318418,
+      23.158383756973752
      ],
      [
-      90.23779364772784,
-      23.15632071771396
+      90.23782418467228,
+      23.156330181178188
      ]
     ]
    },
@@ -1127,21 +1147,22 @@
     "transect_id": 9,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": 2.8,
-    "projected_offset_m": 27.9,
-    "offset_low_m": -130.9,
-    "offset_high_m": 186.8,
+    "rate_m_per_yr": 2.5,
+    "projected_offset_m": 24.6,
+    "offset_low_m": -132.2,
+    "offset_high_m": 181.3,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -1172,12 +1193,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23999017532965,
-      23.159285645793048
+      90.24099885060514,
+      23.15959821239709
      ],
      [
-      90.24073447045714,
-      23.15723205263433
+      90.24174313312918,
+      23.157544613221578
      ]
     ]
    },
@@ -1186,21 +1207,22 @@
     "transect_id": 9,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": 2.0,
-    "projected_offset_m": 19.9,
-    "offset_low_m": -138.9,
-    "offset_high_m": 178.8,
+    "rate_m_per_yr": 12.9,
+    "projected_offset_m": 128.9,
+    "offset_low_m": -27.8,
+    "offset_high_m": 285.7,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -1231,12 +1253,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23984955358658,
-      23.159912318902904
+      90.23997409657905,
+      23.15995207794775
      ],
      [
-      90.23908511134329,
-      23.161959577354068
+      90.23920965587023,
+      23.16199933715592
      ]
     ]
    },
@@ -1245,21 +1267,22 @@
     "transect_id": 10,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": 3.3,
-    "projected_offset_m": 32.7,
-    "offset_low_m": -126.1,
-    "offset_high_m": 191.6,
+    "rate_m_per_yr": 4.6,
+    "projected_offset_m": 46.2,
+    "offset_low_m": -110.5,
+    "offset_high_m": 203.0,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -1290,12 +1313,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23673969599251,
-      23.158919491082187
+      90.23612160530905,
+      23.15872215568946
      ],
      [
-      90.23597521543708,
-      23.160966730628342
+      90.23535711713983,
+      23.160769391477626
      ]
     ]
    },
@@ -1304,21 +1327,22 @@
     "transect_id": 10,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": 7.4,
-    "projected_offset_m": 74.4,
-    "offset_low_m": -84.5,
-    "offset_high_m": 233.3,
+    "rate_m_per_yr": 14.1,
+    "projected_offset_m": 141.4,
+    "offset_low_m": -15.4,
+    "offset_high_m": 298.1,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -1349,12 +1373,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23846651099498,
-      23.161686148454812
+      90.23817057394567,
+      23.16159107132872
      ],
      [
-      90.23769770344465,
-      23.163732009444047
+      90.23740176276044,
+      23.163636930511704
      ]
     ]
    },
@@ -1363,21 +1387,22 @@
     "transect_id": 11,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": -5.3,
-    "projected_offset_m": -52.9,
-    "offset_low_m": -211.7,
-    "offset_high_m": 106.0,
+    "rate_m_per_yr": -8.5,
+    "projected_offset_m": -85.0,
+    "offset_low_m": -241.7,
+    "offset_high_m": 71.8,
     "n_years": 29,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -1408,12 +1433,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23706795907904,
-      23.16123682302336
+      90.2369647045119,
+      23.16120364890096
      ],
      [
-      90.2362991343514,
-      23.16328267547615
+      90.23619587851613,
+      23.163249500723474
      ]
     ]
    },
@@ -1422,21 +1447,22 @@
     "transect_id": 11,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": 0.5,
-    "projected_offset_m": 4.6,
-    "offset_low_m": -154.2,
-    "offset_high_m": 163.5,
+    "rate_m_per_yr": 1.6,
+    "projected_offset_m": 15.8,
+    "offset_low_m": -140.9,
+    "offset_high_m": 172.6,
     "n_years": 29,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -1467,12 +1493,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23808467689815,
-      23.163833342219544
+      90.23867657089697,
+      23.16401789739604
      ],
      [
-      90.23733615655429,
-      23.16588562753486
+      90.23792805792944,
+      23.166070186257375
      ]
     ]
    },
@@ -1481,21 +1507,22 @@
     "transect_id": 12,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": -6.3,
-    "projected_offset_m": -63.4,
-    "offset_low_m": -222.2,
-    "offset_high_m": 95.5,
+    "rate_m_per_yr": 0.1,
+    "projected_offset_m": 0.6,
+    "offset_low_m": -156.2,
+    "offset_high_m": 157.3,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -1526,12 +1553,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23675939594139,
-      23.163420104117193
+      90.236806562097,
+      23.163434811304313
      ],
      [
-      90.23601085908241,
-      23.16547238149211
+      90.23605802582577,
+      23.165487088961843
      ]
     ]
    },
@@ -1540,21 +1567,22 @@
     "transect_id": 12,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": 1.7,
-    "projected_offset_m": 16.7,
-    "offset_low_m": -142.1,
-    "offset_high_m": 175.6,
+    "rate_m_per_yr": 1.2,
+    "projected_offset_m": 11.6,
+    "offset_low_m": -145.1,
+    "offset_high_m": 168.4,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -1585,12 +1613,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23774915384618,
-      23.16607513445183
+      90.23797831199373,
+      23.16614139094225
      ],
      [
-      90.23705002575524,
-      23.168142261238092
+      90.23727918685373,
+      23.168208519038156
      ]
     ]
    },
@@ -1599,21 +1627,22 @@
     "transect_id": 13,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": -5.9,
-    "projected_offset_m": -58.9,
-    "offset_low_m": -217.8,
-    "offset_high_m": 99.9,
+    "rate_m_per_yr": -3.4,
+    "projected_offset_m": -34.3,
+    "offset_low_m": -191.1,
+    "offset_high_m": 122.4,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -1644,12 +1673,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.2368064409481,
-      23.165802563810747
+      90.2366899994427,
+      23.16576889612117
      ],
      [
-      90.23610730071799,
-      23.167869685209048
+      90.23599085771325,
+      23.167836016853936
      ]
     ]
    },
@@ -1658,21 +1687,22 @@
     "transect_id": 13,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": 0.0,
-    "projected_offset_m": 0.1,
-    "offset_low_m": -158.8,
-    "offset_high_m": 159.0,
+    "rate_m_per_yr": 1.3,
+    "projected_offset_m": 12.6,
+    "offset_low_m": -144.1,
+    "offset_high_m": 169.4,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -1703,12 +1733,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23877089953656,
-      23.16859120298865
+      90.23855639759134,
+      23.1685269899478
      ],
      [
-      90.23804932545295,
-      23.17065173029763
+      90.23783482078467,
+      23.170587516003877
      ]
     ]
    },
@@ -1717,21 +1747,22 @@
     "transect_id": 14,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": 0.8,
-    "projected_offset_m": 7.6,
-    "offset_low_m": -151.2,
-    "offset_high_m": 166.5,
+    "rate_m_per_yr": -1.6,
+    "projected_offset_m": -15.5,
+    "offset_low_m": -172.2,
+    "offset_high_m": 141.3,
     "n_years": 27,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -1762,12 +1793,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23677817620832,
-      23.16799465052932
+      90.23664167632948,
+      23.167953786100185
      ],
      [
-      90.23605657682889,
-      23.170055166197887
+      90.23592007521741,
+      23.170014300971324
      ]
     ]
    },
@@ -1776,21 +1807,22 @@
     "transect_id": 14,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": -0.3,
-    "projected_offset_m": -3.0,
-    "offset_low_m": -161.9,
-    "offset_high_m": 155.8,
+    "rate_m_per_yr": 1.2,
+    "projected_offset_m": 11.7,
+    "offset_low_m": -145.1,
+    "offset_high_m": 168.4,
     "n_years": 27,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -1821,12 +1853,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23961312936372,
-      23.170912663611038
+      90.23983085268338,
+      23.17098755138818
      ],
      [
-      90.23879633499229,
-      23.172942583279834
+      90.23901406089182,
+      23.173017472443693
      ]
     ]
    },
@@ -1835,21 +1867,22 @@
     "transect_id": 15,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": 7.2,
-    "projected_offset_m": 72.4,
-    "offset_low_m": -86.4,
-    "offset_high_m": 231.3,
+    "rate_m_per_yr": 9.6,
+    "projected_offset_m": 96.2,
+    "offset_low_m": -60.5,
+    "offset_high_m": 253.0,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -1880,12 +1913,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23679189883657,
-      23.169942243832875
+      90.23692911716385,
+      23.16998944432178
      ],
      [
-      90.23597507103857,
-      23.17197214553071
+      90.23611229099149,
+      23.17201934689376
      ]
     ]
    },
@@ -1894,21 +1927,22 @@
     "transect_id": 15,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": 0.6,
-    "projected_offset_m": 6.0,
-    "offset_low_m": -152.9,
-    "offset_high_m": 164.8,
+    "rate_m_per_yr": -0.9,
+    "projected_offset_m": -9.0,
+    "offset_low_m": -165.7,
+    "offset_high_m": 147.8,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -1939,12 +1973,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23889990348655,
-      23.172885023109735
+      90.23914041307908,
+      23.172982407112656
      ],
      [
-      90.23796013650073,
-      23.174868943497145
+      90.23820064864046,
+      23.174966329192383
      ]
     ]
    },
@@ -1953,21 +1987,22 @@
     "transect_id": 16,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": -1.5,
-    "projected_offset_m": -15.0,
-    "offset_low_m": -173.8,
-    "offset_high_m": 143.9,
+    "rate_m_per_yr": 1.2,
+    "projected_offset_m": 11.9,
+    "offset_low_m": -144.9,
+    "offset_high_m": 168.6,
     "n_years": 28,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -1998,12 +2033,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23693739525494,
-      23.17209037158534
+      90.23659496476276,
+      23.171951712560652
      ],
      [
-      90.23599760748641,
-      23.174074278162916
+      90.23565517336829,
+      23.173935616728453
      ]
     ]
    },
@@ -2012,21 +2047,22 @@
     "transect_id": 16,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": 0.5,
-    "projected_offset_m": 4.5,
-    "offset_low_m": -154.4,
-    "offset_high_m": 163.3,
+    "rate_m_per_yr": 4.3,
+    "projected_offset_m": 42.8,
+    "offset_low_m": -113.9,
+    "offset_high_m": 199.6,
     "n_years": 28,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -2057,12 +2093,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23959722829281,
-      23.1785385200725
+      90.2398531515134,
+      23.17868437525053
      ],
      [
-      90.23836788388158,
-      23.18038219260408
+      90.23862380883033,
+      23.180528049963357
      ]
     ]
    },
@@ -2071,21 +2107,22 @@
     "transect_id": 18,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": -2.0,
-    "projected_offset_m": -20.2,
-    "offset_low_m": -179.1,
-    "offset_high_m": 138.7,
+    "rate_m_per_yr": 1.1,
+    "projected_offset_m": 10.6,
+    "offset_low_m": -146.2,
+    "offset_high_m": 167.3,
     "n_years": 30,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -2116,12 +2153,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23770856624624,
-      23.177462116490048
+      90.2376686828333,
+      23.177439385359317
      ],
      [
-      90.23647920908378,
-      23.17930577292405
+      90.23643932540159,
+      23.179283041453374
      ]
     ]
    },
@@ -2130,21 +2167,22 @@
     "transect_id": 18,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": 0.8,
-    "projected_offset_m": 7.5,
-    "offset_low_m": -151.3,
-    "offset_high_m": 166.4,
+    "rate_m_per_yr": 1.2,
+    "projected_offset_m": 12.3,
+    "offset_low_m": -144.5,
+    "offset_high_m": 169.0,
     "n_years": 30,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -2175,12 +2213,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23393117934589,
-      23.177486535753495
+      90.233967405349,
+      23.177511061704685
      ],
      [
-      90.23254708373011,
-      23.179233929737638
+      90.23258330987993,
+      23.17925845602414
      ]
     ]
    },
@@ -2189,21 +2227,22 @@
     "transect_id": 19,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": -0.2,
-    "projected_offset_m": -1.9,
-    "offset_low_m": -160.7,
-    "offset_high_m": 157.0,
+    "rate_m_per_yr": 0.3,
+    "projected_offset_m": 2.7,
+    "offset_low_m": -154.0,
+    "offset_high_m": 159.5,
     "n_years": 29,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -2234,12 +2273,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23266249033435,
-      23.176627589782424
+      90.23216793453987,
+      23.17629275310085
      ],
      [
-      90.23127838958209,
-      23.178374972023313
+      90.23078383178581,
+      23.178040130764003
      ]
     ]
    },
@@ -2248,21 +2287,22 @@
     "transect_id": 19,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": -1.7,
-    "projected_offset_m": -17.0,
-    "offset_low_m": -175.9,
-    "offset_high_m": 141.8,
+    "rate_m_per_yr": 4.6,
+    "projected_offset_m": 45.8,
+    "offset_low_m": -110.9,
+    "offset_high_m": 202.6,
     "n_years": 29,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -2293,12 +2333,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23389304514326,
-      23.180201166503885
+      90.23370579603869,
+      23.180060751793942
      ],
      [
-      90.23241726385966,
-      23.181883229971692
+      90.23223001434887,
+      23.181742813452296
      ]
     ]
    },
@@ -2307,21 +2347,22 @@
     "transect_id": 20,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": -0.7,
-    "projected_offset_m": -7.2,
-    "offset_low_m": -166.1,
-    "offset_high_m": 151.6,
+    "rate_m_per_yr": -3.2,
+    "projected_offset_m": -31.9,
+    "offset_low_m": -188.6,
+    "offset_high_m": 124.9,
     "n_years": 30,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -2352,12 +2393,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23283171947966,
-      23.179405291171307
+      90.23246935551825,
+      23.179133555212875
      ],
      [
-      90.23135593589417,
-      23.181087344383194
+      90.23099357114714,
+      23.18081560492314
      ]
     ]
    },
@@ -2366,21 +2407,22 @@
     "transect_id": 20,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": -3.3,
-    "projected_offset_m": -32.8,
-    "offset_low_m": -191.6,
-    "offset_high_m": 126.1,
+    "rate_m_per_yr": 1.5,
+    "projected_offset_m": 15.0,
+    "offset_low_m": -141.7,
+    "offset_high_m": 171.8,
     "n_years": 30,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -2411,12 +2453,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23361766651617,
-      23.1829424263615
+      90.2337089769016,
+      23.183017250963378
      ],
      [
-      90.232063670464,
-      23.184563190224424
+      90.23215498088226,
+      23.184638015738596
      ]
     ]
    },
@@ -2425,21 +2467,22 @@
     "transect_id": 21,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": -1.6,
-    "projected_offset_m": -16.1,
-    "offset_low_m": -175.0,
-    "offset_high_m": 142.7,
+    "rate_m_per_yr": -0.4,
+    "projected_offset_m": -3.6,
+    "offset_low_m": -160.3,
+    "offset_high_m": 153.2,
     "n_years": 27,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -2470,12 +2513,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.23259718865918,
-      23.182106183623855
+      90.23248907865947,
+      23.182017590657566
      ],
      [
-      90.23104319224097,
-      23.183726937291166
+      90.23093508220255,
+      23.18363834324476
      ]
     ]
    },
@@ -2484,21 +2527,22 @@
     "transect_id": 21,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": -1.4,
-    "projected_offset_m": -14.2,
-    "offset_low_m": -173.0,
-    "offset_high_m": 144.7,
+    "rate_m_per_yr": 0.1,
+    "projected_offset_m": 0.6,
+    "offset_low_m": -156.2,
+    "offset_high_m": 157.3,
     "n_years": 27,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -2529,12 +2573,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.21578064395965,
-      23.1987891686205
+      90.21597543815454,
+      23.198801473794
      ],
      [
-      90.21562089560679,
-      23.200949926935433
+      90.21581569287927,
+      23.20096223260614
      ]
     ]
    },
@@ -2543,21 +2587,22 @@
     "transect_id": 29,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": 4.8,
-    "projected_offset_m": 47.5,
-    "offset_low_m": -111.4,
-    "offset_high_m": 206.3,
+    "rate_m_per_yr": 6.8,
+    "projected_offset_m": 67.5,
+    "offset_low_m": -89.3,
+    "offset_high_m": 224.2,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -2588,12 +2633,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.21429436632548,
-      23.198695272304317
+      90.21434598665368,
+      23.198698533680123
      ],
      [
-      90.21413459449087,
-      23.200856026824766
+      90.21418621563463,
+      23.200859288332378
      ]
     ]
    },
@@ -2602,21 +2647,22 @@
     "transect_id": 29,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": -8.5,
-    "projected_offset_m": -84.9,
-    "offset_low_m": -243.7,
-    "offset_high_m": 74.0,
+    "rate_m_per_yr": -9.0,
+    "projected_offset_m": -90.2,
+    "offset_low_m": -246.9,
+    "offset_high_m": 66.6,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -2647,12 +2693,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.21512814883478,
-      23.2013999958841
+      90.2151779151991,
+      23.201401393063225
      ],
      [
-      90.21505701534517,
-      23.203564794180384
+      90.21510678250671,
+      23.203566191459338
      ]
     ]
    },
@@ -2661,21 +2707,22 @@
     "transect_id": 30,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": -0.1,
-    "projected_offset_m": -1.2,
-    "offset_low_m": -160.1,
-    "offset_high_m": 157.6,
+    "rate_m_per_yr": 0.4,
+    "projected_offset_m": 3.9,
+    "offset_low_m": -152.8,
+    "offset_high_m": 160.7,
     "n_years": 25,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -2706,12 +2753,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.21299795592442,
-      23.20134017644438
+      90.21298819783779,
+      23.201339902354302
      ],
      [
-      90.21292678831058,
-      23.203504970466593
+      90.21291703006762,
+      23.203504696356926
      ]
     ]
    },
@@ -2721,20 +2768,21 @@
     "side": "right",
     "horizon_years": 10,
     "rate_m_per_yr": 3.0,
-    "projected_offset_m": 29.5,
-    "offset_low_m": -129.4,
-    "offset_high_m": 188.4,
+    "projected_offset_m": 30.5,
+    "offset_low_m": -126.3,
+    "offset_high_m": 187.2,
     "n_years": 25,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -2765,12 +2813,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.216151144305,
-      23.2032536353705
+      90.21691553324685,
+      23.203260376529965
      ],
      [
-      90.21612878209748,
-      23.20541933454374
+      90.21689318335464,
+      23.205426077003295
      ]
     ]
    },
@@ -2779,21 +2827,22 @@
     "transect_id": 31,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": -0.8,
-    "projected_offset_m": -7.8,
-    "offset_low_m": -166.6,
-    "offset_high_m": 151.1,
+    "rate_m_per_yr": 7.0,
+    "projected_offset_m": 70.5,
+    "offset_low_m": -86.2,
+    "offset_high_m": 227.3,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -2824,12 +2873,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.21341086773454,
-      23.2032294382644
+      90.21337181859562,
+      23.20322909310855
      ],
      [
-      90.21338846137772,
-      23.20539513277371
+      90.2133494116097,
+      23.205394787551363
      ]
     ]
    },
@@ -2838,21 +2887,22 @@
     "transect_id": 31,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": -1.1,
-    "projected_offset_m": -11.5,
-    "offset_low_m": -170.4,
-    "offset_high_m": 147.3,
+    "rate_m_per_yr": -0.8,
+    "projected_offset_m": -7.5,
+    "offset_low_m": -164.3,
+    "offset_high_m": 149.2,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -2883,12 +2933,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.21768458896167,
-      23.205030465593968
+      90.2180975250102,
+      23.205035390135468
      ],
      [
-      90.2176543552668,
-      23.20719608506045
+      90.21806729796339,
+      23.207201010324287
      ]
     ]
    },
@@ -2897,21 +2947,22 @@
     "transect_id": 32,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": -3.7,
-    "projected_offset_m": -36.9,
-    "offset_low_m": -195.8,
-    "offset_high_m": 121.9,
+    "rate_m_per_yr": 0.5,
+    "projected_offset_m": 5.4,
+    "offset_low_m": -151.3,
+    "offset_high_m": 162.2,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -2942,12 +2993,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.21513571286619,
-      23.205000044505294
+      90.21503711609122,
+      23.204998866912533
      ],
      [
-      90.21510543813578,
-      23.207165659510608
+      90.21500683977348,
+      23.2071644817452
      ]
     ]
    },
@@ -2956,21 +3007,22 @@
     "transect_id": 32,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": -4.2,
-    "projected_offset_m": -42.0,
-    "offset_low_m": -200.8,
-    "offset_high_m": 116.9,
+    "rate_m_per_yr": -3.2,
+    "projected_offset_m": -31.9,
+    "offset_low_m": -188.7,
+    "offset_high_m": 124.8,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -3001,12 +3053,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.22159593203625,
-      23.20768914291809
+      90.22246076356492,
+      23.207705481964243
      ],
      [
-      90.22154803900922,
-      23.20985449567357
+      90.22241288443584,
+      23.20987083632582
      ]
     ]
    },
@@ -3015,21 +3067,22 @@
     "transect_id": 33,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": 4.2,
-    "projected_offset_m": 41.8,
-    "offset_low_m": -117.1,
-    "offset_high_m": 200.7,
+    "rate_m_per_yr": 13.0,
+    "projected_offset_m": 130.4,
+    "offset_low_m": -26.3,
+    "offset_high_m": 287.2,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -3060,12 +3113,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.21815515938536,
-      23.207624090135493
+      90.21825276979361,
+      23.207625936639428
      ],
      [
-      90.2181072110651,
-      23.209789436496212
+      90.21820482304194,
+      23.209791283181673
      ]
     ]
    },
@@ -3074,21 +3127,22 @@
     "transect_id": 33,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": 0.1,
-    "projected_offset_m": 0.7,
-    "offset_low_m": -158.2,
-    "offset_high_m": 159.5,
+    "rate_m_per_yr": -0.9,
+    "projected_offset_m": -9.3,
+    "offset_low_m": -166.0,
+    "offset_high_m": 147.5,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -3119,12 +3173,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.2227386797752,
-      23.223206900490176
+      90.22368398173616,
+      23.22357605192471
      ],
      [
-      90.22182655466449,
-      23.225201913420737
+      90.22277186694583,
+      23.225571071381786
      ]
     ]
    },
@@ -3133,21 +3187,22 @@
     "transect_id": 39,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": -3.1,
-    "projected_offset_m": -31.3,
-    "offset_low_m": -190.1,
-    "offset_high_m": 127.6,
+    "rate_m_per_yr": 7.4,
+    "projected_offset_m": 73.8,
+    "offset_low_m": -82.9,
+    "offset_high_m": 230.6,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -3178,12 +3233,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.21787464771424,
-      23.221307321510658
+      90.21784586691139,
+      23.221296080988004
      ],
      [
-      90.21696246951208,
-      23.223302300853096
+      90.21693368839514,
+      23.22329106013166
      ]
     ]
    },
@@ -3192,21 +3247,22 @@
     "transect_id": 39,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": 4.2,
-    "projected_offset_m": 42.1,
-    "offset_low_m": -116.8,
-    "offset_high_m": 200.9,
+    "rate_m_per_yr": 4.5,
+    "projected_offset_m": 45.3,
+    "offset_low_m": -111.4,
+    "offset_high_m": 202.1,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -3237,12 +3293,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.22207408580812,
-      23.225785427495907
+      90.22191100955305,
+      23.225703672803142
      ],
      [
-      90.2209566665749,
-      23.227689167897804
+      90.22079358894682,
+      23.22760741190341
      ]
     ]
    },
@@ -3251,21 +3307,22 @@
     "transect_id": 40,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": 0.1,
-    "projected_offset_m": 1.3,
-    "offset_low_m": -157.5,
-    "offset_high_m": 160.2,
+    "rate_m_per_yr": -1.8,
+    "projected_offset_m": -17.7,
+    "offset_low_m": -174.4,
+    "offset_high_m": 139.1,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -3296,12 +3353,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.21416770691388,
-      23.221821441883343
+      90.21497445738706,
+      23.222225946475657
      ],
      [
-      90.21305022114375,
-      23.223725119169586
+      90.21385697840334,
+      23.22412963020293
      ]
     ]
    },
@@ -3310,21 +3367,22 @@
     "transect_id": 40,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": 11.0,
-    "projected_offset_m": 109.9,
-    "offset_low_m": -48.9,
-    "offset_high_m": 268.8,
+    "rate_m_per_yr": 1.6,
+    "projected_offset_m": 15.9,
+    "offset_low_m": -140.9,
+    "offset_high_m": 172.6,
     "n_years": 31,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -3355,12 +3413,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.19477433771698,
-      23.237060254492697
+      90.19510722204402,
+      23.237566023210217
      ],
      [
-      90.19277198882898,
-      23.23818568033935
+      90.1931048674233,
+      23.23869145278021
      ]
     ]
    },
@@ -3369,21 +3427,22 @@
     "transect_id": 51,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": -12.1,
-    "projected_offset_m": -120.5,
-    "offset_low_m": -279.4,
-    "offset_high_m": 38.3,
+    "rate_m_per_yr": -5.5,
+    "projected_offset_m": -54.9,
+    "offset_low_m": -211.6,
+    "offset_high_m": 101.9,
     "n_years": 21,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -3414,12 +3473,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.19429632810026,
-      23.236333982091825
+      90.1939593900843,
+      23.23582204425012
      ],
      [
-      90.19229398744437,
-      23.237459402592144
+      90.1919570552311,
+      23.2369474609821
      ]
     ]
    },
@@ -3428,21 +3487,22 @@
     "transect_id": 51,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": -2.5,
-    "projected_offset_m": -25.3,
-    "offset_low_m": -184.1,
-    "offset_high_m": 133.6,
+    "rate_m_per_yr": 4.1,
+    "projected_offset_m": 41.1,
+    "offset_low_m": -115.6,
+    "offset_high_m": 197.9,
     "n_years": 21,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -3473,12 +3533,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.19327465899627,
-      23.239146528946918
+      90.19323392876917,
+      23.239077630969437
      ],
      [
-      90.19121789164372,
-      23.240184820026503
+      90.1911771622808,
+      23.24011592159503
      ]
     ]
    },
@@ -3487,21 +3547,22 @@
     "transect_id": 52,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": -1.8,
-    "projected_offset_m": -18.1,
-    "offset_low_m": -177.0,
-    "offset_high_m": 140.7,
+    "rate_m_per_yr": -2.7,
+    "projected_offset_m": -26.8,
+    "offset_low_m": -183.5,
+    "offset_high_m": 130.0,
     "n_years": 22,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -3532,12 +3593,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.19234676857596,
-      23.23757692040464
+      90.19236643102842,
+      23.23761018157204
      ],
      [
-      90.19029002091024,
-      23.238615201142466
+      90.19030968294554,
+      23.238648462529003
      ]
     ]
    },
@@ -3546,21 +3607,22 @@
     "transect_id": 52,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": -0.4,
-    "projected_offset_m": -3.7,
-    "offset_low_m": -162.5,
-    "offset_high_m": 155.2,
+    "rate_m_per_yr": -0.8,
+    "projected_offset_m": -7.9,
+    "offset_low_m": -164.6,
+    "offset_high_m": 148.9,
     "n_years": 22,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -3591,12 +3653,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.19199882328209,
-      23.240245548663538
+      90.1919330237753,
+      23.24011858376476
      ],
      [
-      90.18988504092204,
-      23.2411809869614
+      90.18981924316205,
+      23.24105402133927
      ]
     ]
    },
@@ -3605,21 +3667,22 @@
     "transect_id": 53,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": -1.0,
-    "projected_offset_m": -9.7,
-    "offset_low_m": -168.5,
-    "offset_high_m": 149.2,
+    "rate_m_per_yr": -2.5,
+    "projected_offset_m": -25.3,
+    "offset_low_m": -182.0,
+    "offset_high_m": 131.5,
     "n_years": 24,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -3650,12 +3713,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.19099834567885,
-      23.238315029235004
+      90.19100382883154,
+      23.23832560966434
      ],
      [
-      90.18888458987867,
-      23.239250456535135
+      90.1888900728858,
+      23.239261037024743
      ]
     ]
    },
@@ -3664,21 +3727,22 @@
     "transect_id": 53,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": -0.3,
-    "projected_offset_m": -3.1,
-    "offset_low_m": -162.0,
-    "offset_high_m": 155.8,
+    "rate_m_per_yr": -0.4,
+    "projected_offset_m": -4.4,
+    "offset_low_m": -161.2,
+    "offset_high_m": 152.3,
     "n_years": 24,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -3709,12 +3773,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.18978039655971,
-      23.241634803580645
+      90.18968227551645,
+      23.241440111992958
      ],
      [
-      90.1876558027424,
-      23.242549122498918
+      90.18755768442175,
+      23.24235442983728
      ]
     ]
    },
@@ -3723,21 +3787,22 @@
     "transect_id": 54,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": -0.1,
-    "projected_offset_m": -0.8,
-    "offset_low_m": -159.6,
-    "offset_high_m": 158.1,
+    "rate_m_per_yr": -2.5,
+    "projected_offset_m": -24.6,
+    "offset_low_m": -181.3,
+    "offset_high_m": 132.2,
     "n_years": 17,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -3768,12 +3833,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.18875096310042,
-      23.239592176089175
+      90.18865573061454,
+      23.23940321033981
      ],
      [
-      90.186626397847,
-      23.240506483741022
+      90.18653116800351,
+      23.240317516949514
      ]
     ]
    },
@@ -3782,21 +3847,22 @@
     "transect_id": 54,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": 0.1,
-    "projected_offset_m": 0.5,
-    "offset_low_m": -158.3,
-    "offset_high_m": 159.4,
+    "rate_m_per_yr": 2.4,
+    "projected_offset_m": 23.6,
+    "offset_low_m": -133.1,
+    "offset_high_m": 180.4,
     "n_years": 17,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -3827,12 +3893,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.18770603521733,
-      23.243054886943103
+      90.18767897923028,
+      23.242998848489297
      ],
      [
-      90.18556567184777,
-      23.243937278880686
+      90.18553861666258,
+      23.243881240132996
      ]
     ]
    },
@@ -3841,21 +3907,22 @@
     "transect_id": 55,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": -0.7,
-    "projected_offset_m": -6.6,
-    "offset_low_m": -165.5,
-    "offset_high_m": 152.3,
+    "rate_m_per_yr": -1.3,
+    "projected_offset_m": -13.4,
+    "offset_low_m": -170.1,
+    "offset_high_m": 143.4,
     "n_years": 22,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -3886,12 +3953,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.18675670064017,
-      23.241088594808282
+      90.18671373051883,
+      23.240999592400076
      ],
      [
-      90.18461636540619,
-      23.241970976435375
+      90.18457339655835,
+      23.24188197356052
      ]
     ]
    },
@@ -3900,21 +3967,22 @@
     "transect_id": 55,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": -0.5,
-    "projected_offset_m": -4.8,
-    "offset_low_m": -163.6,
-    "offset_high_m": 154.1,
+    "rate_m_per_yr": 0.6,
+    "projected_offset_m": 6.0,
+    "offset_low_m": -150.7,
+    "offset_high_m": 162.8,
     "n_years": 22,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -3945,12 +4013,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.18557579385617,
-      23.24402817730912
+      90.18567965621043,
+      23.244257024559722
      ],
      [
-      90.1834144374817,
-      23.24486576050495
+      90.18351829646404,
+      23.245094608868946
      ]
     ]
    },
@@ -3959,21 +4027,22 @@
     "transect_id": 56,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": -3.1,
-    "projected_offset_m": -31.2,
-    "offset_low_m": -190.1,
-    "offset_high_m": 127.7,
+    "rate_m_per_yr": -0.4,
+    "projected_offset_m": -3.7,
+    "offset_low_m": -160.5,
+    "offset_high_m": 153.0,
     "n_years": 23,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -4004,12 +4073,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.18469580922608,
-      23.242089215361165
+      90.18477889692691,
+      23.24227229343617
      ],
      [
-      90.1825344814199,
-      23.242926789124645
+      90.18261756642337,
+      23.24310986809017
      ]
     ]
    },
@@ -4018,21 +4087,22 @@
     "transect_id": 56,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": -0.6,
-    "projected_offset_m": -5.8,
-    "offset_low_m": -164.7,
-    "offset_high_m": 153.0,
+    "rate_m_per_yr": -2.8,
+    "projected_offset_m": -27.8,
+    "offset_low_m": -184.5,
+    "offset_high_m": 129.0,
     "n_years": 23,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -4063,12 +4133,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.18358635774992,
-      23.24503741054927
+      90.18363455408847,
+      23.245152737483014
      ],
      [
-      90.18139997266628,
-      23.245817585871734
+      90.18144816724852,
+      23.245932913311133
      ]
     ]
    },
@@ -4077,21 +4147,22 @@
     "transect_id": 57,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": -2.7,
-    "projected_offset_m": -27.1,
-    "offset_low_m": -186.0,
-    "offset_high_m": 131.7,
+    "rate_m_per_yr": -1.3,
+    "projected_offset_m": -13.4,
+    "offset_low_m": -170.2,
+    "offset_high_m": 143.3,
     "n_years": 24,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -4122,12 +4193,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.18281381915544,
-      23.243188811280483
+      90.18270370931516,
+      23.242925326786963
      ],
      [
-      90.18062746222311,
-      23.243968978498675
+      90.18051735639516,
+      23.24370549285017
      ]
     ]
    },
@@ -4136,21 +4207,22 @@
     "transect_id": 57,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": -0.3,
-    "projected_offset_m": -3.3,
-    "offset_low_m": -162.2,
-    "offset_high_m": 155.5,
+    "rate_m_per_yr": 2.8,
+    "projected_offset_m": 28.0,
+    "offset_low_m": -128.8,
+    "offset_high_m": 184.7,
     "n_years": 24,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -4181,12 +4253,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.18077603409469,
-      23.245423554865056
+      90.18074384829525,
+      23.245337402797368
      ],
      [
-      90.1785605848578,
-      23.246130262554285
+      90.1785284004183,
+      23.24604411016127
      ]
     ]
    },
@@ -4195,21 +4267,22 @@
     "transect_id": 58,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": -9.4,
-    "projected_offset_m": -94.3,
-    "offset_low_m": -253.2,
-    "offset_high_m": 64.5,
+    "rate_m_per_yr": -10.4,
+    "projected_offset_m": -104.4,
+    "offset_low_m": -261.2,
+    "offset_high_m": 52.3,
     "n_years": 23,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -4240,12 +4313,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.18034519349321,
-      23.244270311063982
+      90.18035252282844,
+      23.24428992986153
      ],
      [
-      90.17812976246034,
-      23.24497701439864
+      90.17813709148591,
+      23.244996633270265
      ]
     ]
    },
@@ -4254,21 +4327,22 @@
     "transect_id": 58,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": 1.9,
-    "projected_offset_m": 19.5,
-    "offset_low_m": -139.4,
-    "offset_high_m": 178.4,
+    "rate_m_per_yr": 1.7,
+    "projected_offset_m": 17.2,
+    "offset_low_m": -139.5,
+    "offset_high_m": 174.0,
     "n_years": 23,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -4299,12 +4373,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.17920284958474,
-      23.246609992748752
+      90.17923698797834,
+      23.246711694503222
      ],
      [
-      90.17696429540653,
-      23.247251574985043
+      90.17699843215138,
+      23.247353277069443
      ]
     ]
    },
@@ -4313,21 +4387,22 @@
     "transect_id": 59,
     "side": "left",
     "horizon_years": 10,
-    "rate_m_per_yr": -4.3,
-    "projected_offset_m": -43.3,
-    "offset_low_m": -202.1,
-    "offset_high_m": 115.6,
+    "rate_m_per_yr": -3.1,
+    "projected_offset_m": -31.5,
+    "offset_low_m": -188.3,
+    "offset_high_m": 125.2,
     "n_years": 23,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   },
   {
@@ -4358,12 +4433,12 @@
     "type": "LineString",
     "coordinates": [
      [
-      90.17880765747678,
-      23.245432665402614
+      90.17872289156068,
+      23.24518013465858
      ],
      [
-      90.17656912238456,
-      23.246074243819844
+      90.17648436056218,
+      23.245821712256717
      ]
     ]
    },
@@ -4372,21 +4447,22 @@
     "transect_id": 59,
     "side": "right",
     "horizon_years": 10,
-    "rate_m_per_yr": -2.0,
-    "projected_offset_m": -20.1,
-    "offset_low_m": -178.9,
-    "offset_high_m": 138.8,
+    "rate_m_per_yr": 0.9,
+    "projected_offset_m": 9.2,
+    "offset_low_m": -147.5,
+    "offset_high_m": 166.0,
     "n_years": 23,
     "tier": "model",
     "significant": false,
-    "method": "RandomForest, expanding-window backtest",
+    "method": "HistGradientBoostingRegressor, expanding-window backtest",
     "projection_status": "experimental",
     "horizon_validated": false,
     "forecast_supported": true,
     "is_forecast": false,
-    "mae_model_m_per_yr": 15.886,
+    "mae_model_m_per_yr": 15.675,
     "median_baseline_mae_m_per_yr": 20.413,
-    "basis": "Experimental RandomForest projection"
+    "best_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental HistGradientBoostingRegressor projection"
    }
   }
  ]

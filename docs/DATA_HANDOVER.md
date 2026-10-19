@@ -17,9 +17,10 @@ computed. Nothing will error. The numbers will just quietly be wrong.
 | Sentinel-2 | 2019–2026 (8 files) | `gee/s2_export_arial_khan.js` | `data/reaches/arial_khan/raw/` |
 | Landsat | 1989–2026 (~30 files) | `gee/landsat_export_arial_khan.js` | `data/reaches/arial_khan/raw/landsat/` |
 
-Both files are in `gee/` in this repository. Nothing else in `gee/` should be
-used — `landsat_export.js` and `landsat_export_ganges.js` are for other reaches
-and produce data for the wrong place entirely.
+Both files are in `gee/` in this repository, and they are now the **only** mask
+exporters — the retired-reach and never-run trial scripts were deleted in D93,
+because each carried a hardcoded box for a different river and would have
+exported the wrong place while looking runnable.
 
 ---
 
@@ -179,10 +180,11 @@ loses to its historical-median baseline, so inspect `ml/artifacts/model_report.j
 .venv/bin/python ml/13_risk_and_forecast.py
 ```
 
-The expanded reach will have a different transect count and width summary; do
-not expect the old **32 transects**. Inspect the masks and new transects before
-training. All previous model scores and projected lines apply only to the old
-extent; retrain and re-evaluate from the rebuilt features.
+The expanded reach is now fully built: **60 transects kept of 63**, 15.8 km
+centreline, **6/7** manual spot checks pass. The old 32-transect figures describe
+the previous, smaller box and no longer apply. After a rebuild, inspect the masks
+and transects before training, then re-evaluate — more river coverage does not
+automatically improve forecast skill.
 
 ---
 
@@ -207,13 +209,16 @@ record at 2019 (D59, D60).
 
 ## Existing outputs apply only to the previous extent
 
-- Candidate model output: 62 transect-sides extended to 2036, marked
-  experimental. The corrected chronological test gives MAE **3.175 m/yr**,
-  worse than its training-median baseline (**2.507**).
+- Served model output: **76 transect-sides** extended to 2036, marked
+  experimental. Gradient boosting (D94) gives MAE **15.675 m/yr** against a
+  strongest-baseline **20.413** — but that margin is 18/18 folds in 1996–2015 and
+  **2/11** in 2016–2026 (D92). The projection is drawn from the recent regime.
+  The model also loses to a plain "the bank never moved" baseline for absolute
+  bank position; both validation figures show this.
 - Outputs: `data/reaches/arial_khan/processed/predictions/`, `ml/artifacts/`
 
-The listed files and the current 3.175 m/yr time-forward score describe the
-previous box only. The earlier 2.843 m/yr score used same-interval features and
-is withdrawn as forecast evidence (D63). The expanded area needs new measurements
-and a new time-forward evaluation against simple baselines; do not infer that
-more river coverage automatically improves forecast skill.
+The 2.843 and 3.175 scores are both dead: 2.843 used same-interval features (D63)
+and 3.175 describes the previous, smaller box. Do not cite either. The rebuilt
+reach has new measurements and a new time-forward evaluation against simple
+baselines. Do not infer that more river coverage automatically improves forecast
+skill — the recent-fold split is the evidence that it did not.

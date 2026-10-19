@@ -58,8 +58,9 @@ def main():
           f"({train.year1.min()}-{train.year1.max()})")
     print(f"held out: the {TARGET_Y0}->{TARGET_Y1} pair, {len(test)} rows")
 
+    model_name = mt.MODEL_NAMES[mt.DEFAULT_MODEL]
     med = train[cols].median().fillna(0)
-    model = mt.make_model("rf")
+    model = mt.make_model(mt.DEFAULT_MODEL)
     model.fit(train[cols].fillna(med), train["target_rate"])
 
     pred = model.predict(test[cols].fillna(med))
@@ -151,8 +152,8 @@ def main():
     ax.set_xlabel("distance along the river centreline (km)", fontsize=11)
     ax.set_ylabel("bank offset across the river (m)", fontsize=11)
     ax.set_title(
-        f"RiverGuard - predicted vs observed bankline, Arial Khan 2026\n"
-        f"model trained only on data up to {TRAIN_UPTO}; "
+        f"RiverGuard - predicted vs observed bankline, Arial Khan {TARGET_Y1}\n"
+        f"{model_name} trained only on data up to {TRAIN_UPTO}; "
         f"the {TARGET_Y0}-{TARGET_Y1} interval was never seen in training",
         fontsize=12)
     ax.grid(alpha=0.25)
@@ -160,6 +161,9 @@ def main():
 
     txt = [
         "HOW CLOSE ARE THEY?",
+        "",
+        f"model  {model_name}",
+        f"training ends        {TRAIN_UPTO}",
         "",
         f"transects compared   {len(gdf)}",
         f"bank sides           {len(allerr)}",

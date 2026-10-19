@@ -23,6 +23,10 @@ frontend/dist/
 # reports/VALIDATION.md.
 *.tif
 *.tiff
+# NetCDF is the same thing in a different wrapper: the Copernicus GloFAS
+# downloads wrote .nc files, and D88 records why we no longer use that path.
+# A rerun would otherwise drop an unignored binary back into data/.
+*.nc
 
 data/raw/
 data/unused_data/

@@ -3476,3 +3476,512 @@ sensors shared one filename and the second silently overwrote the first.
 **Verified:** with no hydro table present, `--hydro` exits with a usable
 instruction rather than crashing. With the default configuration the score is
 still MAE 15.886 and `forecast_supported True`.
+
+## D88 - GloFAS is not usable at the Arial Khan; the ERA5-Land proxy replaces it
+
+**Date:** 2026-10-19
+**Status:** Finding. Closes D86's open risk. Changes the hydrology source.
+
+**What was tried.** D86 fixed the downloader's wrong geography and target, and a
+full download of 1989-2026 was attempted against the Copernicus EWDS.
+
+**Result 1 - the data is the wrong river.** One year (2020) completed. At the
+cell nearest the reach (23.175N 90.225E):
+
+| statistic | value |
+|---|---|
+| mean | 5.22 m3/s |
+| median | 4.30 m3/s |
+| **maximum, whole year** | **13.28 m3/s** |
+| days below 10 m3/s | 91.8% |
+
+The seasonal *shape* is right - February trough 2.40, August peak 9.96 - but the
+magnitude is orders of magnitude too small for a ~300 m distributary. GloFAS v4
+is a ~5 km grid; the cell is mostly land, so what it models is a small local
+catchment, NOT the Arial Khan. **A perfect 38-year download would still have
+been the wrong river.** This is exactly the risk D86 flagged as untested, and it
+is now tested: the answer is no.
+
+**Result 2 - the service will not serve it at this scale anyway.** Submitting 38
+year-requests at once (`--jobs 38`) had 37 rejected. The CDS documentation gives
+a per-user limit of 15 simultaneous requests, and GloFAS historical is an
+archive-backed dataset whose MARS quota is far tighter still - jobs were
+**accepted and then rejected** with `Number queued requests for this dataset…`.
+A retry at `--jobs 8` also failed (37 accepted, 35 rejected, 1 file). The
+per-user concurrency is therefore an order of magnitude below what the script
+assumed. Compounding it, DNS for `ewds.climate.copernicus.eu` and
+`cds.climate.copernicus.eu` SERVFAILed three separate times during the session.
+
+**Result 3 - the ERA5-Land export had the same wrong-geography bug as D86, and
+worse.** `gee/hydro_export.js` was pointed at the box `[88.5, 23.5, 91.0, 25.5]`,
+latitude 23.5-25.5, left over from the Jamuna. The Arial Khan study box is
+latitude 23.134-23.261. **The two do not overlap at all.** `catchment_means()`
+clips to the study box, so the export would have produced rasters covering
+another river's catchment, found no pixels inside the study box, and written a
+feature table of NaNs - with no error raised anywhere. The user was one edit
+away from running it.
+
+**Decision:** use the ERA5-Land proxy from Earth Engine, not GloFAS. Changes to
+`gee/hydro_export.js`:
+
+1. **Region** is now `[89.95, 22.90, 90.50, 23.45]` - covers the study box with
+   margin, and its north edge stays south of the 23.47N Padma limit like the
+   imagery boxes.
+2. **Full calendar year, not the dry season.** It previously averaged 1 Jan to
+   28 Feb, the LOWEST-flow part of the year. That describes drought, not the
+   forcing that moves a bank - banks erode when the river is high, in the
+   monsoon. A dry-season number is a proxy for the wrong season and no modelling
+   skill recovers the monsoon signal from it.
+3. **1983-2025, not 1985-2026.** The feature table needs climate for 1984
+   onwards (the earliest pair is (1989, 1994) and its change column is measured
+   from y0 - step = 1984), so 1985 was one year short. And 2026 is a
+   part-complete year whose mean is biased high, since the missing months are
+   the low-flow ones - and no pair uses 2026 as its y0 anyway.
+4. `filterDate`'s end is **exclusive**, so each year now ends at the following
+   1 January. Ending on `2020-12-31` would silently drop 31 December from every
+   year.
+5. The docstring no longer claims "catchment-scale": `11_hydro_features.py`
+   clips to the study box, and ERA5-Land is ~11 km against a ~10 x 14 km box, so
+   this is close to one cell. It is a **weather proxy over the reach**, not a
+   measurement of the river, and it must be written up that way.
+
+**Rejected:** a 38-year GloFAS record of a local-catchment signal. Even
+relabelled honestly it would carry the wrong magnitude, and it costs 38 requests
+against a quota that will not serve them.
+
+**Impact:** hydrology now depends on a manual GEE export of 43 small GeoTIFFs,
+as originally designed. `12_glofas_discharge.py` is kept - it works, the
+geography is fixed, and it is the reason this finding exists - but it is not
+part of the pipeline.
+
+**Two guards added while closing this out.**
+
+1. `11_hydro_features.py` now refuses a GloFAS table shorter than
+   `MIN_GLOFAS_YEARS` (10). The abandoned download left a two-row
+   `glofas_annual.csv` behind and the function accepted it: the `q_*` columns
+   that produced are neither empty nor constant, so BOTH guards in
+   `14_model_train.py`'s `hydro_columns()` would have KEPT them, and the model
+   would have learned a relationship from the handful of rows whose year0
+   happened to be 2020 against 2400 mostly-empty ones. A missing feature is
+   recoverable; a fake one contaminates every number downstream.
+
+2. `09_checks.py` gained check 7b, which verifies that `gee/hydro_export.js`'s
+   REGION **covers** the study box. Superset is fine here, unlike the imagery
+   exporters which must match exactly, because `11_` clips the margin away.
+   Tested in both directions: it rejects the old Jamuna box and passes the new
+   one. A check that cannot fail is not a check.
+
+**Housekeeping, and one thing to remember.** The two CSVs and the single `.nc`
+from the abandoned download moved to `data/archive/glofas_arial_khan_2026-10-19/`
+(gitignored), so the evidence survives without `11_hydro_features.py` finding it.
+`*.nc` is now in `.gitignore`.
+
+Note that **`data/reaches/<reach>/raw/` is NOT covered by the `data/raw/`
+rule** - that pattern does not match the nested path. Raw CSVs there are tracked
+by default, which is deliberate for evidence tables, but it is why a failed
+download can quietly become a commit.
+
+## D89 - the map's warning contradicted the map's own numbers
+
+**Date:** 2026-10-19
+**Status:** Fixed, with a standing check.
+
+**The defect.** `06_predict_geojson.py` wrote this into the payload it hands the
+map:
+
+> "Experimental model projection; the one-year model does not beat both
+> baselines and its multi-year linear extension is not independently validated."
+
+It was typed once, by hand, and never re-read. Meanwhile the model went on to
+beat **all three** trivial predictors - MAE 15.886 against a best baseline of
+20.413, with `beaten_by` empty and `forecast_supported` true - so the same
+GeoJSON carried a sentence denying the numbers sitting beside it in the very
+same object. Any API consumer, or anyone opening the file, would have read the
+contradiction. The React frontend happened to compose its own text and never
+displayed this field, which is the only reason nobody noticed on screen.
+
+**Root cause, and the part worth remembering.** The payload could not have told
+the truth even if someone had noticed, because it did not carry the number the
+claim rests on. `forecast_supported` is decided against `best_baseline` - the
+STRONGEST of the median, mean and repeat-previous predictors - but only the
+median was ever written out. Anyone composing an honest sentence from that file
+would have compared the model to the wrong baseline.
+
+**Fix.**
+1. `14_model_train.py` now carries `best_baseline_mae_m_per_yr` through into the
+   prediction rows, so the gate's own number travels with the gate's verdict.
+2. `06_predict_geojson.py` builds the warning, and the closing console NOTE, from
+   the payload's own values rather than from fixed prose. Both directions are
+   written: a supported run says which comparison passed, an unsupported run says
+   which one it failed.
+3. `frontend/src/App.jsx` quoted the MEDIAN baseline next to the
+   `forecast_supported` flag. Today that is harmless because the median happens
+   to be the strongest baseline, but in a year where the mean is stronger the
+   panel would have read "does not beat the historical-median benchmark" about a
+   model that did beat the median. It now quotes the best baseline, falling back
+   to the median for payloads written before the field existed.
+
+**Dead code removed.** `/api/transects/` was a byte-for-byte duplicate of
+`/api/erosion/` except that it globbed `transects_*.geojson` while the pipeline
+writes `epr_*.geojson`. Nothing matched, so it always returned
+`{"error": "no transects computed"}`, and nothing in the frontend, the scripts or
+the reports ever called it. The view and its route are gone; `erosion()` serves
+the same data with the correct prefix. `TRANSECTS` and `PAIR_RE` are still used
+by `erosion()` and were left alone. Verified: the endpoint now returns Django's
+ordinary 404 rather than the endpoint's own error body, and all nine remaining
+endpoints answer 200.
+
+**Standing check.** `09_checks.py` check 10 now requires the warning to agree
+with `forecast_supported`.
+
+**And the honest footnote.** The first version of that check looked for the
+literal string `"NOT beat"` in upper case, while the real stale text reads
+`"does not beat"`. It therefore **passed the exact bug it was written to catch**.
+It was only caught because the check was tested against the old text rather than
+against the repaired output. The comparison is now case-insensitive and tested
+against both directions. A guard that has only ever been run on a passing system
+is not known to be a guard.
+
+**Impact on claims:** none of the numbers move. MAE is still 15.886 and the
+backtest is unchanged. What changes is that the text now says what the numbers
+say, and can no longer say otherwise without the pipeline refusing to pass.
+
+## D90 - the ERA5-Land hydrology proxy does NOT improve the model; it makes it slightly worse
+
+**Date:** 2026-10-19
+**Status:** Result. Negative. The hydrology path is kept but is NOT in the
+default model.
+
+**What was run.** The 43-year export (1983-2025, from `gee/hydro_export.js`, D88)
+was downloaded and joined. `11_hydro_features.py` added **24 columns** - for each
+of 8 ERA5-Land bands, a value at year0, a change over the pair window, and an
+expanding-median anomaly - and `14_model_train.py --sensor landsat --hydro`
+scored it against the identical expanding-window backtest.
+
+**Result.**
+
+| | no hydro | + hydro | change |
+|---|---|---|---|
+| **model MAE** | **15.886** | **16.562** | **+0.676 (worse)** |
+| median baseline | 20.413 | 20.413 | 0.000 |
+| mean baseline | 20.723 | 20.723 | 0.000 |
+| repeat previous pair | 23.284 | 23.284 | 0.000 |
+| best baseline | 20.413 | 20.413 | 0.000 |
+
+Both configurations still clear the baselines (`forecast_supported` true,
+`beaten_by` empty), but the hydrology version is **strictly worse**. It does not
+beat 16, which was the threshold of interest.
+
+**Why.** The columns are not ignored - all 24 are passed to the forest - but they
+are close to ignored in effect. The strongest, `clim_u_component_of_wind_10m_chg`,
+carries 1.2% importance; every runoff and precipitation column sits near 0.2%.
+The raw correlations with the erosion label never exceed |0.056|. Twenty-four
+columns of near-noise give the forest more ways to fit the training folds and
+cost 0.676 m/yr on unseen years. That is the expected behaviour of adding weak
+features, and it is the honest outcome here.
+
+The signs are at least not absurd: precipitation (+0.056) and runoff (+0.045)
+correlate positively with erosion, which is the physical direction. The effect is
+simply far too small to use.
+
+**What this does NOT mean.** It is not evidence that hydrology does not drive
+bank erosion - manifestly it does. It means this particular measurement of it is
+useless as a feature: an ~11 km ERA5-Land cell, averaged over a full year, over a
+study box about 10 x 14 km, is roughly ONE number per year for the whole reach.
+Against a target where 63% of the values are exactly 0 m because 30 m pixels
+cannot resolve movement on a 300 m river (D84), a single annual weather figure has
+nothing to attach to. The constraint is still the target, exactly as D83 and D84
+concluded, and adding predictors at the far end of a long causal chain does not
+loosen it.
+
+**Rejected:** retuning to force an improvement. Feature selection on the same
+backtest that reports the score is how a null result gets converted into a fake
+one. The result is reported as measured.
+
+**Bug found on first contact.** `11_hydro_features.py` called
+`rasterio.warp.transform_geom(..., densify_pts=21)`. `densify_pts` is a **pyproj**
+argument and rasterio rejects it, so the script crashed on the very first file.
+The line had never executed before, because there had never been any hydrology
+data to read - it was written, reviewed and committed while untestable. Removed.
+The transform is the identity in practice (the export is EPSG:4326 and so is the
+study box), and it is kept only so a projected export still works.
+
+**State.** The default model is unchanged at MAE 15.886 and remains what the map
+draws. The comparison run is retained under its variant names
+(`model_predictions_landsat_rf_hydro.csv`, `model_report_rf_hydro.json`) so the
+result is reproducible without being able to overwrite the default.
+
+## D91 - the forest no longer beats gradient boosting; the two are tied, and D82's comparison is superseded
+
+**Date:** 2026-10-19
+**Status:** Correction. Supersedes part of D82.
+
+**Found while writing `reports/MODEL_CHOICE.md`.** D82 recorded:
+
+> "gradient boosting (`HistGradientBoostingRegressor`) through the *identical*
+> backtest and folds - **MAE 17.468 against RandomForest's 17.330.** A forest
+> wins on this table, so RandomForest is kept."
+
+That comparison was run on the feature table **before `curv_outer` was added**.
+Both models improved when signed curvature arrived, and not by the same amount:
+
+| table | RandomForest | GradientBoosting | winner |
+|---|---:|---:|---|
+| before `curv_outer` (D82) | 17.330 | 17.468 | forest, by 0.138 |
+| **current** (this run) | **15.886** | **15.675** | **boosting, by 0.211** |
+
+Both models are seeded (`random_state=0`) and both numbers reproduce exactly on a
+re-run. Per fold, boosting is better in 16 of 29 and the forest in 13; boosting
+wins its folds by up to 2.75 m/yr and loses its worst by 0.03. A 1.3% gap with a
+16/13 fold split is inside fold-to-fold noise. **The two are effectively tied.**
+
+**Decision: keep RandomForest, but not on accuracy grounds.** The reasons are
+that it exposes `feature_importances_` natively (the boosting fallback to
+permutation importance is slower, noisier, and crashed `--model gbm` once after
+printing its score - D82), it has fewer interacting hyperparameters so there is
+less surface to tune against the backtest, and every published number was produced
+with it. Switching would move all of them for a difference indistinguishable from
+noise. This is a **tie-break**, and `MODEL_CHOICE.md` states it as one.
+
+**Rejected:** silently deleting D82's sentence. The old result was true of the
+table it was measured on; what is wrong is quoting it as current. Superseding it
+explicitly leaves a trace of the change.
+
+**Impact:** no number in the pipeline moves. What changes is that the written
+claim "a forest wins on this table" is retracted and replaced with "the two tie".
+
+## D92 - the model's advantage lives in 1996-2015; in 2016-2026 it does not beat the baseline
+
+**Date:** 2026-10-19
+**Status:** Found. Limits the forecast claim. Needs a decision on how it is
+written up.
+
+**Found in the per-fold output of the default backtest.** The pooled MAE of 15.886
+against a 20.413 baseline is true, but it is not spread evenly over the record:
+
+| period | folds | beats that fold's baseline | mean gain per fold |
+|---|---:|---:|---:|
+| 1996-2015 | 18 | **18 / 18** | **+7.53 m/yr** |
+| 2016-2026 | 11 | **2 / 11** | **-0.82 m/yr** |
+
+The last ten folds are all within +/-2.4 m/yr of the baseline, and eight of the
+ten are losses. Pooled over 29 folds, the early years dominate because their
+absolute errors are largest (rates around 20-30 m/yr) - so the aggregate 22.2%
+advantage is mostly a statement about the 1990s and 2000s.
+
+**Mechanism.** Early folds train on 2-5 years, so the training median is a poor
+predictor and the model wins easily. By 2016 the training set is large, the median
+is a good predictor, and the recent rates are both smaller and more stable. The
+baseline becomes hard to beat and the model contributes noise.
+
+**Why this is not a bug.** Expanding-window validation is doing exactly what it
+should: it penalises the model as the trivial baseline catches up. The pooled
+number is not wrong; it is an average that hides the trend.
+
+**Why it matters.** The 2036 lines on the map are extrapolated from the **most
+recent** regime - the one where the model has not been shown to beat a trivial
+baseline. "The backtest passes" is therefore weaker evidence than the single
+number 15.886 suggests. This is the strongest argument so far for describing the
+output as a measurement-and-extrapolation chain rather than a validated forecast.
+
+**Also found: `VALIDATION.md` section 7 is stale.** It quotes a 3.175 model MAE
+against a 2.507 baseline and the verdict "not supported". Those are **pre-bankline-
+correction** numbers, from before D77-D84 rescaled the target. The section's
+warning is still substantively right - this entry is the same warning in current
+numbers - but the figures no longer match the pipeline and must be regenerated
+before being quoted.
+
+**Open:** how to state this in the write-up. Options are (a) report the pooled
+backtest plus this table as a caveat, (b) report a recent-window backtest as the
+headline, or (c) withdraw `forecast_supported` as a claim about the future and
+call the output an experimental extrapolation. Not decided here - it changes the
+project's central claim and belongs to the owner.
+
+---
+
+## D93 - dead code and dead reaches removed; the repository now contains only what the project uses
+
+**Date:** 2026-10-19
+
+**Decision.** Delete the abandoned GloFAS route, the superseded model diagnostic,
+the pre-reach-aware downloader, both retired-reach Earth Engine exporters, the
+Colab notebook, the `data/unused_data/` tree (50 MB), and the `jamuna`/`ganges`
+entries in the reach registry. Record what was removed here rather than leaving
+it in the tree.
+
+**Removed and why.**
+
+| removed | why |
+|---|---|
+| `ml/12_glofas_discharge.py` | D88 rejected the route. Nothing read its output. |
+| `ml/14_model_test.py` | Superseded by `14_model_train.py`'s expanding-window backtest; it scored the old box with same-interval features. |
+| `ml/00_collect_landsat.py` | Wrote into `data/raw/landsat/`, the pre-reach-aware layout, which no longer exists. Silently wrong if run. |
+| `gee/landsat_export.js` | Carries a hardcoded **Jamuna** box. This is the exact class of bug that produced D88: a script that looks runnable and exports the wrong river. |
+| `gee/landsat_export_ganges.js` | A trial reach never run (D48), same hazard. |
+| `notebooks/colab_train.md` | Training runs locally in about a minute; Colab is not needed (D18). The notebook still described the old feature set. |
+| `data/unused_data/` | Jamuna raw masks, a never-run cross-check, and stale v1 masks. |
+| `jamuna`, `ganges` reach entries | Pointed at directories that no longer exist. `RIVERGUARD_REACH=jamuna` would have failed at the path, but any *partial* restore would have been worse: a run against a half-restored reach produces numbers that look real. |
+
+**The GloFAS reader was removed too, not just the downloader.** With no code
+reading `glofas_annual.csv`, a stale file left in `HYDRO_RAW` cannot become a
+feature. Previously the guard was a length check (`MIN_GLOFAS_YEARS = 10`); now
+there is nothing to guard, which is strictly safer. The guard existed because a
+2-row remnant would have produced `q_*` columns that are neither empty nor
+constant, so **both** guards in the trainer's `hydro_columns()` would have kept
+them and the model would have learned from a handful of 2020 rows.
+
+**A latent bug this cleanup exposed, which is the real find.** Check 2 in
+`09_checks.py` verified that Landsat 7's green band is `SR_B2` by searching for
+the first line containing `LE07` and looking for `SR_B2` on it. That happened to
+be true in the deleted Jamuna script. In the live exporter `LE07` appears
+**once**, in a collection id, so the check **passed vacuously** — it had not
+verified anything since the reach changed. Rewritten to read the band list out of
+`prepTM` / `prepOLI` and assert the actual mapping (TM/ETM+ green = `SR_B2`,
+OLI green = `SR_B3`) plus the rename to `blue/green/red/nir/swir1/swir2`. Tested
+against a deliberately swapped band list to confirm it now fails when it should.
+A band swap here would silently compute the wrong water index: the mask would
+still look like water, in the wrong places.
+
+**Rejected.** Keeping the code "just in case". A script that runs and returns the
+wrong answer is more dangerous than a missing one, and this project has already
+been burned once by exactly that (D88: the hydrology export carried the Jamuna
+box, and `11_hydro_features.py` would have written a table of NaNs without
+raising any error).
+
+**Rejected.** Deleting silently. Removals that leave no trace make the next
+person re-derive them; hence this entry, and a note in `VALIDATION.md` PART B
+that the Jamuna figures are frozen because their inputs are gone.
+
+**Impact.** The tree now contains only code that is reachable from the pipeline
+the project actually runs. **One loss is recorded honestly:**
+`data/unused_data/jamuna/` was gitignored and held the raw Jamuna GloFAS
+discharge table, which `config.py` noted cannot be derived from the masks. The
+*finding* survives intact — D44, `reports/RISK.md`, and PART B of
+`reports/VALIDATION.md` carry its numbers, its cell coordinates and its
+plausibility checks — but the raw CSV is not recoverable.
+
+**Assumption flagged.** The claim that nothing else referenced the removed files
+was verified by searching the repository, not by running every script end to
+end. `09_checks.py` was re-run afterwards and all blocking checks pass.
+
+---
+
+## D94 - gradient boosting becomes the served model; the report now names the estimator that ran
+
+**Date:** 2026-10-19
+
+**Decision.** `HistGradientBoostingRegressor` replaces `RandomForestRegressor`
+as the model the map, the API and `reports/VALIDATION.md` serve. A new
+`DEFAULT_MODEL = "gbm"` constant in `14_model_train.py` keys the artefact
+filenames, so the default writes `model_report.json` and
+`model_predictions_landsat.csv` and everything else writes a suffixed variant.
+`DEFAULT_SENSOR` was added at the same time and set to `landsat`.
+
+**Reason.** On the **identical** expanding-window backtest — same folds, same
+features, same rows — gradient boosting scores **MAE 15.675 m/yr against the
+forest's 15.886**, and the fold record is 16/13 in its favour rather than a
+clean sweep. The margin is 0.211 m/yr, or **1.3%**.
+
+The project's position, stated by the owner and adopted here: **a small,
+reproducible, out-of-sample margin is still a margin.** The number is not being
+presented as a breakthrough — it is 1.3% — but the comparison is controlled, so
+there is no principle on which to prefer the model that scored worse on the
+same test. (D91 recorded the pair as tied and left the choice open; this entry
+closes it.)
+
+**Rejected.** Keeping RandomForest on the grounds that 1.3% is not worth a
+change. Rejected because the change is essentially free — `make_model()` already
+existed, the backtest already covered both — and because "we kept the worse one
+because the gap looked small" is not a defensible sentence in a methods chapter.
+
+**Rejected.** Choosing on the pooled score alone. D92 stands: the pooled margin
+is 18/18 folds in 1996–2015 and 2/11 in 2016–2026. Switching the estimator does
+**not** address that, and no document may quote 15.675 without the split. The
+model got better on the metric and not better in the recent regime; both are
+true.
+
+**Bug fixed in the same change.** The report's `"model"` field was a hardcoded
+`RandomForestRegressor(...)` string written regardless of `--model`, so a
+`--model gbm` run produced an artefact naming the wrong estimator while carrying
+that estimator's score. It is now built by `model_label()` from the parameters
+that actually ran, and a short `model_name` travel with the prediction rows so
+`06_predict_geojson.py` can name the model in the GeoJSON instead of typing
+"RandomForest" into the metadata. `07_validate.py` reads the name out of the
+report rather than asserting it.
+
+**Bug fixed in the same change (2).** The trainer's `--sensor` defaulted to
+`s2` while `model_report.json` carries no sensor in its filename and
+`backend/core/views.py` reads it as the served model. A bare re-run — which is
+exactly what `README.md` instructs — would therefore have described the landsat
+map with the S2 numbers, silently. Same failure shape as D81. The default is now
+`landsat`, which is the sensor the map is built from.
+
+**Impact.** `model_report.json` and `model_predictions_landsat.csv` now describe
+gradient boosting; the forest is retained as `model_report_rf.json` /
+`model_predictions_landsat_rf.csv` for reproducibility. The orphaned `_gbm`
+variants from the comparison run were deleted, since no command produces that
+suffix any more. Both validation figures were regenerated and now name the
+estimator on the figure itself. `reports/MODEL_CHOICE.md` was rewritten around
+the new default.
+
+**Assumption flagged.** "1.3% is an improvement" assumes the backtest difference
+is not run-to-run noise. Gradient boosting here is deterministic
+(`random_state=0`, `early_stopping=False`), and the test is the same folds, so
+the difference is reproducible — but it was measured on **one** dataset and one
+reach, and a 0.211 m/yr margin on a 15.7 m/yr error is well inside the spread
+between folds. It is reported as a small controlled margin, not as evidence that
+boosting is generally better for this problem.
+
+---
+
+## D95 - the published 21 m/yr comparison is a derived centreline average, not a median bank rate
+
+**Date:** 2026-10-19
+
+**Decision.** Stop presenting the gap between this project's Landsat median
+(11.2 m/yr) and the published 21 m/yr as an unexplained discrepancy. Name what
+the published figure actually is, and separate the part of the gap that is
+definitional from the part that is a real limitation of this work.
+
+**Reason.** The 21 m/yr figure is **derived, not quoted**: the direct study of
+this river (Hasan et al. 2024, *Progress in Disaster Science* 24, 100381)
+reports that the channel *"shifted an average of 0.66 km"* between 1993 and
+2024, measured as **channel-centreline migration** in ArcGIS over a 2 km buffer.
+0.66 km ÷ 31 yr = 21.3 m/yr.
+
+Two different quantities were being compared:
+
+- theirs: a **reach-scale centreline average**, which follows the bends where
+  migration is fastest and is pulled up by the tail;
+- ours: the **median of individual bank-side displacements** at fixed
+  transects, over 5-year pairs.
+
+A median of a heavy-tailed erosion distribution sits below its own mean by
+construction, and excluding non-eroding bank sides raises it further — Miah et
+al. (2025) report a DSAS **mean of 21.9 m/yr on eroding transects only** for the
+wider Padma system, which brackets the published number rather than our median.
+The two figures can both be correct.
+
+**Rejected.** Retaining the old wording ("outside the range the previous report
+claimed to match") as if the gap were purely empirical. It overstated a
+definitional difference as a measurement failure of this project.
+
+**Rejected.** The opposite over-correction — declaring the gap "explained" and
+dropping it. Two limitations survive and are still stated in `VALIDATION.md`
+section 5: the measurement strip is only **250 m** wide, so it scores movement
+at the present bank and not the wider floodplain; and this is **one middle
+reach** while the published study covers the whole river. Explanation is not
+closure, and the report says so.
+
+**Impact.** `07_validate.py` gained `LITERATURE_CITATION` and a corrected
+`LITERATURE_SOURCE` string ("0.66 km average channel shift over 1993-2024"),
+and section 5 of `reports/VALIDATION.md` was regenerated with the distinction
+made explicit. `reports/LITERATURE.md` was created to hold the full evidence
+base. Anyone quoting the 21 m/yr must now also quote what it measures.
+
+**Assumption flagged.** That Hasan et al.'s "average of 0.66 km" is a
+reach-scale centreline average rests on the paper's own methods description
+(centreline migration, ArcGIS, 2 km buffer) and its highlights, not on a
+recomputation — the underlying data was not reanalysed here. If the paper's
+figure turns out to be a bank displacement rather than a centreline shift, this
+entry is wrong and the gap returns to being unexplained.

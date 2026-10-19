@@ -2,11 +2,9 @@
 
 The analysis reach is chosen with one environment variable:
 
-    RIVERGUARD_REACH=ganges ../.venv/bin/python 04_erosion.py landsat
+    RIVERGUARD_REACH=arial_khan ../.venv/bin/python 04_erosion.py landsat
 
-    Unset, it means arial_khan, and every path and value is exactly what it has
-always been - the backend serves from these folders, so the reach switch
-must never move the jamuna data. All spatial analysis is done in a
+    Unset, it also means arial_khan. All spatial analysis is done in a
 projected CRS (metres), not lat/lon.
 """
 
@@ -16,56 +14,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 # --- reach registry ----------------------------------------------------------
-# ganges is the generalisation trial of DECISIONS.md D48: the single-thread
-# meandering Rajshahi - Hardinge Bridge reach, where bank movement is expected
-# to persist year on year. That expectation is a hypothesis from literature,
-# not a finding. Its transect gates are first guesses scaled down from the
-# Jamuna's for a river 1-4 km wide, to be verified against the first real
-# data (10_verify_geometry.py spot checks).
+# One reach remains. The Jamuna was archived (D49) after D44 showed its erosion
+# was unpredictable, and the Ganges trial (D48) was never run. Both have been
+# removed from the registry so that no command can silently run against a reach
+# whose data is gone. Putting a reach back means restoring its raw data first.
 REACHES = {
-    # ARCHIVED 2026-10-18, not deleted. The Jamuna data lives in
-    # data/unused_data/jamuna/; the Arial Khan became the active reach (D49).
-    # Kept for three reasons:
-    #   1. it is the EVIDENCE for the project's central negative result (D44) -
-    #      37 years and real river discharge still could not predict erosion, and
-    #      that finding is what motivated the switch;
-    #   2. it is the CONTROL. Comparing a 9 km braided reach against a 300 m
-    #      single-thread one is the actual experiment;
-    #   3. the raw exports cost about an hour of Earth Engine work to download.
-    #
-    # What is kept is the RAW material only: the 37 Landsat masks, the 8 S2
-    # masks, the GloFAS discharge table (Downloaded from Copernicus - it cannot
-    # be derived from the masks) and the quarantined bad masks from D26.
-    #
-    # Its processed/ tree was deleted to remove old, superseded output. That
-    # means RIVERGUARD_REACH=jamuna does NOT currently run: the derived files
-    # would have to be rebuilt first, by re-running 01b_prepare_landsat.py and
-    # the scripts after it. Only the raw inputs are guaranteed to be here.
-    "jamuna": {
-        "label": "Jamuna (Kazipur / Sirajganj)",
-        "bbox": (89.65, 24.30, 89.85, 24.60),
-        "bbox_landsat": (89.65, 24.35, 89.85, 24.60),
-        "raw_dir": ROOT / "data" / "unused_data" / "jamuna",
-        "proc_dir": ROOT / "data" / "unused_data" / "jamuna" / "processed",
-        "geom": {"ref_year": 2023, "sensor": "s2"},
-        "gates": {},
-    },
-    "ganges": {
-        "label": "Ganges (Rajshahi - Hardinge Bridge)",
-        "bbox": (88.55, 23.95, 89.10, 24.40),
-        "bbox_landsat": (88.55, 23.95, 89.10, 24.40),
-        "crs": "EPSG:32645",
-        "raw_dir": ROOT / "data" / "reaches" / "ganges" / "raw",
-        "proc_dir": ROOT / "data" / "reaches" / "ganges" / "processed",
-        "geom": {"ref_year": 2020, "sensor": "landsat"},
-        "gates": {
-            "MIN_WIDTH_M": 1200.0,
-            "MIN_WET_WIDTH_M": 900.0,
-            "MAX_CAST_M": 6000.0,
-            "MARGIN_M": 500.0,
-            "ZONE_M": 600.0,
-        },
-    },
     # Arial Khan, MIDDLE reach: Madaripur Sadar down to Kalkini. Chosen
     # 2026-10-18 after D44/D47 found the Jamuna unpredictable (D49).
     #
@@ -218,7 +171,7 @@ DRY_SEASON = ("01-01", "03-25")
 # --- Sentinel-2 record (what we originally downloaded) ---
 S2_YEARS = list(range(2019, 2027))
 
-# --- Landsat record (1984 onwards, downloaded from gee/landsat_export.js) ---
+# --- Landsat record (1984 onwards, downloaded from gee/landsat_export_arial_khan.js) ---
 # Landsat is 30 m, not 10 m. We never resample it to 10 m because that would
 # invent detail the sensor does not have. It gets its own grid instead.
 RES_LANDSAT = 30.0

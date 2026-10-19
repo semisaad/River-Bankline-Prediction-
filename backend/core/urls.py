@@ -6,7 +6,6 @@ urlpatterns = [
     path("health/", views.health),
     path("years/", views.years),
     path("banklines/", views.banklines),
-    path("transects/", views.transects),
     path("erosion/", views.erosion),
     path("erosion/pairs/", views.erosion_years),
     path("predictions/", views.predictions),

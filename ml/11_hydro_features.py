@@ -1,15 +1,21 @@
 """11 - Hydrology features: join climate forcing to the transect table.
 
-Loads the ERA5-Land exports (gee/hydro_export.js) and adds catchment-scale
+Loads the ERA5-Land exports (gee/hydro_export.js) and adds weather-over-the-reach
 forcing columns to the ML feature table.
 
-WHY CATCHMENT SCALE, NOT THE REACH
-  ERA5-Land is 0.1 degree, about 11 km. Our reach is a few km wide, so one cell
-  does not describe the river itself. What it does describe is the weather over
-  the catchment that feeds it, and that is the forcing that decides how hard the
-  river is pushing on its banks. So these features are honest proxies for
-  catchment hydrology, not measurements of Jamuna discharge. Say so in the
-  write-up.
+WHAT THESE NUMBERS ACTUALLY ARE, AND WHAT THEY ARE NOT
+  ERA5-Land is 0.1 degree, about 11 km. The study box is about 10 x 14 km, so we
+  are reading roughly ONE model cell - the weather sitting over the reach. It is
+  not a measurement of the river, and it is not catchment-scale either: to call
+  it that would be overselling it. The claim these features can support is
+  modest, and should be written up that way: "the weather over the reach in
+  year0", as a proxy for the water the river was being asked to carry.
+
+  We tried to get the real thing. GloFAS is genuine discharge in m3/s, but at
+  this reach its nearest cell reads a maximum of 13 m3/s for an entire year: a
+  5 km grid cannot see a 300 m distributary, so it models a small local
+  catchment instead. See D88. A perfect 38-year download would still have been
+  the wrong river.
 
 NO LEAKAGE
   A row for pair (y0, y1) describes what happened BETWEEN y0 and y1, so every
@@ -40,35 +46,6 @@ import config as C
 HYDRO_RAW = C.DATA_RAW / "hydro"
 HYDRO_PROC = C.DATA_PROC / "hydro"
 
-
-def globlas_annual():
-    """Real GloFAS discharge, if 12_glofas_discharge.py has been run.
-
-    Returns None when it is not available, so this script still works with the
-    ERA5-Land runoff proxy on its own.
-    """
-    p = HYDRO_RAW / "glofas_annual.csv"
-    if not p.exists():
-        return None
-    df = pd.read_csv(p)
-    df = df.rename(columns={df.columns[0]: "year"})
-    df["year"] = df["year"].astype(int)
-    df = df.set_index("year")
-
-    # The consolidated GloFAS record runs a few months behind the present, so the
-    # last year arrives part-finished. 12_glofas_discharge.py blanks its summary
-    # columns and sets complete=False. Keep those years out entirely rather than
-    # joining a half-year average against 37 full ones - it would otherwise read
-    # as the driest year on record.
-    if "complete" in df.columns:
-        dropped = df.index[~df["complete"].astype(bool)].tolist()
-        if dropped:
-            print(f"  dropping incomplete GloFAS year(s) {dropped} "
-                  f"(record not finished by the service)")
-        df = df[df["complete"].astype(bool)]
-    return df
-
-
 def available_hydro_years():
     if not HYDRO_RAW.exists():
         return []
@@ -97,7 +74,16 @@ def catchment_means(year):
         from shapely.geometry import box, shape
 
         box_ll = box(*C.BBOX_WGS84)
-        geom = transform_geom(s.crs, "EPSG:4326", box_ll, densify_pts=21)
+        # No densify_pts here: that is a pyproj argument, and
+        # rasterio.warp.transform_geom rejects it outright. This line could not
+        # run before the first ERA5-Land export existed, so the wrong keyword sat
+        # here harmlessly until there was finally data to read.
+        #
+        # In practice this transform is the identity - hydro_export.js writes
+        # EPSG:4326 and the study box is in EPSG:4326 too. It is kept so that an
+        # export in a projected CRS still lands in the right place; for a box this
+        # small, skipping densification costs well under one pixel.
+        geom = transform_geom(s.crs, "EPSG:4326", box_ll)
         inside = geometry_mask([shape(geom)], out_shape=s.shape,
                                transform=s.transform, invert=True)
 
@@ -150,11 +136,10 @@ def attach_anomaly(df, series, colname):
 
 def main(sensor="landsat"):
     years = available_hydro_years()
-    gl = globlas_annual()
-    if not years and gl is None:
+    if not years:
         print(f"No hydrology data in {HYDRO_RAW}")
-        print("Either run gee/hydro_export.js in Google Earth Engine, or run "
-              "12_glofas_discharge.py for real GloFAS discharge.")
+        print("Run gee/hydro_export.js in Google Earth Engine, download the "
+              "Hydro_<year>.tif files, and put them in that folder.")
         return
 
     fcsv = C.DATA_PROC / "features" / sensor / "features.csv"
@@ -166,8 +151,6 @@ def main(sensor="landsat"):
     print(f"feature rows: {len(df)}")
     print(f"ERA5-Land proxy : "
           f"{'none' if not years else f'{len(years)} years ({years[0]}-{years[-1]})'}")
-    print(f"GloFAS discharge: "
-          f"{'none' if gl is None else f'{len(gl)} years ({gl.index.min()}-{gl.index.max()})'}")
 
     names = []
     if years:
@@ -189,36 +172,14 @@ def main(sensor="landsat"):
                 attach_year_and_change(df, series, f"clim_{n}")
                 attach_anomaly(df, series, f"clim_{n}_anom")
 
-    # real discharge first, because it is the better variable and should be
-    # listed first in the report below
-    if gl is not None:
-        # lat/lon are location metadata, days/complete are record-keeping, and
-        # std duplicates information already in cv. None of them are features.
-        skip = {"lat", "lon", "days", "complete"}
-        gcols = [c for c in gl.columns
-                 if c not in skip and not c.endswith("_std")]
-        for c in gcols:
-            attach_year_and_change(df, gl[c], f"q_{c}")
-        attach_anomaly(df, gl["q_mean"], "q_mean_anom")
-        print(f"added {len(gcols)*2+1} GloFAS discharge columns "
-              f"({', '.join('q_' + c for c in gcols)})")
-        got = df["q_mean"].notna().mean() * 100
-        print(f"q_mean available on {got:.0f}% of rows")
-
     out = C.DATA_PROC / "features" / sensor / "features_hydro.csv"
     df.to_csv(out, index=False)
-    added = len([c for c in df.columns
-                 if c.startswith("clim_") or c.startswith("q_")])
+    added = len([c for c in df.columns if c.startswith("clim_")])
     print(f"added {added} hydrology columns in total")
     print(f"-> {out}")
 
     # honest look at whether it helped
     print("\ncorrelation with the erosion label (physical expectation: positive)")
-    qcols = [c for c in df.columns if c.startswith("q_") and "_chg" not in c]
-    for n in qcols:
-        s2 = df[[n, "target_rate"]].dropna()
-        if len(s2) > 50:
-            print(f"  {n:<34} {s2[n].corr(s2.target_rate):+.3f}  (n={len(s2)})")
     for n in names:
         s = df[[f"clim_{n}", "target_rate"]].dropna()
         if len(s) > 50:

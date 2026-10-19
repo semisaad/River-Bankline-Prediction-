@@ -18,8 +18,6 @@ PAIR_RE = re.compile(r"^\d{4}_\d{4}$")
 ROOT = Path(__file__).resolve().parents[2]
 REACH = os.environ.get("RIVERGUARD_REACH", "arial_khan").strip().lower()
 REACH_DIRS = {
-    "jamuna": ROOT / "data" / "unused_data" / "jamuna",
-    "ganges": ROOT / "data" / "reaches" / "ganges",
     "arial_khan": ROOT / "data" / "reaches" / "arial_khan",
 }
 if REACH not in REACH_DIRS:
@@ -245,23 +243,3 @@ def banklines(request):
         fc = _load(BANKLINES / f"bankline_{y}.geojson")
         feats.extend(fc.get("features", []))
     return Response({"type": "FeatureCollection", "features": feats})
-
-
-@api_view(["GET"])
-def transects(request):
-    """Transect migration table. Optional ?pair=2022_2023."""
-    pair = request.query_params.get("pair")
-    if pair:
-        if not PAIR_RE.fullmatch(pair):
-            return Response(
-                {"error": "pair must look like 2022_2023"}, status=400
-            )
-        path = TRANSECTS / f"transects_{pair}.geojson"
-    else:
-        found = sorted(TRANSECTS.glob("transects_*.geojson"))
-        if not found:
-            return Response({"error": "no transects computed"}, status=404)
-        path = found[-1]
-    if not path.exists():
-        return Response({"error": f"not found: {path.name}"}, status=404)
-    return Response(_load(path))

@@ -18,7 +18,7 @@
  * no usable imagery were exported as if they were fine - silently.
  *
  * Validity is now read from the composite BEFORE unmasking. The sibling
- * scripts boards/landsat_export.js and landsat_export_ganges.js always did it
+ * scripts that predate this pipeline always did it
  * this way; the Arial Khan pair regressed.
  *
  * The working grid is also now stated explicitly (RES_M) so that the focal
@@ -73,7 +73,7 @@
  *   - do not lower the gates just to force an export
  *
  * Then drop the .tif files into  data/reaches/arial_khan/raw/
- * (v1 masks are backed up at data/unused_data/arial_khan_s2_v1_verified/).
+ *
  *******************************************************************************/
 
 
