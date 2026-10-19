@@ -12,9 +12,19 @@ WHY CATCHMENT SCALE, NOT THE REACH
   write-up.
 
 NO LEAKAGE
-  A row for year pair (y0, y1) may only use hydrology up to and including y1.
-  Erosion this year responds to flow this year, so using the same window is
-  causal. Using the NEXT year's flow would be predicting the past.
+  A row for pair (y0, y1) describes what happened BETWEEN y0 and y1, so every
+  forcing column attached here is taken at year0 or earlier - the last year whose
+  data exists at the moment the forecast has to be made.
+
+  This previously read from year1 instead, justified as "erosion responds to the
+  flow in the same window". That is true as physics and false as forecasting: at
+  prediction time y1's discharge is up to five years in the future, so a model
+  using it would score well and be useless in operation. Same class of bug as
+  D63/D80.
+
+  The cost of the fix is stated plainly rather than hidden: y0's flow is only a
+  PROXY for the flow during (y0, y1], because wet and dry years cluster. That is
+  a genuine weakening of the physical claim and belongs in the write-up.
 
 Run:  ../.venv/bin/python 11_hydro_features.py [s2|landsat]
 """
@@ -99,6 +109,45 @@ def catchment_means(year):
     return out
 
 
+def attach_year_and_change(df, series, prefix):
+    """Attach `prefix` and `prefix_chg` from a per-year series, at y0 only.
+
+    `series` is indexed by year. The value is taken at year0, the last year known
+    when the prediction is made, and the change is measured over the same length
+    as the target window so the two are comparable: for a 5-year pair, the change
+    is from y0-5 to y0.
+
+    Taking these at year1 (which this used to do) reads a year from inside the
+    interval being predicted. It is the D63/D80 leak class and the reason this
+    helper exists: the anchor year is set in exactly one place.
+    """
+    step = (df["year1"] - df["year0"]).replace(0, 1)
+    now = df["year0"].map(series)
+    before = (df["year0"] - step).map(series)
+    df[prefix] = now
+    df[f"{prefix}_chg"] = now - before
+    return [prefix, f"{prefix}_chg"]
+
+
+def attach_anomaly(df, series, colname):
+    """Departure from the record so far: normal weather does not move a bank.
+
+    The baseline is an expanding median over years up to and including y0, so it
+    never sees the future. This previously did
+        df.groupby("year1")[col].transform(lambda s: s.expanding().median())
+    but the value is constant within a year, so the expanding median inside that
+    group WAS the value, and the anomaly came out identically zero - a column of
+    zeros that looks like a feature and carries nothing.
+    """
+    s = series.dropna().sort_index()
+    if s.empty:
+        df[colname] = np.nan
+        return colname
+    hist = s.expanding().median()
+    df[colname] = df["year0"].map(s) - df["year0"].map(hist)
+    return colname
+
+
 def main(sensor="landsat"):
     years = available_hydro_years()
     gl = globlas_annual()
@@ -135,18 +184,10 @@ def main(sensor="landsat"):
             names = sorted(next(iter(clim.values())).keys())
             print(f"ERA5-Land bands: {', '.join(names)}\n")
 
-            # build per-year climate dict, then per-pair differences
             for n in names:
-                df[f"clim_{n}"] = df["year1"].map(lambda y: clim.get(y, {}).get(n, np.nan))
-                prev = df["year0"].map(lambda y: clim.get(y, {}).get(n, np.nan))
-                df[f"clim_{n}_chg"] = df[f"clim_{n}"] - prev
-
-    # anomaly against the record so far - weather that is normal for this
-    # catchment is not what erodes a bank; weather that is unusual is
-    for n in names:
-        hist_med = df.groupby("year1")[f"clim_{n}"].transform(
-            lambda s: s.expanding().median())
-        df[f"clim_{n}_anom"] = df[f"clim_{n}"] - hist_med
+                series = pd.Series({y: v.get(n, np.nan) for y, v in clim.items()})
+                attach_year_and_change(df, series, f"clim_{n}")
+                attach_anomaly(df, series, f"clim_{n}_anom")
 
     # real discharge first, because it is the better variable and should be
     # listed first in the report below
@@ -157,11 +198,8 @@ def main(sensor="landsat"):
         gcols = [c for c in gl.columns
                  if c not in skip and not c.endswith("_std")]
         for c in gcols:
-            df[f"q_{c}"] = df["year1"].map(gl[c])
-            prev = df["year0"].map(gl[c])
-            df[f"q_{c}_chg"] = df[f"q_{c}"] - prev
-        hist = df.groupby("year1")["q_mean"].transform(lambda s: s.expanding().median())
-        df["q_mean_anom"] = df["q_mean"] - hist
+            attach_year_and_change(df, gl[c], f"q_{c}")
+        attach_anomaly(df, gl["q_mean"], "q_mean_anom")
         print(f"added {len(gcols)*2+1} GloFAS discharge columns "
               f"({', '.join('q_' + c for c in gcols)})")
         got = df["q_mean"].notna().mean() * 100

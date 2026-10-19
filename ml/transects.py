@@ -94,6 +94,12 @@ class Transect:
     water_frac: float = np.nan
     ok: bool = False
     reason: str = ""
+    # True when the reference-year belt was wider than MAX_WIDTH_M and had to be
+    # clamped because a water body CONNECTED to the river inflated it. Such a
+    # transect cannot be trusted: the clamp sets width0 to exactly MAX_WIDTH_M,
+    # so the later gate `width_m > MAX_WIDTH_M` can never reject it and the
+    # transect reports a plausible-looking MAX_WIDTH_M instead of the channel.
+    clamped: bool = False
 
 
 @dataclass
@@ -263,6 +269,7 @@ def build_transects(ref_year=GEOM_REF_YEAR, sensor_geom=GEOM_SENSOR,
             ts.dropped_build.append((k, "no belt along this normal"))
             continue
         width0 = prof["vmax"] - prof["vmin"]
+        was_clamped = False
         if width0 < MIN_WIDTH_M:
             ts.dropped_build.append((k, f"belt only {width0:.0f} m wide"))
             continue
@@ -286,12 +293,14 @@ def build_transects(ref_year=GEOM_REF_YEAR, sensor_geom=GEOM_SENSOR,
             clamped.append((k, f"belt {width0/1000:.1f} km, clamped to "
                               f"{MAX_WIDTH_M/1000:.1f} km (connected water body)"))
             width0 = MAX_WIDTH_M
+            was_clamped = True
         half_max = min(MAX_CAST_M, width0 / 2.0 + MARGIN_M)
 
         ts.transects.append(Transect(
             i=len(ts.transects), center=pts[k], normal=normal,
             tangent=tangent, arc_m=float(arcs[k]), half_max=float(half_max),
             width0=float(prof["vmax"] - prof["vmin"]),
+            clamped=was_clamped,
         ))
 
     if not quiet:
@@ -522,6 +531,17 @@ def measure_edges(ts, year, sensor="s2", quiet=False):
 
     dropped = []
     for t in ts.transects:
+        # A clamped transect had its reference belt set to exactly MAX_WIDTH_M
+        # by a water body connected to the river. Its measured width therefore
+        # lands at MAX_WIDTH_M too, where the `width_m > MAX_WIDTH_M` gate below
+        # cannot see it, and it passes as a plausible channel. It is not one.
+        # 10 of 63 transects hit this on the Arial Khan and 2 of the 7 sampled
+        # ones failed the independent check in 10_verify_geometry.py (D81).
+        if t.clamped:
+            t.ok, t.reason = False, "belt clamped at build (connected water body)"
+            dropped.append((t.i, t.reason))
+            continue
+
         prof = _water_profile(mask, inv, t.center, t.normal, t.half_max,
                               res, mode=mode)
         if prof is None:

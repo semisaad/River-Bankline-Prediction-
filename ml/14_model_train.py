@@ -22,8 +22,9 @@ ARTIFACTS = __import__("pathlib").Path(__file__).resolve().parent / "artifacts"
 PRED_DIR = C.DATA_PROC / "predictions"
 
 FORECAST_FEATURES = [
-    "rate_lag1", "rate_lag2", "rate_roll3", "rate_std3", "n_prior",
-    "width_lag1", "curvature_k", "meander_off_m", "arc_norm",
+    "rate_lag1", "rate_lag2", "rate_lag3", "rate_roll3", "rate_std3",
+    "rate_mean_all", "rate_std_all", "n_prior",
+    "width_lag1", "curvature_k", "curv_outer", "meander_off_m", "arc_norm",
     "stage_km2_prev",
 ]
 
@@ -49,10 +50,40 @@ LEAKY_COLUMNS = {
 # settings in both places means the number and the output agree by construction.
 RF_PARAMS = dict(n_estimators=500, min_samples_leaf=5, random_state=0, n_jobs=-1)
 
+# Gradient boosting, kept here so the two can be scored through the SAME
+# backtest rather than compared on different code paths. On tabular data of this
+# shape it usually edges out a forest, but "usually" is not a reason to assume
+# it - the expanding-window backtest below decides, and either can lose.
+#
+# early_stopping is OFF and the iteration count is fixed, because the internal
+# validation split that early stopping uses is drawn from the training rows, and
+# this project's whole discipline is that the scored model and the saved model
+# are identical.
+GBM_PARAMS = dict(max_iter=400, learning_rate=0.05, max_leaf_nodes=31,
+                  min_samples_leaf=20, l2_regularization=1.0,
+                  early_stopping=False, random_state=0)
 
-def load(reach, sensor):
-    p = C.DATA_PROC / "features" / sensor / "features.csv"
+
+def make_model(kind):
+    if kind == "gbm":
+        from sklearn.ensemble import HistGradientBoostingRegressor
+        return HistGradientBoostingRegressor(**GBM_PARAMS)
+    return RandomForestRegressor(**RF_PARAMS)
+
+
+def load(reach, sensor, hydro=False):
+    # Hydro forcing lands in a separate table (11_hydro_features.py) rather than
+    # being merged into features.csv. That separation is deliberate - it means
+    # the hydro model can be scored against the identical backtest as the base
+    # one, instead of the two differing in code as well as in inputs.
+    name = "features_hydro.csv" if hydro else "features.csv"
+    p = C.DATA_PROC / "features" / sensor / name
     if not p.exists():
+        if hydro:
+            raise SystemExit(
+                f"no hydro feature table at {p}\n"
+                f"run: RIVERGUARD_REACH={reach} ../.venv/bin/python "
+                f"11_hydro_features.py {sensor}")
         raise SystemExit(f"no features at {p}\n"
                          f"run: RIVERGUARD_REACH={reach} ../.venv/bin/python "
                          f"05_features.py {sensor}")
@@ -60,10 +91,43 @@ def load(reach, sensor):
     return df
 
 
-def features(df):
+def hydro_columns(df):
+    """Hydro forcing columns: GloFAS discharge (q_) and ERA5-Land climate (clim_).
+
+    All of them are attached at year0 by 11_hydro_features.py, so none may appear
+    in LEAKY_COLUMNS - the guard in features() re-checks that rather than trusting
+    this comment. Columns that are entirely empty are dropped: the median fill
+    would turn them into a constant, which is a feature that looks present and
+    carries nothing.
+
+    Constant columns are dropped for the same reason, and they are a live risk
+    rather than a hypothetical one: the GloFAS table carries the chosen cell's
+    latitude and longitude, so a column like q_lat is the same number on every
+    row. 11_hydro_features.py strips those before prefixing, but a guard that
+    depends on another script remembering to strip them is not a guard. A
+    constant cannot inform any prediction, and leaving the check here means the
+    failure mode is a missing feature rather than a silent one.
+    """
+    cols = []
+    for c in df.columns:
+        if not (c.startswith("q_") or c.startswith("clim_")):
+            continue
+        if not pd.api.types.is_numeric_dtype(df[c]):
+            continue
+        if df[c].notna().sum() == 0:
+            continue
+        if df[c].nunique(dropna=True) <= 1:
+            continue
+        cols.append(c)
+    return sorted(cols)
+
+
+def features(df, hydro=False):
     if "stage_km2" in df and "stage_change_km2" in df:
         df["stage_km2_prev"] = df["stage_km2"] - df["stage_change_km2"]
     cols = [c for c in FORECAST_FEATURES if c in df.columns]
+    if hydro:
+        cols += [c for c in hydro_columns(df) if c not in cols]
     leaked = sorted(set(cols) & LEAKY_COLUMNS)
     if leaked:
         raise SystemExit(
@@ -73,7 +137,7 @@ def features(df):
     return cols
 
 
-def evaluate(df, cols):
+def evaluate(df, cols, model_kind="rf"):
     """Expanding-window evaluation; never train on a year after the test year."""
     yearly = sorted(df["year1"].unique())
     actual, predicted = [], []
@@ -89,7 +153,7 @@ def evaluate(df, cols):
         train_medians = train[cols].median().fillna(0)
         X_train = train[cols].fillna(train_medians)
         X_test = test[cols].fillna(train_medians)
-        model = RandomForestRegressor(**RF_PARAMS)
+        model = make_model(model_kind)
         model.fit(X_train, train["target_rate"])
         fold_pred = model.predict(X_test)
         train_median = float(train["target_rate"].median())
@@ -145,24 +209,41 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--horizon", type=int, default=10,
                     help="years ahead to project (default 10)")
+    ap.add_argument("--sensor", default="s2", choices=sorted(C.SENSORS),
+                    help="which feature table to train on (default s2)")
+    ap.add_argument("--model", default="rf", choices=["rf", "gbm"],
+                    help="rf = RandomForest (default), gbm = gradient boosting")
+    ap.add_argument("--hydro", action="store_true",
+                    help="add GloFAS discharge and ERA5-Land climate forcing "
+                         "(from features_hydro.csv, built by "
+                         "11_hydro_features.py). Run with and without it and "
+                         "compare the two scores: the extra columns are only "
+                         "worth keeping if they move the backtest.")
     args = ap.parse_args()
     reach = C.REACH
 
     print("=" * 68)
     print(f"RiverGuard model training - {C.REACH_LABEL}")
-    print(f"reach {reach} | horizon {args.horizon} yr")
+    print(f"reach {reach} | sensor {args.sensor} | model {args.model} | "
+          f"horizon {args.horizon} yr | hydro {args.hydro}")
     print("=" * 68 + "\n")
 
-    df = load(reach, "s2")
-    cols = features(df)
+    df = load(reach, args.sensor, args.hydro)
+    cols = features(df, args.hydro)
     if not cols:
         raise SystemExit("no prior-year forecast features found")
     print(f"rows {len(df)} | transects {df.transect_id.nunique()} | "
-          f"pairs {sorted(df.year0.unique())}")
+          f"pairs {sorted(int(y) for y in df.year0.unique())}")
+    if args.hydro:
+        hcols = [c for c in cols if c.startswith(("q_", "clim_"))]
+        print(f"hydro columns {len(hcols)}")
+        for c in hcols:
+            print(f"  {c:<34} filled {df[c].notna().mean()*100:5.1f}%")
 
-    skill = evaluate(df, cols)
+    skill = evaluate(df, cols, args.model)
     print("\nSKILL (expanding-window, prior-year features only)")
-    print(f"  RandomForest               MAE {skill['mae_model']:7.3f} m/yr")
+    label = "RandomForest" if args.model == "rf" else "GradientBoosting"
+    print(f"  {label:<26} MAE {skill['mae_model']:7.3f} m/yr")
     print(f"  training median baseline   MAE {skill['mae_train_median']:7.3f} m/yr")
     print(f"  training mean baseline     MAE {skill['mae_train_mean']:7.3f} m/yr")
     print(f"  repeat previous pair       MAE {skill['mae_repeat_previous_pair']:7.3f} m/yr")
@@ -174,11 +255,20 @@ def main():
     # using the SAME settings the backtest just scored (RF_PARAMS).
     train_medians = df[cols].median().fillna(0)
     X = df[cols].fillna(train_medians)
-    model = RandomForestRegressor(**RF_PARAMS)
+    model = make_model(args.model)
     model.fit(X, df["target_rate"])
 
-    imp = (pd.Series(model.feature_importances_, index=cols)
-             .sort_values(ascending=False))
+    # Not every estimator exposes feature_importances_; gradient boosting does
+    # not, and asking it for one crashed the run after the score was printed.
+    if hasattr(model, "feature_importances_"):
+        imp = (pd.Series(model.feature_importances_, index=cols)
+                 .sort_values(ascending=False))
+    else:
+        from sklearn.inspection import permutation_importance
+        r = permutation_importance(model, X, df["target_rate"], n_repeats=10,
+                                   random_state=0)
+        imp = (pd.Series(r.importances_mean, index=cols)
+                 .sort_values(ascending=False))
     print("\nWHAT THE MODEL USES")
     for k, v in imp.head(8).items():
         print(f"  {k:<22} {v:.3f}")
@@ -212,13 +302,25 @@ def main():
         })
 
     PRED_DIR.mkdir(parents=True, exist_ok=True)
-    out = PRED_DIR / "model_predictions.csv"
+    # Per sensor. Both sensors once wrote the same filename, so training the
+    # second silently overwrote the first - and the one that overwrote it was
+    # the sensor whose forecast is NOT supported (D81).
+    #
+    # The same guard now covers model variants: a --hydro or --model gbm run is
+    # for comparison and must not replace the file the map is built from. The
+    # default configuration keeps its plain name so 06_predict_geojson.py and the
+    # API keep working untouched.
+    variant = "" if (args.model == "rf" and not args.hydro) else \
+        "_" + args.model + ("_hydro" if args.hydro else "")
+    out = PRED_DIR / f"model_predictions_{args.sensor}{variant}.csv"
     pd.DataFrame(rows).to_csv(out, index=False)
 
     ARTIFACTS.mkdir(parents=True, exist_ok=True)
-    (ARTIFACTS / "model_report.json").write_text(json.dumps(
+    report = ARTIFACTS / (f"model_report{variant}.json" if variant
+                          else "model_report.json")
+    report.write_text(json.dumps(
         {"generated": date.today().isoformat(),
-         "reach": reach, "sensor": "s2",
+         "reach": reach, "sensor": args.sensor, "hydro": args.hydro,
          "model": (f"RandomForestRegressor(n_estimators={RF_PARAMS['n_estimators']}, "
                    f"min_samples_leaf={RF_PARAMS['min_samples_leaf']})"),
          "feature_importance": {k: round(float(v), 4) for k, v in imp.items()},
@@ -240,7 +342,7 @@ def main():
               f"{r['projected_offset_m']:>8.0f}m  "
               f"{r['offset_low_m']:+.0f} to {r['offset_high_m']:+.0f}")
     print(f"\n-> {out}")
-    print(f"-> {ARTIFACTS / 'model_report.json'}")
+    print(f"-> {report}")
     print("\nNext: 06_predict_geojson.py draws these onto the map.")
 
 

@@ -36,13 +36,16 @@ import config as C
 import transects as T
 
 
-def pairs_for(sensor):
+def pairs_for(sensor, extra=None):
     """Year pairs at the sensor's configured window (see C.PAIR_STEP).
 
     Landsat on a slow river is measured in multi-year blocks because at 30 m the
     bank moves less than one pixel per year, so an annual pair measures nothing.
+
+    `extra` adds one-off pairs for an experiment without changing the reach
+    config; see C.sensor_pairs.
     """
-    return C.sensor_pairs(sensor)
+    return C.sensor_pairs(sensor, extra)
 
 
 def build_geometry(verbose=True):
@@ -51,8 +54,8 @@ def build_geometry(verbose=True):
     return ts
 
 
-def main(sensor="s2", geom=None):
-    pairs = pairs_for(sensor)
+def main(sensor="s2", geom=None, extra_pairs=None):
+    pairs = pairs_for(sensor, extra_pairs)
     if not pairs:
         print(f"No consecutive processed years for {sensor}.")
         return

@@ -42,6 +42,16 @@ import transects as T
 
 OUT_DIR = C.DATA_PROC / "predictions"
 RISK_CSV = C.DATA_PROC / "risk" / "transect_risk.csv"
+
+# Which sensor's prediction file to draw. Set from --sensor in main(); defaults
+# to Landsat because it is the record long enough to support a forecast (D81).
+_SENSOR = "landsat"
+
+
+def sensor():
+    return _SENSOR
+
+
 # Candidate model output from 14_model_train.py, kept separate from the
 # rendered map CSV so generating the GeoJSON never overwrites its input.
 MODEL_CSV = C.DATA_PROC / "predictions" / "model_predictions.csv"
@@ -63,19 +73,30 @@ def build(horizon_years):
 
     import pandas as pd
 
-    if MODEL_CSV.exists():
-        src = MODEL_CSV
-        print(f"using MODEL predictions from {MODEL_CSV}")
+    # One prediction file per sensor. Prefer the requested one, otherwise the
+    # first that exists, and SAY which was used - the two differ in whether the
+    # forecast is supported at all (D81), so silently picking one would put an
+    # unsupported projection on the map without saying so.
+    model_csv = C.DATA_PROC / "predictions" / f"model_predictions_{sensor()}.csv"
+    if not model_csv.exists():
+        cands = sorted((C.DATA_PROC / "predictions").glob("model_predictions_*.csv"))
+        if cands:
+            model_csv = cands[0]
+
+    if model_csv.exists():
+        src = model_csv
+        print(f"using MODEL predictions from {model_csv}")
+        print(f"  sensor: {model_csv.stem.replace('model_predictions_', '')}")
     elif RISK_CSV.exists():
         src = RISK_CSV
         print(f"no model yet - falling back to LONG-RUN RATES from {RISK_CSV}")
         print("(run 14_model_train.py for a trained projection)")
     else:
-        print(f"Missing both {MODEL_CSV} and {RISK_CSV}")
+        print(f"Missing both {model_csv} and {RISK_CSV}")
         print("Run 14_model_train.py (model) or 13_risk_and_forecast.py (rates).")
         return
 
-    using_model = src == MODEL_CSV
+    using_model = src != RISK_CSV
     risk = pd.read_csv(src)
     forecast_supported = (bool(risk["forecast_supported"].iloc[0])
                           if using_model else False)
@@ -294,7 +315,12 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--horizon", type=int, default=DEFAULT_HORIZON,
                     help="years to carry the long-run rate forward")
+    ap.add_argument("--sensor", default="landsat", choices=sorted(C.SENSORS),
+                    help="which sensor's predictions to draw (default landsat, "
+                         "the record long enough to support a forecast)")
     args = ap.parse_args()
+    global _SENSOR
+    _SENSOR = args.sensor
     build(args.horizon)
 
 

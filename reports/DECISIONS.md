@@ -2869,3 +2869,610 @@ matters.
 the real S2 files, and warns when a year's water area sits below half or above
 twice the reach median. This is recorded so the constant is not mistaken for a
 passing quality gate a third time.
+
+---
+
+## D77 - The ponds are removed locally, on our own grid
+
+**Date:** 2026-10-18
+
+**Found:** The re-exported masks were measured body by body. Every year contains
+**1,053-2,370 separate water bodies**. The river is the largest and is stable at
+**5.32-8.23 km2**, but the second-largest body never exceeded **1.48 km2**, and
+ponds made up **27-56% of all water** in the Sentinel-2 masks. Every one of the
+45 exported masks (8 S2, 37 Landsat) shows this same structure.
+
+The exporters carry a connected-component filter for exactly this -
+`BLOB_SCALE_M=60, BLOB_MIN=250` (about 0.9 km2 at 60 m). Simulating that filter
+locally on these very files leaves **2%** ponds, so the filter is not broken. It
+was simply **not in the script that produced the downloaded files**: the files
+are dated 04:44-05:11 and the filter was committed at 16:37. The exports came
+from an earlier version of the editor.
+
+**Decision:** Filter on our own grid, in `01_prepare.py` and
+`01b_prepare_landsat.py`, keeping only connected water bodies of at least
+**2.0 km2** (`river_body_min_km2` in `config.py`, per reach, `0` disables).
+2.0 km2 sits in an empty gap - the river is never below 5.32 km2 and the largest
+pond is never above 1.48 km2 - so this is a separation, not a threshold near a
+boundary where a wet year could tip it.
+
+**Rejected:** *Re-exporting with a working filter.* It costs another full Earth
+Engine run and depends on the Code Editor's saved version being the one that
+executes - which is precisely what went wrong here. A rule we can run and test
+on this laptop is worth more than a rule we have to trust. *Keeping only the
+single largest body* was also rejected: it is the same result today, but if a
+year ever splits the river in two, that rule silently halves the reach while the
+2 km2 rule keeps both halves.
+
+**Impact:** `01_prepare.py` prints what it discards per year, and warns loudly if
+any single discarded body exceeds 1.5 km2, because that would be a real channel
+rather than a pond. Over the 8 Sentinel-2 years the filter removes 33.1 of
+79.9 km2 (41% of detected water), leaving the river at 5.7-6.2 km2/yr. Discarded
+water is itself useful evidence: ponds hold 6.7 and 7.3 km2 in 2019 and 2020 but
+only 2.1-2.3 km2 in 2023-2026.
+
+**Assumption:** 2.0 km2 is calibrated on this reach only. It is not transferred
+to the Jamuna, where the belt is braided and `river_body_min_km2` is unset.
+
+---
+
+## D78 - The transect method is the Jamuna's, and it is wrong for a meandering river
+
+**Date:** 2026-10-18
+
+**Found:** With the ponds gone (D77), `03_transects.py` still reported a **mean
+width of 1,724 m**. Measured directly off the same mask with a distance
+transform along the medial axis, the true channel is **median 184 m, mean 177 m,
+max 340 m** - the slab method is **9.4x too wide**, and clearing the ponds changed
+nothing because ponds were never the cause.
+
+The cause is that `03_transects.py` is the **Jamuna algorithm**. It estimates one
+global flow direction by PCA and cuts 20 slabs across it, then takes
+`vv.max() - vv.min()` within each slab as the width. That is correct for the
+Jamuna, which is a braided belt flowing diagonally. The Arial Khan is a
+**single-thread meandering channel**: it runs 15.3 km along its principal axis
+while sweeping 4.8 km across it. Each of the 20 slabs is 766 m long along-flow,
+so at a bend a single slab contains river pixels spanning the entire 4.8 km belt.
+`max - min` therefore measures the **meander amplitude**, not the channel.
+
+**Decision:** Replace the slab method for single-thread reaches with **local
+perpendicular casts**: skeletonize the water mask to a centreline, order the
+centreline along the flow, and at each step of `SPACING_M` cast perpendicular to
+the **local** tangent (estimated from a short neighbourhood) and measure where
+the cast leaves the water. `N_TRANSECTS` stops being a constant of 20 and is
+derived from centreline length / `SPACING_M`; at 250 m spacing over ~29 km of
+centreline that is roughly 115 transects rather than 20.
+
+**Rejected:** *Shortening the slabs.* Resolving a 184 m channel needs slabs far
+shorter than the 4.8 km meander, which leaves bend slabs either empty or
+ambiguous. *Rescaling the existing output to match the literature.* That is the
+error D37 and the withdrawn `+0.92` exist to prevent - the method is wrong, not
+the calibration.
+
+**Gate implications - the old gates were guesses and the measurements now
+replace them.** The Arial Khan gates were documented as unverified guesses scaled
+from a 9 km braided belt. The real channel is 184 m wide, so `MAX_CAST_M=900` is
+absurdly generous for a cast that should find a bank within ~200 m, and
+`MIN_WET_WIDTH_M=100` and `MAX_WIDTH_M=1200` were never meaningful here. Rather
+than retune to the measurement, the gates must be set so they **fail loudly**
+when the method regresses - a width gate that admits 1,724 m cannot catch the bug
+that produced it. Retune after the rewrite and record the numbers.
+
+**Resolution caveat:** at 30 m, a 184 m channel is only **6 pixels wide**, so
+Landsat cannot resolve bank position to better than about 15-30 m. This is a
+floor on the Landsat series, not a tuning problem, and it must be quoted
+alongside any Landsat bank-shift number. Sentinel-2 at 10 m gives 18 pixels.
+
+**Impact:** `04_erosion.py`, `05_features.py` and the model all consume transects,
+so nothing downstream can be trusted until this is rewritten. The banklines
+(`02_banklines.py`) are unaffected - a 60-68 km bankline for a meandering 29 km
+centreline is consistent and they are derived from the corrected mask.
+
+**Assumption (not yet verified):** that the centreline is a single connected path
+in every year. If a year splits the channel, the ordering step needs a rule.
+
+---
+
+## D79 - D78 is withdrawn: I analysed a dead script, and the transect method was never broken
+
+**Date:** 2026-10-18
+
+**Supersedes D78, and corrects the stated reason in D77.**
+
+**What went wrong.** D78 concluded that the transect method was wrong and that
+every downstream number was 9.4x too wide. That conclusion was drawn from
+`ml/03_transects.py` - and **`03_transects.py` is dead code.** It was written on
+17 Oct 13:36 and never touched again. The live implementation is
+**`ml/transects.py`** (600 lines, 18 Oct 10:44), which `04_erosion.py` imports
+directly and which already does precisely what D78 proposed as a fix. Its own
+header says it: *"every transect perpendicular to the LOCAL direction of that
+centreline"*, with the method spelled out - build the centreline, sample points
+along it, take the local tangent from nearby points, cast perpendicular.
+
+Nothing anywhere references `03_transects.py` or the directory it writes. Its
+"N_TRANSECTS = 20" and its global-PCA slabs were never in the pipeline. The
+1,724 m mean width, the 20 transects, and the 4.8 km meander-sweep explanation
+were all real measurements **of a program that does not run**.
+
+**What the live path actually produces.** `04_erosion.py s2` on the corrected
+masks (D77):
+
+    centreline: 15.8 km from s2 2024
+    transects placed every 250 m, perpendicular to the local centreline direction
+    kept 60, dropped 3 at build
+    belt width at reference year: median 0.3 km, range 0.2-1.8 km
+
+    ALL 7 PAIRS: median 1.7 m/yr, IQR 0.0..4.6, max 69.6, n=324
+
+Median belt width **0.3 km**, which is consistent with the water area and
+independently so: 5.9 km2 spread along a 15.8 km centreline gives 373 m average
+cross-section, so a 300 m median with widening bends is what geometry requires.
+The 1.7 m/yr median is also unchanged from before the box expansion, which is the
+consistency check that matters.
+
+**So: only one of the two "defects" was real.** The ponds (D77) were real. The
+transect method was not. This entry exists because a wrong claim was recorded as
+a finding and had already been written into code comments.
+
+**Correction to D77's justification.** D77 leaned on the 1,715 m mean width as
+evidence that ponds were corrupting the transects. That number came from the dead
+script, and the causal story attached to it was wrong. **The pond filter is still
+justified, on different grounds:** ponds were 27-56% of all detected water (33.1
+of 79.9 km2 across the 8 Sentinel-2 years), and the live pipeline had to clamp
+**10 of its 63 transects** with the message *"a connected water body inflated the
+belt"* up to the 1.2 km ceiling. Removing the ponds at source makes those clamps
+unnecessary and keeps pond water out of the stage-area series. The filter's
+behaviour and its 2.0 km2 separation are unchanged.
+
+**What survives from D78 - and it is not nothing.** The resolution floor is real
+and still has to be quoted: at 30 m, a ~300 m channel is about **10 pixels**
+across, so Landsat cannot locate a bank to better than roughly 15-30 m no matter
+how good the method is. Sentinel-2 at 10 m gives about 30 pixels. Any Landsat
+bank-shift number carries that floor.
+
+**Gate numbers are now measured rather than guessed**, which was the point of
+running the gate at all. Belt width at the reference year is median 0.3 km,
+range 0.2-1.8 km; a 1.2 km clamp is doing real work on 10 transects.
+
+**Action.** `ml/03_transects.py` is **deleted**. It carries no references, and it
+produced a believable, precisely-wrong measurement that I then wrote into two
+decision entries and two code comments in one sitting. It is recorded here so it
+is not restored. Its output directory `data/reaches/*/processed/transects/` is
+also stale and has been cleared.
+
+**Lesson, stated plainly because it will recur:** the pipeline has two modules
+that look like they do the same job, one dead and one live, and the dead one has
+the more obvious filename. Before diagnosing a pipeline step from a file in `ml/`,
+**check what actually imports it.**
+
+---
+
+## D80 - The lag features leaked the answer, and only the Landsat pairs were vulnerable
+
+**Date:** 2026-10-18
+
+**Found:** `05_features.py` built every lag feature as `y1 - 1`, `y1 - 2`,
+`y1 - 3` - offsets from the END of the target interval. Landsat's `PAIR_STEP` is
+5 and `sensor_pairs()` returns `(y, y+5)` for **consecutive** y, so consecutive
+pairs **share four of their five years**. Pair `(2005, 2010)` and pair
+`(2006, 2011)` overlap in 2006-2010. A feature named "lag1" was therefore a
+measurement of **80% of the target interval**, and the model was largely being
+handed the answer.
+
+It hid because Sentinel-2's `PAIR_STEP` is 1, where `y1 - 1` happens to equal
+`y0`, the target's own start. The annual sensor was **correct by accident**.
+
+**Evidence.** On Landsat, with the leak the model scored **MAE 11.748** against a
+18.004 median baseline - an apparent 35% win, and it lost only narrowly to
+"repeat previous pair" (11.457). Anchoring the lags to `y0` gives **15.673**
+against the same 18.004 baseline. The model still wins, but the win was
+overstated by a third, and the leakage was doing most of the work.
+
+**Decision:** Anchor every lag feature to `y0`, the target pair's **start**:
+`lag1` is the pair ending at `y0`, `lag2` the pair ending at `y0 - step`, `lag3`
+at `y0 - 2*step`. A feature window must END before the target window STARTS.
+For Sentinel-2 this changes nothing. Also added `rate_mean_all` and
+`rate_std_all` - the bank's whole prior history - because bank erodibility is
+expected to be a stable property of a location, so the long-run mean is
+physically motivated and less noisy than any single window. It immediately
+became the third-strongest feature.
+
+**Rejected:** Removing lag features altogether. Persistence is real signal - it
+is the strongest feature in both sensors - so the answer is to measure it
+correctly, not to discard it.
+
+**Impact:** This is the second leakage found in this project (the first is D63,
+same-interval columns). Both were invisible in the score and only appeared when
+the *definition* of the feature window was checked against the target window.
+`LEAKY_COLUMNS` guards the first kind; nothing guards this kind. **Note as an
+open gap:** there is still no automatic check that a prior-year feature window
+does not overlap the target window.
+
+---
+
+## D81 - Clamped transects were laundered into plausible measurements, and the two sensors shared one output file
+
+**Date:** 2026-10-18
+
+**Found (a): clamping defeated its own gate.** When a water body connected to
+the river inflates the reference belt, `transects.py` clamps `width0` to
+`MAX_WIDTH_M` (1200 m for this reach) instead of dropping the transect. But
+`measure_edges` then rejects a transect only if `width_m > MAX_WIDTH_M`, and a
+clamped transect measures **exactly** `MAX_WIDTH_M`. `1200 > 1200` is false, so
+every clamped transect survived the gate that existed to catch it, reporting a
+plausible-looking 1.2 km channel. **10 of 63 transects** were clamped.
+
+The independent check caught it: `10_verify_geometry.py` failed 2 of the 7
+sampled transects, including one 1.2 km wide sitting **100% in water at both
+ends** - not a channel crossing at all.
+
+**Decision (a):** Mark clamped transects (`Transect.clamped`) and **drop** them
+in `measure_edges`, with the reason reported. A clamped transect does not
+measure the channel, so its rate is not a bank rate.
+
+**Rejected:** Lowering `MAX_WIDTH_M` below the clamp so the gate bites. It would
+work, but it would leave the two constants secretly coupled - anyone retuning
+one would silently disable the protection again. Naming the condition is the
+fix; tuning two numbers to collide is not.
+
+**Impact (a):** usable transects 47 -> 37 at the reference year. Median rates
+**rose**: Sentinel-2 1.7 -> 2.5 m/yr, Landsat 18.8 -> **22.5 m/yr**, against a
+published ~21 m/yr for this river. Clamped transects were dragging the median
+down because the clamp absorbs movement: whatever the bank did, the recorded
+width could not exceed the ceiling.
+
+**Found (b): the two sensors shared one prediction file.** `14_model_train.py`
+wrote `predictions/model_predictions.csv` for whichever sensor ran last. The
+Landsat run is the one whose forecast is **supported**; the Sentinel-2 run is
+not. Running them in the wrong order silently replaced the supported projection
+with the unsupported one on the map.
+
+**Decision (b):** One file per sensor (`model_predictions_<sensor>.csv`).
+`06_predict_geojson.py` takes `--sensor`, defaults to Landsat because that is the
+record long enough to carry a forecast, and **prints which file and sensor it
+used** rather than choosing silently.
+
+**Final skill, both sensors, corrected:**
+
+| sensor | rows | model MAE | best baseline | supported |
+|---|---|---|---|---|
+| Landsat (37 yr) | 2414 | **17.33** | 20.41 | **yes** |
+| Sentinel-2 (8 yr) | 520 | 3.92 | 3.44 | no |
+
+**This is the result the project was built to produce.** It forecasts where the
+record is long enough to learn from, and it refuses where it is not - the S2
+annual signal has *negative* lag correlation (-0.082 at lag1, -0.200 at lag2),
+which is the signature of noise, not process. It is recorded here so the S2
+number is never quoted as a failure of the model when it is a property of the
+data.
+
+---
+
+## D82 - The model could not tell an outer bank from an inner one
+
+**Date:** 2026-10-18
+
+**Found:** `05_features.py` stored curvature as `np.abs(...)` - magnitude only.
+The model was therefore blind to the single best-established control on meander
+migration: **the outside of a bend erodes and the inside accretes.** The same
+curvature reading meant opposite things depending on which bank it was, and the
+model had no way to know which.
+
+Measured on the Landsat table, the effect is exactly the textbook one:
+
+| bank | mean rate | median \|rate\| |
+|---|---|---|
+| outer (convex) | **+4.6 m/yr** (net land LOST) | 11.2 m/yr |
+| inner (concave) | **-6.2 m/yr** (net land GAINED) | 11.2 m/yr |
+
+The **magnitudes are identical**. So the unsigned feature carried no information
+about direction at all, and the model was reporting one blended number for two
+populations that move opposite ways.
+
+**Decision:** Add `curv_outer` - signed curvature, positive when THIS bank is the
+outer bank of its bend. The outer side is found **geometrically**, not from a
+sign convention: take the centreline points 250 m upstream and downstream, and
+their midpoint lies on the INNER side of the bend. The naming was then checked
+against `_water_profile`, where `side` comes from `vmin`/`vmax` and `vmin` is the
+`-normal` side, so `+normal` is the "right" bank. Getting that mapping backwards
+would have inverted the feature while leaving the accuracy almost unchanged and
+the interpretation entirely wrong.
+
+**Impact:** Landsat **MAE 17.330 -> 15.886**, an 8.3% gain, and now **22% below
+the best baseline** (20.413). `curv_outer` ranks 5th of 14 features. The
+Sentinel-2 score did not move (3.919 -> 3.917) and is still unsupported, which is
+the confirming result: a better feature cannot rescue a target that is noise.
+
+**Also in this entry, tested and rejected:** gradient boosting
+(`HistGradientBoostingRegressor`) through the *identical* backtest and folds -
+**MAE 17.468 against RandomForest's 17.330.** A forest wins on this table, so
+RandomForest is kept. This is worth recording precisely because the opposite is
+usually assumed; the comparison is now reproducible via `--model rf|gbm` rather
+than being a matter of opinion. Full hyperparameter search is NOT done and is an
+honest open item.
+
+**Also fixed:** `HistGradientBoostingRegressor` has no `feature_importances_`, so
+`--model gbm` crashed *after* printing its score. It now falls back to
+`permutation_importance`.
+
+**Open:** hyperparameters are still first-guess values (RF_PARAMS unchanged from
+D74). A proper search would need nested cross-validation to stay honest, and on
+2414 rows the headroom is small - the binding constraint is the 30 m Landsat
+resolution floor and the target's own scatter, not the tuning.
+
+---
+
+## D83 - The measured movement collapses across the record, and the model loses to "assume no change" on the most recent interval
+
+**Date:** 2026-10-18
+**Status:** Finding, recorded before any further tuning. Supersedes nothing, but
+it qualifies the headline skill number reported in D82.
+
+**Reason for investigating:** a held-out validation figure was built at the
+owner's request. It trained on pairs ending at or before 2021 (2,034 rows) and
+predicted the 2021 -> 2026 interval, which the model had never seen. The picture
+was expected to show a tight match. It did not.
+
+**Measured (all reproducible):**
+
+1. Held-out bank position, 5 years ahead, 38 transects / 76 bank sides:
+   - our prediction: median **19.3 m**, mean **43.3 m** error
+   - "assume the bank never moved": median **0.0 m**, mean **18.2 m** error
+   - within 30 m: ours 59.2%, unchanged **92.1%**
+   **The model loses to doing nothing on this interval.**
+
+2. Median `|target_rate|` by pair start year falls monotonically:
+   22.5 m/yr (1989-2007) -> 7.5-13.1 (2008-2014) -> **0.0-5.65 (2015-2026)**.
+   The fraction of bank sides reading *exactly* zero rises 1.6% -> **52.6%**.
+
+3. Pixel churn (pixels flipping between consecutive years) falls
+   **1.023% -> 0.736% -> 0.326%** of the image. Two sharp permanent drops line up
+   with satellite transitions: 2002-03 (1.06% -> 0.40%, Landsat 7 SLC-off begins
+   May 2003) and 2013-14 (1.14% -> 0.28%, Landsat 8 begins).
+
+4. The masks are NOT noisy. Across all 37 years, **88.35%** of pixels never flip
+   and only **0.07%** flip 10+ times. Boundary roughness per unit river area is
+   flat across eras (20.7 - 22.4).
+
+5. Bank offsets are quantised to the 30 m Landsat grid: all 76 offsets in the
+   validation set are exact multiples of 30 m. **48 of 76 bank sides (63%) show
+   exactly zero movement between 2021 and 2026.** A bank that moves less than
+   ~15 m is invisible.
+
+**Assumption (not a result), flagged as such:** the 5-6x decline in apparent
+movement is **confounded** with the satellite record's own quality. Early years
+are Landsat 5/7: fewer scenes per year, wider band passes, and a composite that
+samples a particular tide/stage rather than a true median. I **cannot** separate
+a genuine geomorphic slowdown from a sensor/quality artifact with the data in
+hand, and I do not claim either.
+
+**Decision:** Do not move the validation fold to an earlier, higher-movement
+interval to make the figure look better. That is cherry-picking and would put a
+number in front of a teacher that the data does not support. Report the recent
+interval as the honest test, and restate the claim as: **the model has skill
+where there is signal, and correctly has none where the target is below the
+measurement floor.**
+
+**Rejected, with evidence:**
+- *"Early masks are dark/noisy."* Rejected: roughness is flat (20.7-22.4) and
+  88% of pixels never flip.
+- *"The river narrowed 27%."* Rejected: 8,373 -> 6,112 water px, but on a fixed
+  set of **20 transects measurable in all 37 years** the width is stable,
+  333 -> 321 m, with ~2.4 m/yr lateral drift. The apparent narrowing was an
+  artifact of the transect set changing size (n = 32 in 1989, 47 by 2000).
+- *"`+/-300 m` is a clamp."* Rejected: every offset is a multiple of 30 m;
+  `+/-300` is a grid position. `transects.py:545` samples the profile at
+  `C.sensor_res(sensor)`, so 30 m is the floor for Landsat by construction (D35).
+- *"The 1989-1990 jump of 62 m is geolocation drift."* Rejected: it was the
+  changing transect set again; on the fixed 20 it is 36 m, and the whole drift
+  is a modest ~2.4 m/yr.
+
+**Impact:**
+- New script `ml/15_validate_figure.py` -> `reports/validation_bankline_2026.png`
+  plus `data/.../predictions/validation_2021_2026.csv`. Blue = observed 2026
+  bankline, dashed maroon = predicted, numeric agreement in the side panel.
+- The D82 headline (**MAE 15.886 vs 20.413**) still stands as computed, but it is
+  earned **mostly in the early, high-movement era**. It is not evidence that the
+  model can forecast the current Arial Khan, which is now barely moving at the
+  resolution we can measure. Both statements must travel together.
+- Sentinel-2 is unaffected (3.917, still unsupported) and remains the honest
+  "we cannot support this one" result.
+- **The legitimate route to a lower MAE is to fix the target, not the model** -
+  a sub-pixel bank edge (interpolate the water fraction inside each Landsat
+  pixel) would attack the 30 m quantisation that produces 63% exact zeros.
+  Hyperparameter search is NOT that route and on this table has little headroom.
+
+---
+
+## D84 - "More training data" is really "more RECENT data": the chronological learning curve is confounded
+
+**Date:** 2026-10-18
+**Status:** Finding. Qualifies D83, and rejects a claim that was about to be made.
+
+**Background:** the owner asked to train through 2023 and predict 2026, to show
+that "training with our method more and more gives more accuracy".
+
+**The trap avoided.** Landsat pairs are 5-year steps. Keeping the target at
+2021 -> 2026 while training on pairs up to 2023 would put the training pair
+(2018, 2023) *inside* the target - 2021, 2022 and 2023 sit in both. The score
+would rise because the model had already seen 3 of the 5 years it was asked to
+predict. That is the same class of bug as D80. So the target was moved to
+(2023, 2026), which no training pair overlaps. Both models then predict the
+identical interval and differ ONLY in how much history they saw.
+
+**Built:** the extra pair measured through the ordinary `04_erosion` path
+(`epr_2023_2026.geojson`); `features_with2023.csv` holding the normal rows plus
+the extra pair, so the ordinary `features.csv` keeps exactly the rows it had;
+`ml/16_more_data.py`; `reports/validation_bankline_2026_from2023.png`;
+`predictions/learning_curve.csv` and `learning_curve_matched.csv`.
+`C.sensor_pairs(sensor, extra=None)` gained an optional pair list; with `None`
+the returned list is byte-for-byte what it was before.
+
+**Result 1 - the chronological curve** (rate MAE m/yr, target fixed 2023->2026):
+
+| trained through | rows | MAE |
+|---|---|---|
+| 1999 | 342 | 25.39 |
+| 2004 | 664 | 27.28 |
+| 2009 | 1100 | 22.68 |
+| 2014 | 1500 | 18.81 |
+| 2019 | 1882 | 12.71 |
+| 2021 | 2034 | 12.10 |
+| 2023 | 2182 | **10.77** |
+
+Read alone this looks like a clean "more data is better" - a 58% reduction. It is
+not.
+
+**Result 2 - the count-matched test** (same number of pairs, oldest vs newest):
+
+| pairs | rows | oldest first | newest first |
+|---|---|---|---|
+| 4 | 270 | 24.17 | **7.59** |
+| 8 | 570 | 27.44 | 8.67 |
+| 12 | 934 | 25.64 | 8.32 |
+| 16 | 1262 | 19.44 | 8.36 |
+| 30 | 2338 | 9.08 | 9.08 |
+
+**Conclusion: the chronological curve measures RECENCY, not quantity.** At equal
+size, recent training data is ~3x better. The newest-first score is **flat at
+~8 m/yr from 4 pairs to 16** - adding pairs does not help at all. And the full
+30-pair set (9.08) is slightly *worse* than the 16 newest (8.36). Growing a
+training set chronologically adds more rows and newer rows at the same time;
+only the matched test can tell those apart.
+
+**Result 3 - bank position, 3-year horizon, 38 transects / 76 bank sides:**
+
+| | median | mean | within 30 m |
+|---|---|---|---|
+| trained through 2021 | 13.9 m | 32.9 m | 72.4% |
+| trained through 2023 | 12.2 m | 28.0 m | 75.0% |
+| bank never moved | 0.0 m | **13.8 m** | **93.4%** |
+
+More history helps (-14.9%) and the dotted gold curve visibly improves, but the
+model **still loses to assuming no change**, exactly as in D83.
+
+**Decision:** Do not present the chronological curve as evidence that "more
+training data improves accuracy". The defensible statement is narrower: *within
+this record, skill lives in the recent training window, and beyond ~16 pairs
+there is nothing more to gain.* Equally important, the model's apparent skill is
+largely "the recent Arial Khan is quiet, so a quiet recent training window
+predicts a quiet near future" - persistence wearing a costume - which is
+consistent with it losing to a literal persistence baseline.
+
+**Rejected:** reporting the 25.39 -> 10.77 curve on its own. It is true as
+arithmetic and false as an explanation.
+
+**Open, NOT adopted:** restricting training to a recent window would lower MAE,
+but it would make the model blind if the river speeds up again, and it cannot be
+tested in the existing expanding-window backtest because the earliest folds would
+have no training rows. This needs the owner's decision, not a silent
+change.
+
+## D85 - Hydrology forcing was read from inside the window it predicts, and its anomaly columns were identically zero
+
+**Date:** 2026-10-19
+**Status:** Fix to `ml/11_hydro_features.py`. No published number changes, because
+no hydro column is in `FORECAST_FEATURES` - the bug would have gone live the
+moment one was added.
+
+**Background:** the ERA5-Land / GloFAS forcing columns have been in the code
+since they were written and were never used by the model. Before wiring them in,
+the join was re-read rather than trusted.
+
+**Two defects found**
+
+1. *Every forcing column was taken at `year1`.* A row for pair (y0, y1) is a
+   forecast made at y0 about what happens between y0 and y1. Reading the forcing
+   at y1 reads discharge up to five years into the future. The old comment
+   justified it as "erosion responds to the flow in the same window" - true as
+   physics, false as forecasting. Same class as D63/D80.
+
+2. *The `_anom` columns were identically zero.* The code was
+   `df.groupby("year1")[col].transform(lambda s: s.expanding().median())`. The
+   value is constant within a year, so the expanding median *inside that group*
+   was the value itself, and the anomaly was always 0. A column of zeros that
+   looks like a feature and carries nothing.
+
+**Fix:** two helpers, `attach_year_and_change(df, series, prefix)` and
+`attach_anomaly(df, series, colname)`; the anchor year is now set in exactly one
+place. The change is measured over the same length as the target window (for a
+5-year pair, y0-5 to y0) so value and change are comparable. The anomaly
+baseline is an expanding median over years up to and including y0, so it cannot
+see the future.
+
+**Verified** against a synthetic series with a canary value planted at the target
+year: value comes from y0, the change spans the target-window length, the anomaly
+is not identically zero, and the baseline excludes the future. All four pass.
+
+**Cost, stated rather than hidden:** y0's flow is now only a PROXY for the flow
+during (y0, y1], because wet and dry years cluster. That is a genuine weakening
+of the physical claim and belongs in the write-up.
+
+**Impact:** nothing in the current scores changes. The leak was not live.
+
+## D86 - The GloFAS downloader was aimed at the Jamuna and wrote where nothing reads
+
+**Date:** 2026-10-19
+**Status:** Fix to `ml/12_glofas_discharge.py`. Download not yet complete.
+
+**Two defects found**
+
+1. `REACH_LAT = 24.50, REACH_LON = 89.74` is Kazipur on the **Jamuna**, about
+   150 km north of the Arial Khan study box. The cell-picking logic searches for
+   a wet cell within `REACH_WINDOW` of that point, so a run for the Arial Khan
+   would have downloaded Jamuna discharge and labelled it Arial Khan.
+2. `OUT` was hardcoded to `data/raw/hydro/`. `11_hydro_features.py:40` and
+   `09_checks.py:458` both read `C.DATA_RAW/"hydro"`, i.e.
+   `data/reaches/<reach>/raw/hydro`. The download would have succeeded and then
+   been silently ignored by every consumer - a failure with no error anywhere.
+
+**Fix:** the request box and cell target are derived from the reach's own
+`C.BBOX_WGS84`, padded 0.40 deg because the CDS service needs a clean rectangle;
+`OUT` is reach-aware. Verified: targets 23.198N 90.219E, the reach centre.
+
+**Also:** `PLAUSIBLE` was `(200, 60000)`, the Jamuna's range. The Arial Khan is a
+distributary more than an order of magnitude smaller, so a *correct* value would
+have been flagged "implausible". Widened to `(5, 20000)` and re-labelled for what
+it is - a gross-error guard, not a target. **This script does not predict the
+magnitude**; the chosen cell's median is printed every run and must be checked
+against the literature before the column is trusted.
+
+**Also:** added `--years` so a single year can be probed. The download is the slow
+part and the chosen cell is only reported at the end, so a probe costs one
+request instead of 38. Files are cached, so a probe year is not wasted.
+
+**Open risk, untested:** whether GloFAS can resolve a ~300 m distributary inside
+a ~5 km model cell at all. If the nearest wet cell is the Padma, the honest
+finding is that GloFAS is not usable at this reach - a result, not a failure.
+
+## D87 - Hydro could never reach the model, and a comparison run could overwrite the shipped one
+
+**Date:** 2026-10-19
+**Status:** Plumbing fix to `ml/14_model_train.py`. Adds `--hydro`. Default run
+verified byte-identical.
+
+**Defect:** `11_hydro_features.py` writes `features_hydro.csv`; `14_model_train.py`
+read `features.csv`. The two files were never connected, so no quantity of
+hydrology data would have changed a single prediction.
+
+**Fix:** `--hydro` loads `features_hydro.csv` and appends the `q_*` / `clim_*`
+columns to the feature list. The base table is untouched, so the hydro model and
+the base model are scored through the IDENTICAL backtest and differ only in their
+inputs - the same discipline that settled RF vs GBM in D82.
+
+**Guard added:** the GloFAS table carries the chosen cell's latitude, so a column
+like `q_lat` is the same number on every row. A constant cannot inform a
+prediction, and the failure is silent - a feature that looks present and carries
+nothing. `hydro_columns()` now drops any all-empty or zero-variance column. This
+was not hypothetical: a synthetic plumbing test caught `q_lat` being accepted as
+a feature.
+
+**Namespacing:** a `--hydro` or `--model gbm` run writes
+`model_predictions_<sensor>_<variant>.csv` and `model_report_<variant>.json`
+rather than the plain names. The default configuration keeps its plain names, so
+`06_predict_geojson.py` and the API are untouched. Same class as D81, where two
+sensors shared one filename and the second silently overwrote the first.
+
+**Verified:** with no hydro table present, `--hydro` exits with a usable
+instruction rather than crashing. With the default configuration the score is
+still MAE 15.886 and `forecast_supported True`.

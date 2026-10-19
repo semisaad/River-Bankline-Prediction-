@@ -156,6 +156,24 @@ REACHES = {
             "landsat": {"MIN_IMAGES": 2, "MIN_VALID": 0.70,
                         "MIN_WATER": 0.002, "MAX_CLOUD": 50},
         },
+        # Keep only water bodies at least this large, in km2. 0 disables it.
+        #
+        # WHY THIS EXISTS. The Arial Khan is a single thread about 300 m wide, so
+        # the river is ONE connected body and everything else in the mask is a
+        # pond. Measured across all 45 exported masks: the river is 5.32-8.23
+        # km2 in every year, while the second-largest body never exceeded 1.48
+        # km2. A 2.0 km2 cut sits in that empty gap and separates them every
+        # time.
+        #
+        # WHY IT IS HERE AND NOT IN THE EXPORTER. The exporters carry a blob
+        # filter, but it did not reach the files that were actually downloaded:
+        # 27-56% of each mask was ponds, 1,053-2,370 separate bodies, 33.1 of
+        # 79.9 km2 over the 8 Sentinel-2 years. The live transect builder coped
+        # by clamping, but 10 of its 63 transects had a "connected water body
+        # inflate the belt" up to the 1.2 km ceiling (D79). Filtering on our own grid is deterministic, costs nothing, is testable on this
+        # machine, and does not depend on Earth Engine's version being the one
+        # that ran.
+        "river_body_min_km2": 2.0,
     },
 }
 
@@ -167,6 +185,7 @@ REACH_LABEL = _r["label"]
 GEOM = _r["geom"]
 REACH_TRANSECT_GATES = _r["gates"]
 DOWNLOADS = _r.get("download_gates", {})
+RIVER_BODY_MIN_KM2 = _r.get("river_body_min_km2", 0.0)
 PROFILE_MODE = _r.get("profile_mode", "smoothed")
 
 DATA_RAW = _r["raw_dir"]
@@ -332,11 +351,22 @@ def sensor_transects_dir(sensor: str) -> Path:
 PAIR_STEP = _r.get("pair_step", {"landsat": 1, "s2": 1})
 
 
-def sensor_pairs(sensor: str) -> list:
-    """Year pairs for a sensor, at that sensor's configured window length."""
+def sensor_pairs(sensor: str, extra=None) -> list:
+    """Year pairs for a sensor, at that sensor's configured window length.
+
+    `extra` appends additional (y0, y1) pairs. It exists for experiments that
+    need a window the reach config does not normally produce - for instance
+    scoring a 3-year 2023->2026 interval next to the usual 5-year pairs. With
+    `extra=None` the result is exactly what it was before, so the ordinary
+    pipeline is unchanged.
+    """
     step = PAIR_STEP.get(sensor, 1)
     ys = sensor_years(sensor)
-    return [(y, y + step) for y in ys if y + step in ys]
+    pairs = [(y, y + step) for y in ys if y + step in ys]
+    for y0, y1 in (extra or []):
+        if y0 in ys and y1 in ys and (y0, y1) not in pairs:
+            pairs.append((y0, y1))
+    return sorted(pairs)
 
 
 def sensor_years(sensor: str) -> list[int]:

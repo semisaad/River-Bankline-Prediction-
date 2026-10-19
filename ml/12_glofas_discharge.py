@@ -52,15 +52,23 @@ NOTES THAT SAVE PAIN
       instead, and print the cell we picked so you can sanity-check it.
 
 EXPECTED RESULT
-    Jamuna discharge at Kazipur runs roughly 1,000-15,000 m3/s, peaking in the
-    Aug-Oct monsoon and lowest in Feb-Apr. If the numbers come out as 0.001 or
-    10,000,000, the wrong cell was chosen and the script prints a warning.
+    A monsoon-dominated hydrograph: high Aug-Oct, low Feb-Apr. If the numbers
+    come out as 0.001 or 10,000,000, the wrong cell was chosen and the script
+    prints a warning.
+
+    THE MAGNITUDE IS NOT PREDICTED HERE. This is a modelled 5 km cell, and every
+    river in the request box is different, so the script prints the chosen cell
+    and its median every run for you to check. A cell reading like the Padma
+    rather than the reach means it latched onto the wrong river.
 
 OUTPUT
-    data/raw/hydro/glofas_<lat>_<lon>.csv
+    data/reaches/<reach>/raw/hydro/glofas_<lat>_<lon>_daily.csv
         date, discharge_m3s
-    data/raw/hydro/glofas_annual.csv
-        year, mean, min, max, cv, dry_season_mean, monsoon_mean, monsoon_max
+    data/reaches/<reach>/raw/hydro/glofas_annual.csv
+        year, mean, min, max, std, cv, dry_season_mean, monsoon_mean,
+        monsoon_max, days, complete, lat, lon
+
+    Needed by 11_hydro_features.py and expected by 09_checks.py.
 """
 
 import argparse
@@ -71,7 +79,13 @@ from pathlib import Path
 
 import numpy as np
 
-OUT = Path(__file__).resolve().parents[1] / "data" / "raw" / "hydro"
+import config as C
+
+# Reach-aware, so the file lands where the rest of the pipeline looks.
+# This used to be data/raw/hydro, which no reach reads: 11_hydro_features.py
+# joins from C.DATA_RAW / "hydro", i.e. data/reaches/<reach>/raw/hydro, so the
+# download would have succeeded and then been silently ignored.
+OUT = C.DATA_RAW / "hydro"
 OUT.mkdir(parents=True, exist_ok=True)
 
 DATASET = "cems-glofas-historical"
@@ -96,8 +110,14 @@ MODEL = "lisflood"
 DATA_FORMAT = "netcdf"             # a plain string, not a list
 DOWNLOAD_FORMAT = "unarchived"
 
-# Box around the reach. N, W, S, E as the CDS API wants them.
-AREA = [25.5, 88.5, 23.5, 91.0]
+# Box around the reach. N, W, S, E as the CDS API wants them. Derived from the
+# reach's own study box so it cannot silently drift out of sync with what the
+# imagery actually covers. Padded because the CDS service needs a clean
+# rectangle, and because the cell lying on the reach may fall just outside a
+# tight box.
+_W, _S, _E, _N = C.BBOX_WGS84
+_PAD = 0.40
+AREA = [_N + _PAD, _W - _PAD, _S - _PAD, _E + _PAD]
 
 YEARS = list(range(1989, 2027))     # matches the Landsat record
 
@@ -108,17 +128,21 @@ YEARS = list(range(1989, 2027))     # matches the Landsat record
 # The chunking code is kept only as a fallback path.
 YEARS_PER_REQUEST = 1
 
-# A Jamuna cell should look like this; used only to sanity check.
-PLAUSIBLE = (200, 60000)
+# Loose sanity guard, NOT a target. Its job is to catch a grossly wrong cell
+# (0.001, or 10,000,000), not to validate the river. The narrow end used to be
+# 200, which is the Jamuna's dry-season floor; the reach this script serves is a
+# distributary more than an order of magnitude smaller, and a plausible-looking
+# number here would have been rejected as "implausible". The chosen cell's
+# median is printed on every run and must be checked against the literature
+# before the column is trusted - it is a modelled 5 km cell, not a gauge.
+PLAUSIBLE = (5, 20000)
 
-# The box above is deliberately generous because the CDS service needs a clean
-# rectangular request. It unavoidably contains the Ganges and the Padma below the
-# confluence as well as the Jamuna, and the Jamuna is NOT the biggest river in
-# it. So the cell is chosen inside this tighter window around the actual study
-# reach (the AOI used for the Landsat export) rather than by "biggest river in
-# the box", which would silently return the Ganges.
-REACH_LAT = 24.50
-REACH_LON = 89.74
+# The cell is chosen by proximity to the study reach rather than by "biggest
+# river in the box". Ranking by discharge is wrong wherever the box also holds a
+# larger river, and this box always does: for the Jamuna it returned the Ganges,
+# and for the Arial Khan the Padma and the Meghna both dwarf the reach.
+REACH_LAT = (_S + _N) / 2.0
+REACH_LON = (_W + _E) / 2.0
 REACH_WINDOW = 0.45          # degrees; keep cells within ~50 km of the reach
 
 
@@ -391,8 +415,27 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--from-files", action="store_true",
                     help="skip the download and read NetCDFs already in "
-                         "data/raw/hydro/")
+                         "the reach's raw/hydro/")
+    ap.add_argument("--years",
+                    help="override the year list, e.g. 2020 or 1999-2003. Use a "
+                         "single year for a fast probe: the download is the slow "
+                         "part, and which CELL gets chosen is only reported at "
+                         "the end. Files are cached, so a probe year is not "
+                         "wasted when the full run follows. NOTE the annual "
+                         "summary written by a probe covers only those years - "
+                         "re-run over the full record before using it as a "
+                         "feature.")
     args = ap.parse_args()
+
+    if args.years:
+        if "-" in args.years:
+            a, b = args.years.split("-", 1)
+            years = list(range(int(a), int(b) + 1))
+        else:
+            years = [int(y) for y in args.years.replace(" ", "").split(",")]
+        print(f"year override: {years[0]}-{years[-1]} ({len(years)} year(s))")
+    else:
+        years = YEARS
 
     print("RiverGuard - GloFAS real river discharge")
     print(f"dataset : {DATASET}  ({PRODUCT_TYPE}, {SYSTEM_VERSION}, "
@@ -410,18 +453,18 @@ def main():
         tmp = OUT / "_nc"
         tmp.mkdir(exist_ok=True)
 
-        n_chunks = (len(YEARS) + YEARS_PER_REQUEST - 1) // YEARS_PER_REQUEST
+        n_chunks = (len(years) + YEARS_PER_REQUEST - 1) // YEARS_PER_REQUEST
         print(f"\nRequesting {YEARS_PER_REQUEST} year(s) at a time, "
               f"all 12 months each.\n")
-        print(f"{n_chunks} requests for {len(YEARS)} years "
-              f"({YEARS[0]}-{YEARS[-1]}). This takes a while.\n")
+        print(f"{n_chunks} requests for {len(years)} years "
+              f"({years[0]}-{years[-1]}). This takes a while.\n")
         got = 0
-        for i in range(0, len(YEARS), YEARS_PER_REQUEST):
-            _, ok_years = fetch_chunk(client, YEARS[i:i + YEARS_PER_REQUEST], tmp)
+        for i in range(0, len(years), YEARS_PER_REQUEST):
+            _, ok_years = fetch_chunk(client, years[i:i + YEARS_PER_REQUEST], tmp)
             got += len(ok_years)
             time.sleep(1.0)      # be polite to the service
 
-        print(f"\n{got}/{len(YEARS)} year files available")
+        print(f"\n{got}/{len(years)} year files available")
         if got == 0:
             fail("No years downloaded.",
                  "Most common causes:\n"

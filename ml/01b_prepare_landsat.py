@@ -23,6 +23,7 @@ from rasterio.transform import from_origin
 from rasterio.warp import reproject, transform_bounds
 
 import config as C
+import maskops
 
 
 def build_grid():
@@ -80,6 +81,13 @@ def prepare_year(year, transform, width, height):
             resampling=Resampling.nearest,
         )
 
+        # Same pond filter as the Sentinel-2 path (D77). The Landsat masks carry
+        # the same structure: across all 37 years the river is the largest
+        # body and the second-largest never exceeded 1.48 km2. Applying it in
+        # both places keeps the two sensors comparable.
+        raw_km2 = float(np.count_nonzero(dst) * (C.RES_LANDSAT ** 2) / 1e6)
+        dst, dropped = maskops.river_body(dst, C.RES_LANDSAT, C.RIVER_BODY_MIN_KM2)
+
         # a companion raster of ones, to see which parts we actually received
         ones = np.ones((src.height, src.width), dtype="uint8")
         cov = np.zeros((height, width), dtype="uint8")
@@ -103,7 +111,7 @@ def prepare_year(year, transform, width, height):
     with rasterio.open(out_path, "w", **meta) as d:
         d.write(dst, 1)
 
-    return dst, coverage, valid_frac
+    return dst, coverage, valid_frac, dropped, raw_km2
 
 
 def main():
@@ -123,10 +131,13 @@ def main():
     areas = []
     thin = []
     cloudy = []
+    ponds = []
     for y in years:
-        arr, cov, vfrac = prepare_year(y, transform, width, height)
+        arr, cov, vfrac, dropped, raw_km2 = prepare_year(y, transform, width, height)
         km2 = int((arr > 127).sum()) * (C.RES_LANDSAT ** 2) / 1e6
         areas.append((y, km2))
+        if dropped:
+            ponds.append((dropped, raw_km2, km2))
         flag = ""
         if cov < 0.99:
             flag = f"   <-- only {cov*100:.0f}% of our grid covered"
@@ -159,6 +170,8 @@ def main():
         print(f"Affected years: {', '.join(str(y) for y, _ in cloudy)}")
         print("Inspect them before using them; do not just lower the gate.")
         print("=" * 66 + "\n")
+
+    maskops.summarise(ponds, C.RIVER_BODY_MIN_KM2)
 
     good = [k for _, k in areas if k > 5]
     blank = [y for y, k in areas if k <= 5]

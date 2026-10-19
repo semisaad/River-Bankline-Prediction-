@@ -313,20 +313,21 @@
         "documentation": {}
     },
     {
+        "label": "maskops",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "maskops",
+        "description": "maskops",
+        "detail": "maskops",
+        "documentation": {}
+    },
+    {
         "label": "geopandas",
         "kind": 6,
         "isExtraImport": true,
         "importPath": "geopandas",
         "description": "geopandas",
         "detail": "geopandas",
-        "documentation": {}
-    },
-    {
-        "label": "shapes",
-        "importPath": "rasterio.features",
-        "description": "rasterio.features",
-        "isExtraImport": true,
-        "detail": "rasterio.features",
         "documentation": {}
     },
     {
@@ -370,14 +371,6 @@
         "documentation": {}
     },
     {
-        "label": "binary_fill_holes",
-        "importPath": "scipy.ndimage",
-        "description": "scipy.ndimage",
-        "isExtraImport": true,
-        "detail": "scipy.ndimage",
-        "documentation": {}
-    },
-    {
         "label": "label",
         "importPath": "scipy.ndimage",
         "description": "scipy.ndimage",
@@ -399,38 +392,6 @@
         "description": "skimage.measure",
         "isExtraImport": true,
         "detail": "skimage.measure",
-        "documentation": {}
-    },
-    {
-        "label": "label",
-        "importPath": "skimage.measure",
-        "description": "skimage.measure",
-        "isExtraImport": true,
-        "detail": "skimage.measure",
-        "documentation": {}
-    },
-    {
-        "label": "regionprops",
-        "importPath": "skimage.measure",
-        "description": "skimage.measure",
-        "isExtraImport": true,
-        "detail": "skimage.measure",
-        "documentation": {}
-    },
-    {
-        "label": "closing",
-        "importPath": "skimage.morphology",
-        "description": "skimage.morphology",
-        "isExtraImport": true,
-        "detail": "skimage.morphology",
-        "documentation": {}
-    },
-    {
-        "label": "disk",
-        "importPath": "skimage.morphology",
-        "description": "skimage.morphology",
-        "isExtraImport": true,
-        "detail": "skimage.morphology",
         "documentation": {}
     },
     {
@@ -491,14 +452,6 @@
     },
     {
         "label": "shape",
-        "importPath": "shapely.geometry",
-        "description": "shapely.geometry",
-        "isExtraImport": true,
-        "detail": "shapely.geometry",
-        "documentation": {}
-    },
-    {
-        "label": "LineString",
         "importPath": "shapely.geometry",
         "description": "shapely.geometry",
         "isExtraImport": true,
@@ -591,15 +544,6 @@
         "description": "shapely.geometry",
         "isExtraImport": true,
         "detail": "shapely.geometry",
-        "documentation": {}
-    },
-    {
-        "label": "shapely",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "shapely",
-        "description": "shapely",
-        "detail": "shapely",
         "documentation": {}
     },
     {
@@ -792,6 +736,14 @@
         "description": "sklearn.model_selection",
         "isExtraImport": true,
         "detail": "sklearn.model_selection",
+        "documentation": {}
+    },
+    {
+        "label": "ndimage",
+        "importPath": "scipy",
+        "description": "scipy",
+        "isExtraImport": true,
+        "detail": "scipy",
         "documentation": {}
     },
     {
@@ -1375,42 +1327,6 @@
         "description": "ml.02_banklines",
         "peekOfCode": "SIMPLIFY_M = 10.0\ndef extract_bankline(year):\n    with rasterio.open(C.proc_mask_path(year)) as src:\n        water = src.read(1) > 127\n        transform = src.transform\n    px = int(round(CLOSE_M / C.RES))\n    water = closing(water, disk(px))\n    water = binary_fill_holes(water)\n    # keep the largest connected body (the channel belt)\n    lab = label(water)",
         "detail": "ml.02_banklines",
-        "documentation": {}
-    },
-    {
-        "label": "load_belt_points",
-        "kind": 2,
-        "importPath": "ml.03_transects",
-        "description": "ml.03_transects",
-        "peekOfCode": "def load_belt_points(year):\n    with rasterio.open(C.proc_mask_path(year)) as src:\n        water = src.read(1) > 127\n        transform = src.transform\n    water = binary_fill_holes(closing(water, disk(int(round(40 / C.RES)))))\n    lab = label(water)\n    biggest = max(regionprops(lab), key=lambda r: r.area)\n    belt = lab == biggest.label\n    rows, cols = np.where(belt)\n    xs, ys = rasterio.transform.xy(transform, rows, cols)",
-        "detail": "ml.03_transects",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": "ml.03_transects",
-        "description": "ml.03_transects",
-        "peekOfCode": "def main():\n    P_ref = load_belt_points(REF_YEAR)\n    mean = P_ref.mean(axis=0)\n    centered = P_ref - mean\n    cov = np.cov(centered.T)\n    eigvals, eigvecs = np.linalg.eigh(cov)\n    u = eigvecs[:, -1]   # along flow\n    v = eigvecs[:, 0]    # across flow\n    t_ref = (P_ref - mean) @ u\n    t_lo, t_hi = np.percentile(t_ref, 1), np.percentile(t_ref, 99)",
-        "detail": "ml.03_transects",
-        "documentation": {}
-    },
-    {
-        "label": "REF_YEAR",
-        "kind": 5,
-        "importPath": "ml.03_transects",
-        "description": "ml.03_transects",
-        "peekOfCode": "REF_YEAR = 2023\nYEAR0, YEAR1 = 2022, 2023\nN_TRANSECTS = 20\ndef load_belt_points(year):\n    with rasterio.open(C.proc_mask_path(year)) as src:\n        water = src.read(1) > 127\n        transform = src.transform\n    water = binary_fill_holes(closing(water, disk(int(round(40 / C.RES)))))\n    lab = label(water)\n    biggest = max(regionprops(lab), key=lambda r: r.area)",
-        "detail": "ml.03_transects",
-        "documentation": {}
-    },
-    {
-        "label": "N_TRANSECTS",
-        "kind": 5,
-        "importPath": "ml.03_transects",
-        "description": "ml.03_transects",
-        "peekOfCode": "N_TRANSECTS = 20\ndef load_belt_points(year):\n    with rasterio.open(C.proc_mask_path(year)) as src:\n        water = src.read(1) > 127\n        transform = src.transform\n    water = binary_fill_holes(closing(water, disk(int(round(40 / C.RES)))))\n    lab = label(water)\n    biggest = max(regionprops(lab), key=lambda r: r.area)\n    belt = lab == biggest.label\n    rows, cols = np.where(belt)",
-        "detail": "ml.03_transects",
         "documentation": {}
     },
     {
@@ -2408,7 +2324,7 @@
         "kind": 2,
         "importPath": "ml.14_model_train",
         "description": "ml.14_model_train",
-        "peekOfCode": "def main():\n    ap = argparse.ArgumentParser()\n    ap.add_argument(\"--horizon\", type=int, default=10,\n                    help=\"years ahead to project (default 10)\")\n    args = ap.parse_args()\n    reach = C.REACH\n    print(\"=\" * 68)\n    print(f\"RiverGuard model training - {C.REACH_LABEL}\")\n    print(f\"reach {reach} | horizon {args.horizon} yr\")\n    print(\"=\" * 68 + \"\\n\")",
+        "peekOfCode": "def main():\n    ap = argparse.ArgumentParser()\n    ap.add_argument(\"--horizon\", type=int, default=10,\n                    help=\"years ahead to project (default 10)\")\n    ap.add_argument(\"--sensor\", default=\"s2\", choices=sorted(C.SENSORS),\n                    help=\"which feature table to train on (default s2)\")\n    args = ap.parse_args()\n    reach = C.REACH\n    print(\"=\" * 68)\n    print(f\"RiverGuard model training - {C.REACH_LABEL}\")",
         "detail": "ml.14_model_train",
         "documentation": {}
     },
@@ -2417,7 +2333,7 @@
         "kind": 5,
         "importPath": "ml.14_model_train",
         "description": "ml.14_model_train",
-        "peekOfCode": "ARTIFACTS = __import__(\"pathlib\").Path(__file__).resolve().parent / \"artifacts\"\nPRED_DIR = C.DATA_PROC / \"predictions\"\nFORECAST_FEATURES = [\n    \"rate_lag1\", \"rate_lag2\", \"rate_roll3\", \"rate_std3\", \"n_prior\",\n    \"width_lag1\", \"curvature_k\", \"meander_off_m\", \"arc_norm\",\n    \"stage_km2_prev\",\n]\n# Columns measured over the SAME interval as the target, so they cannot be known\n# when the prediction has to be made. They stay in the feature table because\n# other analyses use them, but using them for forecasting was the leakage that",
+        "peekOfCode": "ARTIFACTS = __import__(\"pathlib\").Path(__file__).resolve().parent / \"artifacts\"\nPRED_DIR = C.DATA_PROC / \"predictions\"\nFORECAST_FEATURES = [\n    \"rate_lag1\", \"rate_lag2\", \"rate_lag3\", \"rate_roll3\", \"rate_std3\",\n    \"rate_mean_all\", \"rate_std_all\", \"n_prior\",\n    \"width_lag1\", \"curvature_k\", \"meander_off_m\", \"arc_norm\",\n    \"stage_km2_prev\",\n]\n# Columns measured over the SAME interval as the target, so they cannot be known\n# when the prediction has to be made. They stay in the feature table because",
         "detail": "ml.14_model_train",
         "documentation": {}
     },
@@ -2426,7 +2342,7 @@
         "kind": 5,
         "importPath": "ml.14_model_train",
         "description": "ml.14_model_train",
-        "peekOfCode": "PRED_DIR = C.DATA_PROC / \"predictions\"\nFORECAST_FEATURES = [\n    \"rate_lag1\", \"rate_lag2\", \"rate_roll3\", \"rate_std3\", \"n_prior\",\n    \"width_lag1\", \"curvature_k\", \"meander_off_m\", \"arc_norm\",\n    \"stage_km2_prev\",\n]\n# Columns measured over the SAME interval as the target, so they cannot be known\n# when the prediction has to be made. They stay in the feature table because\n# other analyses use them, but using them for forecasting was the leakage that\n# made the first reported score (MAE 2.843 m/yr) meaningless - see D63, where the",
+        "peekOfCode": "PRED_DIR = C.DATA_PROC / \"predictions\"\nFORECAST_FEATURES = [\n    \"rate_lag1\", \"rate_lag2\", \"rate_lag3\", \"rate_roll3\", \"rate_std3\",\n    \"rate_mean_all\", \"rate_std_all\", \"n_prior\",\n    \"width_lag1\", \"curvature_k\", \"meander_off_m\", \"arc_norm\",\n    \"stage_km2_prev\",\n]\n# Columns measured over the SAME interval as the target, so they cannot be known\n# when the prediction has to be made. They stay in the feature table because\n# other analyses use them, but using them for forecasting was the leakage that",
         "detail": "ml.14_model_train",
         "documentation": {}
     },
@@ -2435,7 +2351,7 @@
         "kind": 5,
         "importPath": "ml.14_model_train",
         "description": "ml.14_model_train",
-        "peekOfCode": "FORECAST_FEATURES = [\n    \"rate_lag1\", \"rate_lag2\", \"rate_roll3\", \"rate_std3\", \"n_prior\",\n    \"width_lag1\", \"curvature_k\", \"meander_off_m\", \"arc_norm\",\n    \"stage_km2_prev\",\n]\n# Columns measured over the SAME interval as the target, so they cannot be known\n# when the prediction has to be made. They stay in the feature table because\n# other analyses use them, but using them for forecasting was the leakage that\n# made the first reported score (MAE 2.843 m/yr) meaningless - see D63, where the\n# corrected prior-year test gave 3.175 against a 2.507 median baseline.",
+        "peekOfCode": "FORECAST_FEATURES = [\n    \"rate_lag1\", \"rate_lag2\", \"rate_lag3\", \"rate_roll3\", \"rate_std3\",\n    \"rate_mean_all\", \"rate_std_all\", \"n_prior\",\n    \"width_lag1\", \"curvature_k\", \"meander_off_m\", \"arc_norm\",\n    \"stage_km2_prev\",\n]\n# Columns measured over the SAME interval as the target, so they cannot be known\n# when the prediction has to be made. They stay in the feature table because\n# other analyses use them, but using them for forecasting was the leakage that\n# made the first reported score (MAE 2.843 m/yr) meaningless - see D63, where the",
         "detail": "ml.14_model_train",
         "documentation": {}
     },
@@ -2615,7 +2531,7 @@
         "kind": 5,
         "importPath": "ml.config",
         "description": "ml.config",
-        "peekOfCode": "REACH = os.environ.get(\"RIVERGUARD_REACH\", \"arial_khan\").strip().lower()\nif REACH not in REACHES:\n    raise SystemExit(f\"unknown reach {REACH!r}; choose one of {sorted(REACHES)}\")\n_r = REACHES[REACH]\nREACH_LABEL = _r[\"label\"]\nGEOM = _r[\"geom\"]\nREACH_TRANSECT_GATES = _r[\"gates\"]\nDOWNLOADS = _r.get(\"download_gates\", {})\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]",
+        "peekOfCode": "REACH = os.environ.get(\"RIVERGUARD_REACH\", \"arial_khan\").strip().lower()\nif REACH not in REACHES:\n    raise SystemExit(f\"unknown reach {REACH!r}; choose one of {sorted(REACHES)}\")\n_r = REACHES[REACH]\nREACH_LABEL = _r[\"label\"]\nGEOM = _r[\"geom\"]\nREACH_TRANSECT_GATES = _r[\"gates\"]\nDOWNLOADS = _r.get(\"download_gates\", {})\nRIVER_BODY_MIN_KM2 = _r.get(\"river_body_min_km2\", 0.0)\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")",
         "detail": "ml.config",
         "documentation": {}
     },
@@ -2624,7 +2540,7 @@
         "kind": 5,
         "importPath": "ml.config",
         "description": "ml.config",
-        "peekOfCode": "_r = REACHES[REACH]\nREACH_LABEL = _r[\"label\"]\nGEOM = _r[\"geom\"]\nREACH_TRANSECT_GATES = _r[\"gates\"]\nDOWNLOADS = _r.get(\"download_gates\", {})\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"",
+        "peekOfCode": "_r = REACHES[REACH]\nREACH_LABEL = _r[\"label\"]\nGEOM = _r[\"geom\"]\nREACH_TRANSECT_GATES = _r[\"gates\"]\nDOWNLOADS = _r.get(\"download_gates\", {})\nRIVER_BODY_MIN_KM2 = _r.get(\"river_body_min_km2\", 0.0)\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"",
         "detail": "ml.config",
         "documentation": {}
     },
@@ -2633,7 +2549,7 @@
         "kind": 5,
         "importPath": "ml.config",
         "description": "ml.config",
-        "peekOfCode": "REACH_LABEL = _r[\"label\"]\nGEOM = _r[\"geom\"]\nREACH_TRANSECT_GATES = _r[\"gates\"]\nDOWNLOADS = _r.get(\"download_gates\", {})\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):",
+        "peekOfCode": "REACH_LABEL = _r[\"label\"]\nGEOM = _r[\"geom\"]\nREACH_TRANSECT_GATES = _r[\"gates\"]\nDOWNLOADS = _r.get(\"download_gates\", {})\nRIVER_BODY_MIN_KM2 = _r.get(\"river_body_min_km2\", 0.0)\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"",
         "detail": "ml.config",
         "documentation": {}
     },
@@ -2642,7 +2558,7 @@
         "kind": 5,
         "importPath": "ml.config",
         "description": "ml.config",
-        "peekOfCode": "GEOM = _r[\"geom\"]\nREACH_TRANSECT_GATES = _r[\"gates\"]\nDOWNLOADS = _r.get(\"download_gates\", {})\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):\n    _d.mkdir(parents=True, exist_ok=True)",
+        "peekOfCode": "GEOM = _r[\"geom\"]\nREACH_TRANSECT_GATES = _r[\"gates\"]\nDOWNLOADS = _r.get(\"download_gates\", {})\nRIVER_BODY_MIN_KM2 = _r.get(\"river_body_min_km2\", 0.0)\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):",
         "detail": "ml.config",
         "documentation": {}
     },
@@ -2651,7 +2567,7 @@
         "kind": 5,
         "importPath": "ml.config",
         "description": "ml.config",
-        "peekOfCode": "REACH_TRANSECT_GATES = _r[\"gates\"]\nDOWNLOADS = _r.get(\"download_gates\", {})\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):\n    _d.mkdir(parents=True, exist_ok=True)\n# Study region (same bbox the GEE exports were made with).",
+        "peekOfCode": "REACH_TRANSECT_GATES = _r[\"gates\"]\nDOWNLOADS = _r.get(\"download_gates\", {})\nRIVER_BODY_MIN_KM2 = _r.get(\"river_body_min_km2\", 0.0)\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):\n    _d.mkdir(parents=True, exist_ok=True)",
         "detail": "ml.config",
         "documentation": {}
     },
@@ -2660,7 +2576,16 @@
         "kind": 5,
         "importPath": "ml.config",
         "description": "ml.config",
-        "peekOfCode": "DOWNLOADS = _r.get(\"download_gates\", {})\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):\n    _d.mkdir(parents=True, exist_ok=True)\n# Study region (same bbox the GEE exports were made with).\nBBOX_WGS84 = _r[\"bbox\"]  # min_lon, min_lat, max_lon, max_lat",
+        "peekOfCode": "DOWNLOADS = _r.get(\"download_gates\", {})\nRIVER_BODY_MIN_KM2 = _r.get(\"river_body_min_km2\", 0.0)\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):\n    _d.mkdir(parents=True, exist_ok=True)\n# Study region (same bbox the GEE exports were made with).",
+        "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "RIVER_BODY_MIN_KM2",
+        "kind": 5,
+        "importPath": "ml.config",
+        "description": "ml.config",
+        "peekOfCode": "RIVER_BODY_MIN_KM2 = _r.get(\"river_body_min_km2\", 0.0)\nPROFILE_MODE = _r.get(\"profile_mode\", \"smoothed\")\nDATA_RAW = _r[\"raw_dir\"]\nDATA_PROC = _r[\"proc_dir\"]\nBANKLINES = DATA_PROC / \"banklines\"\nTRANSECTS = DATA_PROC / \"transects\"\nfor _d in (DATA_PROC, BANKLINES, TRANSECTS):\n    _d.mkdir(parents=True, exist_ok=True)\n# Study region (same bbox the GEE exports were made with).\nBBOX_WGS84 = _r[\"bbox\"]  # min_lon, min_lat, max_lon, max_lat",
         "detail": "ml.config",
         "documentation": {}
     },
@@ -2833,6 +2758,24 @@
         "description": "ml.config",
         "peekOfCode": "PAIR_STEP = _r.get(\"pair_step\", {\"landsat\": 1, \"s2\": 1})\ndef sensor_pairs(sensor: str) -> list:\n    \"\"\"Year pairs for a sensor, at that sensor's configured window length.\"\"\"\n    step = PAIR_STEP.get(sensor, 1)\n    ys = sensor_years(sensor)\n    return [(y, y + step) for y in ys if y + step in ys]\ndef sensor_years(sensor: str) -> list[int]:\n    \"\"\"Years available for a sensor, from the processed masks on disk.\"\"\"\n    d = SENSORS[sensor][\"mask_dir\"]\n    if not d.exists():",
         "detail": "ml.config",
+        "documentation": {}
+    },
+    {
+        "label": "river_body",
+        "kind": 2,
+        "importPath": "ml.maskops",
+        "description": "ml.maskops",
+        "peekOfCode": "def river_body(arr, px_m, min_km2):\n    \"\"\"Keep only water bodies at least `min_km2` in size; discard the rest.\n    WHY THIS EXISTS (D77, D79). The exporters carry a connected-component filter,\n    but it did not reach the files that were actually downloaded: 27-56% of every\n    mask was ponds - 1,053 to 2,370 separate bodies per year, 33.1 of 79.9 km2\n    across the 8 Sentinel-2 years. The live transect builder copes by clamping a\n    belt that a connected body has inflated, but 10 of its 63 transects hit the\n    1.2 km ceiling on the pond-contaminated masks.\n    The river here is a single thread, so it is ONE body. Measured across all 45\n    exported masks it is 5.32-8.23 km2 while the second-largest body never",
+        "detail": "ml.maskops",
+        "documentation": {}
+    },
+    {
+        "label": "summarise",
+        "kind": 2,
+        "importPath": "ml.maskops",
+        "description": "ml.maskops",
+        "peekOfCode": "def summarise(ponds, min_km2):\n    \"\"\"Total up what the filter did across the whole run.\"\"\"\n    if not ponds:\n        return\n    lost = sum(raw - k for _, raw, k in ponds)\n    kept = sum(k for _, _, k in ponds)\n    worst = max(d[0][0] for d, _, _ in ponds)\n    print(f\"\\npond filter (>= {min_km2} km2): dropped {lost:.1f} km2 of \"\n          f\"{lost + kept:.1f} km2 ({lost / (lost + kept) * 100:.0f}%) over \"\n          f\"{len(ponds)} years; largest single body discarded {worst:.2f} km2\")",
+        "detail": "ml.maskops",
         "documentation": {}
     },
     {

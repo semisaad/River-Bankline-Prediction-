@@ -1,0 +1,37 @@
+{
+  "transects_built": 63,
+  "transects_kept": 60,
+  "dropped_at_build": [
+    "no belt along this normal",
+    "no belt along this normal",
+    "belt only 59 m wide"
+  ],
+  "dropped_at_reference_year": [
+    "wetted width only 0 m (single channel)",
+    "belt clamped at build (connected water body)",
+    "wetted width only 20 m (single channel)",
+    "no water along this transect",
+    "no water along this transect",
+    "wetted width only 70 m (single channel)",
+    "wetted width only 90 m (single channel)",
+    "wetted width only 40 m (single channel)",
+    "wetted width only 90 m (single channel)",
+    "wetted width only 40 m (single channel)",
+    "no water along this transect",
+    "no water along this transect",
+    "no water along this transect",
+    "wetted width only 0 m (single channel)",
+    "belt clamped at build (connected water body)",
+    "belt clamped at build (connected water body)",
+    "belt clamped at build (connected water body)",
+    "belt clamped at build (connected water body)",
+    "belt clamped at build (connected water body)",
+    "belt clamped at build (connected water body)",
+    "belt clamped at build (connected water body)",
+    "belt clamped at build (connected water body)",
+    "belt clamped at build (connected water body)"
+  ],
+  "centreline_km": 15.82,
+  "belt_width_km_median": 0.25,
+  "spot_checks_passed": "6/7"
+}

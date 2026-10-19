@@ -1,0 +1,4393 @@
+{
+ "type": "FeatureCollection",
+ "name": "bankline_projection",
+ "crs": {
+  "type": "name",
+  "properties": {
+   "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+  }
+ },
+ "metadata": {
+  "n_records": 74,
+  "n_significant": null,
+  "horizon_years": 10,
+  "base_year": 2026,
+  "min_years_history": null,
+  "method": "RandomForest, expanding-window backtest",
+  "projection_status": "experimental",
+  "horizon_validated": false,
+  "forecast_supported": true,
+  "is_forecast": false,
+  "mae_model_m_per_yr": 15.886,
+  "median_baseline_mae_m_per_yr": 20.413,
+  "warning": "Experimental model projection; the one-year model does not beat both baselines and its multi-year linear extension is not independently validated."
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.25303611673331,
+      23.140516908538398
+     ],
+     [
+      90.25193087700038,
+      23.142426437478402
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 0,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.25277629081434,
+      23.140388295040335
+     ],
+     [
+      90.25167104885954,
+      23.14229782193063
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 0,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -3.0,
+    "projected_offset_m": -30.2,
+    "offset_low_m": -189.0,
+    "offset_high_m": 128.7,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.2506271550631,
+      23.13932445081201
+     ],
+     [
+      90.24952189473272,
+      23.141233960747353
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 0,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.25111582645442,
+      23.139566352043353
+     ],
+     [
+      90.25001057030187,
+      23.14147586583404
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 0,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -5.7,
+    "projected_offset_m": -56.8,
+    "offset_low_m": -215.6,
+    "offset_high_m": 102.1,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.25215820723261,
+      23.142576968241684
+     ],
+     [
+      90.25106168161635,
+      23.144490795103707
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 1,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.25250657748238,
+      23.142747660949276
+     ],
+     [
+      90.25141005488636,
+      23.144661490544266
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 1,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 4.0,
+    "projected_offset_m": 40.4,
+    "offset_low_m": -118.4,
+    "offset_high_m": 199.3,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.24939887234196,
+      23.14122492242089
+     ],
+     [
+      90.24830232280753,
+      23.143138727634582
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 1,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.2490944868468,
+      23.141075772215764
+     ],
+     [
+      90.24799793467439,
+      23.142989575041252
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 1,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 3.5,
+    "projected_offset_m": 35.3,
+    "offset_low_m": -123.6,
+    "offset_high_m": 194.1,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.2516165555419,
+      23.14460860194513
+     ],
+     [
+      90.25053542693064,
+      23.14652991194072
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 2,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.25254717159764,
+      23.145056410548627
+     ],
+     [
+      90.25146605124543,
+      23.146977727771954
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 2,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 10.8,
+    "projected_offset_m": 107.5,
+    "offset_low_m": -51.4,
+    "offset_high_m": 266.4,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.24711506471412,
+      23.142442388353853
+     ],
+     [
+      90.24603389616482,
+      23.144363663384155
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 2,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.24561402522657,
+      23.141720013777444
+     ],
+     [
+      90.24453284336417,
+      23.14364127714699
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 2,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 17.3,
+    "projected_offset_m": 173.4,
+    "offset_low_m": 14.6,
+    "offset_high_m": 332.3,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.25007431138745,
+      23.14646812221729
+     ],
+     [
+      90.24901389250725,
+      23.148399280951594
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 3,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.2521321987934,
+      23.147434408941507
+     ],
+     [
+      90.2510717987307,
+      23.149365583440566
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 3,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 23.6,
+    "projected_offset_m": 236.5,
+    "offset_low_m": 77.6,
+    "offset_high_m": 395.3,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.24581071353056,
+      23.14446601354811
+     ],
+     [
+      90.24475025567662,
+      23.146397139615942
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 3,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.24520685989211,
+      23.144182441192097
+     ],
+     [
+      90.24414639651975,
+      23.146113562632888
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 3,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 6.9,
+    "projected_offset_m": 69.4,
+    "offset_low_m": -89.5,
+    "offset_high_m": 228.2,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.24833102075358,
+      23.148528625967625
+     ],
+     [
+      90.24730533805003,
+      23.150475766003805
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 4,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.24992078856748,
+      23.149244708099875
+     ],
+     [
+      90.2488951210931,
+      23.15119186002963
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 4,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 18.1,
+    "projected_offset_m": 181.2,
+    "offset_low_m": 22.3,
+    "offset_high_m": 340.1,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.24385660694001,
+      23.14651308517321
+     ],
+     [
+      90.2428308813866,
+      23.14846019172997
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 4,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.24318721200801,
+      23.14621153458581
+     ],
+     [
+      90.24216148004564,
+      23.14815863613326
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 4,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 7.6,
+    "projected_offset_m": 76.3,
+    "offset_low_m": -82.6,
+    "offset_high_m": 235.1,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.24819832383665,
+      23.150664859127215
+     ],
+     [
+      90.24721201864521,
+      23.15262932497435
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 5,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.24920476690482,
+      23.151096932750022
+     ],
+     [
+      90.24821847183031,
+      23.153061405919203
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 5,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 11.4,
+    "projected_offset_m": 113.7,
+    "offset_low_m": -45.2,
+    "offset_high_m": 272.5,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.24253334015565,
+      23.148232673491556
+     ],
+     [
+      90.24154697803606,
+      23.15019709811772
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 5,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.24189958396653,
+      23.14796056121705
+     ],
+     [
+      90.24091321548006,
+      23.149924981230946
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 5,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 7.2,
+    "projected_offset_m": 71.6,
+    "offset_low_m": -87.3,
+    "offset_high_m": 230.4,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.24521843709707,
+      23.15160585514207
+     ],
+     [
+      90.24427134524115,
+      23.15358674994505
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 6,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.246110127211,
+      23.151970391261667
+     ],
+     [
+      90.2451630447168,
+      23.15395129236768
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 6,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 10.0,
+    "projected_offset_m": 99.9,
+    "offset_low_m": -59.0,
+    "offset_high_m": 258.8,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.24129113619857,
+      23.150000235834575
+     ],
+     [
+      90.24034400311888,
+      23.15198110287305
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 6,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.2410028406536,
+      23.149882365261057
+     ],
+     [
+      90.2400557045483,
+      23.15186323026115
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 6,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 3.2,
+    "projected_offset_m": 32.3,
+    "offset_low_m": -126.5,
+    "offset_high_m": 191.2,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.24399000200442,
+      23.15399871838905
+     ],
+     [
+      90.24311572441037,
+      23.1560080362349
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 7,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.24506019234741,
+      23.154396863017578
+     ],
+     [
+      90.24418592682046,
+      23.15640618801018
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 7,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 11.8,
+    "projected_offset_m": 118.2,
+    "offset_low_m": -40.7,
+    "offset_high_m": 277.0,
+    "n_years": 29,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.24027789026881,
+      23.15261762340193
+     ],
+     [
+      90.23940357082552,
+      23.15462691645423
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 7,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.24004158552893,
+      23.152529702190783
+     ],
+     [
+      90.23916726342198,
+      23.15453899366457
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 7,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 2.6,
+    "projected_offset_m": 26.1,
+    "offset_low_m": -132.8,
+    "offset_high_m": 184.9,
+    "n_years": 29,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.2384132000702,
+      23.15656687548309
+     ],
+     [
+      90.23920026881297,
+      23.154526970672517
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 8,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23837367445338,
+      23.15655383585638
+     ],
+     [
+      90.23916074367496,
+      23.154513931290982
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 8,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.4,
+    "projected_offset_m": 4.3,
+    "offset_low_m": -154.6,
+    "offset_high_m": 163.2,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.24080313714441,
+      23.15735530090177
+     ],
+     [
+      90.24159017693447,
+      23.155315381267716
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 8,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.24106695136533,
+      23.157442328873213
+     ],
+     [
+      90.24185398795915,
+      23.155402407603045
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 8,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 2.9,
+    "projected_offset_m": 28.7,
+    "offset_low_m": -130.2,
+    "offset_high_m": 187.5,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23730749522255,
+      23.15845430398207
+     ],
+     [
+      90.23805182386678,
+      23.156400726828213
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 9,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23704931585826,
+      23.15837429332732
+     ],
+     [
+      90.23779364772784,
+      23.15632071771396
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 9,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 2.8,
+    "projected_offset_m": 27.9,
+    "offset_low_m": -130.9,
+    "offset_high_m": 186.8,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23980602326364,
+      23.159228580229925
+     ],
+     [
+      90.24055032069204,
+      23.157174988169746
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 9,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23999017532965,
+      23.159285645793048
+     ],
+     [
+      90.24073447045714,
+      23.15723205263433
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 9,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 2.0,
+    "projected_offset_m": 19.9,
+    "offset_low_m": -138.9,
+    "offset_high_m": 178.8,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.2395478831284,
+      23.159816013280707
+     ],
+     [
+      90.23878343716835,
+      23.161863269898213
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 10,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23984955358658,
+      23.159912318902904
+     ],
+     [
+      90.23908511134329,
+      23.161959577354068
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 10,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 3.3,
+    "projected_offset_m": 32.7,
+    "offset_low_m": -126.1,
+    "offset_high_m": 191.6,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23742605581663,
+      23.15913861907982
+     ],
+     [
+      90.23666158371626,
+      23.161185862798813
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 10,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23673969599251,
+      23.158919491082187
+     ],
+     [
+      90.23597521543708,
+      23.160966730628342
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 10,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 7.4,
+    "projected_offset_m": 74.4,
+    "offset_low_m": -84.5,
+    "offset_high_m": 233.3,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23895420891051,
+      23.16184283205936
+     ],
+     [
+      90.23818540735051,
+      23.163888696025175
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 11,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23846651099498,
+      23.161686148454812
+     ],
+     [
+      90.23769770344465,
+      23.163732009444047
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 11,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -5.3,
+    "projected_offset_m": -52.9,
+    "offset_low_m": -211.7,
+    "offset_high_m": 106.0,
+    "n_years": 29,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23711036722153,
+      23.161250448091074
+     ],
+     [
+      90.23634154301473,
+      23.163296300802735
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 11,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23706795907904,
+      23.16123682302336
+     ],
+     [
+      90.2362991343514,
+      23.16328267547615
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 11,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.5,
+    "projected_offset_m": 4.6,
+    "offset_low_m": -154.2,
+    "offset_high_m": 163.5,
+    "n_years": 29,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23867102188215,
+      23.164016167200902
+     ],
+     [
+      90.23792250884547,
+      23.16606845602899
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 12,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23808467689815,
+      23.163833342219544
+     ],
+     [
+      90.23733615655429,
+      23.16588562753486
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 12,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -6.3,
+    "projected_offset_m": -63.4,
+    "offset_low_m": -222.2,
+    "offset_high_m": 95.5,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23691384202405,
+      23.163468262896526
+     ],
+     [
+      90.23616530708965,
+      23.165520541196848
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 12,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23675939594139,
+      23.163420104117193
+     ],
+     [
+      90.23601085908241,
+      23.16547238149211
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 12,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 1.7,
+    "projected_offset_m": 16.7,
+    "offset_low_m": -142.1,
+    "offset_high_m": 175.6,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23829782968201,
+      23.166233772437224
+     ],
+     [
+      90.23759870865655,
+      23.168300902359153
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 13,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23774915384618,
+      23.16607513445183
+     ],
+     [
+      90.23705002575524,
+      23.168142261238092
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 13,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -5.9,
+    "projected_offset_m": -58.9,
+    "offset_low_m": -217.8,
+    "offset_high_m": 99.9,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.2368073724804,
+      23.165802833151936
+     ],
+     [
+      90.2361082322623,
+      23.167869954555563
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 13,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.2368064409481,
+      23.165802563810747
+     ],
+     [
+      90.23610730071799,
+      23.167869685209048
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 13,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.0,
+    "projected_offset_m": 0.1,
+    "offset_low_m": -158.8,
+    "offset_high_m": 159.0,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23870032744213,
+      23.168570076650415
+     ],
+     [
+      90.23797875246261,
+      23.170630603547192
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 14,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23877089953656,
+      23.16859120298865
+     ],
+     [
+      90.23804932545295,
+      23.17065173029763
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 14,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.8,
+    "projected_offset_m": 7.6,
+    "offset_low_m": -151.2,
+    "offset_high_m": 166.5,
+    "n_years": 27,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23675031908247,
+      23.167986310858897
+     ],
+     [
+      90.23602871934943,
+      23.170046826364725
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 14,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23677817620832,
+      23.16799465052932
+     ],
+     [
+      90.23605657682889,
+      23.170055166197887
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 14,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -0.3,
+    "projected_offset_m": -3.0,
+    "offset_low_m": -161.9,
+    "offset_high_m": 155.8,
+    "n_years": 27,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23895081303773,
+      23.17068485201972
+     ],
+     [
+      90.23813401081847,
+      23.172714767469966
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 15,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23961312936372,
+      23.170912663611038
+     ],
+     [
+      90.23879633499229,
+      23.172942583279834
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 15,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 7.2,
+    "projected_offset_m": 72.4,
+    "offset_low_m": -86.4,
+    "offset_high_m": 231.3,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23684678615453,
+      23.169961124041727
+     ],
+     [
+      90.23602995900677,
+      23.171991026089227
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 15,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23679189883657,
+      23.169942243832875
+     ],
+     [
+      90.23597507103857,
+      23.17197214553071
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 15,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.6,
+    "projected_offset_m": 6.0,
+    "offset_low_m": -152.9,
+    "offset_high_m": 164.8,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23903401659513,
+      23.172939326498483
+     ],
+     [
+      90.23809425102965,
+      23.174923247829565
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 16,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23889990348655,
+      23.172885023109735
+     ],
+     [
+      90.23796013650073,
+      23.174868943497145
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 16,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -1.5,
+    "projected_offset_m": -15.0,
+    "offset_low_m": -173.8,
+    "offset_high_m": 143.9,
+    "n_years": 28,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23697762865345,
+      23.172106663071
+     ],
+     [
+      90.23603784131095,
+      23.174090569931703
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 16,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23693739525494,
+      23.17209037158534
+     ],
+     [
+      90.23599760748641,
+      23.174074278162916
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 16,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.5,
+    "projected_offset_m": 4.5,
+    "offset_low_m": -154.4,
+    "offset_high_m": 163.3,
+    "n_years": 28,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23976507397538,
+      23.178634178379895
+     ],
+     [
+      90.23853573069754,
+      23.180477852342037
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 18,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23959722829281,
+      23.1785385200725
+     ],
+     [
+      90.23836788388158,
+      23.18038219260408
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 18,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -2.0,
+    "projected_offset_m": -20.2,
+    "offset_low_m": -179.1,
+    "offset_high_m": 138.7,
+    "n_years": 30,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.2377708841074,
+      23.177497633864032
+     ],
+     [
+      90.23654152736562,
+      23.1793412908292
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 18,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23770856624624,
+      23.177462116490048
+     ],
+     [
+      90.23647920908378,
+      23.17930577292405
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 18,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.8,
+    "projected_offset_m": 7.5,
+    "offset_low_m": -151.3,
+    "offset_high_m": 166.4,
+    "n_years": 30,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23394614225856,
+      23.177496666038547
+     ],
+     [
+      90.23256204670338,
+      23.179244060161185
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 19,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23393117934589,
+      23.177486535753495
+     ],
+     [
+      90.23254708373011,
+      23.179233929737638
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 19,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -0.2,
+    "projected_offset_m": -1.9,
+    "offset_low_m": -160.7,
+    "offset_high_m": 157.0,
+    "n_years": 29,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23252861351438,
+      23.176536949410888
+     ],
+     [
+      90.2311445122202,
+      23.178284330412577
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 19,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23266249033435,
+      23.176627589782424
+     ],
+     [
+      90.23127838958209,
+      23.178374972023313
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 19,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -1.7,
+    "projected_offset_m": -17.0,
+    "offset_low_m": -175.9,
+    "offset_high_m": 141.8,
+    "n_years": 29,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23394762795353,
+      23.180242097072263
+     ],
+     [
+      90.23247184678831,
+      23.181924161067517
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 20,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23389304514326,
+      23.180201166503885
+     ],
+     [
+      90.23241726385966,
+      23.181883229971692
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 20,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -0.7,
+    "projected_offset_m": -7.2,
+    "offset_low_m": -166.1,
+    "offset_high_m": 151.6,
+    "n_years": 30,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.2325830678971,
+      23.179218828078838
+     ],
+     [
+      90.23110728377252,
+      23.180900878887936
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 20,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23283171947966,
+      23.179405291171307
+     ],
+     [
+      90.23135593589417,
+      23.181087344383194
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 20,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -3.3,
+    "projected_offset_m": -32.8,
+    "offset_low_m": -191.6,
+    "offset_high_m": 126.1,
+    "n_years": 30,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23373527431171,
+      23.183038800440578
+     ],
+     [
+      90.23218127830182,
+      23.184659565478533
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 21,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23361766651617,
+      23.1829424263615
+     ],
+     [
+      90.232063670464,
+      23.184563190224424
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 21,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -1.6,
+    "projected_offset_m": -16.1,
+    "offset_low_m": -175.0,
+    "offset_high_m": 142.7,
+    "n_years": 27,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23249346149449,
+      23.182021182265505
+     ],
+     [
+      90.23093946503914,
+      23.183641934896478
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 21,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.23259718865918,
+      23.182106183623855
+     ],
+     [
+      90.23104319224097,
+      23.183726937291166
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 21,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -1.4,
+    "projected_offset_m": -14.2,
+    "offset_low_m": -173.0,
+    "offset_high_m": 144.7,
+    "n_years": 27,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.21531800799907,
+      23.198759942878773
+     ],
+     [
+      90.21515825233699,
+      23.200920700012745
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 29,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.21578064395965,
+      23.1987891686205
+     ],
+     [
+      90.21562089560679,
+      23.200949926935433
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 29,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 4.8,
+    "projected_offset_m": 47.5,
+    "offset_low_m": -111.4,
+    "offset_high_m": 206.3,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.2134674677086,
+      23.19864302647593
+     ],
+     [
+      90.21330768280995,
+      23.200803778884662
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 29,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.21429436632548,
+      23.198695272304317
+     ],
+     [
+      90.21413459449087,
+      23.200856026824766
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 29,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -8.5,
+    "projected_offset_m": -84.9,
+    "offset_low_m": -243.7,
+    "offset_high_m": 74.0,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.2151398585673,
+      23.201400324633536
+     ],
+     [
+      90.21506872526527,
+      23.20356512295331
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 30,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.21512814883478,
+      23.2013999958841
+     ],
+     [
+      90.21505701534517,
+      23.203564794180384
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 30,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -0.1,
+    "projected_offset_m": -1.2,
+    "offset_low_m": -160.1,
+    "offset_high_m": 157.6,
+    "n_years": 25,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.21328581952909,
+      23.20134826183054
+     ],
+     [
+      90.2132146565266,
+      23.20351305643051
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 30,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.21299795592442,
+      23.20134017644438
+     ],
+     [
+      90.21292678831058,
+      23.203504970466593
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 30,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 3.0,
+    "projected_offset_m": 29.5,
+    "offset_low_m": -129.4,
+    "offset_high_m": 188.4,
+    "n_years": 25,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.21622729030754,
+      23.20325430707019
+     ],
+     [
+      90.21620492932684,
+      23.205420006372947
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 31,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.216151144305,
+      23.2032536353705
+     ],
+     [
+      90.21612878209748,
+      23.20541933454374
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 31,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -0.8,
+    "projected_offset_m": -7.8,
+    "offset_low_m": -166.6,
+    "offset_high_m": 151.1,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.21329860146368,
+      23.203228445915208
+     ],
+     [
+      90.21327619329814,
+      23.20539414023333
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 31,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.21341086773454,
+      23.2032294382644
+     ],
+     [
+      90.21338846137772,
+      23.20539513277371
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 31,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -1.1,
+    "projected_offset_m": -11.5,
+    "offset_low_m": -170.4,
+    "offset_high_m": 147.3,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.21804480976144,
+      23.205034761530907
+     ],
+     [
+      90.21801458186593,
+      23.207200381627523
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 32,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.21768458896167,
+      23.205030465593968
+     ],
+     [
+      90.2176543552668,
+      23.20719608506045
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 32,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -3.7,
+    "projected_offset_m": -36.9,
+    "offset_low_m": -195.8,
+    "offset_high_m": 121.9,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.21472570653269,
+      23.20499514717937
+     ],
+     [
+      90.21469542520143,
+      23.207160761466678
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 32,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.21513571286619,
+      23.205000044505294
+     ],
+     [
+      90.21510543813578,
+      23.207165659510608
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 32,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -4.2,
+    "projected_offset_m": -42.0,
+    "offset_low_m": -200.8,
+    "offset_high_m": 116.9,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.22118791922729,
+      23.207681432781985
+     ],
+     [
+      90.22114001964344,
+      23.20984678477958
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 33,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.22159593203625,
+      23.20768914291809
+     ],
+     [
+      90.22154803900922,
+      23.20985449567357
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 33,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 4.2,
+    "projected_offset_m": 41.8,
+    "offset_low_m": -117.1,
+    "offset_high_m": 200.7,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.21816199211364,
+      23.20762421939274
+     ],
+     [
+      90.21811404390317,
+      23.209789565766172
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 33,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.21815515938536,
+      23.207624090135493
+     ],
+     [
+      90.2181072110651,
+      23.209789436496212
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 33,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.1,
+    "projected_offset_m": 0.7,
+    "offset_low_m": -158.2,
+    "offset_high_m": 159.5,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.22302020107256,
+      23.22331683861712
+     ],
+     [
+      90.22210807903531,
+      23.225311853491394
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 39,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.2227386797752,
+      23.223206900490176
+     ],
+     [
+      90.22182655466449,
+      23.225201913420737
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 39,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -3.1,
+    "projected_offset_m": -31.3,
+    "offset_low_m": -190.1,
+    "offset_high_m": 127.6,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.21825329564678,
+      23.22145520418733
+     ],
+     [
+      90.2173411215769,
+      23.22345018614485
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 39,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.21787464771424,
+      23.221307321510658
+     ],
+     [
+      90.21696246951208,
+      23.223302300853096
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 39,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 4.2,
+    "projected_offset_m": 42.1,
+    "offset_low_m": -116.8,
+    "offset_high_m": 200.9,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.22206292795231,
+      23.225779833758583
+     ],
+     [
+      90.22094550862515,
+      23.227683574071428
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 40,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.22207408580812,
+      23.225785427495907
+     ],
+     [
+      90.2209566665749,
+      23.227689167897804
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 40,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.1,
+    "projected_offset_m": 1.3,
+    "offset_low_m": -157.5,
+    "offset_high_m": 160.2,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.2151109188856,
+      23.222294367631683
+     ],
+     [
+      90.21399344104988,
+      23.22419805244844
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 40,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.21416770691388,
+      23.221821441883343
+     ],
+     [
+      90.21305022114375,
+      23.223725119169586
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 40,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 11.0,
+    "projected_offset_m": 109.9,
+    "offset_low_m": -48.9,
+    "offset_high_m": 268.8,
+    "n_years": 31,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.19538581151699,
+      23.237989295738323
+     ],
+     [
+      90.19338345209859,
+      23.239114728424482
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 51,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.19477433771698,
+      23.237060254492697
+     ],
+     [
+      90.19277198882898,
+      23.23818568033935
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 51,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -12.1,
+    "projected_offset_m": -120.5,
+    "offset_low_m": -279.4,
+    "offset_high_m": 38.3,
+    "n_years": 21,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.19416794631,
+      23.236138921497563
+     ],
+     [
+      90.19216560786508,
+      23.23726434056204
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 51,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.19429632810026,
+      23.236333982091825
+     ],
+     [
+      90.19229398744437,
+      23.237459402592144
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 51,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -2.5,
+    "projected_offset_m": -25.3,
+    "offset_low_m": -184.1,
+    "offset_high_m": 133.6,
+    "n_years": 21,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.19335939672035,
+      23.239289868394774
+     ],
+     [
+      90.19130262756995,
+      23.24032816041886
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 52,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.19327465899627,
+      23.239146528946918
+     ],
+     [
+      90.19121789164372,
+      23.240184820026503
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 52,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -1.8,
+    "projected_offset_m": -18.1,
+    "offset_low_m": -177.0,
+    "offset_high_m": 140.7,
+    "n_years": 22,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.19232944689918,
+      23.237547618898663
+     ],
+     [
+      90.19027269960097,
+      23.23858589944345
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 52,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.19234676857596,
+      23.23757692040464
+     ],
+     [
+      90.19029002091024,
+      23.238615201142466
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 52,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -0.4,
+    "projected_offset_m": -3.7,
+    "offset_low_m": -162.5,
+    "offset_high_m": 155.2,
+    "n_years": 22,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.19203973713556,
+      23.24032449477779
+     ],
+     [
+      90.18992595368934,
+      23.241259933525438
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 53,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.19199882328209,
+      23.240245548663538
+     ],
+     [
+      90.18988504092204,
+      23.2411809869614
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 53,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -1.0,
+    "projected_offset_m": -9.7,
+    "offset_low_m": -168.5,
+    "offset_high_m": 149.2,
+    "n_years": 24,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.1909852704718,
+      23.23828979897996
+     ],
+     [
+      90.18887151501872,
+      23.239225226136377
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 53,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.19099834567885,
+      23.238315029235004
+     ],
+     [
+      90.18888458987867,
+      23.239250456535135
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 53,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -0.3,
+    "projected_offset_m": -3.1,
+    "offset_low_m": -162.0,
+    "offset_high_m": 155.8,
+    "n_years": 24,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.18978369475055,
+      23.241641347835046
+     ],
+     [
+      90.18765910084173,
+      23.242555666789414
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 54,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.18978039655971,
+      23.241634803580645
+     ],
+     [
+      90.1876558027424,
+      23.242549122498918
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 54,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -0.1,
+    "projected_offset_m": -0.8,
+    "offset_low_m": -159.6,
+    "offset_high_m": 158.1,
+    "n_years": 17,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.18875302441235,
+      23.239596266256513
+     ],
+     [
+      90.18662845910173,
+      23.240510573930926
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 54,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.18875096310042,
+      23.239592176089175
+     ],
+     [
+      90.186626397847,
+      23.240506483741022
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 54,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 0.1,
+    "projected_offset_m": 0.5,
+    "offset_low_m": -158.3,
+    "offset_high_m": 159.4,
+    "n_years": 17,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.18773229545967,
+      23.2431092772044
+     ],
+     [
+      90.18559193131182,
+      23.24399166942721
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 55,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.18770603521733,
+      23.243054886943103
+     ],
+     [
+      90.18556567184777,
+      23.243937278880686
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 55,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -0.7,
+    "projected_offset_m": -6.6,
+    "offset_low_m": -165.5,
+    "offset_high_m": 152.3,
+    "n_years": 22,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.18673760280208,
+      23.241049038183284
+     ],
+     [
+      90.1845972681341,
+      23.24193141960298
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 55,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.18675670064017,
+      23.241088594808282
+     ],
+     [
+      90.18461636540619,
+      23.241970976435375
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 55,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -0.5,
+    "projected_offset_m": -4.8,
+    "offset_low_m": -163.6,
+    "offset_high_m": 154.1,
+    "n_years": 22,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.18569363044239,
+      23.244287814914028
+     ],
+     [
+      90.18353227024231,
+      23.245125399373045
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 56,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.18557579385617,
+      23.24402817730912
+     ],
+     [
+      90.1834144374817,
+      23.24486576050495
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 56,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -3.1,
+    "projected_offset_m": -31.2,
+    "offset_low_m": -190.1,
+    "offset_high_m": 127.7,
+    "n_years": 23,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.1846739043207,
+      23.24204094931894
+     ],
+     [
+      90.18251257722564,
+      23.242878522847647
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 56,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.18469580922608,
+      23.242089215361165
+     ],
+     [
+      90.1825344814199,
+      23.242926789124645
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 56,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -0.6,
+    "projected_offset_m": -5.8,
+    "offset_low_m": -164.7,
+    "offset_high_m": 153.0,
+    "n_years": 23,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.18368169510374,
+      23.24526553900151
+     ],
+     [
+      90.18149530654593,
+      23.246045715324225
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 57,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.18358635774992,
+      23.24503741054927
+     ],
+     [
+      90.18139997266628,
+      23.245817585871734
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 57,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -2.7,
+    "projected_offset_m": -27.1,
+    "offset_low_m": -186.0,
+    "offset_high_m": 131.7,
+    "n_years": 24,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.1828022101127,
+      23.24316103176721
+     ],
+     [
+      90.18061585360338,
+      23.243941198863624
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 57,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.18281381915544,
+      23.243188811280483
+     ],
+     [
+      90.18062746222311,
+      23.243968978498675
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 57,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -0.3,
+    "projected_offset_m": -3.3,
+    "offset_low_m": -162.2,
+    "offset_high_m": 155.5,
+    "n_years": 24,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.18107654284276,
+      23.246227924996745
+     ],
+     [
+      90.17886108090836,
+      23.246934635723598
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 58,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.18077603409469,
+      23.245423554865056
+     ],
+     [
+      90.1785605848578,
+      23.246130262554285
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 58,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -9.4,
+    "projected_offset_m": -94.3,
+    "offset_low_m": -253.2,
+    "offset_high_m": 64.5,
+    "n_years": 23,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.18040733356825,
+      23.24443664434202
+     ],
+     [
+      90.17819189990986,
+      23.245143348304705
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 58,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.18034519349321,
+      23.244270311063982
+     ],
+     [
+      90.17812976246034,
+      23.24497701439864
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 58,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": 1.9,
+    "projected_offset_m": 19.5,
+    "offset_low_m": -139.4,
+    "offset_high_m": 178.4,
+    "n_years": 23,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.1793281203457,
+      23.246983186457637
+     ],
+     [
+      90.17708956011735,
+      23.24762476990464
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 59,
+    "side": "left",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.17920284958474,
+      23.246609992748752
+     ],
+     [
+      90.17696429540653,
+      23.247251574985043
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 59,
+    "side": "left",
+    "horizon_years": 10,
+    "rate_m_per_yr": -4.3,
+    "projected_offset_m": -43.3,
+    "offset_low_m": -202.1,
+    "offset_high_m": 115.6,
+    "n_years": 23,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.17874950745059,
+      23.24525942759078
+     ],
+     [
+      90.17651097516669,
+      23.2459010054461
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "current_bank",
+    "transect_id": 59,
+    "side": "right",
+    "year": 2026
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      90.17880765747678,
+      23.245432665402614
+     ],
+     [
+      90.17656912238456,
+      23.246074243819844
+     ]
+    ]
+   },
+   "properties": {
+    "kind": "experimental_projection",
+    "transect_id": 59,
+    "side": "right",
+    "horizon_years": 10,
+    "rate_m_per_yr": -2.0,
+    "projected_offset_m": -20.1,
+    "offset_low_m": -178.9,
+    "offset_high_m": 138.8,
+    "n_years": 23,
+    "tier": "model",
+    "significant": false,
+    "method": "RandomForest, expanding-window backtest",
+    "projection_status": "experimental",
+    "horizon_validated": false,
+    "forecast_supported": true,
+    "is_forecast": false,
+    "mae_model_m_per_yr": 15.886,
+    "median_baseline_mae_m_per_yr": 20.413,
+    "basis": "Experimental RandomForest projection"
+   }
+  }
+ ]
+}

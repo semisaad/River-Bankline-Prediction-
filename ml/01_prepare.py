@@ -13,6 +13,7 @@ from rasterio.transform import from_origin
 from rasterio.warp import reproject, transform_bounds
 
 import config as C
+import maskops
 
 
 def build_grid():
@@ -62,6 +63,13 @@ def prepare_year(year, transform, width, height):
             dst_crs=C.CRS_WORK,
             resampling=Resampling.nearest,
         )
+
+        # Drop the ponds before writing, on OUR grid, so the rule is visible and
+        # testable instead of buried in a server-side script whose version we
+        # cannot see (D77).
+        raw_km2 = float(np.count_nonzero(dst) * (C.RES ** 2) / 1e6)
+        dst, dropped = maskops.river_body(dst, C.RES, C.RIVER_BODY_MIN_KM2)
+
         meta = dict(
             driver="GTiff", height=height, width=width, count=1,
             dtype="uint8", crs=C.CRS_WORK, transform=transform,
@@ -77,7 +85,7 @@ def prepare_year(year, transform, width, height):
     # the pipeline.
     rgb_in = C.rgb_path(year)
     if not rgb_in.exists():
-        return box_cov
+        return box_cov, dropped, raw_km2
     with rasterio.open(rgb_in) as src:
         dst = np.zeros((3, height, width), dtype="uint16")
         for b in range(1, 4):
@@ -98,7 +106,7 @@ def prepare_year(year, transform, width, height):
         with rasterio.open(out_rgb, "w", **meta) as d:
             d.write(dst)
 
-    return box_cov
+    return box_cov, dropped, raw_km2
 
 
 def main():
@@ -115,20 +123,29 @@ def main():
     # footprint problem, not a cloudy one.
     thin = []
     areas = []
+    ponds = []
     for year in C.YEARS:
-        box_cov = prepare_year(year, transform, width, height)
+        box_cov, dropped, raw_km2 = prepare_year(year, transform, width, height)
         with rasterio.open(C.proc_mask_path(year)) as s:
             water = np.count_nonzero(s.read(1) > 127)
         km2 = water * (C.RES ** 2) / 1e6
         areas.append((year, km2))
+        if dropped:
+            ponds.append((dropped, raw_km2, km2))
+
+        parts = [f"  {year}: water {km2:8.1f} km2"]
         if box_cov is None:
-            print(f"  {year}: water {km2:8.1f} km2   box coverage     -")
-            continue
-        flag = ""
-        if min_box is not None and box_cov < min_box:
-            flag = f"   <-- below the {min_box * 100:.0f}% gate"
-            thin.append((year, box_cov))
-        print(f"  {year}: water {km2:8.1f} km2   box coverage {box_cov * 100:5.1f}%{flag}")
+            parts.append("box coverage     -")
+        else:
+            flag = ""
+            if min_box is not None and box_cov < min_box:
+                flag = f" <-- below the {min_box * 100:.0f}% gate"
+                thin.append((year, box_cov))
+            parts.append(f"box coverage {box_cov * 100:5.1f}%{flag}")
+        if dropped:
+            parts.append(f"dropped {len(dropped)} ponds "
+                         f"({raw_km2 - km2:.1f} km2, largest {dropped[0][0]:.2f})")
+        print("   ".join(parts))
 
     if thin:
         print("\n" + "=" * 66)
@@ -136,6 +153,11 @@ def main():
         print("That is a footprint problem, not cloud - check the export bounds.")
         print(f"Affected years: {', '.join(str(y) for y, _ in thin)}")
         print("=" * 66 + "\n")
+
+    # The pond filter has to be audible. Silently dropping water would be worse
+    # than keeping the ponds, because the bankline step would then measure a
+    # truncated river and nothing would say so.
+    maskops.summarise(ponds, C.RIVER_BODY_MIN_KM2)
 
     # Water area is the only quality signal these files carry. A year whose area
     # sits far from the rest of THIS reach's record is worth looking at before it
